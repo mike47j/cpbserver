@@ -3,12 +3,12 @@
 Copy all the files to a directory and run cpbserver.exe. If the directory is on a usb memory stick then it can be moved if the computer fails. Probably best if the server is run on a laptop with a good battery. Because it open a couple of TCP/IP ports, Windows Firewall and some anti-virus software may block access, hopefully it will ask before it does this so you can allow access.
 When the program starts a window should open and display something like:
 
-Server address 192.168.1.64 ports 80, 4023
+{{{Server address 192.168.1.64 ports 80, 4023}}}
 
 There is a small configuration file cpbserver.cfg which has a single line and may look like:
 
-?Path=&Result=80&Update=4023&Timeout=20 
+{{{?Path=&Result=80&Update=4023&Timeout=20 }}}
 
 Timeout is the time delay with no data being entered, before a backup is done. Update is the secure port for data entry, change this to stop anyone nearby entering data. Result is the port for the leader board and results information. 80 is standard for web servers and should not need to be changed, unless you are just testing and already running a web server on the PC. Path is only needed if most of the files are in a different directory to the exe and cfg files. Such as when testing changes to the server software.
 
-?Path=E:\Archery\Server\CPBserver\&Result=83&Update=4023&Timeout=30 
+{{{?Path=E:\Archery\Server\CPBserver\&Result=83&Update=4023&Timeout=30 }}}

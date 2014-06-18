@@ -1,6 +1,9 @@
 = Installation =
 
-Copy all the files to a directory and run cpbserver.exe. If the directory is on a usb memory stick then it can be moved if the computer fails. Probably best if the server is run on a laptop with a good battery. Because it open a couple of TCP/IP ports, Windows Firewall and some anti-virus software may block access, hopefully it will ask before it does this so you can allow access.
+Download cpb.zip. This is under the "Source" tab above, then "Browse", then "Trunk". Click on "cpb.zip", then under "File Info" on the right click "View Raw File". Then save the file, click on the file to unpack all the files.
+
+Copy all the files to a directory and double click on cpbserver.exe to run it. If the directory is on a usb memory stick then it can be moved if the computer fails. Probably best if the server is run on a laptop with a good battery. Because it opens a couple of TCP/IP ports, Windows Firewall and some anti-virus software may block access, hopefully it will ask before it does this so you can allow access.
+
 When the program starts a window should open and display something like:
 
 {{{Server address 192.168.1.64 ports 80, 4023}}}

@@ -1,0 +1,86 @@
+/*
+    CPBserver: Target list by target or name
+    Copyright (C) 2014  Mike Johnson
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+    var sort = new Array();
+
+    function page() {
+        var i, highi, highv;
+        for (i=0; i<maxdata; i++) {
+            sort[i] = "";
+            if (data[i][STATE]!="Free") {
+		if (teamflag==1 && sortbyname)
+                    sort[i] = data[i][CLUB] + " " + data[i][TEAM];
+                else if (sortbyname)
+                    sort[i] = data[i][NAME].substr(data[i][NAME].indexOf(" ")+1) + " " 
+                      + data[i][NAME].substr(0, data[i][NAME].indexOf(" "));
+                else
+                    sort[i] = data[i][TARGET];
+            }
+        }
+        var txt = "<table border=\"1\" style=\"border-collapse: collapse;\">"
+	     + "<tr><th width=\"50\">Target<th width=\"150\">Name"
+             + "<th width=\"180\">Club";
+	if (teamflag==1)
+	    txt += "<th width=\"50\">Team";
+	txt += "<th width=\"50\">Bow<th width=\"50\">Gender"
+             + "<th width=\"150\">Round";
+	if (handicapflag==1)
+	    txt += "<th width=\"50\">Handicap";
+	txt += "</tr>";
+        var found = true;
+        while (found) {
+            found = false;
+            highi = -1;
+            for (i=0; i<maxdata; i++) {
+                if (sort[i]!="") {
+                    if (highi==-1) {
+                        highi = i;
+                        highv = sort[i];
+                    }
+                    else if (sort[i]<highv) {
+                        highi = i;
+                        highv = sort[i];
+                    }
+                }
+            }
+            if (highi != -1) {
+                txt += "<tr><td align=\"center\">" +data[highi][TARGET] + "</td><td>"+ data[highi][NAME]
+                    + "</td><td>"+ data[highi][CLUB];
+		if (teamflag==1)
+		    txt += "</td><td align=\"center\">" + data[highi][TEAM];
+		txt += "</td><td align=\"center\">" + data[highi][BOW] + "</td><td align=\"center\">" 
+		    + data[highi][GENDER] + "</td><td align=\"center\">" + data[highi][ROUND];
+		if (handicapflag==1)
+		    txt += "</td><td align=\"center\">" + data[highi][HANDICAP];
+		txt += "</td></tr>";
+                sort[highi] = "";
+                found = true;
+            }
+        }
+        txt += "</table>";
+        document.getElementById("page").innerHTML = txt;
+    }
+    page();
+
+    </script>
+    <noscript>
+        <p>
+            This page needs Javascript enabled in the Internet browser.
+        </p>
+    </noscript>
+</body>
+</html>

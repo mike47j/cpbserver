@@ -1,0 +1,60 @@
+/*
+    CPBserver: move/swap archers between targets
+    Copyright (C) 2014  Mike Johnson
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+        function page() {
+            var txt = "<h2>Move " + datafrom[TARGET] + " to " + datato[TARGET] + "</h2>";
+            txt += "<form id=\"data\" action=\"/move.htm\" method=\"get\">";
+            txt += "<input name=\"send\" id=\"send\" type=\"hidden\" value=\"send\" />";
+            txt += "<input name=\"from\" id=\"from\" type=\"hidden\" value=\""+datafrom[TARGET]+"\" />";
+            txt += "<input name=\"to\" id=\"to\" type=\"hidden\" value=\""+datato[TARGET]+"\" />";
+            txt += "<table border=\"1\" style=\"border-collapse: collapse;\">";
+            txt += "<tr><td width=\"100\">Target:</td><td width=\"200\">" + datafrom[TARGET] 
+            txt += "</td><td width=\"200\">" + datato[TARGET] + "</td></tr>";
+            txt += "<tr><td>Archer:</td><td>" + datafrom[NAME] + "</td><td>" + datato[NAME] + "</td></tr>";
+            txt += "<tr><td>Club:</td><td>" + datafrom[CLUB] + "</td><td>" + datato[CLUB] + "</td></tr>";
+			if (teamflag==1)
+                txt += "<tr><td>Team:</td><td>" + datafrom[TEAM] + "</td><td>" + datato[TEAM] + "</td></tr>";
+            txt += "<tr><td>Bow:</td><td>" + datafrom[BOW] + "</td><td>" + datato[BOW] + "</td></tr>";
+            txt += "<tr><td>Gender:</td><td>" + datafrom[GENDER] + "</td><td>" + datato[GENDER] + "</td></tr>";
+            txt += "<tr><td>Round:</td><td>" + datafrom[ROUND] + "</td><td>" + datato[ROUND] + "</td></tr>";
+			if (handicapflag==1)
+                txt += "<tr><td>Handicap:</td><td>" + datafrom[HANDICAP] + "</td><td>" + datato[HANDICAP] + "</td></tr>";
+            txt += "<tr><td>Score:</td><td>" + datafrom[SCORE] + "</td><td>" + datato[SCORE] + "</td></tr>";
+            txt += "<tr><td>Hits:</td><td>" + datafrom[HITS] + "</td><td>" + datato[HITS] + "</td></tr>";
+            txt += "<tr><td>Golds:</td><td>" + datafrom[GOLDS] + "</td><td>" + datato[GOLDS] + "</td></tr>";
+            txt += "<tr><td>State:</td><td>" + datafrom[STATE] + "</td><td>" + datato[STATE] + "</td></tr>";
+            txt += "<tr><td>Dozen:</td><td>" + datafrom[DOZEN] + "</td><td>" + datato[DOZEN] + "</td></tr>";
+            txt += "</table><p></p><table><tr>"
+            txt += "<td width=\"150\"><input type=\"submit\" value=\"Swap\" /></td>";
+            txt += "<td width=\"150\"><input type=\"submit\" value=\"Cancel\" formaction=\"/setup\" /></td>";
+            txt += "</table></form>";
+            txt += "<p>Swaps the details of archers on two targets. <br />";
+            txt += "Usually to move an archer so there are at least 2 on each target.<br />"
+            txt += "The round stays the same unless the target does not have a round set.";
+            txt += "</p>";
+            document.getElementById("page").innerHTML = txt;
+        }
+        page();
+
+    </script>
+    <noscript>
+        <p>
+            This page needs Javascript enabled in the Internet browser.
+        </p>
+    </noscript>
+</body>
+</html>

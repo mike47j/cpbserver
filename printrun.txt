@@ -1,0 +1,138 @@
+/*
+    CPBserver: print running slips
+    Copyright (C) 2014  Mike Johnson
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+// rounds file
+	var scoring = 0;
+	var maxline = 281; // in mm, 6.5 * 40 + 8 * 2.5 = 280
+
+	function page() {
+	    var letter = new Array("A", "B", "C", "D", "E", "F");
+	    var rndn, rnd, i, index = 0, j, t;
+	    var linecnt = 0;
+	    var txt = "";
+	    var names = new Array();
+	    while (index < maxdata) {
+		// get names of archers on this target
+		names[0] = "&nbsp;";
+		names[1] = "&nbsp;";
+		names[2] = "&nbsp;";
+		names[3] = "&nbsp;";
+		names[4] = "&nbsp;";
+		names[5] = "&nbsp;";
+		t = data[index][TARGET];
+		for (j = 0; j < 6; j++) {
+		    if (t.substr(0, 2) != data[index][TARGET].substr(0, 2))
+			break;
+		    if (t.substr(0, 2) + letter[j] == data[index][TARGET]) {
+			if (data[index][ROUND] != "NotSet")
+			    rndn = data[index][ROUND];
+			names[j] = data[index][NAME];
+			if (names[j].length > 15) { // space is about 15 characters
+			    if (names[j].lastIndexOf(" ") < 13) // keep last initial
+				names[j] = names[j].substr(0, names[j].lastIndexOf(" ") + 2);
+			    else
+				names[j] = names[j].substr(0, 15);
+			}
+			index++;
+			if (index == maxdata)
+			    break;
+		    }
+		    else
+			names[j] = "&nbsp;";
+		}
+		// find the round data
+		for (rnd = 0; rnd < rounds.length; rnd++) {
+		    if (rndn == rounds[rnd][0])
+			break;
+		}
+		var imperialdistance = rounds[rnd][1];
+		scoring = rounds[rnd][5];
+		var dozenlen = new Array(12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12);
+		var dozens = Math.ceil(rounds[rnd][2] / 12);
+		if (rounds[rnd][2] % 12 != 0)
+		    dozenlen[dozens] = rounds[rnd][2] % 12;
+		dozens += Math.ceil(rounds[rnd][6] / 12);
+		if (rounds[rnd][6] % 12 != 0)
+		    dozenlen[dozens] = rounds[rnd][6] % 12;
+		dozens += Math.ceil(rounds[rnd][10] / 12);
+		if (rounds[rnd][10] % 12 != 0)
+		    dozenlen[dozens] = rounds[rnd][10] % 12;
+		dozens += Math.ceil(rounds[rnd][14] / 12);
+		if (rounds[rnd][14] % 12 != 0)
+		    dozenlen[dozens] = rounds[rnd][14] % 12;
+
+		if (j < 4) j = 4;
+		// maxline 6.5mm lines per page, put the slips at the bottom of the pages
+		var split = false;
+		if ((6.5 * (j + 1) + 2.5) * dozens <= maxline)
+		    txt += "<div style=\"height:" + (maxline - (6.5 * (j + 1) + 2.5) * dozens) + "mm\"></div>";
+		else {
+		    txt += "<div style=\"height:" + (maxline - (6.5 * (j + 1) + 2.5) * Math.floor(dozens / 2)) + "mm\"></div>";
+		    split = true;
+		}
+
+		for (i = dozens; i > 0; i--) {
+		    txt += "<div style=\"height:1mm\"></div>";
+		    txt += "<table><tr><td>";
+		    txt += "<table border=\"1\" style=\"border-collapse: collapse;\" >";
+		    txt += "<tr style=\"height:6.5mm;font-family:Helvetica,Arial,sans-serif;\"><th colspan=\"8\" align=\"left\">Running Slip "
+				    + i + "</th><th style=\"width:9mm;\">ET</th>";
+		    if (dozenlen[i] == 12)
+			txt += "<th colspan=\"6\">&nbsp;</th><th style=\"width:9mm;\">ET</th>";
+		    txt += "<th style=\"width:9mm;\">H</th>"
+			+ "<th style=\"width:9mm;\">S</th><th style=\"width:9mm;\">G</th><th style=\"width:11mm;\">R/T</th></tr>";
+		    var a;
+		    for (a = 0; a < j; a++) {
+			txt += "<tr style=\"height:6.5mm;\"><td align=\"center\" style=\"width:8mm;\">" + t.substr(0, 2) + letter[a];
+			txt += "</td><td style=\"width:33mm;\">" + names[a] + "</td>";
+			txt += "<td style=\"width:6mm;\">&nbsp;</td><td style=\"width:6mm;\">&nbsp;</td><td style=\"width:6mm;\">&nbsp;</td>";
+			txt += "<td style=\"width:6mm;\">&nbsp;</td><td style=\"width:6mm;\">&nbsp;</td><td style=\"width:6mm;\">&nbsp;</td>";
+			txt += "<td>&nbsp;</td>";
+			if (dozenlen[i] == 12) {
+			    txt += "<td style=\"width:6mm;\">&nbsp;</td><td style=\"width:6mm;\">&nbsp;</td><td style=\"width:6mm;\">&nbsp;</td>";
+			    txt += "<td style=\"width:6mm;\">&nbsp;</td><td style=\"width:6mm;\">&nbsp;</td><td style=\"width:6mm;\">&nbsp;</td>";
+			    txt += "<td>&nbsp;</td>";
+			}
+			txt += "<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+		    }
+		    txt += "</table></td><td>";
+		    // space for previous running total
+		    if (i != 1) {
+			txt += "<table border=\"1\" style=\"border-collapse:collapse;\">";
+			txt += "<tr style=\"height:6.5mm;font-family:Helvetica,Arial,sans-serif;\"><th align=\"center\" style=\"width:11mm;\">"
+					+ (i - 1) + "</th></tr>";
+			for (a = 0; a < j; a++) {
+			    txt += "<tr style=\"height:6.5mm;\"><td>&nbsp;</td></tr>";
+			}
+			txt += "</table>";
+		    }
+		    txt += "</td></tr></table>";
+		    if (split && i - 1 == Math.floor(dozens / 2)) {
+			txt += "<div style=\"height:0mm; page-break-after:always;\"></div>";
+			txt += "<div style=\"height:" + (maxline - (6.5 * (j + 1) + 2.5) * (dozens - Math.floor(dozens / 2))) + "mm\"></div>";
+		    }
+		}
+		txt += "<div style=\"height:0mm; page-break-after:always;\"></div>";
+	    }
+
+	    document.getElementById("page").innerHTML = txt;
+	}
+	page();
+
+    </script>
+</body>
+</html>

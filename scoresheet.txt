@@ -1,0 +1,249 @@
+/*
+    CPBserver: score entry by arrows
+    Copyright (C) 2014  Mike Johnson
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+// rounds file
+
+	var scoring = 0;
+
+	function page() {
+	    var rnd, i;
+	    for (rnd = 0; rnd < rounds.length; rnd++) {
+		if (data[ROUND] == rounds[rnd][0])
+		    break;
+	    }
+	    var imperialdistance = rounds[rnd][1];
+	    scoring = rounds[rnd][5];
+
+	    var txt = "<h2>" + data[TARGET] + " - " + data[NAME] + " (" + data[GENDER] + "), "
+			+ data[CLUB] + ", " + data[ROUND] + ", " + data[BOW] + "</h2>";
+	    var arrows = data[ARROWS];
+	    txt += "<table border=\"1\" style=\"border-collapse: collapse;\" ><tr><th colspan=\"6\">Arrows</th>"
+			+ "<th width=\"30\">ET</th><th colspan=\"6\">Arrows</th>"
+		+ "<th width=\"30\">ET</th><th width=\"30\">H</th><th width=\"40\">S</th>"
+		+ "<th width=\"30\">" + (scoring == Imperial ? "G" : "10s") + "</th><th width=\"50\">RT</th></tr>";
+	    var ht = 0;
+	    var gt = 0;
+	    var rt = 0;
+	    var et1, et2;
+	    var hst = 0;
+	    var gst = 0;
+	    var rst = 0;
+
+	    var subrnd, arrowno = 0;
+	    for (subrnd = 0; subrnd < 4; subrnd++) {
+		var rndarrowno = 0;
+		while (rndarrowno < rounds[rnd][subrnd * 4 + 2]) {
+		    txt += "<tr>";
+		    et1 = 0;
+		    var h = 0;
+		    var g = 0;
+		    for (i = 0; i < 6; i++) {
+			if (arrowno == arrows.length)
+			    txt += "<td align=\"center\" style=\"background-color:yellow;\">&nbsp;</td>";
+			else if (arrowno > arrows.length)
+			    txt += "<td align=\"center\" width=\"25\">&nbsp;</td>";
+			else if (arrows.charCodeAt(arrowno) - 65 == 0)
+			    txt += "<td align=\"center\" width=\"25\">M</td>";
+			else if (arrows.charCodeAt(arrowno) - 65 == 11) {
+			    txt += "<td align=\"center\" width=\"25\">X</td>";
+			    et1 += 10;
+			    h++;
+			    g++;
+			}
+			else {
+			    txt += "<td align=\"center\" width=\"25\">" + (arrows.charCodeAt(arrowno) - 65) + "</td>";
+			    et1 += arrows.charCodeAt(arrowno) - 65;
+			    h++;
+			    if (arrows.charCodeAt(arrowno) - 65 == 10)
+				g++;
+			    if (scoring == Imperial && arrows.charCodeAt(arrowno) - 65 == 9)
+				g++;
+			}
+			arrowno++;
+			rndarrowno++;
+		    }
+		    txt += "</td><td align=\"center\">" + et1 + "</td>";
+		    et2 = 0;
+		    if (rndarrowno < rounds[rnd][subrnd * 4 + 2]) {
+			for (i = 6; i < 12; i++) {
+			    if (arrowno == arrows.length)
+				txt += "<td align=\"center\" style=\"background-color:yellow;\">&nbsp;</td>";
+			    else if (arrowno >= arrows.length)
+				txt += "<td align=\"center\" width=\"25\">&nbsp;</td>";
+			    else if (arrows.charCodeAt(arrowno) - 65 == 0)
+				txt += "<td align=\"center\" width=\"25\">M</td>";
+			    else if (arrows.charCodeAt(arrowno) - 65 == 11) {
+				txt += "<td align=\"center\" width=\"25\">X</td>";
+				et2 += 10;
+				h++;
+				g++;
+			    }
+			    else {
+				txt += "<td align=\"center\" width=\"25\">" + (arrows.charCodeAt(arrowno) - 65) + "</td>";
+				et2 += arrows.charCodeAt(arrowno) - 65;
+				h++;
+				if (arrows.charCodeAt(arrowno) - 65 == 10)
+				    g++;
+				if (scoring == Imperial && arrows.charCodeAt(arrowno) - 65 == 9)
+				    g++;
+			    }
+			    arrowno++;
+			    rndarrowno++;
+			}
+			txt += "</td><td align=\"center\">" + et2 + "</td>"
+		    }
+		    else
+			txt += "<td colspan=\"7\" style=\"background-color:silver;\">";
+		    ht += h;
+		    hst += h;
+		    gt += g;
+		    gst += g;
+		    rst += et1 + et2;
+		    rt += (et1 + et2);
+		    txt += "<td align=\"center\">" + h + "</td><td align=\"center\">" + (et1 + et2);
+		    txt += "</td><td align=\"center\">" + g + "</td>";
+		    txt += "<td align=\"center\">";
+		    txt += rt + "</td></tr>";
+
+		    if (rndarrowno >= rounds[rnd][subrnd * 4 + 2]) {
+			// sub totals
+			var distance = rounds[rnd][subrnd * 4 + 3];
+			var targetsize = rounds[rnd][subrnd * 4 + 4];
+			if (imperialdistance == 0)
+			    distance += " yards. ";
+			else
+			    distance += " meters. ";
+			if (scoring != Imperial)
+			    distance += targetsize + " cm face. ";
+			txt += "<tr><td colspan=\"14\" align=\"right\">"
+		    + distance + " Sub Totals</td>"
+		    + "<td align=\"center\">" + hst + "</td>"
+		    + "<td align=\"center\">" + rst + "</td><td align=\"center\">" + gst
+		    + "</td><td align=\"center\">" + rt + "</td>";
+			hst = 0;
+			rst = 0;
+			gst = 0;
+		    }
+
+		}
+	    }
+	    // Grand totals
+	    txt += "<tr><td colspan=\"14\"><textarea id=\"msg\" cols=\"40\" rows=\"1\" readonly=\"readonly\" tabindex=\"-1\" >"
+			+ "</textarea>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Grand Totals</td>";
+	    txt += "<td align=\"center\">" + ht + "</td>";
+	    txt += "<td align=\"center\">" + rt + "</td><td align=\"center\">" + gt
+			+ "</td><td align=\"center\">" + rt + "</td></table>";
+
+	    txt += "<form name =\"data\" id=\"data\" action=\"/scoreentry.htm\" method=\"get\"><table>";
+	    txt += "<input name=\"target\" value=\"" + data[TARGET] + "\" type=\"hidden\" />";
+	    txt += "<input name=\"send\" id=\"send\" value=\"data\" type=\"hidden\" />";
+	    txt += "<input name=\"arrowsend\" id=\"arrowsend\" value=\"\" type=\"hidden\" />";
+	    txt += "<input name=\"thits\" id=\"thits\" type=\"hidden\" size=\"3\" value=\"" + ht + "\" />";
+	    txt += "<input name=\"tgolds\" id=\"tgolds\" type=\"hidden\" size=\"3\" value=\"" + gt + "\"  />";
+	    txt += "<input name=\"tscore\" id=\"tscore\" type=\"hidden\" size=\"3\" value=\"" + rt + "\"  /></tr>";
+	    txt += "<input name=\"state\" id=\"state\" type=\"hidden\" size=\"3\" value=\"Inuse\"  /></tr>";
+	    txt += "<td width=\"100\"><input type=\"button\" value=\"Enter\" onclick=\"checksend()\" tabindex=\"1\" /></td>";
+	    txt += "<td width=\"100\"><input type=\"button\" name=\"Back\" value=\"Back\" onclick=\"sendback()\" tabindex=\"2\" /></td>";
+	    txt += "<td width=\"100\"><input type=\"button\" name=\"Skip\" value=\"Skip\" onclick=\"sendnext()\" tabindex=\"3\" /></td>";
+	    txt += "<td width=\"100\"><input type=\"button\" name=\"DNS\" value=\"DNS\" onclick=\"senddns()\" tabindex=\"4\" /></td>";
+	    txt += "<td width=\"100\"><input type=\"button\" name=\"Retired\" value=\"Retired\" onclick=\"sendretired()\" tabindex=\"5\" /></td>";
+	    txt += "<td width=\"100\"><input type=\"submit\" value=\"Cancel\" formaction=\"/index\" tabindex=\"6\" /></td>";
+	    txt += "</table></form>";
+
+	    txt += "<p>Press the digit keys to enter the 12 arrows, 0 or m for miss,<br />";
+	    txt += "t or + for 10, x or * for an X, Backspace deletes the last digit entered.<br />";
+	    txt += "After 12 arrows, check the running total is correct.<br />";
+	    txt += "If all is OK, press enter or the space bar to enter the scores into the database.<br />";
+	    txt += "If there is an error, check the arrows are entered correctly.<br />";
+	    txt += "If the arrows are correct, mark the running slip and press enter.<br />"
+			+ "Then check the running slip with the scoresheet.<br />";
+	    txt += "If the arrows are wrong use backspace and enter the correct arrows.<br />";
+
+	    document.getElementById("page").innerHTML = txt;
+	}
+	page();
+
+	document.onkeydown = function (event) {
+	    var keycode;
+	    if (event.charCode)
+		keycode = event.charCode;
+	    else
+		keycode = event.keyCode;
+
+	    if (scoring != Imperial && keycode >= 48 && keycode <= 57) // 0 to 9
+		data[ARROWS] += String.fromCharCode(keycode - 48 + 65);
+	    else if (scoring == Imperial && (keycode == 48 || keycode == 49 || keycode == 51
+			|| keycode == 53 || keycode == 55 || keycode == 57)) // 0, 1, 3, 5, 7, 9
+		data[ARROWS] += String.fromCharCode(keycode - 48 + 65);
+	    else if (scoring != Imperial && keycode >= 96 && keycode <= 105) // numpad 0 to 9
+		data[ARROWS] += String.fromCharCode(keycode - 96 + 65);
+	    else if (scoring == Imperial && (keycode == 96 || keycode == 97 || keycode == 99
+			|| keycode == 101 || keycode == 103 || keycode == 105)) // 0, 1, 3, 5, 7, 9
+		data[ARROWS] += String.fromCharCode(keycode - 96 + 65);
+	    else if (scoring != Imperial && (keycode == 84 || keycode == 107)) // numpad +,
+		data[ARROWS] += String.fromCharCode(10 + 65);
+	    else if (scoring != Imperial && (keycode == 88 || keycode == 106)) // numpad *, x
+		data[ARROWS] += String.fromCharCode(11 + 65);
+	    else if (keycode == 77 || keycode == 109) // M
+		data[ARROWS] += String.fromCharCode(65);
+	    else if (keycode == 8) { // backspace
+		event.preventDefault();
+		if (data[ARROWS].length > 0)
+		    data[ARROWS] = data[ARROWS].substring(0, data[ARROWS].length - 1);
+	    }
+	    else if (keycode == 13 || keycode == 32) { // enter or space
+		checksend();
+		return;
+	    }
+	    page();
+	};
+
+	function sendback() {
+	    document.getElementById("send").value = "back";
+	    document.getElementById("data").submit();
+	}
+	function sendnext() {
+	    document.getElementById("send").value = "next";
+	    document.getElementById("data").submit();
+	}
+	function senddns() {
+	    document.getElementById("state").value = "DNS";
+	    document.getElementById("arrowsend").value = data[ARROWS];
+	    document.getElementById("send").value = "data";
+	    document.getElementById("data").submit();
+	}
+	function sendretired() {
+	    document.getElementById("state").value = "Retired";
+	    document.getElementById("arrowsend").value = data[ARROWS];
+	    document.getElementById("send").value = "data";
+	    document.getElementById("data").submit();
+	}
+	function checksend() {
+	    if (data[ARROWS].length % 6 != 0) {
+		document.getElementById("msg").value = "Wrong number of arrows.";
+		document.getElementById("msg").style.background = "pink";
+	    }
+	    else {
+		document.getElementById("arrowsend").value = data[ARROWS];
+		document.getElementById("send").value = "data";
+		document.getElementById("data").submit();
+	    }
+	}
+
+    </script>
+</body>
+</html>

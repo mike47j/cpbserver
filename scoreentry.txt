@@ -1,0 +1,242 @@
+/*
+    CPBserver: score entry by totals
+    Copyright (C) 2014  Mike Johnson
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+// rounds file
+
+var scoring = 0;
+
+function page() {
+    var rnd;
+    for (rnd = 0; rnd < rounds.length; rnd++) {
+	if (data[ROUND] == rounds[rnd][0])
+	    break;
+    }
+    scoring = rounds[rnd][5];
+
+    var txt = "<h2>Target " + data[TARGET] + " - " + data[NAME] + "</h2>";
+	txt += "<form id=\"data\" action=\"/scoreentry\" method=\"get\">";
+    txt += "<input name=\"target\" value=\"" + data[TARGET] + "\" type=\"hidden\" />";
+    txt += "<input name=\"send\" id=\"send\" value=\"data\" type=\"hidden\" />";
+    txt += "<input name=\"state\" id=\"state\" value=\"Inuse\" type=\"hidden\" />";
+
+    txt += "<table border=\"1\" style=\"border-collapse: collapse;\"><tr>";
+	if (scoresystem==2) {
+		txt += "<tr><th width=\"60\">Dozen</th><th width=\"60\">Hits</th><th width=\"60\">" + (scoring==Imperial?"Golds":"10s")
+			+ "</th><th width=\"60\">Total</th><th width=\"180\">Message</th></tr>";
+
+		txt += "<td align=\"center\">" + data[DOZEN] + "</td>";
+		txt += "<td align=\"center\">" + data[HITS] + "</td>";
+		txt += "<td align=\"center\">" + data[GOLDS] + "</td>";
+		txt += "<td align=\"center\">" + data[SCORE] + "</td>";
+		txt += "<td rowspan=\"2\"><textarea id=\"error\" rows=\"2\" cols=\"30\" tabindex=\"-1\" readonly=\"readonly\">&nbsp;</textarea></td></tr>";
+
+		txt += "<tr><td align=\"center\"><input name=\"dozen\" id=\"dozen\" size=\"5\" tabindex=\"1\" /></td>";
+		txt += "<td align=\"center\"><input name=\"thits\" id=\"thits\" size=\"5\" tabindex=\"2\" /></td>";
+		txt += "<td align=\"center\"><input name=\"tgolds\" id=\"tgolds\" size=\"5\" tabindex=\"3\" /></td>";
+		txt += "<td align=\"center\"><input name=\"tscore\" id=\"tscore\" size=\"5\" tabindex=\"4\" /></td></tr>";
+	}
+	else {
+		txt += "<th colspan=\"4\">Dozen</th><th colspan=\"3\">Running Totals</th><th rowspan=\"2\">Message</th></tr>";
+		txt += "<tr><th width=\"60\">Dozen</th><th width=\"60\">Score</th><th width=\"60\">Hits</th><th width=\"60\">Golds</th>";
+		txt += "<th width=\"60\">Hits</th><th width=\"60\">" + (scoring==Imperial?"Golds":"10s")+ "</th><th width=\"60\">Total</th></tr>";
+
+		txt += "<td align=\"center\">" + data[DOZEN] + "</td><td align=\"center\">-</td><td align=\"center\">-</td><td align=\"center\">-</td>";
+		txt += "<td align=\"center\">" + data[HITS] + "</td>";
+		txt += "<td align=\"center\">" + data[GOLDS] + "</td>";
+		txt += "<td align=\"center\">" + data[SCORE] + "</td>";
+		txt += "<td rowspan=\"2\"><textarea id=\"error\" rows=\"2\" cols=\"30\" tabindex=\"-1\" readonly=\"readonly\">&nbsp;</textarea></td></tr>";
+
+		txt += "<tr><td align=\"center\">" + (data[DOZEN] + 1) + "</td>";
+		txt += "<td align=\"center\"><input name=\"score\" id=\"score\" size=\"5\" tabindex=\"1\" onchange=\"checkscore()\" /></td>";
+		txt += "<td align=\"center\"><input name=\"hits\" id=\"hits\" size=\"5\" tabindex=\"2\" onchange=\"checkhits()\" /></td>";
+		txt += "<td align=\"center\"><input name=\"golds\" id=\"golds\" size=\"5\" tabindex=\"3\" onchange=\"checkgolds()\" /></td>";
+		txt += "<td align=\"center\"><input name=\"thits\" id=\"thits\" size=\"5\" tabindex=\"-1\" readonly=\"readonly\" /></td>";
+		txt += "<td align=\"center\"><input name=\"tgolds\" id=\"tgolds\" size=\"5\" tabindex=\"-1\" readonly=\"readonly\" /></td>";
+		txt += "<td align=\"center\"><input name=\"tscore\" id=\"tscore\" size=\"5\" tabindex=\"4\" onchange=\"checktscore()\" /></td></tr>";
+	}
+
+    txt += "</table><p></p><table><tr>"
+    txt += "<td width=\"100\"><input type=\"button\" value=\"Enter\" onclick=\"checksend()\" tabindex=\"5\" /></td>";
+	txt += "<td width=\"100\"><input type=\"button\" value=\"Back\" onclick=\"sendback()\" tabindex=\"6\" /></td>";
+    txt += "<td width=\"100\"><input type=\"button\" value=\"Skip\" onclick=\"sendnext()\" tabindex=\"7\" /></td>";
+    txt += "<td width=\"100\"><input type=\"button\" value=\"DNS\" onclick=\"senddns()\" tabindex=\"8\" /></td>";
+    txt += "<td width=\"100\"><input type=\"button\" value=\"Retired\" onclick=\"sendretired()\" tabindex=\"9\" /></td>";
+    txt += "<td width=\"100\"><input type=\"submit\" value=\"Cancel\" formaction=\"/index\" tabindex=\"10\" /></td>";
+    txt += "</table></form>";
+    if (scoresystem==1) {
+		txt += "<p> Enter the score, hits and golds/10s for the dozen, then enter the running total. <br />";
+		txt += "Any errors will be highlighted in pink, if all is OK, press Enter. <br/>";
+		txt += "Make a note of any errors on the running slip and press skip. <br />";
+		txt += "Enter or Skip will step to the next target in use. <br />";
+		txt += "After all the running slips are entered or errors noted, press Cancel.";
+    }
+    else {
+		txt += "<p>Enter the dozen, score, hits and golds/10s. There is not much checking. <br />";
+		txt += "Any errors will be highlighted in pink, if all is OK, press Enter. <br/>";
+		txt += "Enter or Skip will step to the next target in use. <br />";
+		txt += "After all the running slips are entered or errors noted, press Cancel.";
+    }
+    txt += "</p>";
+    document.getElementById("page").innerHTML = txt;
+    document.getElementById("score").focus();
+}
+page();
+
+function sendback() {
+    document.getElementById("send").value = "back";
+    document.getElementById("data").submit();
+}
+function sendnext() {
+    document.getElementById("send").value = "next";
+    document.getElementById("data").submit();
+}
+function senddns() {
+    document.getElementById("state").value = "DNS";
+    document.getElementById("send").value = "data";
+    document.getElementById("data").submit();
+}
+function sendretired() {
+    document.getElementById("state").value = "Retired";
+    document.getElementById("send").value = "data";
+    document.getElementById("data").submit();
+}
+
+function checksend() {
+	var format = /^[0-9]+$/;
+	var error="";
+    var s = document.getElementById("dozen").value;
+    var score = parseInt(s);
+	if (s == "" || s == null || !s.match(format) || isNaN(score))
+		error += "Dozen not valid. ";
+    s = document.getElementById("thits").value;
+    score = parseInt(s);
+	if (s == "" || s == null || !s.match(format) || isNaN(score))
+		error += "Hits not valid. ";
+    s = document.getElementById("tgolds").value;
+    score = parseInt(s);
+	if (s == "" || s == null || !s.match(format) || isNaN(score))
+		error += "Golds/10s not valid. ";
+    s = document.getElementById("tscore").value;
+    score = parseInt(s);
+	if (s == "" || s == null || !s.match(format) || isNaN(score))
+		error += "Total not valid. ";
+    if (error!="") {
+		document.getElementById("error").value = error;
+		document.getElementById("error").style.background = "pink";
+		return false;
+	}
+    document.getElementById("send").value = "data";
+    document.getElementById("data").submit();
+    return true;
+}
+
+var error = "";
+var score, hits, golds, tscore;
+
+function checkscore() {
+    error = "";
+    document.getElementById("score").style.background = "white";
+    var s = document.getElementById("score").value;
+    score = parseInt(s);
+    if (s == "" || s == null || !s.match(format) || isNaN(score))
+	error += "Dozen score not a valid number. ";
+    else if (score>108)
+        error += "Dozen score too high. ";
+    document.getElementById("error").value = error;
+    if (error=="")
+        return true;
+    document.getElementById("score").style.background = "pink";
+    return false;
+}
+
+function checkhits() {
+    checkscore();
+    document.getElementById("hits").style.background = "white";
+    var s = document.getElementById("hits").value;
+    hits = parseInt(s);
+    if (s == "" || s == null || !s.match(format) || isNaN(hits))
+	error += "Dozen hits not a valid number. ";
+    else if (hits>12)
+        error += "Dozen hits too high. ";
+    else if (hits % 2 == 1 && score % 2 == 0 || hits % 2 == 0 && score % 2 == 1) {
+        error += "Score and hits should both be even or odd. ";
+        document.getElementById("score").style.background = "pink";
+    }
+    document.getElementById("error").value = error;
+    if (error=="") {
+        document.getElementById("thits").value = data[HITS] + hits;
+        return true;
+    }
+    document.getElementById("hits").style.background = "pink";
+    return false;
+}
+
+function checkgolds() {
+    checkscore();
+    document.getElementById("golds").style.background = "white";
+    var s = document.getElementById("golds").value;
+    golds = parseInt(s);
+    if (s == "" || s == null || !s.match(format) || isNaN(golds))
+	error += "Dozen golds not a valid number. ";
+    else if (golds>hits)
+        error += "Dozen golds too high. ";
+    else if (score < hits + 7 * golds) {
+        error += "Score too low. ";
+        document.getElementById("hits").style.background = "pink";
+        document.getElementById("score").style.background = "pink";
+    }
+    else if (score > hits * 7 + golds * 2) {
+        error += "Score too high. ";
+        document.getElementById("hits").style.background = "pink";
+        document.getElementById("score").style.background = "pink";
+    }
+    document.getElementById("error").value = error;
+    if (error=="") {
+        document.getElementById("tgolds").value = data[GOLDS] + golds;
+        return true;
+    }
+    document.getElementById("golds").style.background = "pink";
+    return false;
+}
+
+function checktscore() {
+    checkhits()
+    document.getElementById("tscore").style.background = "white";
+    var s = document.getElementById("tscore").value;
+    tscore = parseInt(s);
+    if (s == "" || s == null || !s.match(format) || isNaN(tscore))
+	error += "Running score not a valid number. ";
+    else if (tscore>1296)
+        error += "Running score too high. ";
+    else if (tscore != data[SCORE]+score) {
+        error += "Running total wrong (" + (data[SCORE]+score) + "). ";
+        document.getElementById("tscore").style.background = "pink";
+    }
+    document.getElementById("error").value = error;
+    if (error=="")
+        return true;
+    document.getElementById("tscore").style.background = "pink";
+    return false;
+}
+</script>
+<noscript>
+<p>
+    This page needs Javascript enabled in the Internet browser.
+</p>
+</noscript>
+</body>
+</html>

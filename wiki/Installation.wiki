@@ -5,9 +5,14 @@ Download cpb.zip. This is under the "Source" tab above, then "Browse", then "Tru
 Copy all the files to a directory and double click on cpbserver.exe to run it. If the directory is on a usb memory stick then it can be moved if the computer fails. Probably best if the server is run on a laptop with a good battery. Because it opens a couple of TCP/IP ports, Windows Firewall and some anti-virus software may block access, hopefully it will ask before it does this so you can allow access.
 
 When the program starts a window should open and display something like:
+{{{
+CPBserver  Copyright (C) 2014 Mike Johnson
+This program comes with ABSOLUTELY NO WARRANTY.
+This is free software, and you are welcome to redistribute it.
+See gpl.txt or http://www.gnu.org/licenses/ for conditions.
 
-{{{Server address 192.168.1.64 ports 80, 4023}}}
-
+Server address 192.168.1.64 ports 80, 4023
+}}}
 There is a small configuration file cpbserver.cfg which has a single line and may look like:
 
 {{{?Path=&Result=80&Update=4023&Timeout=20 }}}

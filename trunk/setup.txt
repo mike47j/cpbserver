@@ -1,0 +1,101 @@
+/*
+    CPBserver: tournament setup index page
+    Copyright (C) 2014  Mike Johnson
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+        function page() {
+            var txt = "<h2>Competition Setup</h2>";
+            txt += "<form name=\"setupdata\" method=\"get\" action=\"/setupdata.htm\">";
+            txt += "<table><tr><td width=\"220\">Name of Event:</td><td><input name=\"name\" size=\"50\" value=\"" + tournament + "\" /></td></tr>";
+            txt += "<tr><td>Date of Event:</td><td><input name=\"date\" size=\"50\" value=\"" + tournamentdate + "\" /></td></tr>";
+	    txt += "<tr><td>Maximum Targets:</td><td><input name=\"maxtargets\" size=\"3\" value=\"" + maxtargets + "\" /><br/>";
+            txt += "<tr><td>Medals:</td><td><input type=\"checkbox\" name=\"medals\" " + (medalflag == 1 ? "checked=\"checked\"" : "") + " /></td></tr>";
+            txt += "<tr><td>Best Archer:</td><td><input type=\"checkbox\" name=\"best\" " + (bestflag == 1 ? "checked=\"checked\"" : "") + " /></td></tr>";
+            txt += "<tr><td>Junior Champion:</td><td><input type=\"checkbox\" name=\"junior\" " + (juniorflag == 1 ? "checked=\"checked\"" : "") + " /></td></tr>";
+            txt += "<tr><td>Handicap:</td><td><input type=\"checkbox\" name=\"handicap\" " + (handicapflag == 1 ? "checked=\"checked\"" : "") + " /></td></tr>";
+            txt += "<tr><td>Team:</td><td><input type=\"checkbox\" name=\"team\" " + (teamflag == 1 ? "checked=\"checked\"" : "") + " /></td></tr>";
+			txt += "<tr><td>Score Entry System:</td><td><select name=\"scoresystem\" size=\"1\" style=\"width:200px\">"
+				+ "<option " + (scoresystem==0?" selected":"")+">Score sheet arrow entry</option>"
+				+ "<option " + (scoresystem==1?" selected":"")+">Adding up each dozen</option>"
+				+ "<option " + (scoresystem==2?" selected":"")+">Entering totals</option>"
+				+ "</select>";
+            txt += "<tr><td>&nbsp;</td><td><input type=\"submit\" value=\"Submit\" /></td></tr>";
+            txt += "</table></form>";
+            document.getElementById("page").innerHTML = txt;
+        }
+        page();
+    </script>
+
+<p></p>
+<table border="1" style="border-collapse: collapse;"><tr>
+<td width="200" style="padding:10px;">
+    <form name="printrun" method="get" action="/printrun">
+        <input type="submit" value="Print Running Slips" />
+    </form>
+    <form name="printscore" method="get" action="/printscore">
+        <input type="submit" value="Print Score Sheets" />
+    </form>
+<td width="300">These take some time to produce all the pages.
+     Use print preview to check the margins, page boundaries and
+     delete any header and footer information before printing.
+</tr>
+
+<tr>
+<td style="padding:10px;">
+    <form name="clearall" method="get" action="/clearall">
+        <input type="submit" value="Clear Everything" />
+    </form>
+    <form name="clearscores" method="get" action="/clearscores">
+        <input type="submit" value="Clear all scores" />
+    </form>
+<td>
+    Be sure you want to do either of these before clicking as its not possible to undo afterwards.
+</tr>
+
+<tr><td style="padding:10px;">
+    <form name="newarchers" method="get" action="/newarchers">
+        <input type="submit" value="Add archers" />
+    </form>
+    <form name="allocate" method="get" action="/allocate">
+        <input type="submit" value="Re-allocate Targets" />
+    </form>
+    <form name="rounds" method="get" action="/rounds">
+        <input type="submit" value="Targets by Round" />
+    </form>
+	<form name="updateentry" method="get" action="/updateentry.htm">
+<input name="target" value="01A" size="3"/> <input type="submit" value="Change Details." />
+</form>
+
+<td>&nbsp;
+</tr>
+
+<tr><td style="padding:10px;">
+<form name="move" method="get" action="/move.htm">
+<input name="from" value="01A" size="3"/> to <input name="to" value="02A" size="3"/> 
+<input type="submit" value="Move" />
+</form>
+<td>Move or Swap archer(s) to another target.
+</tr>
+
+<tr><td style="padding:10px;">
+    <form>
+        <input type="submit" value="Score Entry Page" formaction="/index" /></td>
+    </form>
+<td>Return to the main menu.
+</tr>
+</table>
+
+</body>
+</html>

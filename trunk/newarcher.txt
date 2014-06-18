@@ -1,0 +1,128 @@
+/*
+    CPBserver: add a new archer
+    Copyright (C) 2014  Mike Johnson
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+// rounds file
+
+	function page() {
+	    var i, j;
+	    var txt = "<h2>Free Targets</h2><table border=\"1\" style=\"border-collapse: collapse;\">";
+	    for (i = 0; i < free.length; i++) {
+		txt += "<tr><td valign=\"top\" width=\160\">" + free[i][0] + "<td width=\"600\">";
+		for (j = 1; j < free[i].length; j++) {
+		    txt += free[i][j] + ", ";
+		}
+	    }
+	    txt += "</table><h2>Add Archer</h2>";
+	    txt += "<form id=\"data\" action=\"/newarcher.htm\" method=\"get\">";
+	    txt += "<input name=\"send\" id=\"send\" type=\"hidden\" value=\"send\" />";
+	    txt += "<table border=\"1\" style=\"border-collapse: collapse;\">";
+	    txt += "<tr><td width=\"100\">Target:</td>";
+	    txt += "<td width=\"250\"><input id=\"target\" name=\"target\" size=\"36\" value=\"" + data[TARGET] + "\" onchange=\"newtarget()\" /></td></tr>";
+	    txt += "<tr><td>Archer:</td><td><input id=\"archer\" name=\"archer\" size=\"36\" value=\"\" /></td></tr>";
+	    txt += "<tr><td>Club:</td><td><input name=\"club\" size=\"36\" value=\"" + data[CLUB] + "\" /></td></tr>";
+	    if (teamflag==1)
+	        txt += "<tr><td>Team:</td><td><input name=\"team\" size=\"36\" value=\"" + data[TEAM] + "\" /></td></tr>";
+	    txt += "<tr><td>Bow:</td><td><select name=\"bow\" size=\"1\" style=\"width:250px\">";
+	    txt+="<option"+(data[BOW]=="Recurve"?" selected":"")+">Recurve</option>";
+	    txt+="<option"+(data[BOW]=="Compound"?" selected":"")+">Compound</option>";
+	    txt+="<option"+(data[BOW]=="Longbow"?" selected":"")+">Longbow</option>";
+	    txt+="<option"+(data[BOW]=="Bare Bow"?" selected":"")+">Bare Bow</option>";
+	    txt+="<option"+(data[BOW]==""?" selected":"")+"></option>";
+	    txt += "</select></td></tr>";
+	    txt += "<tr><td>Gender:</td><td><select name=\"gender\" size=\"1\" style=\"width:250px\">";
+	    txt+="<option"+(data[GENDER]=="M"?" selected":"")+">M</option>";
+	    txt+="<option"+(data[GENDER]=="F"?" selected":"")+">F</option>";
+	    txt+="<option"+(data[GENDER]=="JGU18"?" selected":"")+">JGU18</option>";
+	    txt+="<option"+(data[GENDER]=="JGU16"?" selected":"")+">JGU16</option>";
+	    txt+="<option"+(data[GENDER]=="JGU14"?" selected":"")+">JGU14</option>";
+	    txt+="<option"+(data[GENDER]=="JGU12"?" selected":"")+">JGU12</option>";
+	    txt+="<option"+(data[GENDER]=="JBU18"?" selected":"")+">JBU18</option>";
+	    txt+="<option"+(data[GENDER]=="JBU16"?" selected":"")+">JBU16</option>";
+	    txt+="<option"+(data[GENDER]=="JBU14"?" selected":"")+">JBU14</option>";
+	    txt+="<option"+(data[GENDER]=="JBU12"?" selected":"")+">JBU12</option>";
+	    txt+="<option"+(data[GENDER]==""?" selected":"")+"></option>";
+	    txt += "</select></td></tr>";
+	    txt += "<tr><td>Round:</td><td><select name=\"round\" size=\"1\" style=\"width:250px\">"
+	    for (i=0; i<rounds.length; i++) {
+		txt += "<option" + (data[ROUND] == rounds[i][0] ? " selected" : "") + ">" + rounds[i][0] + "</option>";
+	    }
+	    txt += "</select></td></tr>";
+	    if (handicapflag==1)
+	        txt += "<tr><td>Handicap:</td><td><input name=\"handicap\" size=\"36\" value=\"" + data[HANDICAP] + "\" /></td></tr>";
+	    txt += "</table><p></p>";
+
+	    txt += "<table><tr>";
+	    txt += "<td width=\"150\"><input type=\"button\" value=\"Add Archer\" onclick=\"checksend()\" /></td>";
+	    txt += "<td width=\"150\"><input type=\"Submit\" value=\"Cancel\" formaction=\"/setup\" /></td>";
+	    txt += "</tr></table></form>";
+
+	    txt += "<p>Enter a target from the free target list then enter an archers details.<br />"
+		+ "If the target is already in use for a round that should be updated correctly.<br/>"
+	    	+ "Take care when changing the round as it needs to match others on the target.<br/>"
+		+ "When entering a list of archers the details will stay the same until you change them.<br/>"
+		+ "</p>";
+	    document.getElementById("page").innerHTML = txt;
+	    document.getElementById("archer").focus();
+	}
+	page();
+
+	function newtarget()
+	{
+	    var i, j, target;
+	    target = document.getElementById("target").value.toUpperCase();
+	    for (i = 0; i < free.length; i++) {
+		for (j = 1; j < free[i].length; j++) {
+		    if (target == free[i][j]) {
+			if (free[i][0] != "NotSet")
+			    data[ROUND] = free[i][0];
+			data[TARGET] = target;
+			page();
+			return;
+		    }
+		}
+	    }
+	}
+
+	function sendback() {
+	    document.getElementById("send").value = "back";
+	    document.getElementById("data").submit();
+	}
+	function sendnext() {
+	    document.getElementById("send").value = "next";
+	    document.getElementById("data").submit();
+	}
+	function senddns() {
+	    document.getElementById("send").value = "dns";
+	    document.getElementById("data").submit();
+	}
+	function sendretired() {
+	    document.getElementById("send").value = "retired";
+	    document.getElementById("data").submit();
+	}
+	function checksend() {
+	    document.getElementById("send").value = "data";
+	    document.getElementById("data").submit();
+	}
+
+    </script>
+    <noscript>
+	<p>
+	    This page needs Javascript enabled in the Internet browser.
+	</p>
+    </noscript>
+</body>
+</html>

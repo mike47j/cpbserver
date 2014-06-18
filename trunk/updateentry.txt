@@ -1,0 +1,120 @@
+/*
+    CPBserver: edit an archers details
+    Copyright (C) 2014  Mike Johnson
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+// rounds file
+
+function page() {
+    var txt = "<h2>Target " + data[TARGET] + " - " + data[NAME] + "</h2>";
+    txt += "<form id=\"data\" action=\"/updateentry.htm\" method=\"get\">";
+    txt += "<input name=\"send\" id=\"send\" type=\"hidden\" value=\"send\" />";
+    txt += "<table border=\"1\" style=\"border-collapse: collapse;\">";
+    txt += "<tr><td width=\"100\">Target:</td>";
+    txt += "<td width=\"200\"><input name=\"target\" size=\"30\" readonly=\"readonly\" value=\""+data[TARGET]+"\" /></td></tr>";
+    txt += "<tr><td>Archer:</td><td><input name=\"archer\" size=\"30\" value=\""+data[NAME]+"\" /></td></tr>";
+    txt += "<tr><td>Club:</td><td><input name=\"club\" size=\"30\" value=\""+data[CLUB]+"\" /></td></tr>";
+    txt += "<tr><td>Team:</td><td><input name=\"team\" size=\"30\" value=\""+data[TEAM]+"\" /></td></tr>";
+    txt += "<tr><td>Bow:</td><td><select name=\"bow\" size=\"1\" style=\"width:200px\">";
+    txt+="<option"+(data[BOW]=="Recurve"?" selected":"")+">Recurve</option>";
+    txt+="<option"+(data[BOW]=="Compound"?" selected":"")+">Compound</option>";
+    txt+="<option"+(data[BOW]=="Longbow"?" selected":"")+">Longbow</option>";
+    txt+="<option"+(data[BOW]=="Bare Bow"?" selected":"")+">Bare Bow</option>";
+    txt += "</select></td></tr>";
+    txt += "<tr><td>Gender:</td><td><select name=\"gender\" size=\"1\" style=\"width:200px\">";
+    txt+="<option"+(data[GENDER]=="M"?" selected":"")+">M</option>";
+    txt+="<option"+(data[GENDER]=="F"?" selected":"")+">F</option>";
+    txt+="<option"+(data[GENDER]=="JGU18"?" selected":"")+">JGU18</option>";
+    txt+="<option"+(data[GENDER]=="JGU16"?" selected":"")+">JGU16</option>";
+    txt+="<option"+(data[GENDER]=="JGU14"?" selected":"")+">JGU14</option>";
+    txt+="<option"+(data[GENDER]=="JGU12"?" selected":"")+">JGU12</option>";
+    txt+="<option"+(data[GENDER]=="JBU18"?" selected":"")+">JBU18</option>";
+    txt+="<option"+(data[GENDER]=="JBU16"?" selected":"")+">JBU16</option>";
+    txt+="<option"+(data[GENDER]=="JBU14"?" selected":"")+">JBU14</option>";
+    txt+="<option"+(data[GENDER]=="JBU12"?" selected":"")+">JBU12</option>";
+    txt += "</select></td></tr>";
+    txt += "<tr><td>Round:</td><td><select name=\"round\" size=\"1\" style=\"width:200px\">"
+    txt+="<option"+(data[ROUND]=="NotSet"?" selected":"")+">NotSet</option>";
+	    for (i=0; i<rounds.length; i++) {
+		txt += "<option" + (data[ROUND] == rounds[i][0] ? " selected" : "") + ">" + rounds[i][0] + "</option>";
+	    }
+    txt += "</select></td></tr>";
+    txt += "<tr><td>Handicap:</td><td><input name=\"handicap\" size=\"30\" value=\""+data[HANDICAP]+"\" /></td></tr>";
+    txt += "<tr><td>Score:</td><td><input name=\"tscore\" id=\"tscore\" size=\"30\" value=\""+data[SCORE]+"\" /></td></tr>";
+    txt += "<tr><td>Hits:</td><td><input name=\"thits\" id=\"thits\" size=\"30\" value=\""+data[HITS]+"\" /></td></tr>";
+    txt += "<tr><td>Golds:</td><td><input name=\"tgolds\" id=\"tgolds\" size=\"30\" value=\""+data[GOLDS]+"\" /></td></tr>";
+    txt += "<tr><td>State:</td><td><select name=\"state\" size=\"1\" style=\"width:200px\">";
+    switch(data[STATE]) {
+    case "Free": txt += "<option>Inuse</option><option selected>Free</option><option>DNS</option><option>Retired</option>"; break;
+    case "DNS": txt += "<option>Inuse</option><option>Free</option><option selected>DNS</option><option>Retired</option>"; break;
+    case "Retired": txt += "<option>Inuse</option><option>Free</option><option>DNS</option><option selected>Retired</option>"; break;
+    default: txt += "<option selected>Inuse</option><option>Free</option><option>DNS</option><option>Retired</option>"; break;
+    }
+    txt += "</select></td></tr>";
+    txt += "</table><p></p><table><tr>"
+    txt += "<td width=\"150\"><input type=\"button\" value=\"Enter\" onclick=\"check()\" /></td>";
+    txt += "<td width=\"150\"><input type=\"button\" value=\"Enter + Next\" onclick=\"next()\" /></td>";
+    txt += "<td width=\"150\"><input type=\"submit\" value=\"Cancel\" formaction=\"/setup\" /></td>";
+    txt += "</tr></table></form>";
+    txt += "<p>Make any changes to an archers details except for the target number.<br />";
+    txt += "Use move/swap for that with the old and new target numbers.<br />";
+    txt += "Take care when changing the round as it needs to match others on the target. ";
+    txt += "</p>";
+    document.getElementById("page").innerHTML = txt;
+}
+page();
+
+function next() {
+   document.getElementById("send").value = "next";
+   check();
+}
+
+function check() {
+   var format = /^[0-9]+$/;
+   document.getElementById("thits").style.background = "white";
+   document.getElementById("tscore").style.background = "white";
+   document.getElementById("tgolds").style.background = "white";
+   var result = true;
+   var s = document.getElementById("tscore").value;
+   var score = parseInt(s);
+   if (!s.match(format) || score<0 || score>1440) {
+      document.getElementById("tscore").style.background = "pink";
+      result = false;
+   }
+   s = document.getElementById("thits").value;
+   var hits =  parseInt(s);
+   if (!s.match(format) || hits<0 || hits>144) {
+      document.getElementById("thits").style.background = "pink";
+      result = false;
+   }
+   s = document.getElementById("tgolds").value;
+   var golds =  parseInt(s);
+   if (!s.match(format) || golds<0 || golds>144) {
+      document.getElementById("tgolds").style.background = "pink";
+      result = false;
+   }
+   if (result)
+       document.getElementById("data").submit();
+   return result;
+}
+
+</script>
+<noscript>
+<p>
+    This page needs Javascript enabled in the Internet browser.
+</p>
+</noscript>
+</body>
+</html>

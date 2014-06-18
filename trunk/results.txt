@@ -1,0 +1,589 @@
+/*
+    CPBserver: leader board or results
+    Copyright (C) 2014  Mike Johnson
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+// rounds file
+
+var medalalloc = new Array(
+new Array("", ""),
+new Array("York", "F JGU18 JGU16 JGU14 JGU12 M JBU18 JBU16 JBU14 JBU12"),
+new Array("Hereford / Bristol 1", "F JGU18 JGU16 JGU14 JGU12 JBU18 JBU16 JBU14 JBU12"),
+new Array("Bristol 2", "JGU18 JGU16 JGU14 JGU12 JBU16 JBU14 JBU12"),
+new Array("Bristol 3", "JGU16 JGU14 JGU12 JBU14 JBU12"),
+new Array("Bristol 4", "JGU14 JGU12 JBU12"),
+new Array("Bristol 5", "JGU12"),
+new Array("St. George", "F JGU18 JGU16 JGU14 JGU12 M JBU18 JBU16 JBU14 JBU12"),
+new Array("Albion", "F JGU18 JGU16 JGU14 JGU12 JBU18 JBU16 JBU14 JBU12"),
+new Array("Windsor", "JGU18 JGU16 JGU14 JGU12 JBU16 JBU14 JBU12"),
+new Array("Short Windsor", "JGU16 JGU14 JGU12 JBU14 JBU12"),
+new Array("Junior Windsor", "JGU14 JGU12 JBU12"),
+new Array("Short Junior Windsor", "JGU12"),
+new Array("New Western", "F JGU18 JGU16 JGU14 JGU12 M JBU18 JBU16 JBU14 JBU12"),
+new Array("Long Western", "F JGU18 JGU16 JGU14 JGU12 JBU18 JBU16 JBU14 JBU12"),
+new Array("Western", "JGU18 JGU16 JGU14 JGU12 JBU16 JBU14 JBU12"),
+new Array("Short Western", "JGU16 JGU14 JGU12 JBU14 JBU12"),
+new Array("Junior Western", "JGU14 JGU12 JBU12"),
+new Array("Short Junior Western", "JGU12"),
+new Array("New National", "F JGU18 JGU16 JGU14 JGU12 M JBU18 JBU16 JBU14 JBU12"),
+new Array("Long National", "F JGU18 JGU16 JGU14 JGU12 JBU18 JBU16 JBU14 JBU12"),
+new Array("National", "JGU18 JGU16 JGU14 JGU12 JBU16 JBU14 JBU12"),
+new Array("Short National", "JGU16 JGU14 JGU12 JBU14 JBU12"),
+new Array("Junior National", "JGU14 JGU12 JBU12"),
+new Array("Short Junior National", "JGU12"),
+new Array("New Warwick", "F JGU18 JGU16 JGU14 JGU12 M JBU18 JBU16 JBU14 JBU12"),
+new Array("Long Warwick", "F JGU18 JGU16 JGU14 JGU12 JBU18 JBU16 JBU14 JBU12"),
+new Array("Warwick", "JGU18 JGU16 JGU14 JGU12 JBU16 JBU14 JBU12"),
+new Array("Short Warwick", "JGU16 JGU14 JGU12 JBU14 JBU12"),
+new Array("Junior Warwick", "JGU14 JGU12 JBU12"),
+new Array("Short Junior Warwick", "JGU12"),
+new Array("WA 1440 Gentlemen", "F JGU18 JGU16 JGU14 JGU12 M JBU18 JBU16 JBU14 JBU12"),
+new Array("WA 1440 Ladies / Metric I", "F JGU18 JGU16 JGU14 JGU12 JBU18 JBU16 JBU14 JBU12"),
+new Array("WA 1440 Cadet Ladies / Metric II", "JGU18 JGU16 JGU14 JGU12 JBU16 JBU14 JBU12"),
+new Array("Metric III", "JGU16 JGU14 JGU12 JBU14 JBU12"),
+new Array("Metric IV", "JGU14 JGU12 JBU12"),
+new Array("Metric V", "JGU12"),
+new Array("Long Metric", "F JGU18 JGU16 JGU14 JGU12 M JBU18 JBU16 JBU14 JBU12"),
+new Array("Long Metric I", "F JGU18 JGU16 JGU14 JGU12 JBU18 JBU16 JBU14 JBU12"),
+new Array("Long Metric II", "JGU18 JGU16 JGU14 JGU12 JBU16 JBU14 JBU12"),
+new Array("Long Metric III", "JGU16 JGU14 JGU12 JBU14 JBU12"),
+new Array("Long Metric IV", "JGU14 JGU12 JBU12"),
+new Array("Long Metric V", "JGU12")
+);
+
+// Handicap calculation for best junior or archer
+
+var handicaps = new Array(
+    new Array("FR", 41),
+    new Array("JGU18R", 48),
+    new Array("JGU16R", 58),
+    new Array("JGU14R", 64),
+    new Array("JGU12R", 70),
+    new Array("FC", 29),
+    new Array("JGU18C", 38),
+    new Array("JGU16C", 49),
+    new Array("JGU14C", 55),
+    new Array("JGU12C", 63),
+    new Array("FL", 65),
+    new Array("JGU18L", 64),
+    new Array("JGU16L", 70),
+    new Array("JGU14L", 77),
+    new Array("JGU12L", 83),
+    new Array("FB", 57),
+    new Array("JGU18B", 59),
+    new Array("JGU16B", 65),
+    new Array("JGU14B", 72),
+    new Array("JGU12B", 78),
+    new Array("MR", 36),
+    new Array("JBU18R", 39),
+    new Array("JBU16R", 48),
+    new Array("JBU14R", 58),
+    new Array("JBU12R", 69),
+    new Array("MC", 23),
+    new Array("JBU18C", 32),
+    new Array("JBU16C", 38),
+    new Array("JBU14C", 48),
+    new Array("JBU12C", 56),
+    new Array("ML", 60),
+    new Array("JBU18L", 62),
+    new Array("JBU16L", 65),
+    new Array("JBU14L", 72),
+    new Array("JBU12L", 81),
+    new Array("MB", 49),
+    new Array("JBU18B", 57),
+    new Array("JBU16B", 60),
+    new Array("JBU14B", 67),
+    new Array("JBU12B", 75)
+);
+
+function partscore(range, y, N, D, t, h) {
+    var score, sr, n;
+    if (N == 0)
+	return 0;
+    if (y == 0)
+	range *= 0.9144;
+    sr = 100 * range * Math.pow(1.036, h + 12.9) * 5e-4 * (1 + 1.429e-6 * Math.pow(1.07, h + 4.3) * range * range);
+    switch (t) {
+	case 0: // metric
+	    score = 10;
+	    for (n = 1; n <= 10; n++) {
+		score -= Math.exp(-Math.pow((n * D / 20 + 0.375) / sr, 2));
+	    }
+	    break;
+	case 1: // imperial
+	    score = 9;
+	    for (n = 1; n <= 4; n++) {
+		score -= 2 * Math.exp(-Math.pow((n * D / 10 + 0.375) / sr, 2));
+	    }
+	    score -= Math.exp(-Math.pow((D / 2 + 0.375) / sr, 2));
+	    break;
+	case 2: // inner ten
+	    score = 10;
+	    score -= Math.exp(-Math.pow((D / 40 + 0.375) / sr, 2));
+	    for (n = 2; n <= 10; n++) {
+		score -= Math.exp(-Math.pow((n * D / 20 + 0.375) / sr, 2));
+	    }
+	    break;
+	case 3: // triple
+	    score = 10;
+	    for (n = 1; n <= 4; n++) {
+		score -= Math.exp(-Math.pow((n * D / 20 + 0.375) / sr, 2));
+	    }
+	    score -= 6 * Math.exp(-Math.pow((5 * D / 20 + 0.375) / sr, 2));
+	    break;
+	case 4: // inner ten triple
+	    score = 10;
+	    score -= Math.exp(-Math.pow((D / 40 + 0.375) / sr, 2));
+	    for (n = 2; n <= 4; n++) {
+		score -= Math.exp(-Math.pow((n * D / 20 + 0.375) / sr, 2));
+	    }
+	    score -= 6 * Math.exp(-Math.pow((5 * D / 20 + 0.375) / sr, 2));
+	    break;
+	case 5: // worcester
+	    score = 5;
+	    for (n = 1; n <= 5; n++) {
+		score -= Math.exp(-Math.pow((n * D / 10 + 0.375) / sr, 2));
+	    }
+	    break;
+	case 6: // 5 spot worcester
+	    score = 5;
+	    score -= Math.exp(-Math.pow((D / 10 + 0.375) / sr, 2));
+	    score -= 4 * Math.exp(-Math.pow((3 * D / 10 + 0.375) / sr, 2));
+	    break;
+	case 7: // 6 zone metric
+	    score = 10;
+	    for (n = 1; n <= 5; n++) {
+		score -= Math.exp(-Math.pow((n * D / 20 + 0.375) / sr, 2));
+	    }
+	    score -= 5 * Math.exp(-Math.pow((6 * D / 20 + 0.375) / sr, 2));
+	    break;
+	case 8: // hit/miss
+	    score = 1;
+	    score -= Math.exp(-Math.pow((D / 2 + 0.375) / sr, 2));
+	    break;
+    }
+    return score * N;
+}
+
+function agbscore(h, r) {
+    var i;
+    for (i = 0; i < rounds.length; i++) {
+	if (rounds[i][0] == r) {
+	    //	 distance      yards/meters  arrows	diameter      target
+	    return partscore(rounds[i][3], rounds[i][1], rounds[i][2], rounds[i][4], rounds[i][5], h)
+		+ partscore(rounds[i][7], rounds[i][1], rounds[i][6], rounds[i][8], rounds[i][9], h)
+		+ partscore(rounds[i][11], rounds[i][1], rounds[i][10], rounds[i][12], rounds[i][13], h)
+		+ partscore(rounds[i][15], rounds[i][1], rounds[i][14], rounds[i][16], rounds[i][17], h);
+	}
+    }
+    return 0;
+}
+
+// results
+
+var textstr = "";
+doresults();
+
+function doresults() {
+    var exists = new Array();
+    var i, j;
+
+    // create link string
+    var jumpstr = "";
+    if (handicapflag != 1) {
+	for (i = 0; i < rounds.length; i++) {
+	    exists[i] = false;
+	    for (j = 0; j < maxdata; j++) {
+		if (data[j][ROUND] == rounds[i][0]) {
+		    if (scrollstate < 0) {
+			if (jumpstr != "")
+			    jumpstr += " | ";
+			jumpstr += "<a href=\"#" + data[j][ROUND] + "\">" + data[j][ROUND] + "</a>";
+		    }
+		    exists[i] = true;
+		    break;
+		}
+	    }
+	}
+	if (scrollstate < 0) {
+	    jumpstr = "<p style=\"text-align:center;\">" + jumpstr;
+	    if (juniorflag == 1)
+		jumpstr += " | <a href=\"#Junior\">Junior Championship</a>";
+	    if (bestflag == 1)
+		jumpstr += " | <a href=\"#Best\">Best Archer</a>";
+	    jumpstr += "</p>";
+	}
+
+	// rounds
+	for (i = 0; i < rounds.length; i++) {
+	    if (exists[i]) {
+		textstr += "<a name=\"" + rounds[i][0] + "\"></a>" + jumpstr;
+		round(rounds[i][0]);
+		if (teamflag==1)
+		    bestteam(rounds[i][0]);
+	    }
+	}
+
+	if (juniorflag == 1) {
+	    textstr += "<a name=\"Junior\">" + jumpstr;
+	    bestjunior("JG");
+	    bestjunior("JB");
+	}
+
+	if (bestflag == 1) {
+	    textstr += "<a name=\"Best\">" + jumpstr;
+	    bestarcher();
+	}
+	textstr += jumpstr;
+    }
+    else // handicap results
+	bowtype("","","");
+    document.getElementById("page").innerHTML = textstr;
+}
+
+function round(rndstr) {
+    gender(rndstr, "F");
+    gender(rndstr, "M");
+}
+
+function gender(rndstr, g) {
+    bowtype(rndstr, g, "Compound");
+    bowtype(rndstr, g, "Recurve");
+    bowtype(rndstr, g, "Bare Bow");
+    bowtype(rndstr, g, "Longbow");
+}
+
+function bowtype(rndstr, g, bow) {
+    var scores = new Array();
+    var i, j, highi = 0, highv = 0, count = 0, countm = 0;
+    var awards = "&nbsp;";
+    var gs;
+    var gendermatch, roundmatch;
+
+    var imperial = true;
+    for (i = 0; i < rounds.length; i++) {
+	if (rndstr == rounds[i][0]) {
+	    imperial = (rounds[i][5] == Imperial);
+	    break;
+	}
+    }
+
+    var medalline = 0;
+    for (i = 0; i < medalalloc.length; i++) {
+	if (rndstr == medalalloc[i][0]) {
+	    medalline = i;
+	    break;
+	}
+    }
+
+
+    // score if include in this list
+    for (i = 0; i < maxdata; i++) {
+	scores[i] = -99999;
+
+	if (g == "F") {
+	    gendermatch = (data[i][GENDER].substr(0, 2) == "JG" || data[i][GENDER] == "F");
+	    gs = "Ladies: ";
+	}
+	else { // (g == "M")
+	    gendermatch = (data[i][GENDER].substr(0, 2) == "JB" || data[i][GENDER] == "M");
+	    gs = "Gentlemen: ";
+	}
+
+	roundmatch = (data[i][ROUND] == rndstr);
+	if (data[i][STATE] != "Free") {
+	    if (handicapflag==1) {
+		scores[i] = 1440 - agbscore(data[i][HANDICAP], data[i][ROUND]) + data[i][SCORE];
+		count++;
+		countm++;
+	    }
+	    else if (data[i][BOW] == bow && gendermatch && roundmatch) {
+		scores[i] = data[i][SCORE] + data[i][HITS] / 1000 + data[i][GOLDS] / 1000000;
+		count++;
+		if (data[i][STATE] == "Inuse" && (medalalloc[medalline][1]=="" 
+		|| medalalloc[medalline][1].indexOf(data[i][GENDER]) >= 0))
+		    countm++
+	        if (data[i][STATE] == "Retired") // retired at end of list
+		    scores[i] = scores[i] / 2000 - 0.8;
+	        if (data[i][STATE] == "DNS") // dns last
+		    scores[i] = -0.9;
+	    }
+	}
+    }
+
+    var highi, highv;
+    if (count > 0) {
+	// award
+	var medalposn = 99;
+	awards = "&nbsp;";
+	if (medalflag == 1 && countm > 0) {
+	    awards = "Gold Medal";
+	    medalposn = 1;
+	}
+	// results
+	if (handicapflag==1) {
+	    textstr += "<h2 style=\"text-align:center;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">Handicap Results</h2>"
+	    + "<table border=1 style=\"margin-left:auto; margin-right:auto; border-collapse:collapse;\" >"
+	    + "<tr><th width=\"25\">&nbsp;<th width=\"35\">Target<th width=\"180\">Name<th>Gender"
+	    + "<th width=\"180\">Club<th>Round<th>Bow"
+	    + "<th width=\"45\">Score<th width=\"45\">Dozen<th>Adjusted<th width=\"100\">&nbsp;</tr>";
+	}
+	else {
+	    textstr += "<h2 style=\"text-align:center;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">"
+		+ rndstr + " - " + gs + bow + "</h2>";
+	    textstr += "<table border=1 style=\"margin-left:auto; margin-right:auto; border-collapse:collapse;\" >";
+	    textstr += "<tr><th width=\"25\">&nbsp;<th width=\"35\">Target<th width=\"180\">Name"
+		+ "<th width=\"180\">Club<th width=\"45\">Score<th width=\"45\">Hits";
+	    if (imperial)
+		textstr += "<th width=\"45\">Golds";
+	    else
+		textstr += "<th width=\"45\">10s";
+	    textstr += "<th width=\"45\">Dozen<th width=\"100\">&nbsp;</tr>";
+	}
+	var posn = 1;
+	var prevhighv = -1;
+	var prevaward = awards;
+	var junior;
+	for (i = 0; i < maxdata; i++) {
+	    highi = -1;
+	    highv = -1;
+	    for (j = 0; j < maxdata; j++) {
+		if (scores[j] > highv) {
+		    highv = scores[j];
+		    highi = j;
+		}
+	    }
+	    if (highi == -1)
+		break;
+	    textstr += "<tr><td align=\"center\">";
+	    if (data[highi][STATE] == "Inuse")
+		textstr += (highv == prevhighv ? "=" : posn);
+	    else {
+		textstr += "&nbsp;";
+		awards = "&nbsp;";
+	    }
+	    var note = data[highi][STATE];
+	    if (note == "Inuse")
+		note = "&nbsp;";
+	    junior = (data[highi][GENDER].substr(0, 1) == "J");
+	    if (handicapflag==1) {
+		textstr += "</td><td align=\"center\">" + data[highi][TARGET] + "</td><td>" + data[highi][NAME]
+		    + "<td align=\"center\">" + data[highi][GENDER]
+		    + "</td><td>" + data[highi][CLUB] + "</td><td align=\"center\">" + data[highi][ROUND]
+		    + "</td><td align=\"center\">" + data[highi][BOW] + "</td><td align=\"center\">"
+		    + (note == "DNS" ? "&nbsp;" : data[highi][SCORE]) + "</td><td align=\"center\">"
+		    + data[highi][DOZEN] + "</td><td align=\"center\">"
+		    + (data[highi][STATE] != "Inuse" ? "&nbsp;" : Math.round(scores[highi])) + "</td><td align=\"center\">";
+	    }
+	    else {
+		textstr += "</td><td align=\"center\">" + data[highi][TARGET] + "</td><td>" + data[highi][NAME]
+		    + (junior ? " J <font size=\"-2\">" + data[highi][GENDER].substr(2, 3) + "</font>" : "")
+		    + "</td><td>" + data[highi][CLUB] + "</td><td align=\"center\">"
+		    + (note == "DNS" ? "&nbsp;" : data[highi][SCORE]) + "</td><td align=\"center\">"
+		    + (note == "DNS" ? "&nbsp;" : data[highi][HITS]) + "</td><td align=\"center\">"
+		    + (note == "DNS" ? "&nbsp;" : data[highi][GOLDS]) + "</td><td align=\"center\">"
+		    + data[highi][DOZEN] + "</td><td align=\"center\">";
+	    }
+	    if (handicapflag==1 || medalalloc[medalline][1].indexOf(data[highi][GENDER]) >= 0) {
+		if (highv == prevhighv)
+		    textstr += prevaward;
+		else {
+		    textstr += awards;
+		    prevaward = awards;
+		}
+		if (awards == "Gold Medal") {
+		    awards = "Silver Medal";
+		    if (handicapflag!=1 && data[highi][GENDER].substr(0, 1) != "J" && countm < 4)
+			awards = "&nbsp;";
+		}
+		else if (awards == "Silver Medal") {
+		    awards = "Bronze Medal";
+		    if (handicapflag!=1 && data[highi][GENDER].substr(0, 1) != "J" && countm < 7)
+			awards = "&nbsp;";
+		}
+		else
+		    awards = "&nbsp;";
+	    }
+	    textstr += note + "</td></tr>";
+	    prevhighv = highv;
+	    posn++;
+	    scores[highi] = -1;
+	}
+	textstr += "</table>";
+    }
+}
+
+function bestjunior(g) {
+    var scores = new Array();
+    var i, j;
+    var highi, highv;
+    for (i = 0; i < maxdata; i++) {
+	scores[i] = -1;
+	var gc = g + data[i][GENDER].substr(2, 3) + data[i][BOW].substr(0, 1);
+	if (data[i][GENDER].substr(0, 2) == g && data[i][STATE] == "Inuse") {
+	    for (j = 0; j < handicaps.length; j++) {
+		if (handicaps[j][0] == gc)
+		    break;
+	    }
+	    if (j < handicaps.length)
+		scores[i] = data[i][SCORE] * 2000 / agbscore(handicaps[j][1], data[i][ROUND]);
+	}
+    }
+    if (g == "JG")
+	textstr += "<h2 style=\"text-align:center;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">Junior Girls Championship</h2>";
+    else
+	textstr += "<h2 style=\"text-align:center;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">Junior Boys Championship</h2>";
+    textstr += "</h3><table border=1 style=\"margin-left:auto; margin-right:auto; border-collapse:collapse;\" >"
+    + "<tr><th width=\"20\">&nbsp;<th>Target<th width=\"180\">Name"
+    + "<th width=\"180\">Club<th>Age Group<th>Bow<th>Round<th width=\"50\">Score"
+    + "<th width=\"50\">Points</tr>";
+    var posn = 1;
+    var prevhighv = -1;
+    for (i = 0; i < maxdata; i++) {
+	highi = -1;
+	highv = -1;
+	for (j = 0; j < maxdata; j++) {
+	    if (data[j][GENDER].substr(0, 2) == g && scores[j] > highv) {
+		highv = scores[j];
+		highi = j;
+	    }
+	}
+	if (highi == -1)
+	    break;
+
+	textstr += "<tr><td align=\"center\">" + (highv == prevhighv ? "=" : posn)
+	    + "</td><td align=\"center\">" + data[highi][TARGET]
+	    + "</td><td>" + data[highi][NAME] + "</td><td>" + data[highi][CLUB] + "</td><td align=\"center\">"
+	    + data[highi][GENDER].substr(2, 3) + "</td><td align=\"center\">" + data[highi][BOW];
+	textstr += "</td><td align=\"center\">" + data[highi][ROUND] + "</td><td align=\"center\">" + data[highi][SCORE]
+	    + "</td><td align=\"center\">" + Math.round(scores[highi]) + "</td></tr>";
+	scores[highi] = -1;
+	prevhighv = highv;
+	posn++;
+    }
+    textstr += "</table>";
+}
+
+function bestarcher() {
+    var scores = new Array();
+    var i, j;
+    var highi, highv;
+    for (i = 0; i < maxdata; i++) {
+	scores[i] = -1;
+	if (data[i][STATE] == "Inuse") {
+	    var gc = data[i][GENDER] + data[i][BOW].substr(0, 1);
+	    for (j = 0; j < handicaps.length; j++) {
+		if (handicaps[j][0] == gc)
+		    break;
+	    }
+	    if (j < handicaps.length)
+		scores[i] = data[i][SCORE] * 2000 / agbscore(handicaps[j][1], data[i][ROUND]);
+	}
+    }
+    textstr += "<h2 style=\"text-align:center;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">Best Archer</h2>";
+    textstr += "</h3><table border=1 style=\"margin-left:auto;margin-right:auto; border-collapse:collapse;\" >"
+    + "<tr><th width=\"20\">&nbsp;<th>Target<th width=\"180\">Name"
+    + "<th width=\"180\">Club<th>Age Group<th>Bow<th>Round<th width=\"50\">Score"
+    + "<th width=\"50\">Points</tr>";
+    var posn = 1;
+    var prevhighv = -1;
+    for (i = 0; i < maxdata; i++) {
+	highi = -1;
+	highv = -1;
+	for (j = 0; j < maxdata; j++) {
+	    if (scores[j] > highv) {
+		highv = scores[j];
+		highi = j;
+	    }
+	}
+	if (highi == -1)
+	    break;
+
+	textstr += "<tr><td align=\"center\">" + (highv == prevhighv ? "=" : posn)
+	    + "</td><td align=\"center\">" + data[highi][TARGET]
+	    + "</td><td>" + data[highi][NAME] + "</td><td>" + data[highi][CLUB] + "</td><td align=\"center\">"
+	    + data[highi][GENDER] + "</td><td align=\"center\">" + data[highi][BOW];
+	textstr += "</td><td align=\"center\">" + data[highi][ROUND] + "</td><td align=\"center\">" + data[highi][SCORE]
+	    + "</td><td align=\"center\">" + Math.round(scores[highi]) + "</td></tr>";
+	scores[highi] = -1;
+	prevhighv = highv;
+	posn++;
+    }
+    textstr += "</table>";
+}
+
+function bestteam(rnd) {
+    var teamname = new Array();
+    var scores = new Array();
+    var hits = new Array();
+    var golds = new Array();
+    var teamcnt = 0;
+    var i, j;
+    var highi, highv;
+    for (i = 0; i < maxdata; i++) {
+	if (data[i][ROUND]==rnd && data[i][STATE] == "Inuse") {
+	    for (j=0; j<teamcnt; j++) {
+		if (teamname[j]==data[i][CLUB]+" "+data[i][TEAM])
+		    break;
+	    }
+	    if (j==teamcnt) {
+		teamname[teamcnt]=data[i][CLUB]+" "+data[i][TEAM];
+		scores[j]=0;
+		hits[j]=0;
+		golds[j]=0;
+		teamcnt++;
+	    }
+	    scores[j] += data[i][SCORE] + data[i][HITS] / 1000 + data[i][GOLDS] / 1000000;
+	    hits[j] += data[i][HITS];
+	    golds[j] += data[i][GOLDS];
+	}
+    }
+    textstr += "<h2 style=\"text-align:center;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">"+rnd+" - Team Results</h2>";
+    textstr += "</h3><table border=1 style=\"margin-left:auto;margin-right:auto; border-collapse:collapse;\" >"
+    + "<tr><th width=\"20\">&nbsp;<th width=\"180\">Team Name<th width=\"50\">Score<th width=\"50\">"
+	+ "Hits<th width=\"50\">Golds</tr>";
+    var posn = 1;
+    var prevhighv = -1;
+    for (i = 0; i < maxdata; i++) {
+	highi = -1;
+	highv = -1;
+	for (j = 0; j < maxdata; j++) {
+	    if (scores[j] > highv) {
+		highv = scores[j];
+		highi = j;
+	    }
+	}
+	if (highi == -1)
+	    break;
+
+	textstr += "<tr><td align=\"center\">" + (highv == prevhighv ? "=" : posn)
+	    + "</td><td>" + teamname[highi] + "</td>";
+	textstr +=  "</td><td align=\"center\">" + Math.floor(scores[highi]) 
+	    + "</td><td align=\"center\">" + hits[highi] + "</td><td align=\"center\">" + golds[highi] + "</td></tr>";
+	scores[highi] = -1;
+	prevhighv = highv;
+	posn++;
+    }
+    textstr += "</table>";
+}
+
+</script>
+<noscript>
+<p>
+    This page needs Javascript enabled in the Internet browser.
+</p>
+</noscript>
+</body>
+</html>

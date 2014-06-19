@@ -564,7 +564,7 @@ function bestteam(rnd) {
     var i, j;
     var highi, highv;
     for (i = 0; i < maxdata; i++) {
-	if (data[i][ROUND]==rnd && data[i][STATE] == "Inuse") {
+	if (data[i][ROUND]==rnd && data[i][STATE] == "Inuse" && data[i][TEAM]!="") {
 	    for (j=0; j<teamcnt; j++) {
 		if (teamname[j]==data[i][CLUB]+" "+data[i][TEAM])
 		    break;
@@ -581,6 +581,8 @@ function bestteam(rnd) {
 	    golds[j] += data[i][GOLDS];
 	}
     }
+    if (teamcnt==0)
+	return;
     textstr += "<h2 style=\"text-align:center;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">"+rnd+" - Team Results</h2>";
     textstr += "</h3><table border=1 style=\"margin-left:auto;margin-right:auto; border-collapse:collapse;\" >"
     + "<tr><th width=\"20\">&nbsp;<th width=\"180\">Team Name<th width=\"50\">Score<th width=\"50\">"

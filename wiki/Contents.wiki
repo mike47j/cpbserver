@@ -7,3 +7,5 @@
 [Allocate Allocate Archers to Targets]
 
 [ScoreEntry Score Entry]
+
+[Running Running Slips and Score Sheets]

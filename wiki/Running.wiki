@@ -1,0 +1,7 @@
+= Running Slips and Score Sheets =
+
+The program can print running slips and score sheets from the entered information.
+
+[http://cpbserver.googlecode.com/svn/trunk/images/running.jpg]
+
+[http://cpbserver.googlecode.com/svn/trunk/images/scoresheet.jpg]

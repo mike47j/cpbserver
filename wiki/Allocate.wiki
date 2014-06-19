@@ -3,3 +3,12 @@
 After adding all the archers they need to be sorted by round and bow type. Usually longest distance first, with longbow and bare bow archers kept away from compound archers to avoid arrow damage.
 
 [http://cpbserver.googlecode.com/svn/wiki/allocate.jpg]
+
+First click "Remove All", this removes all the archers from the targets and sorts the archers list by round and bow type.
+
+Find the Archers for the York round and with longbows and click each one, this will add them to the target list, then add bare bows and a couple of recurve. To leave 02D empty click the space.
+
+[http://cpbserver.googlecode.com/svn/wiki/allocate1.jpg]
+
+Next add the compound and recurve archers spreading the compounds around.
+

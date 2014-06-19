@@ -1,3 +1,3 @@
-=Leader Board=
+=Leader Board / Results=
 
 With a wifi connection to the network, anyone can get the leader board by connecting to the network and  entering the server address eg: http://192.168.1.64. For a scrolling large screen display then  http://192.168.1.64/scroll

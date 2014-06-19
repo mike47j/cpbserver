@@ -577,7 +577,7 @@ namespace CPBserver
                 insertfreetargets();
                 sortbytarget();
                 checktargetnumbers();
-                return indexpagestring();
+                return setuppagestring();
             }
             if (str.Contains("GET /allocate"))
             {

@@ -16,8 +16,7 @@ C:\cpbserver\CPBserver\bin\Release\CPBserver.exe
 C:\cpbserver\CPBserver\bin\Release\CPBserver.pdb
 C:\cpbserver\CPBserver\obj\Release\CPBserver.csprojResolveAssemblyReference.cache
 E:\Archery\Server\server\bin\Release\CPBserver.exe.config
-E:\Archery\Server\server\obj\Release\CPBserver.exe
-E:\Archery\Server\server\obj\Release\CPBserver.pdb
 E:\Archery\Server\server\bin\Release\CPBserver.exe
 E:\Archery\Server\server\bin\Release\CPBserver.pdb
-E:\Archery\Server\server\obj\Release\CPBserver.csprojResolveAssemblyReference.cache
+E:\Archery\Server\server\obj\Release\CPBserver.exe
+E:\Archery\Server\server\obj\Release\CPBserver.pdb

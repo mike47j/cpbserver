@@ -17,4 +17,4 @@ the handicap score for the number of arrows shot so far.
 
 [http://cpbserver.googlecode.com/svn/trunk/images/leaderh.jpg]
 
-[http://cpbserver.googlecode.com/svn/trunk/images/leaderj.jpg]
+[http://cpbserver.googlecode.com/svn/trunk/images/leadert.jpg]

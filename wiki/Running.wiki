@@ -1,6 +1,6 @@
 = Running Slips and Score Sheets =
 
-The program can print running slips and score sheets from the entered information.
+The program can print running slips and score sheets from the entered information. Use print preview and check the margins, page boundaries and turn off headers and footers.
 
 [http://cpbserver.googlecode.com/svn/trunk/images/running.jpg]
 

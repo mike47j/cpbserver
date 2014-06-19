@@ -557,6 +557,7 @@ function bestarcher() {
 
 function bestteam(rnd) {
     var teamname = new Array();
+    var archernames = new Array();
     var scores = new Array();
     var hits = new Array();
     var golds = new Array();
@@ -574,11 +575,13 @@ function bestteam(rnd) {
 		scores[j]=0;
 		hits[j]=0;
 		golds[j]=0;
+		archernames[j]="";
 		teamcnt++;
 	    }
 	    scores[j] += data[i][SCORE] + data[i][HITS] / 1000 + data[i][GOLDS] / 1000000;
 	    hits[j] += data[i][HITS];
 	    golds[j] += data[i][GOLDS];
+	    archernames[j] += "<br/>" + data[i][NAME];
 	}
     }
     if (teamcnt==0)
@@ -602,7 +605,7 @@ function bestteam(rnd) {
 	    break;
 
 	textstr += "<tr><td align=\"center\">" + (highv == prevhighv ? "=" : posn)
-	    + "</td><td>" + teamname[highi] + "</td>";
+	    + "</td><td>" + teamname[highi] + archernames[highi] + "</td>";
 	textstr +=  "</td><td align=\"center\">" + Math.floor(scores[highi]) 
 	    + "</td><td align=\"center\">" + hits[highi] + "</td><td align=\"center\">" + golds[highi] + "</td></tr>";
 	scores[highi] = -1;

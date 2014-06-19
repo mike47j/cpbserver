@@ -7,7 +7,7 @@ There are 3 methods of score entry:
 
 [http://cpbserver.googlecode.com/svn/trunk/images/score1.jpg]
 
-Single key entry of arrow scores, enter key send data and gets the next score sheet. T or + for 10, X or  for inner ten, 0 or M for miss. So the number pad can be used to enter the scores.
+Single key entry of arrow scores, enter key send data and gets the next score sheet. T or + for 10, X or {{{*}}} for inner ten, 0 or M for miss. So the number pad can be used to enter the scores.
 
 [http://cpbserver.googlecode.com/svn/trunk/images/score2.jpg]
 

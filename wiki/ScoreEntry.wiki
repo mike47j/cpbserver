@@ -1,0 +1,7 @@
+= Score Entry =
+
+[http://cpbserver.googlecode.com/svn/trunk/images/score1.jpg]
+
+[http://cpbserver.googlecode.com/svn/trunk/images/score2.jpg]
+
+[http://cpbserver.googlecode.com/svn/trunk/images/score3.jpg]

@@ -3,3 +3,5 @@
 [SetUp Set up a Tournament]
 
 [Allocate Allocate Archers to Targets]
+
+[ScoreEntry Score Entry]

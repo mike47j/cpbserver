@@ -2,7 +2,7 @@
 
 Download https://cpbserver.googlecode.com/svn/trunk/cpb.zip.
 
-Save the file, click on the file to unpack all the files. Copy all the files to a directory and double click on cpbserver.exe to run it. If the directory is on a usb memory stick then it can be moved if the computer fails. Probably best if the server is run on a laptop with a good battery. Because it opens a couple of TCP/IP ports, Windows Firewall and some anti-virus software may block access, hopefully it will ask before it does this so you can allow access.
+Save the file, click on the file to unpack all the files. Copy all the files to a directory and double click on "cpbserver.exe" to run it. If the directory is on a usb memory stick then it can be moved if the computer fails. Probably best if the server is run on a laptop with a good battery. Because it opens a couple of TCP/IP ports, Windows Firewall and some anti-virus software may block access, hopefully it will ask before it does this so you can allow access.
 
 When the program starts a window should open and display something like:
 {{{
@@ -13,7 +13,7 @@ See gpl.txt or http://www.gnu.org/licenses/ for conditions.
 
 Server address 192.168.1.64 ports 80, 4023
 }}}
-There is a small configuration file cpbserver.cfg which has a single line and may look like:
+There is a small configuration file "cpbserver.cfg" which has a single line and may look like:
 
 {{{?Path=&Result=80&Update=4023&Timeout=20 }}}
 

@@ -22,4 +22,4 @@ Timeout is the time delay with no data being entered, before a backup is done. U
 
 {{{?Path=E:\Archery\Server\CPBserver\&Result=83&Update=4023&Timeout=30 }}}
 
-To check its working open a web browser on the same pc and enter {{{http://127.0.0.1}}} as the address.
+To check its working open a web browser on the same pc and enter "http://127.0.0.1" as the address.

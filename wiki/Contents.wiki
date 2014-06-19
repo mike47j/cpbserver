@@ -2,6 +2,8 @@
 
 [SetUp Set up a Tournament]
 
+[LeaderBoard Leader Board / Results]
+
 [Allocate Allocate Archers to Targets]
 
 [ScoreEntry Score Entry]

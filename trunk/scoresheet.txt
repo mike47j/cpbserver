@@ -22,11 +22,11 @@
 	function page() {
 	    var rnd, i;
 	    for (rnd = 0; rnd < rounds.length; rnd++) {
-		if (data[ROUND] == rounds[rnd][0])
+		if (data[ROUND] == rounds[rnd][RNDNAME])
 		    break;
 	    }
-	    var imperialdistance = rounds[rnd][1];
-	    scoring = rounds[rnd][5];
+	    var imperialdistance = rounds[rnd][RNDMETERS];
+	    scoring = rounds[rnd][RNDSCOREING];
 
 	    var txt = "<h2>" + data[TARGET] + " - " + data[NAME] + " (" + data[GENDER] + "), "
 			+ data[CLUB] + ", " + data[ROUND] + ", " + data[BOW] + "</h2>";
@@ -46,7 +46,7 @@
 	    var subrnd, arrowno = 0;
 	    for (subrnd = 0; subrnd < 4; subrnd++) {
 		var rndarrowno = 0;
-		while (rndarrowno < rounds[rnd][subrnd * 4 + 2]) {
+		while (rndarrowno < rounds[rnd][subrnd * 3 + RNDARROWS1]) {
 		    txt += "<tr>";
 		    et1 = 0;
 		    var h = 0;
@@ -78,7 +78,7 @@
 		    }
 		    txt += "</td><td align=\"center\">" + et1 + "</td>";
 		    et2 = 0;
-		    if (rndarrowno < rounds[rnd][subrnd * 4 + 2]) {
+		    if (rndarrowno < rounds[rnd][subrnd * 3 + RNDARROWS1]) {
 			for (i = 6; i < 12; i++) {
 			    if (arrowno == arrows.length)
 				txt += "<td align=\"center\" style=\"background-color:yellow;\">&nbsp;</td>";
@@ -119,10 +119,10 @@
 		    txt += "<td align=\"center\">";
 		    txt += rt + "</td></tr>";
 
-		    if (rndarrowno >= rounds[rnd][subrnd * 4 + 2]) {
+		    if (rndarrowno >= rounds[rnd][subrnd * 3 + RNDARROWS1]) {
 			// sub totals
-			var distance = rounds[rnd][subrnd * 4 + 3];
-			var targetsize = rounds[rnd][subrnd * 4 + 4];
+			var distance = rounds[rnd][subrnd * 3 + RNDDISTANCE1];
+			var targetsize = rounds[rnd][subrnd * 3 + RNDTARGET1];
 			if (imperialdistance == 0)
 			    distance += " yards. ";
 			else

@@ -48,7 +48,7 @@ function page() {
     txt += "<tr><td>Round:</td><td><select name=\"round\" size=\"1\" style=\"width:200px\">"
     txt+="<option"+(data[ROUND]=="NotSet"?" selected":"")+">NotSet</option>";
 	    for (i=0; i<rounds.length; i++) {
-		txt += "<option" + (data[ROUND] == rounds[i][0] ? " selected" : "") + ">" + rounds[i][0] + "</option>";
+		txt += "<option" + (data[ROUND] == rounds[i][RNDNAME] ? " selected" : "") + ">" + rounds[i][RNDNAME] + "</option>";
 	    }
     txt += "</select></td></tr>";
     txt += "<tr><td>Handicap:</td><td><input name=\"handicap\" size=\"30\" value=\""+data[HANDICAP]+"\" /></td></tr>";

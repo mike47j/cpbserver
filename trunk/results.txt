@@ -180,35 +180,35 @@ function partscore(range, y, N, D, t, h) {
 function agbscore(h, r) {
     var i;
     for (i = 0; i < rounds.length; i++) {
-	if (rounds[i][0] == r) {
-	    //	 distance      yards/meters  arrows	diameter      target
-	    return partscore(rounds[i][3], rounds[i][1], rounds[i][2], rounds[i][4], rounds[i][5], h)
-		+ partscore(rounds[i][7], rounds[i][1], rounds[i][6], rounds[i][8], rounds[i][9], h)
-		+ partscore(rounds[i][11], rounds[i][1], rounds[i][10], rounds[i][12], rounds[i][13], h)
-		+ partscore(rounds[i][15], rounds[i][1], rounds[i][14], rounds[i][16], rounds[i][17], h);
+	if (rounds[i][RNDNAME] == r) {
+	    //	 distance      yards/meters  arrows	diameter      scoring
+	    return partscore(rounds[i][RNDDISTANCE1], rounds[i][RNDMETERS], rounds[i][RNDARROWS1], rounds[i][RNDTARGET1], rounds[i][RNDSCOREING], h)
+		+ partscore(rounds[i][RNDDISTANCE2], rounds[i][RNDMETERS], rounds[i][RNDARROWS2], rounds[i][RNDTARGET2], rounds[i][RNDSCOREING], h)
+		+ partscore(rounds[i][RNDDISTANCE3], rounds[i][RNDMETERS], rounds[i][RNDARROWS3], rounds[i][RNDTARGET3], rounds[i][RNDSCOREING], h)
+		+ partscore(rounds[i][RNDDISTANCE4], rounds[i][RNDMETERS], rounds[i][RNDARROWS4], rounds[i][RNDTARGET4], rounds[i][RNDSCOREING], h);
 	}
     }
     return 0;
 }
 
-function partagbscore(h, r, a) { // score after a arrows
+function partagbscore(h, r, a) { // score after a arrows of a round
     var i, s=0, t=0;
     for (i = 0; i < rounds.length; i++) {
-	if (rounds[i][0] == r) {
-	    //	 distance      yards/meters  arrows	diameter      target
-	    s += partscore(rounds[i][3], rounds[i][1], (a>t+rounds[i][2]?rounds[i][2]:a-t), rounds[i][4], rounds[i][5], h);
-	    t += rounds[i][2];
+	if (rounds[i][RNDNAME] == r) {
+	    //	 distance      yards/meters  arrows	diameter      scoring
+	    s += partscore(rounds[i][RNDDISTANCE1], rounds[i][RNDMETERS], (a>t+rounds[i][RNDARROWS1]?rounds[i][RNDARROWS1]:a-t), rounds[i][RNDTARGET1], rounds[i][RNDSCOREING], h);
+	    t += rounds[i][RNDARROWS1];
 	    if (t>a)
 		return s;
-	    s += partscore(rounds[i][7], rounds[i][1], (a>t+rounds[i][6]?rounds[i][6]:a-t), rounds[i][8], rounds[i][9], h)
-	    t += rounds[i][2];
+	    s += partscore(rounds[i][RNDDISTANCE2], rounds[i][RNDMETERS], (a>t+rounds[i][RNDARROWS2]?rounds[i][RNDARROWS2]:a-t), rounds[i][RNDTARGET2], rounds[i][RNDSCOREING], h)
+	    t += rounds[i][RNDARROWS2];
 	    if (t>a)
 		return s;
-	    s += partscore(rounds[i][11], rounds[i][1], (a>t+rounds[i][10]?rounds[i][10]:a-t), rounds[i][12], rounds[i][13], h)
-	    t += rounds[i][2];
+	    s += partscore(rounds[i][RNDDISTANCE3], rounds[i][RNDMETERS], (a>t+rounds[i][RNDARROWS3]?rounds[i][RNDARROWS3]:a-t), rounds[i][RNDTARGET3], rounds[i][RNDSCOREING], h)
+	    t += rounds[i][RNDARROWS3];
 	    if (t>a)
 		return s;
-	    s += partscore(rounds[i][15], rounds[i][1], (a>t+rounds[i][14]?rounds[i][14]:a-t), rounds[i][16], rounds[i][17], h);
+	    s += partscore(rounds[i][RNDDISTANCE4], rounds[i][RNDMETERS], (a>t+rounds[i][RNDARROWS4]?rounds[i][RNDARROWS4]:a-t), rounds[i][RNDTARGET4], rounds[i][RNDSCOREING], h);
 	    return s;
 	}
     }
@@ -230,7 +230,7 @@ function doresults() {
 	for (i = 0; i < rounds.length; i++) {
 	    exists[i] = false;
 	    for (j = 0; j < maxdata; j++) {
-		if (data[j][ROUND] == rounds[i][0]) {
+		if (data[j][ROUND] == rounds[i][RNDNAME]) {
 		    if (scrollstate < 0) {
 			if (jumpstr != "")
 			    jumpstr += " | ";
@@ -253,10 +253,10 @@ function doresults() {
 	// rounds
 	for (i = 0; i < rounds.length; i++) {
 	    if (exists[i]) {
-		textstr += "<a name=\"" + rounds[i][0] + "\"></a>" + jumpstr;
-		round(rounds[i][0]);
+		textstr += "<a name=\"" + rounds[i][RNDNAME] + "\"></a>" + jumpstr;
+		round(rounds[i][RNDNAME]);
 		if (teamflag==1)
-		    bestteam(rounds[i][0]);
+		    bestteam(rounds[i][RNDNAME]);
 	    }
 	}
 
@@ -298,8 +298,8 @@ function bowtype(rndstr, g, bow) {
 
     var imperial = true;
     for (i = 0; i < rounds.length; i++) {
-	if (rndstr == rounds[i][0]) {
-	    imperial = (rounds[i][5] == Imperial);
+	if (rndstr == rounds[i][RNDNAME]) {
+	    imperial = (rounds[i][RNDSCOREING] == Imperial);
 	    break;
 	}
     }

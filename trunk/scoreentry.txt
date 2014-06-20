@@ -22,10 +22,10 @@ var scoring = 0;
 function page() {
     var rnd;
     for (rnd = 0; rnd < rounds.length; rnd++) {
-	if (data[ROUND] == rounds[rnd][0])
+	if (data[ROUND] == rounds[rnd][RNDNAME)
 	    break;
     }
-    scoring = rounds[rnd][5];
+    scoring = rounds[rnd][RNDSCORING];
 
     var txt = "<h2>Target " + data[TARGET] + " - " + data[NAME] + "</h2>";
 	txt += "<form id=\"data\" action=\"/scoreentry\" method=\"get\">";

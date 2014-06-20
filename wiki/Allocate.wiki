@@ -1,5 +1,7 @@
 = Allocate Archers to Targets=
 
+[Contents Contents]
+
 After adding all the archers they need to be sorted by round and bow type. Usually longest distance first, with longbow and bare bow archers kept away from compound archers to avoid arrow damage.
 
 [http://cpbserver.googlecode.com/svn/trunk/images/allocate.jpg]

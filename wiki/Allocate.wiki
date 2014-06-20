@@ -1,3 +1,4 @@
+#summary Allocate Archers to Targets
 = Allocate Archers to Targets=
 
 [Contents Contents]

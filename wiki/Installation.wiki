@@ -1,3 +1,4 @@
+#summary Download and Installation
 = Installation =
 
 [Contents Contents]

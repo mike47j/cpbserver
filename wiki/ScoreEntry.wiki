@@ -1,5 +1,7 @@
 = Score Entry =
 
+[Contents Contents]
+
 There are 3 methods of score entry:
  # Enter every arrow, checks adding up.
  # Enter every dozen score, small amount of checking.

@@ -58,7 +58,7 @@
 	    txt += "</select></td></tr>";
 	    txt += "<tr><td>Round:</td><td><select name=\"round\" size=\"1\" style=\"width:250px\">"
 	    for (i=0; i<rounds.length; i++) {
-		txt += "<option" + (data[ROUND] == rounds[i][0] ? " selected" : "") + ">" + rounds[i][0] + "</option>";
+		txt += "<option" + (data[ROUND] == rounds[i][RNDNAME] ? " selected" : "") + ">" + rounds[i][RNDNAME] + "</option>";
 	    }
 	    txt += "</select></td></tr>";
 	    if (handicapflag==1)

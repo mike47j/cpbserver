@@ -56,24 +56,24 @@
 		}
 		// find the round data
 		for (rnd = 0; rnd < rounds.length; rnd++) {
-		    if (rndn == rounds[rnd][0])
+		    if (rndn == rounds[rnd][RNDNAME])
 			break;
 		}
-		var imperialdistance = rounds[rnd][1];
-		scoring = rounds[rnd][5];
+		var imperialdistance = rounds[rnd][RNDMETERS];
+		scoring = rounds[rnd][RNDSCOREING];
 		var dozenlen = new Array(12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12);
-		var dozens = Math.ceil(rounds[rnd][2] / 12);
-		if (rounds[rnd][2] % 12 != 0)
-		    dozenlen[dozens] = rounds[rnd][2] % 12;
-		dozens += Math.ceil(rounds[rnd][6] / 12);
-		if (rounds[rnd][6] % 12 != 0)
-		    dozenlen[dozens] = rounds[rnd][6] % 12;
-		dozens += Math.ceil(rounds[rnd][10] / 12);
-		if (rounds[rnd][10] % 12 != 0)
-		    dozenlen[dozens] = rounds[rnd][10] % 12;
-		dozens += Math.ceil(rounds[rnd][14] / 12);
-		if (rounds[rnd][14] % 12 != 0)
-		    dozenlen[dozens] = rounds[rnd][14] % 12;
+		var dozens = Math.ceil(rounds[rnd][RNDARROWS1] / 12);
+		if (rounds[rnd][RNDARROWS1] % 12 != 0)
+		    dozenlen[dozens] = rounds[rnd][RNDARROWS1] % 12;
+		dozens += Math.ceil(rounds[rnd][RNDARROWS2] / 12);
+		if (rounds[rnd][RNDARROWS2] % 12 != 0)
+		    dozenlen[dozens] = rounds[rnd][RNDARROWS2] % 12;
+		dozens += Math.ceil(rounds[rnd][RNDARROWS3] / 12);
+		if (rounds[rnd][RNDARROWS3] % 12 != 0)
+		    dozenlen[dozens] = rounds[rnd][RNDARROWS3] % 12;
+		dozens += Math.ceil(rounds[rnd][RNDARROWS4] / 12);
+		if (rounds[rnd][RNDARROWS4] % 12 != 0)
+		    dozenlen[dozens] = rounds[rnd][RNDARROWS4] % 12;
 
 		if (j < 4) j = 4;
 		// maxline 6.5mm lines per page, put the slips at the bottom of the pages

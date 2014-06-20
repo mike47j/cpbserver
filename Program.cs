@@ -1352,7 +1352,7 @@ namespace CPBserver
             fs.Close();
             string s = temp.GetString(b);
             int startp = 0;
-            // First line Tournament name, Options, date
+            // First line Tournament name, maximum targets, Options, date
             int endline = s.IndexOf('\n');
             int coma = s.IndexOf(',', startp);
             if (coma > endline)

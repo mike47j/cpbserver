@@ -26,11 +26,11 @@
 		if (data[index][ROUND] == "NotSet")
 		    continue;
 		for (rnd = 0; rnd < rounds.length; rnd++) {
-		    if (data[index][ROUND] == rounds[rnd][0])
+		    if (data[index][ROUND] == rounds[rnd][RNDNAME])
 			break;
 		}
-		var imperialdistance = rounds[rnd][1];
-		scoring = rounds[rnd][5];
+		var imperialdistance = rounds[rnd][RNDMETERS];
+		scoring = rounds[rnd][RNDSCOREING];
 
 		txt += "<div style=\"height:5mm;\"></div>"
 			    + "<p align=\"center\" style=\"font-weight:bold;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">"
@@ -68,14 +68,14 @@
 		var subrnd;
 		for (subrnd = 0; subrnd < 4; subrnd++) {
 		    var rndarrowno = 0;
-		    while (rndarrowno < rounds[rnd][subrnd * 4 + 2]) {
+		    while (rndarrowno < rounds[rnd][subrnd * 3 + RNDARROWS1]) {
 			txt += "<tr style=\"height:9mm;\"><td  style=\"border-right:2px solid black;\">&nbsp;</td>";
 			for (i = 0; i < 6; i++) {
 			    txt += "<td align=\"center\" style=\"width:9mm;\">&nbsp;</td>";
 			    rndarrowno++;
 			}
 			txt += "</td><td align=\"center\" style=\"border-left:2px solid black;border-right:2px solid black;\">&nbsp;</td>";
-			if (rndarrowno < rounds[rnd][subrnd * 4 + 2]) {
+			if (rndarrowno < rounds[rnd][subrnd * 3 + RNDARROWS1]) {
 			    for (i = 6; i < 12; i++) {
 				txt += "<td align=\"center\" style=\"width:9mm;\">&nbsp;</td>";
 				rndarrowno++;
@@ -90,10 +90,10 @@
 			txt += "</td><td align=\"center\">&nbsp;</td>";
 			txt += "<td align=\"center\">&nbsp;</td></tr>";
 
-			if (rndarrowno >= rounds[rnd][subrnd * 4 + 2]) {
+			if (rndarrowno >= rounds[rnd][subrnd * 3 + RNDARROWS1]) {
 			    // sub totals
-			    var distance = rounds[rnd][subrnd * 4 + 3];
-			    var targetsize = rounds[rnd][subrnd * 4 + 4];
+			    var distance = rounds[rnd][subrnd * 3 + RNDDISTANCE1];
+			    var targetsize = rounds[rnd][subrnd * 3 + RNDTARGET1];
 			    if (imperialdistance == 0)
 				distance += " yards. ";
 			    else

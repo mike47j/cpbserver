@@ -16,13 +16,14 @@ See gpl.txt or http://www.gnu.org/licenses/ for conditions.
 
 Server address 192.168.1.64 ports 80, 4023
 }}}
+To check its working open a web browser on the same pc and enter "http://127.0.0.1" as the address.
+
+Type "shutdown" into the window to save the data stored in the server in the file "data.csv" and to close down the server.
+
 There is a small configuration file "cpbserver.cfg" which has a single line and may look like:
 
 {{{?Path=&Result=80&Update=4023&Timeout=20 }}}
 
-Type "shutdown" into the window to save the data stored in the server in the file "data.csv" and to close down the server.
 Timeout is the time delay with no data being entered, before a backup is done. Update is the secure port for data entry, change this to stop anyone nearby entering data. Result is the port for the leader board and results information. 80 is standard for web servers and should not need to be changed, unless you are just testing and already running a web server on the PC. Path is only needed if most of the files are in a different directory to the exe and cfg files. Such as when testing changes to the server software.
 
 {{{?Path=E:\Archery\Server\CPBserver\&Result=83&Update=4023&Timeout=30 }}}
-
-To check its working open a web browser on the same pc and enter "http://127.0.0.1" as the address.

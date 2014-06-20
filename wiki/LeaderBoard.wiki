@@ -1,5 +1,7 @@
 =Leader Board / Results=
 
+[Contents Contents]
+
 With a wifi connection to the network, anyone can get the leader board by connecting to the network and  entering the server address eg: http://192.168.1.64. For a scrolling large screen display then  http://192.168.1.64/scroll
 
 The normal display is separate lists by round, gender and bow type, juniors are in the same list with a J after their name.

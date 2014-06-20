@@ -1,4 +1,5 @@
-=Leader Board / Results=
+#summary Leader Board and Results
+=Leader Board and Results=
 
 [Contents Contents]
 

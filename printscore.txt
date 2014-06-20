@@ -31,6 +31,7 @@
 		}
 		var imperialdistance = rounds[rnd][RNDMETERS];
 		scoring = rounds[rnd][RNDSCOREING];
+		var arrowspwerend = rounds[rnd][RNDEND];
 
 		txt += "<div style=\"height:5mm;\"></div>"
 			    + "<p align=\"center\" style=\"font-weight:bold;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">"
@@ -59,10 +60,11 @@
 
 		txt += "<table border=\"1\" style=\"border-collapse: collapse;\" >"
 		    + "<tr style=\"height:4mm;font-family:Helvetica,Arial,sans-serif;\">"
-			    + "<th style=\"width:13mm;border-right:2px solid black;\">Judge</th><th colspan=\"6\">&nbsp;</th>"
-		    + "<th style=\"width:9.5mm;border-left:2px solid black;border-right:2px solid black;\">ET</th><th colspan=\"6\">&nbsp;</th>"
+		    + "<th style=\"width:13mm;border-right:2px solid black;\">Judge</th><th colspan=\"" + arrowspwerend + "\">&nbsp;</th>"
+		    + "<th style=\"width:9.5mm;border-left:2px solid black;border-right:2px solid black;\">ET</th><th colspan=\""
+		    + arrowspwerend + "\">&nbsp;</th>"
 		    + "<th style=\"width:9.5mm;border-left:2px solid black;border-right:2px solid black;\">ET</th>"
-			    + "<th style=\"width:9.5mm;\">H</th><th style=\"width:12mm;\">S</th>"
+		    + "<th style=\"width:9.5mm;\">H</th><th style=\"width:12mm;\">S</th>"
 		    + "<th style=\"width:9.5mm;\">" + (scoring == Imperial ? "G" : "10s") + "</th><th style=\"width:12mm;\">RT</th></tr>";
 
 		var subrnd;
@@ -70,20 +72,20 @@
 		    var rndarrowno = 0;
 		    while (rndarrowno < rounds[rnd][subrnd * 3 + RNDARROWS1]) {
 			txt += "<tr style=\"height:9mm;\"><td  style=\"border-right:2px solid black;\">&nbsp;</td>";
-			for (i = 0; i < 6; i++) {
+			for (i = 0; i < arrowspwerend; i++) {
 			    txt += "<td align=\"center\" style=\"width:9mm;\">&nbsp;</td>";
 			    rndarrowno++;
 			}
 			txt += "</td><td align=\"center\" style=\"border-left:2px solid black;border-right:2px solid black;\">&nbsp;</td>";
 			if (rndarrowno < rounds[rnd][subrnd * 3 + RNDARROWS1]) {
-			    for (i = 6; i < 12; i++) {
+			    for (i = 0; i < arrowspwerend; i++) {
 				txt += "<td align=\"center\" style=\"width:9mm;\">&nbsp;</td>";
 				rndarrowno++;
 			    }
 			    txt += "</td><td align=\"center\" style=\"border-left:2px solid black;border-right:2px solid black;\">&nbsp;</td>"
 			}
 			else {
-			    txt += "<td colspan=\"6\" align=\"center\" style=\"background-color:silver;\">&nbsp;</td>";
+			    txt += "<td colspan=\"" + arrowspwerend + "\" align=\"center\" style=\"background-color:silver;\">&nbsp;</td>";
 			    txt += "</td><td align=\"center\" style=\"background-color:silver;border-left:2px solid black;border-right:2px solid black;\">&nbsp;</td>"
 			}
 			txt += "<td align=\"center\">&nbsp;</td><td align=\"center\">&nbsp;";
@@ -100,14 +102,14 @@
 				distance += " meters. ";
 			    if (scoring != Imperial)
 				distance += targetsize + " cm face. ";
-			    txt += "<tr style=\"height:9mm;\"><td colspan=\"15\" align=\"right\">" + distance
+			    txt += "<tr style=\"height:9mm;\"><td colspan=\"" + (arrowspwerend*2+3) + "\" align=\"right\">" + distance
 				+ " Sub Totals</td><td align=\"center\">&nbsp;</td>"
 				+ "<td align=\"center\">&nbsp;</td><td align=\"center\">&nbsp;</td><td align=\"center\">&nbsp;</td>";
 			}
 		    }
 		}
 		// totals
-		txt += "<tr style=\"height:9mm;\"><td colspan=\"15\" align=\"right\">Overall Total</td>";
+		txt += "<tr style=\"height:9mm;\"><td colspan=\"" + (arrowspwerend*2+3) + "\" align=\"right\">Overall Total</td>";
 		txt += "<td align=\"center\">&nbsp;</td>";
 		txt += "<td align=\"center\">&nbsp;</td><td align=\"center\">&nbsp;</td><td align=\"center\">&nbsp;</td></table>";
 		txt += "<p></p>";

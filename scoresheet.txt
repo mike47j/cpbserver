@@ -27,12 +27,13 @@
 	    }
 	    var imperialdistance = rounds[rnd][RNDMETERS];
 	    scoring = rounds[rnd][RNDSCOREING];
+	    arrowsperend = rounds[rnd][RNDEND];
 
 	    var txt = "<h2>" + data[TARGET] + " - " + data[NAME] + " (" + data[GENDER] + "), "
 			+ data[CLUB] + ", " + data[ROUND] + ", " + data[BOW] + "</h2>";
 	    var arrows = data[ARROWS];
-	    txt += "<table border=\"1\" style=\"border-collapse: collapse;\" ><tr><th colspan=\"6\">Arrows</th>"
-			+ "<th width=\"30\">ET</th><th colspan=\"6\">Arrows</th>"
+	    txt += "<table border=\"1\" style=\"border-collapse: collapse;\" ><tr><th colspan=\"" + arrowsperend + "\">Arrows</th>"
+			+ "<th width=\"30\">ET</th><th colspan=\"" + arrowsperend + "\">Arrows</th>"
 		+ "<th width=\"30\">ET</th><th width=\"30\">H</th><th width=\"40\">S</th>"
 		+ "<th width=\"30\">" + (scoring == Imperial ? "G" : "10s") + "</th><th width=\"50\">RT</th></tr>";
 	    var ht = 0;
@@ -51,7 +52,7 @@
 		    et1 = 0;
 		    var h = 0;
 		    var g = 0;
-		    for (i = 0; i < 6; i++) {
+		    for (i = 0; i < arrowsperend; i++) {
 			if (arrowno == arrows.length)
 			    txt += "<td align=\"center\" style=\"background-color:yellow;\">&nbsp;</td>";
 			else if (arrowno > arrows.length)
@@ -79,7 +80,7 @@
 		    txt += "</td><td align=\"center\">" + et1 + "</td>";
 		    et2 = 0;
 		    if (rndarrowno < rounds[rnd][subrnd * 3 + RNDARROWS1]) {
-			for (i = 6; i < 12; i++) {
+			for (i = 0; i < arrowsperend; i++) {
 			    if (arrowno == arrows.length)
 				txt += "<td align=\"center\" style=\"background-color:yellow;\">&nbsp;</td>";
 			    else if (arrowno >= arrows.length)
@@ -107,7 +108,7 @@
 			txt += "</td><td align=\"center\">" + et2 + "</td>"
 		    }
 		    else
-			txt += "<td colspan=\"7\" style=\"background-color:silver;\">";
+			txt += "<td colspan=\""+(arrowsperend+1)+"\" style=\"background-color:silver;\">";
 		    ht += h;
 		    hst += h;
 		    gt += g;
@@ -129,7 +130,7 @@
 			    distance += " meters. ";
 			if (scoring != Imperial)
 			    distance += targetsize + " cm face. ";
-			txt += "<tr><td colspan=\"14\" align=\"right\">"
+			txt += "<tr><td colspan=\"" + (arrowsperend*2+2) + "\" align=\"right\">"
 		    + distance + " Sub Totals</td>"
 		    + "<td align=\"center\">" + hst + "</td>"
 		    + "<td align=\"center\">" + rst + "</td><td align=\"center\">" + gst
@@ -142,8 +143,9 @@
 		}
 	    }
 	    // Grand totals
-	    txt += "<tr><td colspan=\"14\"><textarea id=\"msg\" cols=\"40\" rows=\"1\" readonly=\"readonly\" tabindex=\"-1\" >"
-			+ "</textarea>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Grand Totals</td>";
+	    txt += "<tr><td colspan=\"" + (arrowsperend*2+2) 
+		+ "\"><textarea id=\"msg\" cols=\"40\" rows=\"1\" readonly=\"readonly\" tabindex=\"-1\" >"
+		+ "</textarea>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Grand Totals</td>";
 	    txt += "<td align=\"center\">" + ht + "</td>";
 	    txt += "<td align=\"center\">" + rt + "</td><td align=\"center\">" + gt
 			+ "</td><td align=\"center\">" + rt + "</td></table>";
@@ -233,7 +235,7 @@
 	    document.getElementById("data").submit();
 	}
 	function checksend() {
-	    if (data[ARROWS].length % 6 != 0) {
+	    if (data[ARROWS].length % arrowsperend != 0) {
 		document.getElementById("msg").value = "Wrong number of arrows.";
 		document.getElementById("msg").style.background = "pink";
 	    }

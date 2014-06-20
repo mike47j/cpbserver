@@ -26,6 +26,7 @@
             txt += "<tr><td>Junior Champion:</td><td><input type=\"checkbox\" name=\"junior\" " + (juniorflag == 1 ? "checked=\"checked\"" : "") + " /></td></tr>";
             txt += "<tr><td>Handicap:</td><td><input type=\"checkbox\" name=\"handicap\" " + (handicapflag == 1 ? "checked=\"checked\"" : "") + " /></td></tr>";
             txt += "<tr><td>Team:</td><td><input type=\"checkbox\" name=\"team\" " + (teamflag == 1 ? "checked=\"checked\"" : "") + " /></td></tr>";
+            txt += "<tr><td>World Archery Rules:</td><td><input type=\"checkbox\" name=\"worldarchery\" " + (worldarchery == 1 ? "checked=\"checked\"" : "") + " /></td></tr>";
 			txt += "<tr><td>Score Entry System:</td><td><select name=\"scoresystem\" size=\"1\" style=\"width:200px\">"
 				+ "<option " + (scoresystem==0?" selected":"")+">Score sheet arrow entry</option>"
 				+ "<option " + (scoresystem==1?" selected":"")+">Adding up each dozen</option>"

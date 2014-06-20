@@ -58,6 +58,7 @@ namespace CPBserver
         static int teamflag = 0;
         static int maxtargets = 40;
         static int scoresystem = 0;
+        static int worldarchery = 0;
 
         public const int MAXARCHERS = 99 * 4;
         public const string header = "HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n" + "<html><body>";
@@ -248,7 +249,7 @@ namespace CPBserver
         static string flagstring()
         {
             return "var medalflag=" + medalflag + ", juniorflag=" + juniorflag + ", teamflag=" + teamflag
-                    + ", handicapflag=" + handicapflag + ", bestflag=" + bestflag 
+                    + ", handicapflag=" + handicapflag + ", bestflag=" + bestflag + ", worldarchery=" + worldarchery
                     + ", maxtargets=" + maxtargets + ", scoresystem=" + scoresystem + ";\r\n";
         }
 
@@ -459,6 +460,7 @@ namespace CPBserver
                     juniorflag = getparam(str, "junior") == "on" ? 1 : 0;
                     teamflag = getparam(str, "team") == "on" ? 1 : 0;
                     handicapflag = getparam(str, "handicap") == "on" ? 1 : 0;
+                    worldarchery = getparam(str, "worldarchery") == "on" ? 1 : 0;
                     try
                     {
                         maxtargets = Convert.ToInt32(getparam(str, "maxtargets"));
@@ -1186,6 +1188,7 @@ namespace CPBserver
                 file.WriteLine(tournament + "," + maxtargets + "," + (medalflag == 1 ? "Medals " : "")
                     + (juniorflag == 1 ? "Junior " : "") + (bestflag == 1 ? "Best " : "")
                     + (handicapflag == 1 ? "Handicap " : "") + (teamflag == 1 ? "Team " : "")
+                    + (worldarchery==1 ? "WorldArchery " : "")
                     + (scoresystem==1?"Dozen ":(scoresystem==2?"Total ":""))
                     + "," + tournamentdate + ",");
                 file.WriteLine(cols);
@@ -1385,6 +1388,7 @@ namespace CPBserver
             bestflag = s.Substring(startp, coma - startp).Contains("Best") ? 1 : 0;
             teamflag = s.Substring(startp, coma - startp).Contains("Team") ? 1 : 0;
             handicapflag = s.Substring(startp, coma - startp).Contains("Handicap") ? 1 : 0;
+            worldarchery = s.Substring(startp, coma - startp).Contains("WorldArchery") ? 1 : 0;
             scoresystem = 0;
             if (s.Substring(startp, coma - startp).Contains("Dozen"))
                 scoresystem = 1;

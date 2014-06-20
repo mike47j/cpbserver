@@ -1,5 +1,5 @@
-#summary Running Slips and Score Sheets
-= Running Slips and Score Sheets =
+#summary Printing Running Slips and Score Sheets
+= Printing Running Slips and Score Sheets =
 
 [Contents Contents]
 

@@ -1,3 +1,4 @@
+#summary Score Entry
 = Score Entry =
 
 [Contents Contents]

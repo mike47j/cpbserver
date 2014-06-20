@@ -8,4 +8,4 @@
 
 [ScoreEntry Score Entry]
 
-[Running Running Slips and Score Sheets]
+[Running Printing Running Slips and Score Sheets]

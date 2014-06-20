@@ -1,4 +1,4 @@
-#Running Slips and Score Sheets
+#summary Running Slips and Score Sheets
 = Running Slips and Score Sheets =
 
 [Contents Contents]

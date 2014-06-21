@@ -217,12 +217,26 @@ function partagbscore(h, r, a) { // score after a arrows of a round
 
 // results
 
-var textstr = "";
+var textstr = "<h2 style=\"text-align:center;font-weight:bold;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">"
+        + tournament + "</h2>";
 doresults();
 
 function doresults() {
     var exists = new Array();
     var i, j;
+
+	if (printing) {
+		textstr += "<table><tr><td width=\"160\">Date:</td><td width=\"400\">" + tournamentdate + "</td><tr>";
+		textstr += "<tr><td width=\"160\">Venue:</td><td width=\"400\">" + venue + "</td><tr>";
+		textstr += "<tr><td width=\"160\">Judges:</td><td width=\"400\">" + judges + "</td><tr>";
+		if (patron=="")
+			textstr += "<tr><td width=\"160\">Lady Paramount:</td><td width=\"400\">" + paramount + "</td><tr>";
+		else
+			textstr += "<tr><td width=\"160\">Gentleman Patron:</td><td width=\"400\">" + patron + "</td><tr>";
+		textstr += "<tr><td width=\"160\">Tournament Organiser:</td><td width=\"400\">" + tournamentorganiser + "</td><tr>";
+		textstr += "<tr><td width=\"160\">Weather:</td><td width=\"400\">" + weather + "</td><tr>";
+		textstr += "</table>";
+	}
 
     // create link string
     var jumpstr = "";
@@ -231,7 +245,7 @@ function doresults() {
 	    exists[i] = false;
 	    for (j = 0; j < maxdata; j++) {
 		if (data[j][ROUND] == rounds[i][RNDNAME]) {
-		    if (scrollstate < 0) {
+		    if (!printing && scrollstate < 0) {
 			if (jumpstr != "")
 			    jumpstr += " | ";
 			jumpstr += "<a href=\"#" + data[j][ROUND] + "\">" + data[j][ROUND] + "</a>";
@@ -241,7 +255,7 @@ function doresults() {
 		}
 	    }
 	}
-	if (scrollstate < 0) {
+	if (!printing && scrollstate < 0) {
 	    jumpstr = "<p style=\"text-align:center;\">" + jumpstr;
 	    if (juniorflag == 1)
 		jumpstr += " | <a href=\"#Junior\">Junior Championship</a>";

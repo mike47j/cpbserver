@@ -21,7 +21,7 @@
 <input type="submit" value="Target list by name" formaction="/byname" /><br/><br/>
 <input type="submit" value="Scores by target" formaction="/scorebytarget" /><br/><br/>
 <td width="300" valign="top">
-<input type="submit" value="Set up Competition" formaction="/setup" /></td>
+<input type="submit" value="Set Up Page" formaction="/setup" /></td>
 </table></form>
 
 <p><form name="scoreentry" method="get" action="/scoreentry.htm">

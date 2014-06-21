@@ -57,6 +57,7 @@
     <Content Include="index.txt" />
     <Content Include="movearcher.txt" />
     <Content Include="newarcher.txt" />
+    <Content Include="print.txt" />
     <Content Include="printrun.txt" />
     <Content Include="printscore.txt" />
     <Content Include="results.txt" />

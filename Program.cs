@@ -35,22 +35,18 @@ namespace CPBserver
 
         static Boolean shutdown = false;
 
+        // print info
         static string tournament = "CPB Open Tournament";
         static string tournamentdate = "19th April 2015";
-        static string allocate;
-        static string byname;
-        static string setuppage;
-        static string indexpage;
-        static string movearcher;
-        static string newarcher;
-        static string printrun;
-        static string printscore;
-        static string results;
-        static string rounds;
-        static string scoreentry;
-        static string scoresheet;
-        static string updateentry;
+        static string venue = "";
+        static string judges = "";
+        static string paramount = "";
+        static string patron = "";
+        static string tournamentorganiser = "";
+        static string timeofassembly = "";
+        static string weather = "";
 
+        // options
         static int medalflag = 0;
         static int juniorflag = 0;
         static int bestflag = 0;
@@ -59,6 +55,22 @@ namespace CPBserver
         static int maxtargets = 40;
         static int scoresystem = 0;
         static int worldarchery = 0;
+
+        // javascript pages
+        static string allocate;
+        static string byname;
+        static string setuppage;
+        static string indexpage;
+        static string movearcher;
+        static string newarcher;
+        static string printpage;
+        static string printrun;
+        static string printscore;
+        static string results;
+        static string rounds;
+        static string scoreentry;
+        static string scoresheet;
+        static string updateentry;
 
         public const int MAXARCHERS = 99 * 4;
         public const string header = "HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n" + "<html><body>";
@@ -203,13 +215,17 @@ namespace CPBserver
                     if (content.Contains("GET / ") || content.Contains("GET /index") || content.Contains("GET /scroll"))
                     {
                         // Send results back to client
-                        string page = header
-                            + "<h2 style=\"text-align:center;font-weight:bold;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">"
-                            + tournament + "</h2><div id=\"page\"></div>";
+                        string page = header + "<div id=\"page\"></div>";
                         if (content.Contains("GET /scroll"))
                             page += "<form id=\"data\" action=\"/scroll\" method=\"get\"></form>";
                         page += "<script type=\"text/javascript\">";
                         page += AllArchers() + flagstring();
+                        page += "var tournament = \"" + tournament + "\", tournamentdate = \"" + tournamentdate + "\";\r\n";
+                        page += "var venue = \"" + venue + "\", judges = \"" + judges + "\";\r\n";
+                        page += "var paramount = \"" + paramount + "\", patron = \"" + patron + "\";\r\n";
+                        page += "var tournamentorganiser = \"" + tournamentorganiser + "\", timeofassembly = \"" + timeofassembly + "\";\r\n";
+                        page += "var weather = \"" + weather + "\";\r\n";
+                        page += "var printing = false;\r\n";
 
                         if (content.Contains("GET /scroll"))
                         {
@@ -484,6 +500,28 @@ namespace CPBserver
                 // Console.WriteLine("Sending setup page.");
                 return setuppagestring();
             }
+            if (str.Contains("GET /printdata"))
+            {
+                tournament = getparam(str, "tournament");
+                tournamentdate = getparam(str, "tournamentdate");
+                venue = getparam(str, "venue");
+                judges = getparam(str, "judges");
+                paramount = getparam(str, "paramount");
+                patron = getparam(str, "patron");
+                tournamentorganiser = getparam(str, "tournamentorganiser");
+                timeofassembly = getparam(str, "timeofassembly");
+                weather = getparam(str, "weather");
+            }
+            if (str.Contains("GET /printpage") || str.Contains("GET /printdata"))
+            {
+                string results = header + "<div id=\"page\"></div><script type=\"text/javascript\">\r\n";
+                results += "var tournament = \"" + tournament + "\", tournamentdate = \"" + tournamentdate + "\";\r\n";
+                results += "var venue = \"" + venue + "\", judges = \"" + judges + "\";\r\n";
+                results += "var paramount = \"" + paramount + "\", patron = \"" + patron + "\";\r\n";
+                results += "var tournamentorganiser = \"" + tournamentorganiser + "\", timeofassembly = \"" + timeofassembly + "\";\r\n";
+                results += "var weather = \"" + weather + "\";\r\n";
+                return results + printpage;
+            }
             if (str.Contains("GET /printrun") || str.Contains("GET /printscore"))
             {
                 string results = header + "<div id=\"page\"></div><script type=\"text/javascript\">\r\n";
@@ -495,23 +533,38 @@ namespace CPBserver
                 else
                     return results + rounds + printscore;
             }
-            if (str.Contains("GET /byname") || str.Contains("GET /bytarget"))
+            if (str.Contains("GET /byname") || str.Contains("GET /bytarget")
+                || str.Contains("GET /printbyname") || str.Contains("GET /printbytarget"))
             {
-                bool sortbyname = str.Contains("GET /byname");
+                bool printing = str.Contains("print");
+                bool sortbyname = str.Contains("byname");
                 // Send results back to client
-                string results = header + "<h2>" + tournament;
-                if (sortbyname)
-                    results += "</h2><h3>Target List by Name</h3>";
-                else
-                    results += "</h2><h3>Target List by Target</h3>";
-                results += "<p><a href=\"/index\">Home page</a></p>"
-                    + "<div id=\"page\"></div><script type=\"text/javascript\">";
-                results += AllArchers() + flagstring();
-                if (sortbyname)
-                    results += "var sortbyname = true;";
-                else
-                    results += "var sortbyname = false;";
-                return results + byname;
+                string page = header + "<div id=\"page\"></div><script type=\"text/javascript\">\r\n";
+                page += AllArchers() + flagstring();
+
+                page += "var tournament = \"" + tournament + "\", tournamentdate = \"" + tournamentdate + "\";\r\n";
+                page += "var venue = \"" + venue + "\", judges = \"" + judges + "\";\r\n";
+                page += "var paramount = \"" + paramount + "\", patron = \"" + patron + "\";\r\n";
+                page += "var tournamentorganiser = \"" + tournamentorganiser + "\", timeofassembly = \"" + timeofassembly + "\";\r\n";
+                page += "var weather = \"" + weather + "\";\r\n";
+
+                page += "var sortbyname = " + (sortbyname ? "true" : "false") + ", printing = " + (printing ? "true" : "false") + ";\r\n";
+                return page + byname;
+            }
+            if (str.Contains("GET /printresults"))
+            {
+                bool printing = str.Contains("print");
+                // Send results back to client
+                string page = header + "<div id=\"page\"></div><script type=\"text/javascript\">\r\n";
+                page += AllArchers() + flagstring();
+                page += "var tournament = \"" + tournament + "\", tournamentdate = \"" + tournamentdate + "\";\r\n";
+                page += "var venue = \"" + venue + "\", judges = \"" + judges + "\";\r\n";
+                page += "var paramount = \"" + paramount + "\", patron = \"" + patron + "\";\r\n";
+                page += "var tournamentorganiser = \"" + tournamentorganiser + "\", timeofassembly = \"" + timeofassembly + "\";\r\n";
+                page += "var weather = \"" + weather + "\";\r\n";
+                page += "var printing = " + (printing ? "true" : "false") + ";\r\n";
+                page += "var scrollstate = -1;";
+                return page + rounds + results;
             }
             if (str.Contains("GET /newalloc"))
             {
@@ -706,7 +759,7 @@ namespace CPBserver
             if (str.Contains("GET /scoreentry"))
             {
                 string pagefile = rounds + flagstring();
-                if (scoresystem==0)
+                if (scoresystem == 0)
                     pagefile += scoresheet;
                 else
                     pagefile += scoreentry;
@@ -1188,9 +1241,10 @@ namespace CPBserver
                 file.WriteLine(tournament + "," + maxtargets + "," + (medalflag == 1 ? "Medals " : "")
                     + (juniorflag == 1 ? "Junior " : "") + (bestflag == 1 ? "Best " : "")
                     + (handicapflag == 1 ? "Handicap " : "") + (teamflag == 1 ? "Team " : "")
-                    + (worldarchery==1 ? "WorldArchery " : "")
-                    + (scoresystem==1?"Dozen ":(scoresystem==2?"Total ":""))
-                    + "," + tournamentdate + ",");
+                    + (worldarchery == 1 ? "WorldArchery " : "")
+                    + (scoresystem == 1 ? "Dozen " : (scoresystem == 2 ? "Total " : ""))
+                    + "," + tournamentdate + "," + venue + "," + judges + "," + paramount + "," + patron + ","
+                    + tournamentorganiser + "," + timeofassembly + "," + weather + ",");
                 file.WriteLine(cols);
                 for (int i = 0; i < max; i++)
                 {
@@ -1355,7 +1409,7 @@ namespace CPBserver
             fs.Close();
             string s = temp.GetString(b);
             int startp = 0;
-            // First line Tournament name, maximum targets, Options, date
+            // First line Tournament name, maximum targets, Options, date etc...
             int endline = s.IndexOf('\n');
             int coma = s.IndexOf(',', startp);
             if (coma > endline)
@@ -1401,8 +1455,66 @@ namespace CPBserver
             if (coma > endline)
                 coma = endline;
             if (startp < endline)
-                tournamentdate = s.Substring(startp, coma - startp);
+                tournamentdate = s.Substring(startp, coma - startp).Trim();
+
+            // venue
+            startp = coma + 1;
+            coma = s.IndexOf(',', startp);
+            if (coma > endline)
+                coma = endline;
+            if (startp < endline)
+                venue = s.Substring(startp, coma - startp).Trim();
+
+            // judges 
+            startp = coma + 1;
+            coma = s.IndexOf(',', startp);
+            if (coma > endline)
+                coma = endline;
+            if (startp < endline)
+                judges = s.Substring(startp, coma - startp).Trim();
+
+            // paramount 
+            startp = coma + 1;
+            coma = s.IndexOf(',', startp);
+            if (coma > endline)
+                coma = endline;
+            if (startp < endline)
+                paramount = s.Substring(startp, coma - startp).Trim();
+
+            // patron 
+            startp = coma + 1;
+            coma = s.IndexOf(',', startp);
+            if (coma > endline)
+                coma = endline;
+            if (startp < endline)
+                patron = s.Substring(startp, coma - startp).Trim();
+
+            // tournamentorganiser
+            startp = coma + 1;
+            coma = s.IndexOf(',', startp);
+            if (coma > endline)
+                coma = endline;
+            if (startp < endline)
+                tournamentorganiser = s.Substring(startp, coma - startp).Trim();
+
+            // timeofassembly 
+            startp = coma + 1;
+            coma = s.IndexOf(',', startp);
+            if (coma > endline)
+                coma = endline;
+            if (startp < endline)
+                timeofassembly = s.Substring(startp, coma - startp).Trim();
+
+            // weather
+            startp = coma + 1;
+            coma = s.IndexOf(',', startp);
+            if (coma > endline)
+                coma = endline;
+            if (startp < endline)
+                weather = s.Substring(startp, coma - startp).Trim();
+
             startp = endline + 1;
+
             // Second line col headings
             endline = s.IndexOf('\n', startp);
             startp = endline + 1;
@@ -1649,6 +1761,7 @@ namespace CPBserver
             printrun = ReadFile(FilePath + "printrun.txt");
             printscore = ReadFile(FilePath + "printscore.txt");
             rounds = ReadFile(FilePath + "rounds.txt");
+            printpage = ReadFile(FilePath + "print.txt");
             Thread resultsThread = new Thread(new ThreadStart(Results));
             resultsThread.Start();
             Thread updateThread = new Thread(new ThreadStart(Updates));

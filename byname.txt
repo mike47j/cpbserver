@@ -18,11 +18,13 @@
     var sort = new Array();
 
     function page() {
-        var i, highi, highv;
+        var i, highi, highv, txt = "";
+
+		// sort order
         for (i=0; i<maxdata; i++) {
             sort[i] = "";
             if (data[i][STATE]!="Free") {
-		if (teamflag==1 && sortbyname)
+				if (teamflag==1 && sortbyname)
                     sort[i] = data[i][CLUB] + " " + data[i][TEAM];
                 else if (sortbyname)
                     sort[i] = data[i][NAME].substr(data[i][NAME].indexOf(" ")+1) + " " 
@@ -31,16 +33,38 @@
                     sort[i] = data[i][TARGET];
             }
         }
-        var txt = "<table border=\"1\" style=\"border-collapse: collapse;\">"
-	     + "<tr><th width=\"50\">Target<th width=\"150\">Name"
-             + "<th width=\"180\">Club";
-	if (teamflag==1)
-	    txt += "<th width=\"50\">Team";
-	txt += "<th width=\"50\">Bow<th width=\"50\">Gender"
-             + "<th width=\"150\">Round";
-	if (handicapflag==1)
-	    txt += "<th width=\"50\">Handicap";
-	txt += "</tr>";
+
+		txt += "<h2 style=\"text-align:center;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\" >"
+			+ tournament + "</h2>";
+
+		if (printing) {
+			txt += "<table><tr><td width=\"160\">Date:</td><td width=\"400\">" + tournamentdate + "</td><tr>";
+			txt += "<tr><td width=\"160\">Venue:</td><td width=\"400\">" + venue + "</td><tr>";
+			txt += "<tr><td width=\"160\">Judges:</td><td width=\"400\">" + judges + "</td><tr>";
+			if (patron=="")
+			    txt += "<tr><td width=\"160\">Lady Paramount:</td><td width=\"400\">" + paramount + "</td><tr>";
+			else
+			    txt += "<tr><td width=\"160\">Gentleman Patron:</td><td width=\"400\">" + patron + "</td><tr>";
+			txt += "<tr><td width=\"160\">Tournament Organiser:</td><td width=\"400\">" + tournamentorganiser + "</td><tr>";
+			txt += "<tr><td width=\"160\">Time of Assembly:</td><td width=\"400\">" + timeofassembly + "</td><tr>";
+			txt += "</table>";
+		}
+
+        if (sortbyname)
+            txt += "</h2><h3 style=\"font-family:Helvetica,Arial,sans-serif;\">Target List by Name</h3>";
+        else
+            txt += "</h2><h3 style=\"font-family:Helvetica,Arial,sans-serif;\">Target List by Target</h3>";
+
+        txt += "<table border=\"1\" style=\"border-collapse: collapse;\">"
+	     + "<tr><th width=\"50\">Target<th width=\"150\">Name<th width=\"180\">Club";
+		if (teamflag==1)
+			txt += "<th width=\"50\">Team";
+		txt += "<th width=\"50\">Bow<th width=\"50\">Gender"
+				 + "<th width=\"150\">Round";
+		if (handicapflag==1)
+			txt += "<th width=\"50\">Handicap";
+		txt += "</tr>";
+
         var found = true;
         while (found) {
             found = false;

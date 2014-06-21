@@ -18,6 +18,22 @@
 // rounds file
 
 function page() {
+	var rnd;
+	for (rnd = 0; rnd < rounds.length; rnd++) {
+	if (data[ROUND] == rounds[rnd][RNDNAME])
+		break;
+	}
+	var tb1str = "Hits", tb2str = "Golds";
+	if (worldarchery==1) {
+		tb1str = "Xs or 10s";
+		tb2str = "Xs";
+	}
+	else if (rounds[rnd][RNDSCOREING]==Worcester) {
+		tb2str = "5s";
+	}
+	else if (rounds[rnd][RNDSCOREING]!=Imperial)
+		tb2str = "Xs or 10s";
+
     var txt = "<h2>Target " + data[TARGET] + " - " + data[NAME] + "</h2>";
     txt += "<form id=\"data\" action=\"/updateentry.htm\" method=\"get\">";
     txt += "<input name=\"send\" id=\"send\" type=\"hidden\" value=\"send\" />";
@@ -53,8 +69,8 @@ function page() {
     txt += "</select></td></tr>";
     txt += "<tr><td>Handicap:</td><td><input name=\"handicap\" size=\"30\" value=\""+data[HANDICAP]+"\" /></td></tr>";
     txt += "<tr><td>Score:</td><td><input name=\"tscore\" id=\"tscore\" size=\"30\" value=\""+data[SCORE]+"\" /></td></tr>";
-    txt += "<tr><td>Hits:</td><td><input name=\"thits\" id=\"thits\" size=\"30\" value=\""+data[HITS]+"\" /></td></tr>";
-    txt += "<tr><td>Golds:</td><td><input name=\"tgolds\" id=\"tgolds\" size=\"30\" value=\""+data[GOLDS]+"\" /></td></tr>";
+    txt += "<tr><td>"+tb1str+":</td><td><input name=\"thits\" id=\"thits\" size=\"30\" value=\""+data[TIEBREAK1]+"\" /></td></tr>";
+    txt += "<tr><td>"+tb2str+":</td><td><input name=\"tgolds\" id=\"tgolds\" size=\"30\" value=\""+data[TIEBREAK2]+"\" /></td></tr>";
     txt += "<tr><td>State:</td><td><select name=\"state\" size=\"1\" style=\"width:200px\">";
     switch(data[STATE]) {
     case "Free": txt += "<option>Inuse</option><option selected>Free</option><option>DNS</option><option>Retired</option>"; break;

@@ -51,9 +51,9 @@
                 txt += "<tr><td>Handicap:</td><td>" + datafrom[HANDICAP] + "</td><td>" + datato[HANDICAP] + "</td></tr>";
             txt += "<tr><td>Score:</td><td>" + datafrom[SCORE] + "</td><td>" + datato[SCORE] + "</td></tr>";
             txt += "<tr><td>"+tb1str+":</td><td>" + datafrom[TIEBREAK1] + "</td><td>" + datato[TIEBREAK1] + "</td></tr>";
-            txt += "<tr><td>"+tb2str+"Golds:</td><td>" + datafrom[TIEBREAK2] + "</td><td>" + datato[TIEBREAK2] + "</td></tr>";
+            txt += "<tr><td>"+tb2str+":</td><td>" + datafrom[TIEBREAK2] + "</td><td>" + datato[TIEBREAK2] + "</td></tr>";
             txt += "<tr><td>State:</td><td>" + datafrom[STATE] + "</td><td>" + datato[STATE] + "</td></tr>";
-            txt += "<tr><td>Dozen:</td><td>" + datafrom[DOZEN] + "</td><td>" + datato[DOZEN] + "</td></tr>";
+            txt += "<tr><td>Arrows:</td><td>" + datafrom[ARROWCNT] + "</td><td>" + datato[ARROWCNT] + "</td></tr>";
             txt += "</table><p></p><table><tr>"
             txt += "<td width=\"150\"><input type=\"submit\" value=\"Swap\" /></td>";
             txt += "<td width=\"150\"><input type=\"submit\" value=\"Cancel\" formaction=\"/setup\" /></td>";

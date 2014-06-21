@@ -350,7 +350,7 @@ function bowtype(rndstr, g, bow) {
 	roundmatch = (data[i][ROUND] == rndstr);
 	if (data[i][STATE] != "Free") {
 	    if (handicapflag==1) {
-		scores[i] = 1440 - partagbscore(data[i][HANDICAP], data[i][ROUND], data[i][DOZEN]*12) + data[i][SCORE];
+		scores[i] = 1440 - partagbscore(data[i][HANDICAP], data[i][ROUND], data[i][ARROWCNT]) + data[i][SCORE];
 		count++;
 		if (data[i][STATE] == "Inuse") 
 		    countm++;
@@ -388,7 +388,7 @@ function bowtype(rndstr, g, bow) {
 	    + "<table border=1 style=\"margin-left:auto; margin-right:auto; border-collapse:collapse;\" >"
 	    + "<tr><th width=\"25\">&nbsp;<th width=\"35\">Target<th width=\"180\">Name<th>Gender"
 	    + "<th width=\"180\">Club<th>Round<th>Bow"
-	    + "<th width=\"45\">Score<th width=\"45\">Dozen<th>Adjusted<th width=\"100\">&nbsp;</tr>";
+	    + "<th width=\"45\">Score<th width=\"45\">Arrows<th>Adjusted<th width=\"100\">&nbsp;</tr>";
 	}
 	else {
 	    textstr += "<h2 style=\"text-align:center;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">"
@@ -396,7 +396,7 @@ function bowtype(rndstr, g, bow) {
 		+ "<table border=1 style=\"margin-left:auto; margin-right:auto; border-collapse:collapse;\" >"
 		+ "<tr><th width=\"25\">&nbsp;<th width=\"35\">Target<th width=\"180\">Name"
 		+ "<th width=\"180\">Club<th width=\"45\">Score<th width=\"45\">" + tb1str + "<th width=\"45\">" + tb2str
-	    + "<th width=\"45\">Dozen<th width=\"100\">&nbsp;</tr>";
+	    + "<th width=\"45\">Arrows<th width=\"100\">&nbsp;</tr>";
 	}
 	var posn = 1;
 	var prevhighv = -1;
@@ -431,7 +431,7 @@ function bowtype(rndstr, g, bow) {
 		    + "</td><td>" + data[highi][CLUB] + "</td><td align=\"center\">" + data[highi][ROUND]
 		    + "</td><td align=\"center\">" + data[highi][BOW] + "</td><td align=\"center\">"
 		    + (note == "DNS" ? "&nbsp;" : data[highi][SCORE]) + "</td><td align=\"center\">"
-		    + data[highi][DOZEN] + "</td><td align=\"center\">"
+		    + data[highi][ARROWCNT] + "</td><td align=\"center\">"
 		    + (data[highi][STATE] != "Inuse" ? "&nbsp;" : Math.round(scores[highi])) + "</td><td align=\"center\">";
 	    }
 	    else {
@@ -441,7 +441,7 @@ function bowtype(rndstr, g, bow) {
 		    + (note == "DNS" ? "&nbsp;" : data[highi][SCORE]) + "</td><td align=\"center\">"
 		    + (note == "DNS" ? "&nbsp;" : data[highi][TIEBREAK1]) + "</td><td align=\"center\">"
 		    + (note == "DNS" ? "&nbsp;" : data[highi][TIEBREAK2]) + "</td><td align=\"center\">"
-		    + data[highi][DOZEN] + "</td><td align=\"center\">";
+		    + data[highi][ARROWCNT] + "</td><td align=\"center\">";
 	    }
 	    if (handicapflag==1 || medalalloc[medalline][1].indexOf(data[highi][GENDER]) >= 0) {
 		if (highv == prevawardscore)

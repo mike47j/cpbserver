@@ -40,21 +40,9 @@
     </script>
 
 <p></p>
-<table border="1" style="border-collapse: collapse;"><tr>
-<td width="200" style="padding:10px;">
-    <form name="printrun" method="get" action="/printrun">
-        <input type="submit" value="Print Running Slips" />
-    </form>
-    <form name="printscore" method="get" action="/printscore">
-        <input type="submit" value="Print Score Sheets" />
-    </form>
-<td width="300">These take some time to produce all the pages.
-     Use print preview to check the margins, page boundaries and
-     delete any header and footer information before printing.
-</tr>
-
+<table border="1" style="border-collapse: collapse;">
 <tr>
-<td style="padding:10px;">
+<td width="200" style="padding:10px;">
     <form name="clearall" method="get" action="/clearall">
         <input type="submit" value="Clear Everything" />
     </form>
@@ -92,9 +80,12 @@
 
 <tr><td style="padding:10px;">
     <form>
-        <input type="submit" value="Score Entry Page" formaction="/index" /></td>
+        <input type="submit" value="Score Entry Page" formaction="/index" />
+	</form>
+	<form>
+        <input type="submit" value="Print Functions" formaction="/printpage" />
     </form>
-<td>Return to the main menu.
+<td>Other menu pages.
 </tr>
 </table>
 

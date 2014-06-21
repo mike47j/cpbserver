@@ -1,0 +1,70 @@
+/*
+    CPBserver: print setup and fuctions
+    Copyright (C) 2014  Mike Johnson
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+        function page() {
+            var txt = "<h2>Print Setup and Functions</h2>";
+            txt += "<form name=\"printdata\" method=\"get\" action=\"/printdata.htm\"><table>"
+                + "<tr><td width=\"220\">Name of Event, Record Status:</td><td><input name=\"tournament\" size=\"50\" value=\"" + tournament + "\" /></td></tr>"
+                + "<tr><td>Date of Event:</td><td><input name=\"tournamentdate\" size=\"50\" value=\"" + tournamentdate + "\" /></td></tr>"
+                + "<tr><td>Venue:</td><td><input name=\"venue\" size=\"50\" value=\"" + venue + "\" /></td></tr>"
+                + "<tr><td>Judges:</td><td><input name=\"judges\" size=\"50\" value=\"" + judges + "\" /></td></tr>"
+                + "<tr><td>Lady Paramount:</td><td><input name=\"paramount\" size=\"50\" value=\"" + paramount + "\" /></td></tr>"
+                + "<tr><td>or Gentleman Patron:</td><td><input name=\"patron\" size=\"50\" value=\"" + patron + "\" /></td></tr>"
+                + "<tr><td>Tournament Organiser:</td><td><input name=\"tournamentorganiser\" size=\"50\" value=\"" + tournamentorganiser + "\" /></td></tr>"
+                + "<tr><td>Time of Assembly:</td><td><input name=\"timeofassembly\" size=\"50\" value=\"" + timeofassembly + "\" /></td></tr>"
+                + "<tr><td>Weather:</td><td><input name=\"weather\" size=\"50\" value=\"" + weather + "\" /></td></tr>"
+                + "<tr><td>&nbsp;</td><td><input type=\"submit\" value=\"Submit\" /></td></tr>"
+                + "</table></form>";
+            document.getElementById("page").innerHTML = txt;
+        }
+        page();
+    </script>
+
+<p></p>
+<form>
+<table border="1" style="border-collapse: collapse;">
+<tr>
+<td width="200" style="padding:10px;">
+    <input type="submit" value="Print Target List by Target" formaction="/printbytarget" /><br/><br/>
+    <input type="submit" value="Print Target List by Name" formaction="/printbyname" />
+<td width="400">Enter everything except the weather before printing.
+</tr>
+
+<tr>
+<td width="200" style="padding:10px;">
+    <input type="submit" value="Print Running Slips" formaction="/printrun" /><br/><br/>
+    <input type="submit" value="Print Score Sheets" formaction="/printscore" />
+<td width="400">These take some time to produce all the pages.
+     Use print preview to check the margins, page boundaries and
+     delete any header and footer information before printing.
+</tr>
+
+<tr>
+<td width="200" style="padding:10px;">
+    <input type="submit" value="Print Results" formaction="/printresults" />
+<td width="400">Enter the weather before printing.
+</tr>
+
+<tr><td style="padding:10px;">
+    <input type="submit" value="Set Up Page" formaction="/setup" /><br/><br/>
+    <input type="submit" value="Score Entry Page" formaction="/index" /></td>
+<td>Other Menu Pages.
+</tr>
+</table></form>
+
+</body>
+</html>

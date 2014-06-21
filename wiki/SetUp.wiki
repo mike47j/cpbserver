@@ -17,6 +17,8 @@ The Best Archer and Junior championship checkboxes produce results tables which 
 
 The handicap and team checkboxes enable entry and results for handicap or team competitions.
 
+The World Archery Rules changes the tie breaks from Hits and Golds to 10s and Xs.
+
 There are 3 methods for the score entry system, either enter every arrow value, the dozen totals, or just totals.
 
 Click submit to store the information in the server. This will be written to the "data.csv" file after about 20 seconds.

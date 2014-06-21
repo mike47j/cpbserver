@@ -1,4 +1,4 @@
-#Print functions page
+#summary Print functions page
 = Printing =
 
 [http://cpbserver.googlecode.com/svn/trunk/images/print.jpg]

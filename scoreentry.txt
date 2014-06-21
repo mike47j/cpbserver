@@ -26,6 +26,7 @@ function page() {
 	    break;
     }
     scoring = rounds[rnd][RNDSCORING];
+	var arrowsperend = rounds[rnd][RNDEND];
 	var tb1str = "Hits", tb2str = "Golds";
 	if (worldarchery==1) {
 		tb1str = "X/10s";
@@ -48,7 +49,7 @@ function page() {
 		txt += "<tr><th width=\"60\">Dozen</th><th width=\"60\">" + tb1str + "</th><th width=\"60\">" + tb2str
 			+ "</th><th width=\"60\">Total</th><th width=\"180\">Message</th></tr>";
 
-		txt += "<td align=\"center\">" + data[DOZEN] + "</td>";
+		txt += "<td align=\"center\">" + data[ARROWCNT] + "</td>";
 		txt += "<td align=\"center\">" + data[TIEBREAK1] + "</td>";
 		txt += "<td align=\"center\">" + data[TIEBREAK2] + "</td>";
 		txt += "<td align=\"center\">" + data[SCORE] + "</td>";
@@ -64,13 +65,13 @@ function page() {
 		txt += "<tr><th width=\"60\">Dozen</th><th width=\"60\">Score</th><th width=\"60\">" + tb1str + "</th><th width=\"60\">" + tb2str + "</th>";
 		txt += "<th width=\"60\">" + tb1str + "</th><th width=\"60\">" + tb2str + "</th><th width=\"60\">Total</th></tr>";
 
-		txt += "<td align=\"center\">" + data[DOZEN] + "</td><td align=\"center\">-</td><td align=\"center\">-</td><td align=\"center\">-</td>";
+		txt += "<td align=\"center\">" + data[ARROWCNT] + "</td><td align=\"center\">-</td><td align=\"center\">-</td><td align=\"center\">-</td>";
 		txt += "<td align=\"center\">" + data[TIEBREAK1] + "</td>";
 		txt += "<td align=\"center\">" + data[TIEBREAK2] + "</td>";
 		txt += "<td align=\"center\">" + data[SCORE] + "</td>";
 		txt += "<td rowspan=\"2\"><textarea id=\"error\" rows=\"2\" cols=\"30\" tabindex=\"-1\" readonly=\"readonly\">&nbsp;</textarea></td></tr>";
 
-		txt += "<tr><td align=\"center\">" + (data[DOZEN] + 1) + "</td>";
+		txt += "<tr><td align=\"center\">" + (data[ARROWCNT] + arrowsperend*2) + "</td>";
 		txt += "<td align=\"center\"><input name=\"score\" id=\"score\" size=\"5\" tabindex=\"1\" onchange=\"checkscore()\" /></td>";
 		txt += "<td align=\"center\"><input name=\"hits\" id=\"hits\" size=\"5\" tabindex=\"2\" onchange=\"checkhits()\" /></td>";
 		txt += "<td align=\"center\"><input name=\"golds\" id=\"golds\" size=\"5\" tabindex=\"3\" onchange=\"checkgolds()\" /></td>";

@@ -583,7 +583,7 @@ function bestteam(rnd) {
     var highi, highv;
 	var tb1str = "Hits", tb2str = "Golds";
     for (i = 0; i < rounds.length; i++) {
-		if (rndstr == rounds[i][RNDNAME]) {
+		if (rnd == rounds[i][RNDNAME]) {
 			if (worldarchery==1) {
 				tb1str = "X/10";
 				tb2str = "Xs";
@@ -604,24 +604,27 @@ function bestteam(rnd) {
 				break;
 			}
 			if (j==teamcnt) {
-			teamname[teamcnt]=data[i][CLUB]+" "+data[i][TEAM];
-			scores[j]=0;
-			tiebreak1[j]=0;
-			tiebreak2[j]=0;
-			archernames[j]="";
-			teamcnt++;
+				teamname[teamcnt]=data[i][CLUB]+" "+data[i][TEAM];
+				scores[j]=0;
+				tiebreak1[j]=0;
+				tiebreak2[j]=0;
+				archernames[j]="";
+				teamcnt++;
 			}
 			scores[j] += data[i][SCORE] + data[i][TIEBREAK1] / 1000 + data[i][TIEBREAK2] / 1000000;
 			tiebreak1[j] += data[i][TIEBREAK1];
 			tiebreak2[j] += data[i][TIEBREAK2];
-			archernames[j] += "<br/>" + data[i][NAME];
+			if (archernames[j]=="")
+				archernames[j] += data[i][NAME];
+			else
+				archernames[j] += "<br/>" + data[i][NAME];
 		}
     }
     if (teamcnt==0)
 		return;
     textstr += "<h2 style=\"text-align:center;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">"+rnd+" - Team Results</h2>";
     textstr += "</h3><table border=1 style=\"margin-left:auto;margin-right:auto; border-collapse:collapse;\" >"
-    + "<tr><th width=\"20\">&nbsp;<th width=\"180\">Team Name<th width=\"50\">Score<th width=\"50\">"
+    + "<tr><th width=\"20\">&nbsp;<th width=\"180\">Team Name<th width=\"180\">Members<th width=\"50\">Score<th width=\"50\">"
 	+ tb1str + "<th width=\"50\">" + tb2str + "</tr>";
     var posn = 1;
     var prevhighv = -1;
@@ -638,7 +641,7 @@ function bestteam(rnd) {
 	    break;
 
 	textstr += "<tr><td align=\"center\">" + (highv == prevhighv ? "=" : posn)
-	    + "</td><td>" + teamname[highi] + archernames[highi] + "</td>";
+	    + "</td><td>" + teamname[highi] + "</td><td>" + "<font size=\"-1\">" + archernames[highi] + "</font></td>";
 	textstr +=  "</td><td align=\"center\">" + Math.floor(scores[highi]) 
 	    + "</td><td align=\"center\">" + tiebreak1[highi] + "</td><td align=\"center\">" + tiebreak2[highi] + "</td></tr>";
 	scores[highi] = -1;

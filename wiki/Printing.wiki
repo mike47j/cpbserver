@@ -1,4 +1,6 @@
 #summary Print functions page
 = Printing =
 
+[Contents Contents]
+
 [http://cpbserver.googlecode.com/svn/trunk/images/print.jpg]

@@ -226,15 +226,15 @@ function doresults() {
     var i, j;
 
 	if (printing) {
-		textstr += "<table><tr><td width=\"160\">Date:</td><td width=\"400\">" + tournamentdate + "</td><tr>";
-		textstr += "<tr><td width=\"160\">Venue:</td><td width=\"400\">" + venue + "</td><tr>";
-		textstr += "<tr><td width=\"160\">Judges:</td><td width=\"400\">" + judges + "</td><tr>";
+		textstr += "<table><tr><td width=\"160\">Date:</td><td width=\"600\">" + tournamentdate + "</td><tr>";
+		textstr += "<tr><td width=\"160\">Venue:</td><td width=\"600\">" + venue + "</td><tr>";
+		textstr += "<tr><td width=\"160\">Judges:</td><td width=\"600\">" + judges + "</td><tr>";
 		if (patron=="")
-			textstr += "<tr><td width=\"160\">Lady Paramount:</td><td width=\"400\">" + paramount + "</td><tr>";
+			textstr += "<tr><td width=\"160\">Lady Paramount:</td><td width=\"600\">" + paramount + "</td><tr>";
 		else
-			textstr += "<tr><td width=\"160\">Gentleman Patron:</td><td width=\"400\">" + patron + "</td><tr>";
-		textstr += "<tr><td width=\"160\">Tournament Organiser:</td><td width=\"400\">" + tournamentorganiser + "</td><tr>";
-		textstr += "<tr><td width=\"160\">Weather:</td><td width=\"400\">" + weather + "</td><tr>";
+			textstr += "<tr><td width=\"160\">Gentleman Patron:</td><td width=\"600\">" + patron + "</td><tr>";
+		textstr += "<tr><td width=\"160\">Tournament Organiser:</td><td width=\"600\">" + tournamentorganiser + "</td><tr>";
+		textstr += "<tr><td width=\"160\">Weather:</td><td width=\"600\">" + weather + "</td><tr>";
 		textstr += "</table>";
 	}
 

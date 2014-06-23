@@ -511,6 +511,7 @@ namespace CPBserver
                 tournamentorganiser = getparam(str, "tournamentorganiser");
                 timeofassembly = getparam(str, "timeofassembly");
                 weather = getparam(str, "weather");
+                timeout = TIMEOUT;
             }
             if (str.Contains("GET /printpage") || str.Contains("GET /printdata"))
             {
@@ -1237,13 +1238,13 @@ namespace CPBserver
                         break;
                 }
                 // save
-                file.WriteLine(tournament + "," + maxtargets + "," + (medalflag == 1 ? "Medals " : "")
+                file.WriteLine("\"" + tournament + "\"," + maxtargets + "," + (medalflag == 1 ? "Medals " : "")
                     + (juniorflag == 1 ? "Junior " : "") + (bestflag == 1 ? "Best " : "")
                     + (handicapflag == 1 ? "Handicap " : "") + (teamflag == 1 ? "Team " : "")
                     + (worldarchery == 1 ? "WorldArchery " : "")
                     + (scoresystem == 1 ? "Dozen " : (scoresystem == 2 ? "Total " : ""))
-                    + "," + tournamentdate + "," + venue + "," + judges + "," + paramount + "," + patron + ","
-                    + tournamentorganiser + "," + timeofassembly + "," + weather + ",");
+                    + ",\"" + tournamentdate + "\",\"" + venue + "\",\"" + judges + "\",\"" + paramount + "\",\"" + patron
+                    + "\",\"" + tournamentorganiser + "\",\"" + timeofassembly + "\",\"" + weather + "\",");
                 file.WriteLine(cols);
                 for (int i = 0; i < max; i++)
                 {
@@ -1397,6 +1398,30 @@ namespace CPBserver
             }
         }
 
+        static string getstr(string str, ref int startp, int endline)
+        {
+            string s = "";
+            if (str.Substring(startp, 1) == "\"")
+            {
+                int endp = str.IndexOf("\"", startp + 1);
+                if (endp > 0 && endp < endline)
+                {
+                    s = str.Substring(startp + 1, endp - startp - 1).Trim();
+                    startp = endp + 2;
+                }
+            }
+            else
+            {
+                int endp = str.IndexOf(',', startp);
+                if (endp > endline)
+                    endp = endline;
+                if (endp > 0 && startp < endline)
+                    s = str.Substring(startp, endp - startp).Trim();
+                startp = endp + 1;
+            }
+            return s;
+        }
+
         // read main database file as CSV, from Excel or OpenOffice Calc
         static void ReadDataFile(string filename)
         {
@@ -1410,18 +1435,12 @@ namespace CPBserver
             int startp = 0;
             // First line Tournament name, maximum targets, Options, date etc...
             int endline = s.IndexOf('\n');
-            int coma = s.IndexOf(',', startp);
-            if (coma > endline)
-                coma = endline;
-            tournament = s.Substring(startp, coma - startp).Trim();
+            tournament = getstr(s, ref startp, endline);
             // maxtargets
-            startp = coma + 1;
-            coma = s.IndexOf(',', startp);
-            if (coma > endline)
-                coma = endline;
+            string t = getstr(s, ref startp, endline);
             try
             {
-                maxtargets = Convert.ToInt32(s.Substring(startp, coma - startp));
+                maxtargets = Convert.ToInt32(t);
                 if (maxtargets < 2)
                     maxtargets = 2;
                 if (maxtargets > 99)
@@ -1432,8 +1451,7 @@ namespace CPBserver
                 Console.WriteLine("Max targets is not a number");
             }
             // options
-            startp = coma + 1;
-            coma = s.IndexOf(',', startp);
+            int coma = s.IndexOf(',', startp);
             if (coma > endline)
                 coma = endline;
             medalflag = s.Substring(startp, coma - startp).Contains("Medals") ? 1 : 0;
@@ -1447,73 +1465,18 @@ namespace CPBserver
                 scoresystem = 1;
             else if (s.Substring(startp, coma - startp).Contains("Total"))
                 scoresystem = 2;
-
-            // date
             startp = coma + 1;
-            coma = s.IndexOf(',', startp);
-            if (coma > endline)
-                coma = endline;
-            if (startp < endline)
-                tournamentdate = s.Substring(startp, coma - startp).Trim();
 
-            // venue
-            startp = coma + 1;
-            coma = s.IndexOf(',', startp);
-            if (coma > endline)
-                coma = endline;
-            if (startp < endline)
-                venue = s.Substring(startp, coma - startp).Trim();
-
-            // judges 
-            startp = coma + 1;
-            coma = s.IndexOf(',', startp);
-            if (coma > endline)
-                coma = endline;
-            if (startp < endline)
-                judges = s.Substring(startp, coma - startp).Trim();
-
-            // paramount 
-            startp = coma + 1;
-            coma = s.IndexOf(',', startp);
-            if (coma > endline)
-                coma = endline;
-            if (startp < endline)
-                paramount = s.Substring(startp, coma - startp).Trim();
-
-            // patron 
-            startp = coma + 1;
-            coma = s.IndexOf(',', startp);
-            if (coma > endline)
-                coma = endline;
-            if (startp < endline)
-                patron = s.Substring(startp, coma - startp).Trim();
-
-            // tournamentorganiser
-            startp = coma + 1;
-            coma = s.IndexOf(',', startp);
-            if (coma > endline)
-                coma = endline;
-            if (startp < endline)
-                tournamentorganiser = s.Substring(startp, coma - startp).Trim();
-
-            // timeofassembly 
-            startp = coma + 1;
-            coma = s.IndexOf(',', startp);
-            if (coma > endline)
-                coma = endline;
-            if (startp < endline)
-                timeofassembly = s.Substring(startp, coma - startp).Trim();
-
-            // weather
-            startp = coma + 1;
-            coma = s.IndexOf(',', startp);
-            if (coma > endline)
-                coma = endline;
-            if (startp < endline)
-                weather = s.Substring(startp, coma - startp).Trim();
-
+            // date etc
+            tournamentdate = getstr(s, ref startp, endline);
+            venue = getstr(s, ref startp, endline);
+            judges = getstr(s, ref startp, endline);
+            paramount = getstr(s, ref startp, endline);
+            patron = getstr(s, ref startp, endline);
+            tournamentorganiser = getstr(s, ref startp, endline);
+            timeofassembly = getstr(s, ref startp, endline);
+            weather = getstr(s, ref startp, endline);
             startp = endline + 1;
-
             // Second line col headings
             endline = s.IndexOf('\n', startp);
             startp = endline + 1;

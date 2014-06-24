@@ -27,3 +27,5 @@ There is a small configuration file "cpbserver.cfg" which has a single line and 
 Timeout is the time delay with no data being entered, before a backup is done. Update is the secure port for data entry, change this to stop anyone nearby entering data. Result is the port for the leader board and results information. 80 is standard for web servers and should not need to be changed, unless you are just testing and already running a web server on the PC. Path is only needed if most of the files are in a different directory to the exe and cfg files. Such as when testing changes to the server software.
 
 {{{?Path=E:\Archery\Server\CPBserver\&Result=83&Update=4023&Timeout=30 }}}
+
+I'm using Windows 7 and Visual Studio Express 2013 to develop this and have not tried it on other version of Windows. The leader board I've tried on a Samsung Galaxy Ace.

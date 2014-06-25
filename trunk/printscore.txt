@@ -60,7 +60,7 @@
 
 		txt += "<table border=\"1\" style=\"border-collapse: collapse;\" >"
 		    + "<tr style=\"height:4mm;font-family:Helvetica,Arial,sans-serif;\">"
-		    + "<th style=\"width:13mm;border-right:2px solid black;\">Judge</th><th colspan=\"" + arrowspwerend + "\">&nbsp;</th>"
+		    + "<th colspan=\"2\"style=\"width:13mm;border-right:2px solid black;\">Judge</th><th colspan=\"" + arrowspwerend + "\">&nbsp;</th>"
 		    + "<th style=\"width:9.5mm;border-left:2px solid black;border-right:2px solid black;\">ET</th><th colspan=\""
 		    + arrowspwerend + "\">&nbsp;</th>"
 		    + "<th style=\"width:9.5mm;border-left:2px solid black;border-right:2px solid black;\">ET</th>"
@@ -71,7 +71,7 @@
 		for (subrnd = 0; subrnd < 4; subrnd++) {
 		    var rndarrowno = 0;
 		    while (rndarrowno < rounds[rnd][subrnd * 3 + RNDARROWS1]) {
-			txt += "<tr style=\"height:9mm;\"><td  style=\"border-right:2px solid black;\">&nbsp;</td>";
+			txt += "<tr style=\"height:9mm;\"><td>&nbsp;</td><td  style=\"border-right:2px solid black;\">&nbsp;</td>";
 			for (i = 0; i < arrowspwerend; i++) {
 			    txt += "<td align=\"center\" style=\"width:9mm;\">&nbsp;</td>";
 			    rndarrowno++;

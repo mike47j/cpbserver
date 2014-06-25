@@ -194,19 +194,18 @@
 	    txt += "<td width=\"100\"><input type=\"submit\" value=\"Cancel\" formaction=\"/index\" tabindex=\"6\" /></td>";
 	    txt += "</table></form>";
 
-		if (data[STATE]!="Inuse") {
+		if (data[STATE]!="Inuse")
 			txt += "<h1>" + data[STATE] + "</h1>";
+		else {
+			txt += "<p>Press the digit keys to enter the 12 arrows, 0 or m for miss,<br />";
+			txt += "t or + for 10, x or * for an X, Backspace deletes the last digit entered.<br />";
+			txt += "After 12 arrows, check the running total is correct.<br />";
+			txt += "If all is OK, press enter or the space bar to enter the scores into the database.<br />";
+			txt += "If there is an error, check the arrows are entered correctly.<br />";
+			txt += "If the arrows are correct, mark the running slip and press enter.<br />"
+				+ "Then check the running slip with the scoresheet.<br />";
+			txt += "If the arrows are wrong use backspace and enter the correct arrows.<br />";
 		}
-
-	    txt += "<p>Press the digit keys to enter the 12 arrows, 0 or m for miss,<br />";
-	    txt += "t or + for 10, x or * for an X, Backspace deletes the last digit entered.<br />";
-	    txt += "After 12 arrows, check the running total is correct.<br />";
-	    txt += "If all is OK, press enter or the space bar to enter the scores into the database.<br />";
-	    txt += "If there is an error, check the arrows are entered correctly.<br />";
-	    txt += "If the arrows are correct, mark the running slip and press enter.<br />"
-			+ "Then check the running slip with the scoresheet.<br />";
-	    txt += "If the arrows are wrong use backspace and enter the correct arrows.<br />";
-
 	    document.getElementById("page").innerHTML = txt;
 	}
 	page();

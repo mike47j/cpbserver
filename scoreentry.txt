@@ -84,24 +84,32 @@ function page() {
     txt += "<td width=\"100\"><input type=\"button\" value=\"Enter\" onclick=\"checksend()\" tabindex=\"5\" /></td>";
 	txt += "<td width=\"100\"><input type=\"button\" value=\"Back\" onclick=\"sendback()\" tabindex=\"6\" /></td>";
     txt += "<td width=\"100\"><input type=\"button\" value=\"Skip\" onclick=\"sendnext()\" tabindex=\"7\" /></td>";
-    txt += "<td width=\"100\"><input type=\"button\" value=\"DNS\" onclick=\"senddns()\" tabindex=\"8\" /></td>";
-    txt += "<td width=\"100\"><input type=\"button\" value=\"Retired\" onclick=\"sendretired()\" tabindex=\"9\" /></td>";
+	if (data[STATE]=="Inuse") {
+		txt += "<td width=\"100\"><input type=\"button\" value=\"DNS\" onclick=\"senddns()\" tabindex=\"8\" /></td>";
+		txt += "<td width=\"100\"><input type=\"button\" value=\"Retired\" onclick=\"sendretired()\" tabindex=\"9\" /></td>";
+	}
+	else
+		txt += "<td width=\"100\"><input type=\"button\" name=\"Restore\" value=\"Restore\" onclick=\"restore()\" tabindex=\"8\" /></td>";
     txt += "<td width=\"100\"><input type=\"submit\" value=\"Cancel\" formaction=\"/index\" tabindex=\"10\" /></td>";
     txt += "</table></form>";
-    if (scoresystem==1) {
-		txt += "<p> Enter the score, hits and golds/10s for the dozen, then enter the running total. <br />";
-		txt += "Any errors will be highlighted in pink, if all is OK, press Enter. <br/>";
-		txt += "Make a note of any errors on the running slip and press skip. <br />";
-		txt += "Enter or Skip will step to the next target in use. <br />";
-		txt += "After all the running slips are entered or errors noted, press Cancel.";
-    }
-    else {
-		txt += "<p>Enter the dozen, score, hits and golds/10s. There is not much checking. <br />";
-		txt += "Any errors will be highlighted in pink, if all is OK, press Enter. <br/>";
-		txt += "Enter or Skip will step to the next target in use. <br />";
-		txt += "After all the running slips are entered or errors noted, press Cancel.";
-    }
-    txt += "</p>";
+	if (data[STATE]!="Inuse")
+		txt += "<h1>" + data[STATE] + "</h1>";
+	else {
+		if (scoresystem==1) {
+			txt += "<p> Enter the score, hits and golds/10s for the dozen, then enter the running total. <br />";
+			txt += "Any errors will be highlighted in pink, if all is OK, press Enter. <br/>";
+			txt += "Make a note of any errors on the running slip and press skip. <br />";
+			txt += "Enter or Skip will step to the next target in use. <br />";
+			txt += "After all the running slips are entered or errors noted, press Cancel.";
+		}
+		else {
+			txt += "<p>Enter the dozen, score, hits and golds/10s. There is not much checking. <br />";
+			txt += "Any errors will be highlighted in pink, if all is OK, press Enter. <br/>";
+			txt += "Enter or Skip will step to the next target in use. <br />";
+			txt += "After all the running slips are entered or errors noted, press Cancel.";
+		}
+		txt += "</p>";
+	}
     document.getElementById("page").innerHTML = txt;
     document.getElementById("score").focus();
 }
@@ -229,6 +237,12 @@ function checktscore() {
     document.getElementById("tscore").style.background = "pink";
     return false;
 }
+
+function restore() {
+	data[STATE]="Inuse";
+	page();
+}
+
 </script>
 <noscript>
 <p>

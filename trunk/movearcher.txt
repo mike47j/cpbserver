@@ -32,7 +32,8 @@
 			else if (rounds[rnd][RNDSCOREING]!=Imperial)
 				tb2str = "Xs or 10s";
 
-            var txt = "<h2>Move " + datafrom[TARGET] + " to " + datato[TARGET] + "</h2>";
+            var txt = "<h2>" + tournament + "</h2><h3>Move/Swap Archers</h3>"
+                + "<p><a href=\"/index\">Home page</a></p><h2>Move " + datafrom[TARGET] + " to " + datato[TARGET] + "</h2>";
             txt += "<form id=\"data\" action=\"/move.htm\" method=\"get\">";
             txt += "<input name=\"send\" id=\"send\" type=\"hidden\" value=\"send\" />";
             txt += "<input name=\"from\" id=\"from\" type=\"hidden\" value=\""+datafrom[TARGET]+"\" />";

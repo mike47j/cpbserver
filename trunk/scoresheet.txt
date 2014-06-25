@@ -185,10 +185,18 @@
 	    txt += "<td width=\"100\"><input type=\"button\" value=\"Enter\" onclick=\"checksend()\" tabindex=\"1\" /></td>";
 	    txt += "<td width=\"100\"><input type=\"button\" name=\"Back\" value=\"Back\" onclick=\"sendback()\" tabindex=\"2\" /></td>";
 	    txt += "<td width=\"100\"><input type=\"button\" name=\"Skip\" value=\"Skip\" onclick=\"sendnext()\" tabindex=\"3\" /></td>";
-	    txt += "<td width=\"100\"><input type=\"button\" name=\"DNS\" value=\"DNS\" onclick=\"senddns()\" tabindex=\"4\" /></td>";
-	    txt += "<td width=\"100\"><input type=\"button\" name=\"Retired\" value=\"Retired\" onclick=\"sendretired()\" tabindex=\"5\" /></td>";
+		if (data[STATE]=="Inuse") {
+			txt += "<td width=\"100\"><input type=\"button\" name=\"DNS\" value=\"DNS\" onclick=\"senddns()\" tabindex=\"4\" /></td>";
+			txt += "<td width=\"100\"><input type=\"button\" name=\"Retired\" value=\"Retired\" onclick=\"sendretired()\" tabindex=\"5\" /></td>";
+		}
+		else
+			txt += "<td width=\"100\"><input type=\"button\" name=\"Restore\" value=\"Restore\" onclick=\"restore()\" tabindex=\"4\" /></td>";
 	    txt += "<td width=\"100\"><input type=\"submit\" value=\"Cancel\" formaction=\"/index\" tabindex=\"6\" /></td>";
 	    txt += "</table></form>";
+
+		if (data[STATE]!="Inuse") {
+			txt += "<h1>" + data[STATE] + "</h1>";
+		}
 
 	    txt += "<p>Press the digit keys to enter the 12 arrows, 0 or m for miss,<br />";
 	    txt += "t or + for 10, x or * for an X, Backspace deletes the last digit entered.<br />";
@@ -209,7 +217,13 @@
 		keycode = event.charCode;
 	    else
 		keycode = event.keyCode;
-
+		if (data[STATE]!="Inuse") {
+			if (keycode == 13 || keycode == 32) { // enter or space
+				document.getElementById("send").value = "next";
+				document.getElementById("data").submit();
+			}
+			return;
+		}
 	    if (scoring == Worcester) {
 			if (keycode >= 48 && keycode <= 53) // 0 to 5
 				data[ARROWS] += String.fromCharCode(keycode - 48 + 65);
@@ -278,6 +292,11 @@
 		document.getElementById("send").value = "data";
 		document.getElementById("data").submit();
 	    }
+	}
+
+	function restore() {
+		data[STATE]="Inuse";
+		page();
 	}
 
     </script>

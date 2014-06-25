@@ -16,7 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
         function page() {
-            var txt = "<h2>Competition Setup</h2>";
+            var txt = "<h2>" + tournament + "</h2><h2>Competition Setup</h2>\r\n";
             txt += "<form name=\"setupdata\" method=\"get\" action=\"/setupdata.htm\">";
             txt += "<table><tr><td width=\"220\">Name of Event:</td><td><input name=\"name\" size=\"50\" value=\"" + tournament + "\" /></td></tr>";
             txt += "<tr><td>Date of Event:</td><td><input name=\"date\" size=\"50\" value=\"" + tournamentdate + "\" /></td></tr>";

@@ -25,7 +25,11 @@
 </table></form>
 
 <p><form name="scoreentry" method="get" action="/scoreentry.htm">
-Target: <input name="target" value="1" size="3"/> <input type="submit" value="Score Entry" />
+Target: <input id="target" name="target" size="3"/> <input type="submit" value="Score Entry" />
 </form></p>
+
+<script type="text/javascript">
+  document.getElementById("target").focus();
+</script>
 
 </body></html>

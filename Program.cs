@@ -637,8 +637,8 @@ namespace CPBserver
             }
             if (str.Contains("GET /allocate"))
             {
-                return header + "<h2>" + tournament + "</h2><div id=\"page\"></div><script type=\"text/javascript\">"
-                     + AllArchers() + flagstring() + allocate;
+                return header + "<div id=\"page\"></div><script type=\"text/javascript\">" + AllArchers() + flagstring()
+                    + "var tournament = \"" + tournament + "\", tournamentdate = \"" + tournamentdate + "\";\r\n" + allocate;
             }
             if (str.Contains("GET /clearscores"))
             {
@@ -728,13 +728,13 @@ namespace CPBserver
                     }
                 }
 
-                string results = header + "<h2>" + tournament + "</h2><h3>Move/Swap Archers</h3>"
-                    + "<p><a href=\"/index\">Home page</a></p>"
-                    + "<div id=\"page\"></div><script type=\"text/javascript\">";
+                string results = header + "<div id=\"page\"></div><script type=\"text/javascript\">";
                 string r1 = ArcherDataStr(fromtarget, false, "datafrom");
                 string r2 = ArcherDataStr(totarget, false, "datato");
                 if (r1 != "" || r2 != "")
-                    return results + rounds + r1 + r2 + fieldnames + flagstring() + movearcher;
+                    return results + rounds + r1 + r2 + fieldnames + flagstring() 
+                        + "var tournament = \"" + tournament + "\", tournamentdate = \"" + tournamentdate + "\";\r\n"
+                        + movearcher;
                 else
                     return indexpagestring();
             }
@@ -750,11 +750,10 @@ namespace CPBserver
                     target += "A";
                 if (target.Length == 2)
                     target = "0" + target;
-                return header + "<h2>" + tournament + "</h2><h3>Change Archer Data</h3>"
-                        + "<p><a href=\"/setup\">Set Up Page</a></p>"
-                        + "<div id=\"page\"></div><script type=\"text/javascript\">"
-                        + ArcherDataStr(target, getparam(str, "send") == "next", "data")
-                        + fieldnames + flagstring() + rounds + updateentry;
+                return header + "<div id=\"page\"></div><script type=\"text/javascript\">"
+                        + ArcherDataStr(target, getparam(str, "send") == "next", "data") + fieldnames + flagstring() + rounds
+                        + "var tournament = \"" + tournament + "\", tournamentdate = \"" + tournamentdate + "\";\r\n"
+                        + updateentry;
             }
             if (str.Contains("GET /scoreentry"))
             {
@@ -779,9 +778,7 @@ namespace CPBserver
                     back = true;
                 }
                 else if (send == "next")
-                {
                     skip = true;
-                }
                 else if (send == "data")
                 {
                     // update scores
@@ -874,8 +871,7 @@ namespace CPBserver
                     };
                 }
                 // Console.WriteLine("Sending new archer.");
-                string results = header + "<h2>" + tournament + "</h2>"
-                    + "<div id=\"page\"></div><script type=\"text/javascript\">";
+                string results = header + "<div id=\"page\"></div><script type=\"text/javascript\">";
                 results += "var free = new Array(";
                 string rnd = "qwerty";
                 lock (dataLock)
@@ -915,8 +911,8 @@ namespace CPBserver
                 }
                 results += "var data = new Array(\"" + target + "\", \"\", \"" + club + "\", \"" + team + "\", \"" + bow + "\", \""
                     + gender + "\", \"" + round + "\"," + handicap + ");";
-                results += fieldnames + flagstring();
-
+                results += fieldnames + flagstring() + "var tournament = \"" + tournament
+                    + "\", tournamentdate = \"" + tournamentdate + "\";\r\n";
                 return results + rounds + newarcher;
             }
             if (str.Contains("GET /index"))
@@ -935,7 +931,7 @@ namespace CPBserver
         static string setuppagestring()
         {
             // Console.WriteLine("Sending setup page.");
-            return header + "<h2>" + tournament + "</h2>\r\n<div id=\"page\"></div><script type=\"text/javascript\">\r\n"
+            return header + "<div id=\"page\"></div><script type=\"text/javascript\">\r\n"
                 + "var tournament = \"" + tournament + "\"; var tournamentdate = \"" + tournamentdate + "\";\r\n"
                 + flagstring() + setuppage;
         }
@@ -1104,7 +1100,7 @@ namespace CPBserver
                             targetfound = true;
                         if (targetfound && skip)
                             skip = false;
-                        else if (targetfound && Archers[i].state == State.Inuse)
+                        else if (targetfound && Archers[i].state != State.Free)
                         {
                             ok = true;
                             break;
@@ -1119,7 +1115,7 @@ namespace CPBserver
                             targetfound = true;
                         if (targetfound && skip)
                             skip = false;
-                        else if (targetfound && Archers[i].state == State.Inuse)
+                        else if (targetfound && Archers[i].state != State.Free)
                         {
                             ok = true;
                             break;

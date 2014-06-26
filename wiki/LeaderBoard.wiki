@@ -7,7 +7,7 @@ With a wifi connection to the network, anyone can get the leader board by connec
 
 The normal display is separate lists by round, gender and bow type, juniors are in the same list with a J after their name.
 
-Medals are given for shooting the round for your age (or longer).  For Juniors as Gold, Silver and Bronze, Seniors only Gold for 1 to 3 archers completing the round (DNS or retired not counting), Gold and Silver for 4 to 6 archers, Gold, Silver and Bronze for 7 or more archers. Since juniors are in the same result list as seniors the medals may not be the top 3 places in the list.
+In our tournament Medals are given for shooting the round for your age (or longer). For Juniors as Gold, Silver and Bronze medals are given. For Seniors only Gold for 1 to 3 archers completing the round (DNS or retired not counting), Gold and Silver for 4 to 6 archers, Gold, Silver and Bronze for 7 or more archers. Since juniors are in the same result list as seniors the medals may not be the top 3 places in a list.
 
 [http://cpbserver.googlecode.com/svn/trunk/images/leader1.jpg]
 

@@ -19,7 +19,7 @@
 
     function page() {
         var i, highi, highv, txt = "";
-
+		var rnd, tb1 = "", tb2 = "";
 		// sort order
         for (i=0; i<maxdata; i++) {
             sort[i] = "";
@@ -31,6 +31,22 @@
                       + data[i][NAME].substr(0, data[i][NAME].indexOf(" "));
                 else
                     sort[i] = data[i][TARGET];
+				if (tb1=="") {
+					for (rnd = 0; rnd < rounds.length; rnd++) {
+						if (data[i][ROUND] == rounds[rnd][RNDNAME])
+						break;
+					}
+					tb1 = "H";
+					tb2 = "G";
+					if (worldarchery==1) {
+						tb1 = "X/10";
+						tb2 = "X"
+					}
+					else if (rounds[rnd][RNDSCOREING]==Worcester)
+						tb2 = "5";
+					else if (rounds[rnd][RNDSCOREING]==Metric)
+						tb2="10";
+				}
             }
         }
 
@@ -50,10 +66,18 @@
 			txt += "</table>";
 		}
 
-        if (sortbyname)
-            txt += "</h2><h3 style=\"font-family:Helvetica,Arial,sans-serif;\">Target List by Name</h3>";
-        else
-            txt += "</h2><h3 style=\"font-family:Helvetica,Arial,sans-serif;\">Target List by Target</h3>";
+		if (targetlist) {
+			if (sortbyname)
+				txt += "</h2><h3 style=\"font-family:Helvetica,Arial,sans-serif;\">Target List by Name</h3>";
+			else
+				txt += "</h2><h3 style=\"font-family:Helvetica,Arial,sans-serif;\">Target List by Target</h3>";
+		}
+		else {
+			if (sortbyname)
+				txt += "</h2><h3 style=\"font-family:Helvetica,Arial,sans-serif;\">Scores by Name</h3>";
+			else
+				txt += "</h2><h3 style=\"font-family:Helvetica,Arial,sans-serif;\">Scores by Target</h3>";
+		}
 
 		var firstpage = true, lines = 0;
         var found = true;
@@ -78,22 +102,36 @@
 						+ "<tr><th width=\"50\">Target<th width=\"150\">Name<th width=\"180\">Club";
 					if (teamflag==1)
 						txt += "<th width=\"50\">Team";
-					txt += "<th width=\"50\">Bow<th width=\"50\">Gender" + "<th width=\"150\">Round";
-					if (handicapflag==1)
-						txt += "<th width=\"50\">Handicap";
+					if (targetlist) {
+						txt += "<th width=\"50\">Bow<th width=\"50\">Gender<th width=\"150\">Round";
+						if (handicapflag==1)
+							txt += "<th width=\"50\">Handicap";
+					}
+					else {
+						txt += "<th width=\"50\">Total</td><th width=\"50\">" + tb1 + "</td><th width=\"50\">" + tb2 + "</td>"
+						    + "<th width=\"50\">Arrows</td><th width=\"50\">&nbsp;</td>";
+					}
 					txt += "</tr>";
 				}
                 txt += "<tr><td align=\"center\">" +data[highi][TARGET] + "</td><td>"+ data[highi][NAME]
                     + "</td><td>"+ data[highi][CLUB];
 				if (teamflag==1)
 					txt += "</td><td align=\"center\">" + data[highi][TEAM];
-				txt += "</td><td align=\"center\">" + data[highi][BOW] + "</td><td align=\"center\">" 
-					+ data[highi][GENDER] + "</td><td align=\"center\">" + data[highi][ROUND];
-				if (handicapflag==1)
-					txt += "</td><td align=\"center\">" + data[highi][HANDICAP];
+				if (targetlist) {
+					txt += "</td><td align=\"center\">" + data[highi][BOW] + "</td><td align=\"center\">" 
+						+ data[highi][GENDER] + "</td><td align=\"center\">" + data[highi][ROUND];
+					if (handicapflag==1)
+						txt += "</td><td align=\"center\">" + data[highi][HANDICAP];
+				}
+				else {
+					txt += "</td><td align=\"center\">" + data[highi][SCORE] + "</td><td align=\"center\">"
+						+ data[highi][TIEBREAK1] + "</td><td align=\"center\">" + data[highi][TIEBREAK2]
+						+ "</td><td align=\"center\">" + data[highi][ARROWCNT] + "</td><td align=\"center\">" 
+						+ (data[highi][STATE]=="Inuse"?"&nbsp;":data[highi][STATE]);
+				}
 				txt += "</td></tr>";
-						sort[highi] = "";
-						found = true;
+				sort[highi] = "";
+				found = true;
 				lines++;
 				if (printing && (firstpage && lines>32) || (!firstpage && lines>45)) {
 					txt += "</table><div style=\"height:0mm; page-break-after:always;\"></div>";

@@ -315,10 +315,10 @@ function bowtype(rndstr, g, bow) {
 		if (rndstr == rounds[i][RNDNAME]) {
 			if (worldarchery==1) {
 				tb1str = "X/10";
-				tb2str = "Xs";
+				tb2str = "X";
 			}
 			else if (rounds[i][RNDSCOREING]==Worcester) {
-				tb2str = "5s";
+				tb2str = "5";
 			}
 			else if (rounds[i][RNDSCOREING]!=Imperial)
 				tb2str = "X/10";
@@ -586,10 +586,10 @@ function bestteam(rnd) {
 		if (rnd == rounds[i][RNDNAME]) {
 			if (worldarchery==1) {
 				tb1str = "X/10";
-				tb2str = "Xs";
+				tb2str = "X";
 			}
 			else if (rounds[i][RNDSCOREING]==Worcester) {
-				tb2str = "5s";
+				tb2str = "5";
 			}
 			else if (rounds[i][RNDSCOREING]!=Imperial)
 				tb2str = "X/10";

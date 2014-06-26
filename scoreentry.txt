@@ -29,14 +29,14 @@ function page() {
 	var arrowsperend = rounds[rnd][RNDEND];
 	var tb1str = "Hits", tb2str = "Golds";
 	if (worldarchery==1) {
-		tb1str = "X/10s";
-		tb2str = "Xs";
+		tb1str = "X/10";
+		tb2str = "X";
 	}
 	else if (scoring==Worcester) {
-		tb2str = "5s";
+		tb2str = "5";
 	}
 	else if (scoring!=Imperial)
-		tb2str = "X/10s";
+		tb2str = "X/10";
 
     var txt = "<h2>Target " + data[TARGET] + " - " + data[NAME] + "</h2>";
 	txt += "<form id=\"data\" action=\"/scoreentry\" method=\"get\">";

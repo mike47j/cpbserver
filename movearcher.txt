@@ -23,14 +23,14 @@
 			}
 			var tb1str = "Hits", tb2str = "Golds";
 			if (worldarchery==1) {
-				tb1str = "Xs or 10s";
-				tb2str = "Xs";
+				tb1str = "X or 10";
+				tb2str = "X";
 			}
 			else if (rounds[rnd][RNDSCOREING]==Worcester) {
-				tb2str = "5s";
+				tb2str = "5";
 			}
 			else if (rounds[rnd][RNDSCOREING]!=Imperial)
-				tb2str = "Xs or 10s";
+				tb2str = "X or 10";
 
             var txt = "<h2>" + tournament + "</h2><h3>Move/Swap Archers</h3>"
                 + "<p><a href=\"/index\">Home page</a></p><h2>Move " + datafrom[TARGET] + " to " + datato[TARGET] + "</h2>";

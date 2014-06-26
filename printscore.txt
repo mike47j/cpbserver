@@ -39,9 +39,9 @@
 			tb2 = "X"
 		}
 		else if (scoring==Worcester)
-		    tb2 = "5s";
+		    tb2 = "5";
 		else if (scoring==Metric)
-		    tb2="10s";
+		    tb2="10";
 
 		txt += "<div style=\"height:5mm;\"></div>"
 			    + "<p align=\"center\" style=\"font-weight:bold;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">"

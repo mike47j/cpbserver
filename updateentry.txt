@@ -25,14 +25,14 @@ function page() {
 	}
 	var tb1str = "Hits", tb2str = "Golds";
 	if (worldarchery==1) {
-		tb1str = "Xs or 10s";
-		tb2str = "Xs";
+		tb1str = "X or 10";
+		tb2str = "X";
 	}
 	else if (rounds[rnd][RNDSCOREING]==Worcester) {
-		tb2str = "5s";
+		tb2str = "5";
 	}
 	else if (rounds[rnd][RNDSCOREING]!=Imperial)
-		tb2str = "Xs or 10s";
+		tb2str = "X or 10";
 
     var txt = "<h2>" + tournament + "</h2><h3>Change Archer Data</h3>"
          + "<p><a href=\"/setup\">Set Up Page</a></p><h2>Target " + data[TARGET] + " - " + data[NAME] + "</h2>";

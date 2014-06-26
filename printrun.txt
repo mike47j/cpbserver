@@ -65,7 +65,11 @@
 		var scoring = rounds[rnd][RNDSCOREING];
 		var tb1 = "H";
 		var tb2 = "G";
-		if (scoring==Worcester)
+		if (worldarchery==1) {
+			tb1 = "X/10";
+			tb2 = "X"
+		}
+		else if (scoring==Worcester)
 		    tb2 = "5s";
 		else if (scoring==Metric)
 		    tb2="10s";

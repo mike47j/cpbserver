@@ -31,10 +31,10 @@
 	    arrowsperend = rounds[rnd][RNDEND];
 		if (worldarchery==1) {
 			tb1str = "X/10";
-			tb2str = "Xs";
+			tb2str = "X";
 		}
 		else if (scoring==Worcester) {
-			tb2str = "5s";
+			tb2str = "5";
 		}
 		else if (scoring!=Imperial)
 			tb2str = "X/10";

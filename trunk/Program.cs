@@ -465,6 +465,25 @@ namespace CPBserver
 
         private static string inputhandler(string str)
         {
+            if (str.Contains("GET /clearscores"))
+            {
+                lock (dataLock)
+                {
+                    for (int i = 0; i < MAXARCHERS; i++)
+                    {
+                        if (Archers[i].state != State.Free)
+                        {
+                            Archers[i].arrowcnt = 0;
+                            Archers[i].arrows = "";
+                            Archers[i].tiebreak2 = 0;
+                            Archers[i].tiebreak1 = 0;
+                            Archers[i].runningtotal = 0;
+                            Archers[i].state = State.Inuse;
+                        }
+                    }
+                    timeout = TIMEOUT;
+                }
+            }
             if (str.Contains("GET /setupdata"))
             {
                 lock (dataLock)
@@ -535,11 +554,14 @@ namespace CPBserver
                 else
                     return results + rounds + printscore;
             }
-            if (str.Contains("GET /byname") || str.Contains("GET /bytarget")
-                || str.Contains("GET /printbyname") || str.Contains("GET /printbytarget"))
+            if (str.Contains("GET /byname") || str.Contains("GET /bytarget") || str.Contains("GET /clearscores")
+                || str.Contains("GET /printbyname") || str.Contains("GET /printbytarget")
+                || str.Contains("GET /scorebyname") || str.Contains("GET /scorebytarget"))
             {
                 bool printing = str.Contains("print");
                 bool sortbyname = str.Contains("byname");
+                bool targetlist = !str.Contains("score");
+
                 // Send results back to client
                 string page = header + "<div id=\"page\"></div><script type=\"text/javascript\">\r\n";
                 page += AllArchers() + flagstring();
@@ -551,7 +573,8 @@ namespace CPBserver
                 page += "var weather = \"" + weather + "\";\r\n";
 
                 page += "var sortbyname = " + (sortbyname ? "true" : "false") + ", printing = " + (printing ? "true" : "false") + ";\r\n";
-                return page + byname;
+                page += "var targetlist = " + (targetlist ? "true" : "false") + ";\r\n";
+                return page + rounds + byname;
             }
             if (str.Contains("GET /printresults"))
             {
@@ -640,52 +663,6 @@ namespace CPBserver
             {
                 return header + "<div id=\"page\"></div><script type=\"text/javascript\">" + AllArchers() + flagstring()
                     + "var tournament = \"" + tournament + "\", tournamentdate = \"" + tournamentdate + "\";\r\n" + allocate;
-            }
-            if (str.Contains("GET /clearscores"))
-            {
-                lock (dataLock)
-                {
-                    for (int i = 0; i < MAXARCHERS; i++)
-                    {
-                        if (Archers[i].state != State.Free)
-                        {
-                            Archers[i].arrowcnt = 0;
-                            Archers[i].arrows = "";
-                            Archers[i].tiebreak2 = 0;
-                            Archers[i].tiebreak1 = 0;
-                            Archers[i].runningtotal = 0;
-                            Archers[i].state = State.Inuse;
-                        }
-                    }
-                    timeout = TIMEOUT;
-                }
-            }
-            if (str.Contains("GET /scorebytarget") || str.Contains("GET /clearscores"))
-            {
-                // Send results back to client
-                string results = header + "<h2>" + tournament + "</h2><h3>Scores By Target</h3>"
-                    + "<p><a href=\"/index\">Home page</a></p>"
-                    + "<table border=\"1\" style=\"border-collapse: collapse;\"><tr><th>Target<th width=\"150\">Archer"
-                    + "<th width=\"50\">Score<th width=\"50\">TB1<th width=\"50\">TB2<th>Arrows<th>&nbsp;</tr>";
-                lock (dataLock)
-                {
-                    for (int i = 0; i < MAXARCHERS; i++)
-                    {
-                        if (Archers[i].state != State.Free)
-                        {
-                            string t = Archers[i].target;
-                            if (t == "" || t == " " || t == "0")
-                                t = "&nbsp;";
-                            string s = (Archers[i].state == State.Inuse ? "&nbsp;" : Archers[i].state.ToString());
-                            results += "<tr><td align=\"center\">" + t + "</td><td>" + Archers[i].name
-                                + "</td><td align=\"center\">" + Archers[i].runningtotal
-                                + "</td><td align=\"center\">" + Archers[i].tiebreak1 + "</td><td align=\"center\">"
-                                + Archers[i].tiebreak2 + "</td><td align=\"center\" width=\"50\">" + Archers[i].arrowcnt
-                                + "</td><td align=\"center\" width=\"50\">" + s + "</tr>";
-                        }
-                    }
-                }
-                return results + "</table></body></html>";
             }
             if (str.Contains("GET /move"))
             {

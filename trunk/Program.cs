@@ -529,6 +529,7 @@ namespace CPBserver
                 results += AllArchers();
                 results += "var tournament = \"" + tournament + "\"; ";
                 results += "var date = \"" + tournamentdate + "\";";
+                results += "var worldarchery = " + worldarchery + ";\r\n";
                 if (str.Contains("GET /printrun"))
                     return results + rounds + printrun;
                 else

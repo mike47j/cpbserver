@@ -32,11 +32,21 @@
 		var imperialdistance = rounds[rnd][RNDMETERS];
 		scoring = rounds[rnd][RNDSCOREING];
 		var arrowspwerend = rounds[rnd][RNDEND];
+		var tb1 = "H";
+		var tb2 = "G";
+		if (worldarchery==1) {
+			tb1 = "X/10";
+			tb2 = "X"
+		}
+		else if (scoring==Worcester)
+		    tb2 = "5s";
+		else if (scoring==Metric)
+		    tb2="10s";
 
 		txt += "<div style=\"height:5mm;\"></div>"
 			    + "<p align=\"center\" style=\"font-weight:bold;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">"
 			    + tournament + "</p><div style=\"height:10mm;\"></div>";
-
+		// name & target
 		txt += "<table border=\"1\" style=\"border-collapse: collapse;font-family:Helvetica,Arial,sans-serif;\" >"
 			    + "<tr style=\"height:14mm;\"><td style=\"width:110mm;\">"
 			    + "<table><tr style=\"height:3mm;\"><td style=\"font-size:small;\">Name<tr style=\"height:8mm;\">"
@@ -44,14 +54,14 @@
 			    + "<td style=\"width:88mm;\" colspan=\"2\">"
 			    + "<table><tr style=\"height:3mm;\"><td style=\"font-size:small;\">Target<tr style=\"height:8mm;\">"
 			    + "<td style=\"padding-left:10mm;font-weight:bold;font-size:x-large;\" align=\"center\">" + data[index][TARGET] + "</table>";
-
+		// Club, bow, gender
 		txt += "<tr style=\"height:11mm;\"><td><table><tr style=\"height:3mm;\"><td style=\"font-size:small;\">Club<tr style=\"height:7mm;\">"
 		    + "<td style=\"padding-left:10mm;font-weight:bold;font-size:large;\">" + (data[index][NAME] != "" ? data[index][CLUB] : "") + "</table>"
 		    + "<td style=\"width:44mm;\"><table><tr style=\"height:3mm;\"><td style=\"font-size:small;\">Bow type<tr style=\"height:7mm;\">"
 		    + "<td style=\"padding-left:10mm;font-weight:bold;font-size:large;\">" + (data[index][NAME] != "" ? data[index][BOW] : "") + "</table>"
 		    + "<td><table><tr style=\"height:3mm;\"><td style=\"font-size:small;\">Gender and Age Group<tr style=\"height:7mm;\">"
 		    + "<td style=\"padding-left:10mm;font-weight:bold;font-size:large;\">" + (data[index][NAME] != "" ? data[index][GENDER] : "") + "</table>";
-
+		// round and date
 		txt += "<tr style=\"height:11mm;\"><td><table><tr style=\"height:3mm;\"><td style=\"font-size:small;\">Round<tr style=\"height:7mm;\">"
 		    + "<td style=\"padding-left:10mm;font-weight:bold;font-size:large;\">" + data[index][ROUND] + "</table>"
 		    + "<td colspan=\"2\"><table><tr style=\"height:3mm;\"><td style=\"font-size:small;\">Date<tr style=\"height:7mm;\">"
@@ -64,8 +74,8 @@
 		    + "<th style=\"width:9.5mm;border-left:2px solid black;border-right:2px solid black;\">ET</th><th colspan=\""
 		    + arrowspwerend + "\">&nbsp;</th>"
 		    + "<th style=\"width:9.5mm;border-left:2px solid black;border-right:2px solid black;\">ET</th>"
-		    + "<th style=\"width:9.5mm;\">H</th><th style=\"width:12mm;\">S</th>"
-		    + "<th style=\"width:9.5mm;\">" + (scoring == Imperial ? "G" : "10s") + "</th><th style=\"width:12mm;\">RT</th></tr>";
+		    + "<th style=\"width:9.5mm;\">" + tb1 + "</th><th style=\"width:12mm;\">S</th>"
+		    + "<th style=\"width:9.5mm;\">" + tb2 + "</th><th style=\"width:12mm;\">RT</th></tr>";
 
 		var subrnd;
 		for (subrnd = 0; subrnd < 4; subrnd++) {

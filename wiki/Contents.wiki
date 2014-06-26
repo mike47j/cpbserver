@@ -8,8 +8,10 @@
 
 [Allocate Allocate Archers to Targets]
 
-[ScoreEntry Score Entry]
-
 [Printing Printing]
 
 [Running Printing Running Slips and Score Sheets]
+
+[IndexPage Index Page]
+
+[ScoreEntry Score Entry]

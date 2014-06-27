@@ -215,6 +215,19 @@ function partagbscore(h, r, a) { // score after a arrows of a round
     return 0;
 }
 
+function agbhandicap(score, round, arrowcnt) {
+	var rtrange = 32, nextscore, result = 50;
+	while (rtrange > .01) {
+		nextscore = partagbscore(result, round, arrowcnt);
+		if (score < nextscore)
+			result += rtrange;
+		else if (score > nextscore)
+			result -= rtrange;
+		rtrange = rtrange / 2;
+	}
+	return result;
+}
+
 // results
 
 var textstr = "<h2 style=\"text-align:center;font-weight:bold;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">"
@@ -275,13 +288,13 @@ function doresults() {
 	}
 
 	if (juniorflag == 1) {
-	    textstr += "<a name=\"Junior\">" + jumpstr;
+	    textstr += "<a name=\"Junior\"></a>" + jumpstr;
 	    bestjunior("JG");
 	    bestjunior("JB");
 	}
 
 	if (bestflag == 1) {
-	    textstr += "<a name=\"Best\">" + jumpstr;
+	    textstr += "<a name=\"Best\"></a>" + jumpstr;
 	    bestarcher();
 	}
 	textstr += jumpstr;

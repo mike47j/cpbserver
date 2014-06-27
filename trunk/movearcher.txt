@@ -26,10 +26,10 @@
 				tb1str = "X or 10";
 				tb2str = "X";
 			}
-			else if (rounds[rnd][RNDSCOREING]==Worcester) {
+			else if (rounds[rnd][RNDSCORING]==Worcester) {
 				tb2str = "5";
 			}
-			else if (rounds[rnd][RNDSCOREING]!=Imperial)
+			else if (rounds[rnd][RNDSCORING]!=Imperial)
 				tb2str = "X or 10";
 
             var txt = "<h2>" + tournament + "</h2><h3>Move/Swap Archers</h3>"

@@ -30,7 +30,7 @@
 			break;
 		}
 		var imperialdistance = rounds[rnd][RNDMETERS];
-		scoring = rounds[rnd][RNDSCOREING];
+		scoring = rounds[rnd][RNDSCORING];
 		var arrowspwerend = rounds[rnd][RNDEND];
 		var tb1 = "H";
 		var tb2 = "G";
@@ -74,7 +74,7 @@
 		    + "<th style=\"width:9.5mm;border-left:2px solid black;border-right:2px solid black;\">ET</th><th colspan=\""
 		    + arrowspwerend + "\">&nbsp;</th>"
 		    + "<th style=\"width:9.5mm;border-left:2px solid black;border-right:2px solid black;\">ET</th>"
-		    + "<th style=\"width:9.5mm;\">" + tb1 + "</th><th style=\"width:12mm;\">S</th>"
+		    + "<th style=\"width:12mm;\">S</th><th style=\"width:9.5mm;\">" + tb1 + "</th>"
 		    + "<th style=\"width:9.5mm;\">" + tb2 + "</th><th style=\"width:12mm;\">RT</th></tr>";
 
 		var subrnd;

@@ -22,7 +22,7 @@ var scoring = 0;
 function page() {
     var rnd;
     for (rnd = 0; rnd < rounds.length; rnd++) {
-	if (data[ROUND] == rounds[rnd][RNDNAME)
+	if (data[ROUND] == rounds[rnd][RNDNAME])
 	    break;
     }
     scoring = rounds[rnd][RNDSCORING];
@@ -46,7 +46,7 @@ function page() {
 
     txt += "<table border=\"1\" style=\"border-collapse: collapse;\"><tr>";
 	if (scoresystem==2) {
-		txt += "<tr><th width=\"60\">Dozen</th><th width=\"60\">" + tb1str + "</th><th width=\"60\">" + tb2str
+		txt += "<tr><th width=\"60\">Arrows</th><th width=\"60\">" + tb1str + "</th><th width=\"60\">" + tb2str
 			+ "</th><th width=\"60\">Total</th><th width=\"180\">Message</th></tr>";
 
 		txt += "<td align=\"center\">" + data[ARROWCNT] + "</td>";
@@ -62,7 +62,7 @@ function page() {
 	}
 	else {
 		txt += "<th colspan=\"4\">Dozen</th><th colspan=\"3\">Running Totals</th><th rowspan=\"2\">Message</th></tr>";
-		txt += "<tr><th width=\"60\">Dozen</th><th width=\"60\">Score</th><th width=\"60\">" + tb1str + "</th><th width=\"60\">" + tb2str + "</th>";
+		txt += "<tr><th width=\"60\">Arrows</th><th width=\"60\">Score</th><th width=\"60\">" + tb1str + "</th><th width=\"60\">" + tb2str + "</th>";
 		txt += "<th width=\"60\">" + tb1str + "</th><th width=\"60\">" + tb2str + "</th><th width=\"60\">Total</th></tr>";
 
 		txt += "<td align=\"center\">" + data[ARROWCNT] + "</td><td align=\"center\">-</td><td align=\"center\">-</td><td align=\"center\">-</td>";
@@ -206,7 +206,7 @@ function checkgolds() {
     var s = document.getElementById("golds").value;
     golds = parseInt(s);
     if (s == "" || s == null || !s.match(format) || isNaN(golds))
-	error += "Dozen " + tb2str + not a valid number. ";
+	error += "Dozen " + tb2str + " not a valid number. ";
     else if (golds>hits)
         error += "Dozen "+tb2str+" too high. ";
     document.getElementById("error").value = error;

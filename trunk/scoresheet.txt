@@ -27,7 +27,7 @@
 	    }
 		var tb1str = "H", tb2str = "G";
 	    var imperialdistance = rounds[rnd][RNDMETERS];
-	    scoring = rounds[rnd][RNDSCOREING];
+	    scoring = rounds[rnd][RNDSCORING];
 	    arrowsperend = rounds[rnd][RNDEND];
 		if (worldarchery==1) {
 			tb1str = "X/10";
@@ -44,7 +44,7 @@
 	    var arrows = data[ARROWS];
 	    txt += "<table border=\"1\" style=\"border-collapse: collapse;\" ><tr><th colspan=\"" + arrowsperend + "\">Arrows</th>"
 			+ "<th width=\"30\">ET</th><th colspan=\"" + arrowsperend + "\">Arrows</th>"
-		+ "<th width=\"30\">ET</th><th width=\"30\">" + tb1str + "</th><th width=\"40\">S</th>"
+		+ "<th width=\"30\">ET</th></th><th width=\"40\">S</th><th width=\"30\">" + tb1str
 		+ "<th width=\"30\">" + tb2str + "</th><th width=\"50\">RT</th></tr>";
 	    var tb1t = 0;
 	    var tb2t = 0;
@@ -139,10 +139,8 @@
 		    tb2st += tb2;
 		    rst += et1 + et2;
 		    rt += (et1 + et2);
-		    txt += "<td align=\"center\">" + tb1 + "</td><td align=\"center\">" + (et1 + et2);
-		    txt += "</td><td align=\"center\">" + tb2 + "</td>";
-		    txt += "<td align=\"center\">";
-		    txt += rt + "</td></tr>";
+		    txt += "<td align=\"center\">" + (et1 + et2) + "</td><td align=\"center\">" + tb1;
+		    txt += "</td><td align=\"center\">" + tb2 + "</td><td align=\"center\">" + rt + "</td></tr>";
 
 		    if (rndarrowno >= rounds[rnd][subrnd * 3 + RNDARROWS1]) {
 				// sub totals
@@ -154,11 +152,9 @@
 					distance += " meters. ";
 				if (scoring != Imperial)
 					distance += targetsize + " cm face. ";
-				txt += "<tr><td colspan=\"" + (arrowsperend*2+2) + "\" align=\"right\">"
-					+ distance + " Sub Totals</td>"
-					+ "<td align=\"center\">" + tb1st + "</td>"
-					+ "<td align=\"center\">" + rst + "</td><td align=\"center\">" + tb2st
-					+ "</td><td align=\"center\">" + rt + "</td>";
+				txt += "<tr><td colspan=\"" + (arrowsperend*2+2) + "\" align=\"right\">" + distance 
+					+ " Sub Totals</td><td align=\"center\">" + rst + "<td align=\"center\">" + tb1st 
+					+ "</td>"+ "</td><td align=\"center\">" + tb2st + "</td><td align=\"center\">" + rt + "</td>";
 				tb1st = 0;
 				rst = 0;
 				tb2st = 0;
@@ -170,9 +166,8 @@
 	    txt += "<tr><td colspan=\"" + (arrowsperend*2+2) 
 			+ "\"><textarea id=\"msg\" cols=\"40\" rows=\"1\" readonly=\"readonly\" tabindex=\"-1\" >"
 			+ "</textarea>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Grand Totals</td>";
-	    txt += "<td align=\"center\">" + tb1t + "</td>";
-	    txt += "<td align=\"center\">" + rt + "</td><td align=\"center\">" + tb2t
-			+ "</td><td align=\"center\">" + rt + "</td></table>";
+	    txt += "<td align=\"center\">" + rt + "<td align=\"center\">" + tb1t + "</td>" 
+			+ "</td><td align=\"center\">" + tb2t + "</td><td align=\"center\">" + rt + "</td></table>";
 
 	    txt += "<form name =\"data\" id=\"data\" action=\"/scoreentry.htm\" method=\"get\"><table>";
 	    txt += "<input name=\"target\" value=\"" + data[TARGET] + "\" type=\"hidden\" />";

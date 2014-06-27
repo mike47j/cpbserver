@@ -27,7 +27,7 @@ var SixZone = 7;	// 6 zone 10, 9, 8, 7, 6, 5
 // Format of each row
 // Round name in "s, 0 for imperial distances or 1 for metric distances,
 // then 4 groups of 4, number of arrow, distance in yards or meters,full size target size in cm, scoring as above
-var RNDNAME = 0, RNDMETERS=1, RNDEND=2, RNDSCOREING=3, RNDARROWS1=4, RNDDISTANCE1=5, RNDTARGET1=6;
+var RNDNAME = 0, RNDMETERS=1, RNDEND=2, RNDSCORING=3, RNDARROWS1=4, RNDDISTANCE1=5, RNDTARGET1=6;
 var RNDARROWS2=7, RNDDISTANCE2=8, RNDTARGET2=9, RNDARROWS3=10, RNDDISTANCE3=11, RNDTARGET3=12, RNDARROWS4=13, RNDDISTANCE4=14, RNDTARGET4=15;
 var rounds = new Array(
 new Array("York", 0,6, Imperial, 72, 100, 122, 48, 80, 122, 24, 60, 122, 0, 0, 0),

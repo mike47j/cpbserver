@@ -110,8 +110,7 @@
 				distance += " yards. ";
 			    else
 				distance += " meters. ";
-			    if (scoring != Imperial)
-				distance += targetsize + " cm face. ";
+			    distance += targetsize + " cm face. ";
 			    txt += "<tr style=\"height:9mm;\"><td colspan=\"" + (arrowspwerend*2+3) + "\" align=\"right\">" + distance
 				+ " Sub Totals</td><td align=\"center\">&nbsp;</td>"
 				+ "<td align=\"center\">&nbsp;</td><td align=\"center\">&nbsp;</td><td align=\"center\">&nbsp;</td>";

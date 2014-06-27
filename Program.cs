@@ -735,7 +735,7 @@ namespace CPBserver
             }
             if (str.Contains("GET /scoreentry"))
             {
-                string pagefile = rounds + flagstring();
+                string pagefile = rounds;
                 if (scoresystem == 0)
                     pagefile += scoresheet;
                 else

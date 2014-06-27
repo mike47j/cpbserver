@@ -182,10 +182,10 @@ function agbscore(h, r) {
     for (i = 0; i < rounds.length; i++) {
 	if (rounds[i][RNDNAME] == r) {
 	    //	 distance      yards/meters  arrows	diameter      scoring
-	    return partscore(rounds[i][RNDDISTANCE1], rounds[i][RNDMETERS], rounds[i][RNDARROWS1], rounds[i][RNDTARGET1], rounds[i][RNDSCOREING], h)
-		+ partscore(rounds[i][RNDDISTANCE2], rounds[i][RNDMETERS], rounds[i][RNDARROWS2], rounds[i][RNDTARGET2], rounds[i][RNDSCOREING], h)
-		+ partscore(rounds[i][RNDDISTANCE3], rounds[i][RNDMETERS], rounds[i][RNDARROWS3], rounds[i][RNDTARGET3], rounds[i][RNDSCOREING], h)
-		+ partscore(rounds[i][RNDDISTANCE4], rounds[i][RNDMETERS], rounds[i][RNDARROWS4], rounds[i][RNDTARGET4], rounds[i][RNDSCOREING], h);
+	    return partscore(rounds[i][RNDDISTANCE1], rounds[i][RNDMETERS], rounds[i][RNDARROWS1], rounds[i][RNDTARGET1], rounds[i][RNDSCORING], h)
+		+ partscore(rounds[i][RNDDISTANCE2], rounds[i][RNDMETERS], rounds[i][RNDARROWS2], rounds[i][RNDTARGET2], rounds[i][RNDSCORING], h)
+		+ partscore(rounds[i][RNDDISTANCE3], rounds[i][RNDMETERS], rounds[i][RNDARROWS3], rounds[i][RNDTARGET3], rounds[i][RNDSCORING], h)
+		+ partscore(rounds[i][RNDDISTANCE4], rounds[i][RNDMETERS], rounds[i][RNDARROWS4], rounds[i][RNDTARGET4], rounds[i][RNDSCORING], h);
 	}
     }
     return 0;
@@ -196,19 +196,19 @@ function partagbscore(h, r, a) { // score after a arrows of a round
     for (i = 0; i < rounds.length; i++) {
 	if (rounds[i][RNDNAME] == r) {
 	    //	 distance      yards/meters  arrows	diameter      scoring
-	    s += partscore(rounds[i][RNDDISTANCE1], rounds[i][RNDMETERS], (a>t+rounds[i][RNDARROWS1]?rounds[i][RNDARROWS1]:a-t), rounds[i][RNDTARGET1], rounds[i][RNDSCOREING], h);
+	    s += partscore(rounds[i][RNDDISTANCE1], rounds[i][RNDMETERS], (a>t+rounds[i][RNDARROWS1]?rounds[i][RNDARROWS1]:a-t), rounds[i][RNDTARGET1], rounds[i][RNDSCORING], h);
 	    t += rounds[i][RNDARROWS1];
 	    if (t>a)
 		return s;
-	    s += partscore(rounds[i][RNDDISTANCE2], rounds[i][RNDMETERS], (a>t+rounds[i][RNDARROWS2]?rounds[i][RNDARROWS2]:a-t), rounds[i][RNDTARGET2], rounds[i][RNDSCOREING], h)
+	    s += partscore(rounds[i][RNDDISTANCE2], rounds[i][RNDMETERS], (a>t+rounds[i][RNDARROWS2]?rounds[i][RNDARROWS2]:a-t), rounds[i][RNDTARGET2], rounds[i][RNDSCORING], h)
 	    t += rounds[i][RNDARROWS2];
 	    if (t>a)
 		return s;
-	    s += partscore(rounds[i][RNDDISTANCE3], rounds[i][RNDMETERS], (a>t+rounds[i][RNDARROWS3]?rounds[i][RNDARROWS3]:a-t), rounds[i][RNDTARGET3], rounds[i][RNDSCOREING], h)
+	    s += partscore(rounds[i][RNDDISTANCE3], rounds[i][RNDMETERS], (a>t+rounds[i][RNDARROWS3]?rounds[i][RNDARROWS3]:a-t), rounds[i][RNDTARGET3], rounds[i][RNDSCORING], h)
 	    t += rounds[i][RNDARROWS3];
 	    if (t>a)
 		return s;
-	    s += partscore(rounds[i][RNDDISTANCE4], rounds[i][RNDMETERS], (a>t+rounds[i][RNDARROWS4]?rounds[i][RNDARROWS4]:a-t), rounds[i][RNDTARGET4], rounds[i][RNDSCOREING], h);
+	    s += partscore(rounds[i][RNDDISTANCE4], rounds[i][RNDMETERS], (a>t+rounds[i][RNDARROWS4]?rounds[i][RNDARROWS4]:a-t), rounds[i][RNDTARGET4], rounds[i][RNDSCORING], h);
 	    return s;
 	}
     }
@@ -317,10 +317,10 @@ function bowtype(rndstr, g, bow) {
 				tb1str = "X/10";
 				tb2str = "X";
 			}
-			else if (rounds[i][RNDSCOREING]==Worcester) {
+			else if (rounds[i][RNDSCORING]==Worcester) {
 				tb2str = "5";
 			}
-			else if (rounds[i][RNDSCOREING]!=Imperial)
+			else if (rounds[i][RNDSCORING]!=Imperial)
 				tb2str = "X/10";
 			break;
 		}
@@ -588,10 +588,10 @@ function bestteam(rnd) {
 				tb1str = "X/10";
 				tb2str = "X";
 			}
-			else if (rounds[i][RNDSCOREING]==Worcester) {
+			else if (rounds[i][RNDSCORING]==Worcester) {
 				tb2str = "5";
 			}
-			else if (rounds[i][RNDSCOREING]!=Imperial)
+			else if (rounds[i][RNDSCORING]!=Imperial)
 				tb2str = "X/10";
 			break;
 		}

@@ -42,9 +42,9 @@
 						tb1 = "X/10";
 						tb2 = "X"
 					}
-					else if (rounds[rnd][RNDSCOREING]==Worcester)
+					else if (rounds[rnd][RNDSCORING]==Worcester)
 						tb2 = "5";
-					else if (rounds[rnd][RNDSCOREING]==Metric)
+					else if (rounds[rnd][RNDSCORING]==Metric)
 						tb2="10";
 				}
             }

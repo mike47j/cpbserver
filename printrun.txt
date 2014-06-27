@@ -62,7 +62,7 @@
 		    if (rndn == rounds[rnd][RNDNAME])
 			break;
 		}
-		var scoring = rounds[rnd][RNDSCOREING];
+		var scoring = rounds[rnd][RNDSCORING];
 		var tb1 = "H";
 		var tb2 = "G";
 		if (worldarchery==1) {
@@ -109,7 +109,7 @@
 			+ "\" align=\"left\">Running Slip " + i + "</th><th style=\"width:9mm;\">ET</th>";
 		    if (dozenlen[i] == (arrowsperend * 2))
 			txt += "<th colspan=\"" + arrowsperend + "\">&nbsp;</th><th style=\"width:9mm;\">ET</th>";
-		    txt += "<th style=\"width:9mm;\">" + tb1 + "</th><th style=\"width:9mm;\">S</th><th style=\"width:9mm;\">"
+		    txt += "<th style=\"width:9mm;\">S</th><th style=\"width:9mm;\">" + tb1 + "</th><th style=\"width:9mm;\">"
 			+ tb2 + "</th><th style=\"width:11mm;\">R/T</th></tr>";
 		    var j;
 		    for (j = 0; j < linesperslip; j++) {

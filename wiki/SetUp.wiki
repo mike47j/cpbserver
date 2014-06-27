@@ -17,7 +17,12 @@ The Best Archer and Junior championship checkboxes produce results tables which 
 
 The handicap and team checkboxes enable entry and results for handicap or team competitions.
 
-The World Archery Rules changes the tie breaks for metric rounds from Hits and Golds to 10s and Xs.
+The World Archery Rules changes the tie breaks for metric rounds.
+|| *Round*         || *Tie Break 1* || *Tie Break 2* ||
+|| AGB Imperial  || Hits    || Golds   ||
+|| AGB Metric    || Hits    || X or 10 ||
+|| AGB Worcester || Hits    || 5       ||
+|| WA Metric     || X or 10 || X       ||
 
 There are 3 methods for the score entry system, either enter every arrow value, the dozen totals, or just totals.
 

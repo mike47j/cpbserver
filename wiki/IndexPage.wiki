@@ -2,7 +2,7 @@
 
 = Index Page =
 
-[Contents Contents]
+[Contents Contents] [ScoreEntry Next]
 
 [http://cpbserver.googlecode.com/svn/trunk/images/index.jpg]
 
@@ -11,5 +11,3 @@ The focus should be on the target entry box so just entering a target number on 
 The target list and scores by name sorts by surname or club and team name if its a team competition.
 
 Clicking the leader board uses the normal web page and not the secure one.
-
-

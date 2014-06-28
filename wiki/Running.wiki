@@ -1,7 +1,7 @@
 #summary Printing Running Slips and Score Sheets
 = Printing Running Slips and Score Sheets =
 
-[Contents Contents]
+[Contents Contents] [IndexPage Next]
 
 The program can print running slips and score sheets from the entered information. Use print preview and check the margins, page boundaries and turn off headers and footers.
 

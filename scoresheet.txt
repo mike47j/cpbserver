@@ -170,7 +170,7 @@
 
 	    txt += "<form name =\"data\" id=\"data\" action=\"/scoreentry.htm\" method=\"get\"><table>";
 	    txt += "<input name=\"target\" value=\"" + data[TARGET] + "\" type=\"hidden\" />";
-	    txt += "<input name=\"send\" id=\"send\" value=\"data\" type=\"hidden\" />";
+	    txt += "<input name=\"send\" id=\"send\" value=\"xxx\" type=\"hidden\" />";
 	    txt += "<input name=\"arrowsend\" id=\"arrowsend\" value=\"\" type=\"hidden\" />";
 	    txt += "<input name=\"thits\" id=\"thits\" type=\"hidden\" size=\"3\" value=\"" + tb1t + "\" />";
 	    txt += "<input name=\"tgolds\" id=\"tgolds\" type=\"hidden\" size=\"3\" value=\"" + tb2t + "\"  />";
@@ -186,6 +186,7 @@
 		else
 			txt += "<td width=\"100\"><input type=\"button\" name=\"Restore\" value=\"Restore\" onclick=\"restore()\" tabindex=\"4\" /></td>";
 	    txt += "<td width=\"100\"><input type=\"submit\" value=\"Cancel\" formaction=\"/index\" tabindex=\"6\" /></td>";
+	    txt += "<td width=\"100\"><input type=\"submit\" value=\"Edit\" formaction=\"/updateentry\" tabindex=\"7\" /></td>";
 	    txt += "</table></form>";
 
 		if (data[STATE]!="Inuse")

@@ -719,7 +719,7 @@ namespace CPBserver
             if (str.Contains("GET /updateentry"))
             {
                 // GET /updateentry.htm?target=01A&archer=Rachel+Jones&club=Canterbury&bow=L&gender=F&round=Hereford&score=271&hits=79&golds=0&state=Inuse&dozen=12
-                if (getparam(str, "send") == "send" || getparam(str, "send") == "next")
+                if (getparam(str, "send") == "send" || getparam(str, "send") == "next" || getparam(str, "send") == "score")
                 {   // update data
                     UpdateArcher(str, UPDATE.All);
                 }
@@ -728,6 +728,15 @@ namespace CPBserver
                     target += "A";
                 if (target.Length == 2)
                     target = "0" + target;
+                if (getparam(str, "send") == "score")
+                {
+                    string pagefile = rounds;
+                    if (scoresystem == 0)
+                        pagefile += scoresheet;
+                    else
+                        pagefile += scoreentry;
+                    return SendScorePage(pagefile, target, false, false);
+                }
                 return header + "<div id=\"page\"></div><script type=\"text/javascript\">"
                         + ArcherDataStr(target, getparam(str, "send") == "next", "data") + fieldnames + flagstring() + rounds
                         + "var tournament = \"" + tournament + "\", tournamentdate = \"" + tournamentdate + "\";\r\n"

@@ -83,6 +83,7 @@ function page() {
     txt += "</table><p></p><table><tr>"
     txt += "<td width=\"150\"><input type=\"button\" value=\"Enter\" onclick=\"check()\" /></td>";
     txt += "<td width=\"150\"><input type=\"button\" value=\"Enter + Next\" onclick=\"next()\" /></td>";
+    txt += "<td width=\"150\"><input type=\"button\" value=\"Enter + Score\" onclick=\"score()\" /></td>";
     txt += "<td width=\"150\"><input type=\"submit\" value=\"Cancel\" formaction=\"/setup\" /></td>";
     txt += "</tr></table></form>";
     txt += "<p>Make any changes to an archers details except for the target number.<br />";
@@ -95,6 +96,11 @@ page();
 
 function next() {
    document.getElementById("send").value = "next";
+   check();
+}
+
+function score() {
+   document.getElementById("send").value = "score";
    check();
 }
 

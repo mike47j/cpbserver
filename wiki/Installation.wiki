@@ -1,7 +1,7 @@
 #summary Download and Installation
 = Installation =
 
-[Contents Contents]
+[Contents Contents] [SetUp Next]
 
 Download http://cpbserver.googlecode.com/svn/trunk/cpb.zip. This version dated 27th June 2014.
 

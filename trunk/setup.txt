@@ -80,6 +80,16 @@
 
 <tr><td style="padding:10px;">
     <form>
+        <input type="submit" value="Load File" formaction="/loadfile" />
+	</form>
+	<form>
+        <input type="submit" value="Save File" formaction="/savefile" />
+    </form>
+<td>Load and save the "data.csv" file to or from another file.
+</tr>
+
+<tr><td style="padding:10px;">
+    <form>
         <input type="submit" value="Score Entry Page" formaction="/index" />
 	</form>
 	<form>

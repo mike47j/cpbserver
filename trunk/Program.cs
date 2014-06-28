@@ -904,6 +904,38 @@ namespace CPBserver
             }
             if (str.Contains("GET /index"))
                 return indexpagestring();
+            if (str.Contains("GET /loadfile"))
+            {
+                string fn = getparam(str, "file");
+                if (fn != "NotFound")
+                {
+                    ReadDataFile(fn);
+                    sortbytarget();
+                    insertfreetargets();
+                    sortbytarget();
+                    checktargetnumbers();
+                    return setuppagestring();
+                }
+
+                string[] files = Directory.GetFiles(FilePath, "*.csv");
+                string page = header + "<h2>Load File</h2><form>File: <select name=\"file\"/>";
+                foreach(string s in files)
+                    page += "<option>" + s + "</option>";
+                page += "<input type=\"submit\" value=\"Load File\" formaction=\"/loadfile\"/></form></body></html>\r\n";
+                return page;
+            }
+            if (str.Contains("GET /savefile"))
+            {
+                string fn = getparam(str, "file");
+                if (fn != "NotFound")
+                {
+                    Console.WriteLine("Saving to " + FilePath + fn + ".csv");
+                    SaveDataFile(FilePath + fn + ".csv");
+                    return setuppagestring();
+                }
+                return header + "<h2>Save File</h2><form>\r\nFile: <input id=\"file\" name=\"file\"/>"
+                    + "<input type=\"submit\" value=\"Save File\" formaction=\"/savefile\"/></form></body></html>\r\n";
+            }
             Console.WriteLine("Sending 404 not found.");
             return "HTTP/1.1 404 Not Found\r\n\r\n";
         }

@@ -41,7 +41,7 @@ function page() {
     var txt = "<h2>Target " + data[TARGET] + " - " + data[NAME] + "</h2>";
 	txt += "<form id=\"data\" action=\"/scoreentry\" method=\"get\">";
     txt += "<input name=\"target\" value=\"" + data[TARGET] + "\" type=\"hidden\" />";
-    txt += "<input name=\"send\" id=\"send\" value=\"data\" type=\"hidden\" />";
+    txt += "<input name=\"send\" id=\"send\" value=\"xxx\" type=\"hidden\" />";
     txt += "<input name=\"state\" id=\"state\" value=\"Inuse\" type=\"hidden\" />";
 
     txt += "<table border=\"1\" style=\"border-collapse: collapse;\"><tr>";
@@ -91,6 +91,7 @@ function page() {
 	else
 		txt += "<td width=\"100\"><input type=\"button\" name=\"Restore\" value=\"Restore\" onclick=\"restore()\" tabindex=\"8\" /></td>";
     txt += "<td width=\"100\"><input type=\"submit\" value=\"Cancel\" formaction=\"/index\" tabindex=\"10\" /></td>";
+    txt += "<td width=\"100\"><input type=\"submit\" value=\"Edit\" formaction=\"/updateentry\" tabindex=\"11\" /></td>";
     txt += "</table></form>";
 	if (data[STATE]!="Inuse")
 		txt += "<h1>" + data[STATE] + "</h1>";

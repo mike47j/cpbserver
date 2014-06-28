@@ -916,8 +916,10 @@ namespace CPBserver
                     checktargetnumbers();
                     return setuppagestring();
                 }
-
-                string[] files = Directory.GetFiles(FilePath, "*.csv");
+                string fp = FilePath;
+                if (fp=="")
+                    fp = System.IO.Directory.GetCurrentDirectory();
+                string[] files = Directory.GetFiles(fp, "*.csv");
                 string page = header + "<h2>Load File</h2><form>File: <select name=\"file\"/>";
                 foreach(string s in files)
                     page += "<option>" + s + "</option>";

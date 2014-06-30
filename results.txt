@@ -443,7 +443,7 @@ function bowtype(rndstr, g, bow) {
 		    + "<td align=\"center\">" + data[highi][GENDER]
 		    + "</td><td>" + data[highi][CLUB] + "</td><td align=\"center\">" + data[highi][ROUND]
 		    + "</td><td align=\"center\">" + data[highi][BOW] + "</td><td align=\"center\">"
-		    + (note == "DNS" ? "&nbsp;" : data[highi][SCORE]) + "</td><td align=\"center\">"
+		    + (note != "Inuse" ? "&nbsp;" : data[highi][SCORE]) + "</td><td align=\"center\">"
 		    + data[highi][ARROWCNT] + "</td><td align=\"center\">"
 		    + (data[highi][STATE] != "Inuse" ? "&nbsp;" : Math.round(scores[highi])) + "</td><td align=\"center\">";
 	    }

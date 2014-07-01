@@ -16,7 +16,7 @@ The junior championship was needed because we have trophies. Junior championship
 [http://cpbserver.googlecode.com/svn/trunk/images/leaderj.jpg]
 
 The handicap leader board is calculated from the archers score + 1440 - 
-the handicap score for the number of arrows shot so far.
+the handicap score for the number of arrows and distance shot so far.
 
 [http://cpbserver.googlecode.com/svn/trunk/images/leaderh.jpg]
 

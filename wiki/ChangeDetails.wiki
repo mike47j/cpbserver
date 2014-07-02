@@ -1,0 +1,12 @@
+#summary Change details of an Archer
+= Change details of an Archer =
+
+[Contents Contents] [MoveSwap Next]
+
+[http://cpbserver.googlecode.com/svn/trunk/images/change.jpg]
+
+Make any changes to an archers details except for the target number.
+
+Use move/swap to change an archer(s) target number.
+
+Take care when changing the round as it needs to match others on the target, unless you are going to re-allocate all the target numbers.

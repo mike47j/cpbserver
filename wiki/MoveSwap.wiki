@@ -1,0 +1,14 @@
+#summary Move or Swap Archers between Targets
+= Move or Swap Archers =
+
+[Contents Contents] [Printing Next]
+
+Sometimes it's necessary to move an Archer, even during a competition.
+
+[http://cpbserver.googlecode.com/svn/trunk/images/setup1.jpg]
+
+On the SetUp page enter the 2 target numbers and click "Move".
+
+[http://cpbserver.googlecode.com/svn/trunk/images/move.jpg]
+
+This will swap over the archer(s) on the 2 targets.

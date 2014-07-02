@@ -1,0 +1,12 @@
+#summary Add Archers
+= Add Archers =
+
+[Contents Contents] [Allocate Next]
+
+[http://cpbserver.googlecode.com/svn/trunk/images/addarcher.jpg]
+
+This show a list of the currently free targets and the first is selected. Choose any free target and enter it in the Target: box.
+
+When entering a list of archers most of the details will stay the same until you change them.
+
+When initially setting up a competition don't worry about mixing rounds on one target, that can be sorted out in the next step. 

@@ -2,9 +2,11 @@
 = Contents =
 [Installation Download and Installation]
 
+[LeaderBoard Leader Board / Results]
+
 [SetUp Set up a Tournament]
 
-[LeaderBoard Leader Board / Results]
+[AddArchers Add Archers]
 
 [Allocate Allocate Archers to Targets]
 

@@ -11,4 +11,4 @@ On the SetUp page enter the 2 target numbers and click "Move".
 
 [http://cpbserver.googlecode.com/svn/trunk/images/move.jpg]
 
-This will swap over the archer(s) on the 2 targets.
+This will swap over the archer(s) on the 2 targets. If the rounds are different then you may need to correct this using "Change Details".

@@ -1,7 +1,7 @@
 #summary Download and Installation
 = Installation =
 
-[Contents Contents] [SetUp Next]
+[Contents Contents] [LeaderBoard Next]
 
 Download http://cpbserver.googlecode.com/svn/trunk/cpb.zip. This version dated 28th June 2014.
 
@@ -16,7 +16,7 @@ See gpl.txt or http://www.gnu.org/licenses/ for conditions.
 
 Server address 192.168.1.64 ports 80, 4023
 }}}
-To check its working open a web browser on the same pc and enter "http://127.0.0.1" as the address.
+To check its working open a web browser on the same pc and enter "http://127.0.0.1" as the address, the leader board should be shown.
 
 Type "shutdown" into the window to save the data stored in the server in the file "data.csv" and to close down the server.
 

@@ -10,6 +10,10 @@
 
 [Allocate Allocate Archers to Targets]
 
+[ChangeDetails Change Archers Details]
+
+[MoveSwap Move an Archer or Swap 2 Archers]
+
 [Printing Printing]
 
 [Running Printing Running Slips and Score Sheets]

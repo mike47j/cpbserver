@@ -28,8 +28,10 @@ There are 3 methods for the score entry system, either enter every arrow value, 
 
 Click submit to store the information in the server. This will be written to the "data.csv" file after about 20 seconds.
 
-There is some test data so you can skip clearing everything unless setting up a new tournament. “Clear Everything” will delete all information and go into “Add Archers”. Don't worry about mixing rounds on one target yet, that can be sorted out in the next step.
+There is some test data so you can skip clearing everything and adding archers to see how the program works. “Clear Everything” will delete all information and go into “Add Archers”. Don't worry about mixing rounds on one target yet, that can be sorted out in the next step.
 
-Then [Allocate “Re-allocate Targets”] to un-mix the rounds and get all longbows together etc. Just click in a list to move an entry from one side to the other or leave a target empty.
+Targets by round will give a list of the rounds and targets, for the test data it will show a lot of errors with mixed rounds on targets.
+
+Then use [Allocate “Re-allocate Targets”] to un-mix the rounds and get all longbows together etc. Just click in a list to move an entry from one side to the other or leave a target empty.
 
 After that {{{http://192.168.1.64:4023/index}}} is the data entry start page.

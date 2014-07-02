@@ -3,6 +3,8 @@
 
 [Contents Contents] [MoveSwap Next]
 
+Usually there will be small changes to archers details discovered at the start of the tournament. From the score entry page you can click "Edit" to reach this page and clicking "Enter + Score" will update the details and return to the score entry page for this archer.
+
 [http://cpbserver.googlecode.com/svn/trunk/images/setup1.jpg]
 
 On the setup page enter the target number of the archer and click "Change Details".

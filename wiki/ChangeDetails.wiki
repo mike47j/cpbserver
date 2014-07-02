@@ -3,6 +3,10 @@
 
 [Contents Contents] [MoveSwap Next]
 
+[http://cpbserver.googlecode.com/svn/trunk/images/setup1.jpg]
+
+On the setup page enter the target number of the archer and click "Change Details".
+
 [http://cpbserver.googlecode.com/svn/trunk/images/change.jpg]
 
 Make any changes to an archers details except for the target number.

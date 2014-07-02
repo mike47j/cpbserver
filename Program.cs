@@ -710,7 +710,7 @@ namespace CPBserver
                 string r1 = ArcherDataStr(fromtarget, false, "datafrom");
                 string r2 = ArcherDataStr(totarget, false, "datato");
                 if (r1 != "" || r2 != "")
-                    return results + rounds + r1 + r2 + fieldnames + flagstring() 
+                    return results + rounds + r1 + r2 + fieldnames + flagstring()
                         + "var tournament = \"" + tournament + "\", tournamentdate = \"" + tournamentdate + "\";\r\n"
                         + movearcher;
                 else
@@ -876,11 +876,26 @@ namespace CPBserver
                     {
                         if (Archers[i].state == State.Free)
                         {
-                            if (rnd != Archers[i].round)
+                            string targetrnd = Archers[i].round;
+                            if (targetrnd == "NotSet")
+                            {
+                                for (int j = i - 6; j < i + 6; j++)
+                                {
+                                    if (j < 0 || i == j || j > max
+                                        || Archers[i].target.Substring(0, 2) != Archers[j].target.Substring(0, 2))
+                                        continue;
+                                    if (Archers[j].round == "NotSet")
+                                        continue;
+                                    targetrnd = Archers[j].round;
+                                    break;
+                                }
+                            }
+
+                            if (rnd != targetrnd)
                             {
                                 if (rnd != "qwerty")
                                     results += "),\r\n";
-                                rnd = Archers[i].round;
+                                rnd = targetrnd;
                                 results += "new Array(\"" + rnd + "\"";
                             }
                             results += ", \"" + Archers[i].target + "\"";
@@ -917,11 +932,11 @@ namespace CPBserver
                     return setuppagestring();
                 }
                 string fp = FilePath;
-                if (fp=="")
+                if (fp == "")
                     fp = System.IO.Directory.GetCurrentDirectory();
                 string[] files = Directory.GetFiles(fp, "*.csv");
                 string page = header + "<h2>Load File</h2><form>File: <select name=\"file\"/>";
-                foreach(string s in files)
+                foreach (string s in files)
                     page += "<option>" + s + "</option>";
                 page += "<input type=\"submit\" value=\"Load File\" formaction=\"/loadfile\"/></form></body></html>\r\n";
                 return page;

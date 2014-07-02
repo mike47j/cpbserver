@@ -1,7 +1,7 @@
 #summary Allocate Archers to Targets
 = Allocate Archers to Targets=
 
-[Contents Contents] [Printing Next]
+[Contents Contents] [ChangeDetails Next]
 
 After adding all the archers they need to be sorted by round and bow type. Usually longest distance first, with longbow and bare bow archers kept away from compound archers to avoid arrow damage.
 

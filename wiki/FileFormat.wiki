@@ -21,7 +21,7 @@ First Line information separated by coma:
    * Best - Best Archer
    * Handicap
    * Team
-   * WorldArchery
+   * !WorldArchery
    * Dozen - score entry by dozen scores
    * Total - score entry by totals
  * Tournament date

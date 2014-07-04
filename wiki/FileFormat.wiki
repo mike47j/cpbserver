@@ -1,0 +1,36 @@
+#summary CSV File Format
+= CSV File Format =
+{{{
+"Test",20,Medals Junior Team ,"","","","","","","","",
+TARGET,NAME,CLUB,TEAM,BOW,GENDER,ROUND,HANDICAP,TOTAL,TIEBREAK1,TIEBREAK2,STATE,ARROWCNT,ARROWS
+01A,Abigail,CPB,1,Recurve,F,Hereford / Bristol 1,43,133,23,2,Inuse,24,HHHHHFJHFFDDJHHFDAHHFFDD,
+01B,Addison,CPB,1,Recurve,JGU18,Hereford / Bristol 1,44,133,21,4,Inuse,24,JJHFFFJHHFAAJHFFFAHHFFFF,
+}}}
+
+First Line information separated by coma:
+ * Tournament Name
+ * Number of Targets 1 to 90
+ * Options, each separated by space
+   * Medals - Gold, Silver or Bronze medals allocated by age, round
+   * Junior - Junior Championship
+   * Best - Best Archer
+   * Handicap
+   * Team
+   * WorldArchery
+   * Dozen - score entry by dozen scores
+   * Total - score entry by totals
+ * Tournament date
+ * Venue
+ * Judges
+ * Lady Paramount
+ * Gentleman Patron
+ * Tournament Organiser
+ * Time of assembly
+ * Weather
+
+Second line column headings, not used yet
+
+Third line onwards, data according to the column headings
+
+
+ 

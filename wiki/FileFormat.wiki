@@ -2,6 +2,9 @@
 = CSV File Format =
 
 [Contents Contents]
+
+The file can be read or written by Excel or !OpenOffice.
+
 {{{
 "Test",20,Medals Junior Team ,"","","","","","","","",
 TARGET,NAME,CLUB,TEAM,BOW,GENDER,ROUND,HANDICAP,TOTAL,TIEBREAK1,TIEBREAK2,STATE,ARROWCNT,ARROWS

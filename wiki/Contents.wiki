@@ -21,3 +21,5 @@
 [IndexPage Index Page]
 
 [ScoreEntry Score Entry]
+
+[FileFormat CSV file format]

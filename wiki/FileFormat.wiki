@@ -33,6 +33,19 @@ First Line information separated by coma:
 Second line column headings, not used yet
 
 Third line onwards, data according to the column headings
-
+ * Target 2 digits + letter A-F
+ * Name
+ * Club
+ * Team code
+ * Bow type R = Recurve, C = Compound, L = Longbow, B = Bare Bow
+ * Gender M = Senior Male, F = Senior Female, JBU18 = Junior Boy under 18, JGU14 = Junior Girl under 14
+ * Round
+ * Handicap
+ * Running Total
+ * Tie Break 1 - Hits or X/10
+ * Tie Break 2 - Golds, 5s, X/10 or X
+ * State - Inuse, Free, DNS, Retired
+ * Number of Arrows shot
+ * String of Arrows - A = Miss, B = 1, ... H = 9, I = 10, J = X
 
  

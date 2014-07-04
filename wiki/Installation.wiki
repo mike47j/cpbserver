@@ -3,7 +3,7 @@
 
 [Contents Contents] [LeaderBoard Next]
 
-Download http://cpbserver.googlecode.com/svn/trunk/cpb.zip. This version dated 2nd July 2014.
+Download http://cpbserver.googlecode.com/svn/trunk/cpb.zip. This version dated 4th July 2014.
 
 Save the file, click on the file to unpack all the files. Copy all the files to a directory and double click on "cpbserver.exe" to run it. If the directory is on a usb memory stick then it can be moved if the computer fails. Probably best if the server is run on a laptop with a good battery. Because it opens a couple of TCP/IP ports, Windows Firewall and some anti-virus software may block access, hopefully it will ask before it does this so you can allow access.
 
@@ -28,4 +28,4 @@ Timeout is the time delay with no data being entered, before a backup is done. U
 
 {{{?Path=E:\Archery\Server\CPBserver\&Result=83&Update=4023&Timeout=30 }}}
 
-I'm using Windows 7 and Visual Studio Express 2013 to develop this and have not tried it on other version of Windows. The leader board I've tried on a Samsung Galaxy Ace.
+I'm using Windows 7 and Visual Studio Express 2013 to develop this. I've just recompiled and run on Windows XP, however it does not work properly on IE8, but the latest version of Opera seems to work and run on XP. The leader board I've also tried on a Samsung Galaxy Ace.

@@ -40,7 +40,8 @@
 <tr>
 <td width="200" style="padding:10px;">
     <input type="submit" value="Print Target List by Target" formaction="/printbytarget" /><br/><br/>
-    <input type="submit" value="Print Target List by Name" formaction="/printbyname" />
+    <input type="submit" value="Print Target List by Name" formaction="/printbyname" /><br/><br/>
+    <input type="submit" value="Print Target List by Team" formaction="/printbyteam" />
 <td width="400">Enter everything except the weather before printing.
 </tr>
 

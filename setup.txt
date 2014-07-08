@@ -18,8 +18,8 @@
         function page() {
             var txt = "<h2>" + tournament + "</h2><h2>Competition Setup</h2>\r\n";
             txt += "<form name=\"setupdata\" method=\"get\" action=\"/setupdata.htm\">";
-            txt += "<table><tr><td width=\"220\">Name of Event:</td><td><input name=\"name\" size=\"50\" value=\"" + tournament + "\" /></td></tr>";
-            txt += "<tr><td>Date of Event:</td><td><input name=\"date\" size=\"50\" value=\"" + tournamentdate + "\" /></td></tr>";
+            txt += "<table><tr><td width=\"220\">Name of Event:</td><td><input name=\"name\" size=\"75\" value=\"" + tournament + "\" /></td></tr>";
+            txt += "<tr><td>Date of Event:</td><td><input name=\"date\" size=\"75\" value=\"" + tournamentdate + "\" /></td></tr>";
 	    txt += "<tr><td>Maximum Targets:</td><td><input name=\"maxtargets\" size=\"3\" value=\"" + maxtargets + "\" /><br/>";
             txt += "<tr><td>Medals:</td><td><input type=\"checkbox\" name=\"medals\" " + (medalflag == 1 ? "checked=\"checked\"" : "") + " /></td></tr>";
             txt += "<tr><td>Best Archer:</td><td><input type=\"checkbox\" name=\"best\" " + (bestflag == 1 ? "checked=\"checked\"" : "") + " /></td></tr>";
@@ -40,12 +40,12 @@
     </script>
 
 <p></p>
-<table border="1" style="border-collapse: collapse;">
+<table border="1" style="border-collapse:collapse;">
 <tr>
-<td width="200" style="padding:10px;">
+<td style="width:200px;padding:10px;">
     <form name="clearall" method="get" action="/clearall">
         <input type="submit" value="Clear Everything" />
-    </form>
+    </form><br/>
     <form name="clearscores" method="get" action="/clearscores">
         <input type="submit" value="Clear all scores" />
     </form>
@@ -56,13 +56,13 @@
 <tr><td style="padding:10px;">
     <form name="newarchers" method="get" action="/newarchers">
         <input type="submit" value="Add archers" />
-    </form>
+    </form><br/>
     <form name="allocate" method="get" action="/allocate">
         <input type="submit" value="Re-allocate Targets" />
-    </form>
+    </form><br/>
     <form name="rounds" method="get" action="/rounds">
         <input type="submit" value="Targets by Round" />
-    </form>
+    </form><br/>
 	<form name="updateentry" method="get" action="/updateentry.htm">
 <input name="target" value="01A" size="3"/> <input type="submit" value="Change Details." />
 </form>
@@ -81,7 +81,7 @@
 <tr><td style="padding:10px;">
     <form>
         <input type="submit" value="Load File" formaction="/loadfile" />
-	</form>
+	</form><br/>
 	<form>
         <input type="submit" value="Save File" formaction="/savefile" />
     </form>
@@ -91,7 +91,7 @@
 <tr><td style="padding:10px;">
     <form>
         <input type="submit" value="Score Entry Page" formaction="/index" />
-	</form>
+	</form><br/>
 	<form>
         <input type="submit" value="Print Functions" formaction="/printpage" />
     </form>

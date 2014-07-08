@@ -73,7 +73,8 @@ namespace CPBserver
         static string updateentry;
 
         public const int MAXARCHERS = 99 * 4;
-        public const string header = "HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n" + "<html><body>";
+        public const string header = "HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n"
+            + "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf-8\" /><title>CPB Server page</title></head><body>\r\n";
         public const string fieldnames = "var TARGET = 0, NAME = 1, CLUB = 2, TEAM=3, BOW = 4, GENDER = 5, ROUND = 6, HANDICAP = 7;\r\n"
                             + "var SCORE = 8, TIEBREAK1 = 9, TIEBREAK2 = 10, STATE = 11, ARROWCNT = 12, ARROWS = 13;\r\n";
 
@@ -437,7 +438,8 @@ namespace CPBserver
         // en&bow=Recurve&gender=F&round=Hereford&score=887&hits=139&golds=32&dns=&retired=&dozen =12 HTTP/1.1
         private static string getparam(string s, string key)
         {
-            s = s.Substring(0, s.IndexOf('\n'));
+            if (s.IndexOf('\n') >= 0)
+                s = s.Substring(0, s.IndexOf('\n'));
             int p = s.IndexOf('?'); // start of all params
             if (p < 0)
                 return "NotFound";
@@ -465,6 +467,7 @@ namespace CPBserver
 
         private static string inputhandler(string str)
         {
+            str = str.Substring(0, str.IndexOf('\n'));
             if (str.Contains("GET /clearscores"))
             {
                 lock (dataLock)
@@ -554,13 +557,15 @@ namespace CPBserver
                 else
                     return results + rounds + printscore;
             }
-            if (str.Contains("GET /byname") || str.Contains("GET /bytarget") || str.Contains("GET /clearscores")
-                || str.Contains("GET /printbyname") || str.Contains("GET /printbytarget")
-                || str.Contains("GET /scorebyname") || str.Contains("GET /scorebytarget"))
+            if (str.Contains("GET /byname") || str.Contains("GET /byteam") || str.Contains("GET /bytarget")
+                || str.Contains("GET /clearscores")
+                || str.Contains("GET /printbyname") || str.Contains("GET /printbyteam") || str.Contains("GET /printbytarget")
+                || str.Contains("GET /scorebyname") || str.Contains("GET /scorebyteam") || str.Contains("GET /scorebytarget"))
             {
                 bool printing = str.Contains("print");
                 bool sortbyname = str.Contains("byname");
-                bool targetlist = !str.Contains("score");
+                bool sortbyteam = str.Contains("byteam");
+                bool targetlist = str.Contains("clearscores") || !str.Contains("score");
 
                 // Send results back to client
                 string page = header + "<div id=\"page\"></div><script type=\"text/javascript\">\r\n";
@@ -573,7 +578,7 @@ namespace CPBserver
                 page += "var weather = \"" + weather + "\";\r\n";
 
                 page += "var sortbyname = " + (sortbyname ? "true" : "false") + ", printing = " + (printing ? "true" : "false") + ";\r\n";
-                page += "var targetlist = " + (targetlist ? "true" : "false") + ";\r\n";
+                page += "var sortbyteam = " + (sortbyteam ? "true" : "false") + ", targetlist = " + (targetlist ? "true" : "false") + ";\r\n";
                 return page + rounds + byname;
             }
             if (str.Contains("GET /printresults"))
@@ -960,8 +965,8 @@ namespace CPBserver
         static string indexpagestring()
         {
             return header + "<h2>" + tournament + "</h2>"
-                + "<p><form><input type=\"submit\" value=\"Leader Board\" formaction=\""
-                + "http://" + GetLocalIP() + ":" + RESULTPORT + "/index\"></form></p>" + indexpage;
+                + "<form><p><input type=\"submit\" value=\"Leader Board\" formaction=\""
+                + "http://" + GetLocalIP() + ":" + RESULTPORT + "/index\"></p></form>" + indexpage;
         }
 
         static string setuppagestring()

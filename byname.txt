@@ -24,7 +24,7 @@
         for (i=0; i<maxdata; i++) {
             sort[i] = "";
             if (data[i][STATE]!="Free") {
-				if (teamflag==1 && sortbyname)
+				if (sortbyteam)
                     sort[i] = data[i][CLUB] + " " + data[i][TEAM];
                 else if (sortbyname)
                     sort[i] = data[i][NAME].substr(data[i][NAME].indexOf(" ")+1) + " " 
@@ -67,13 +67,17 @@
 		}
 
 		if (targetlist) {
-			if (sortbyname)
+			if (sortbyteam)
+				txt += "</h2><h3 style=\"font-family:Helvetica,Arial,sans-serif;\">Target List by Team</h3>";
+			else if (sortbyname)
 				txt += "</h2><h3 style=\"font-family:Helvetica,Arial,sans-serif;\">Target List by Name</h3>";
 			else
 				txt += "</h2><h3 style=\"font-family:Helvetica,Arial,sans-serif;\">Target List by Target</h3>";
 		}
 		else {
-			if (sortbyname)
+			if (sortbyteam)
+				txt += "</h2><h3 style=\"font-family:Helvetica,Arial,sans-serif;\">Scores by Team</h3>";
+			else if (sortbyname)
 				txt += "</h2><h3 style=\"font-family:Helvetica,Arial,sans-serif;\">Scores by Name</h3>";
 			else
 				txt += "</h2><h3 style=\"font-family:Helvetica,Arial,sans-serif;\">Scores by Target</h3>";

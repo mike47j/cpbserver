@@ -435,15 +435,15 @@ function bowtype(rndstr, g, bow) {
 		awards = "&nbsp;";
 	    }
 	    var note = data[highi][STATE];
-	    if (note == "Inuse")
-		note = "&nbsp;";
+		if (note == "Inuse")
+			note = "&nbsp;";
 	    junior = (data[highi][GENDER].substr(0, 1) == "J");
 	    if (handicapflag==1) {
 		textstr += "</td><td align=\"center\">" + data[highi][TARGET] + "</td><td>" + data[highi][NAME]
 		    + "<td align=\"center\">" + data[highi][GENDER]
 		    + "</td><td>" + data[highi][CLUB] + "</td><td align=\"center\">" + data[highi][ROUND]
 		    + "</td><td align=\"center\">" + data[highi][BOW] + "</td><td align=\"center\">"
-		    + (note != "Inuse" ? "&nbsp;" : data[highi][SCORE]) + "</td><td align=\"center\">"
+		    + (data[highi][STATE] != "Inuse" ? "&nbsp;" : data[highi][SCORE]) + "</td><td align=\"center\">"
 		    + data[highi][ARROWCNT] + "</td><td align=\"center\">"
 		    + (data[highi][STATE] != "Inuse" ? "&nbsp;" : Math.round(scores[highi])) + "</td><td align=\"center\">";
 	    }
@@ -451,9 +451,9 @@ function bowtype(rndstr, g, bow) {
 		textstr += "</td><td align=\"center\">" + data[highi][TARGET] + "</td><td>" + data[highi][NAME]
 		    + (junior ? " J <font size=\"-2\">" + data[highi][GENDER].substr(2, 3) + "</font>" : "")
 		    + "</td><td>" + data[highi][CLUB] + "</td><td align=\"center\">"
-		    + (note == "DNS" ? "&nbsp;" : data[highi][SCORE]) + "</td><td align=\"center\">"
-		    + (note == "DNS" ? "&nbsp;" : data[highi][TIEBREAK1]) + "</td><td align=\"center\">"
-		    + (note == "DNS" ? "&nbsp;" : data[highi][TIEBREAK2]) + "</td><td align=\"center\">"
+		    + (data[highi][STATE] == "DNS" ? "&nbsp;" : data[highi][SCORE]) + "</td><td align=\"center\">"
+		    + (data[highi][STATE] == "DNS" ? "&nbsp;" : data[highi][TIEBREAK1]) + "</td><td align=\"center\">"
+		    + (data[highi][STATE] == "DNS" ? "&nbsp;" : data[highi][TIEBREAK2]) + "</td><td align=\"center\">"
 		    + data[highi][ARROWCNT] + "</td><td align=\"center\">";
 	    }
 	    if (handicapflag==1 || medalalloc[medalline][1].indexOf(data[highi][GENDER]) >= 0) {

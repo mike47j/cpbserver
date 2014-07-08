@@ -16,18 +16,20 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <form>
-<table><tr><td width="300" valign="top">
-<input type="submit" value="Target list by target" formaction="/bytarget" /><br/><br/>
-<input type="submit" value="Target list by name" formaction="/byname" /><br/><br/>
-<input type="submit" value="Scores by target" formaction="/scorebytarget" /><br/><br/>
-<input type="submit" value="Scores by name" formaction="/scorebyname" /><br/><br/>
-<td width="300" valign="top">
+<table><tr><td style="width:300px;vertical-align:top;">
+<input type="submit" value="Target List by Target" formaction="/bytarget" /><br/><br/>
+<input type="submit" value="Target List by Name" formaction="/byname" /><br/><br/>
+<input type="submit" value="Target List by Team" formaction="/byteam" /><br/><br/>
+<input type="submit" value="Scores by Target" formaction="/scorebytarget" /><br/><br/>
+<input type="submit" value="Scores by Name" formaction="/scorebyname" /><br/><br/>
+<input type="submit" value="Scores by Team" formaction="/scorebyteam" /><br/><br/>
+<td style="width:300px;vertical-align:top;">
 <input type="submit" value="Set Up Page" formaction="/setup" /></td>
 </table></form>
 
-<p><form name="scoreentry" method="get" action="/scoreentry.htm">
-Target: <input id="target" name="target" size="3"/> <input type="submit" value="Score Entry" />
-</form></p>
+<form name="scoreentry" method="get" action="/scoreentry.htm">
+<p>Target: <input id="target" name="target" size="3"/> <input type="submit" value="Score Entry" /></p>
+</form>
 
 <script type="text/javascript">
   document.getElementById("target").focus();

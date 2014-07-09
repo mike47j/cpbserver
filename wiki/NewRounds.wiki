@@ -22,7 +22,14 @@ Each line has:
   * !CompoundTriple = 4, 5 zone triple with inner ten
   * Worcester = 5, 5 zone 5, 4, 3, 2, 1
   * !SixZone = 7, 6 zone 10, 9, 8, 7, 6, 5
- * then 4 groups of 3:
-  * the number of arrows
-  * distance in yards or meters
+ * then 4 groups of 3 numbers:
+  * the number of arrows at this distance
+  * distance in yards or meters as selected above
   * the full 10 zone target size in cm, not the actual size
+
+{{{
+new Array("Burntwood National", 1, 6, Imperial, 48, 30, 60, 24, 30, 80, 0, 0, 0, 0, 0, 0),
+new Array("Burntwood Warwick", 1, 6, Imperial, 24, 30, 60, 24, 30, 80, 0, 0, 0, 0, 0, 0),
+new Array("VIIR 1", 1, 6, Metric, 36, 30, 40, 36, 30, 60, 36, 30, 80, 36, 30, 122),
+new Array("VIIR 2", 1, 6, Metric, 36, 30, 60, 36, 30, 80, 36, 30, 80, 36, 30, 122),
+}}}

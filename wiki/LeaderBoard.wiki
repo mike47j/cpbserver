@@ -16,7 +16,7 @@ The junior championship was needed because we have trophies. Junior championship
 [http://cpbserver.googlecode.com/svn/trunk/images/leaderj.jpg]
 
 The handicap leader board is calculated from the archers score + 1440 - 
-the handicap score for the number of arrows and distance shot so far. So before an arrow is shot, everyone will have an adjusted score of 1440, and those shooting above their handicap will see this increase as the round progresses. 
+the handicap score for the number of arrows and distance shot so far. So before an arrow is shot, everyone will have an adjusted score of 1440, and those shooting above their handicap will see this increase as the round progresses. If you want to include a VI round in the handicap tournament then you can use David Lane's algorithm to produce handicap tables for their rounds. http://www.crystalpalacebowmen.org.uk/handicap.shtml
 
 [http://cpbserver.googlecode.com/svn/trunk/images/leaderh.jpg]
 

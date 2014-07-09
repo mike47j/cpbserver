@@ -23,3 +23,5 @@
 [ScoreEntry Score Entry]
 
 [FileFormat CSV file format]
+
+[NewRounds Non-standard Rounds]

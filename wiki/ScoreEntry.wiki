@@ -3,7 +3,7 @@
 
 [Contents Contents]
 
-There are 3 methods of score entry:
+Currently there are 3 methods of score entry. Unfortunately, score sheets often have a few errors in the adding up. So I'm thinking that entering every arrow and having the system check the adding up will be the best system. I'll probably delete the other 2 methods if the first is not too much work for the runners.
  # Enter every arrow, checks adding up.
  # Enter every dozen score, small amount of checking.
  # Enter totals, no checking.

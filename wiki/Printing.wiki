@@ -4,3 +4,6 @@
 [Contents Contents] [Running Next]
 
 [http://cpbserver.googlecode.com/svn/trunk/images/print.jpg]
+
+The "Print Target List by Team" button is only there if the team competition box has been ticked.
+

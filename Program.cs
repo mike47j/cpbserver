@@ -543,7 +543,7 @@ namespace CPBserver
                 results += "var paramount = \"" + paramount + "\", patron = \"" + patron + "\";\r\n";
                 results += "var tournamentorganiser = \"" + tournamentorganiser + "\", timeofassembly = \"" + timeofassembly + "\";\r\n";
                 results += "var weather = \"" + weather + "\";\r\n";
-                return results + printpage;
+                return results + flagstring() + printpage;
             }
             if (str.Contains("GET /printrun") || str.Contains("GET /printscore"))
             {
@@ -581,7 +581,7 @@ namespace CPBserver
                 page += "var sortbyteam = " + (sortbyteam ? "true" : "false") + ", targetlist = " + (targetlist ? "true" : "false") + ";\r\n";
                 return page + rounds + byname;
             }
-            if (str.Contains("GET /printresults"))
+            if (str.Contains("GET /printresults") || str.Contains("GET /results"))
             {
                 bool printing = str.Contains("print");
                 // Send results back to client
@@ -964,9 +964,9 @@ namespace CPBserver
 
         static string indexpagestring()
         {
-            return header + "<h2>" + tournament + "</h2>"
-                + "<form><p><input type=\"submit\" value=\"Leader Board\" formaction=\""
-                + "http://" + GetLocalIP() + ":" + RESULTPORT + "/index\"></p></form>" + indexpage;
+            return header + "<div id=\"page\"></div><script type=\"text/javascript\">\r\n"
+                + "var tournament = \"" + tournament + "\"; var tournamentdate = \"" + tournamentdate + "\";\r\n"
+                + flagstring() + indexpage;
         }
 
         static string setuppagestring()

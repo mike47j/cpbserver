@@ -1,7 +1,7 @@
 #summary Non-standard rounds
 = Non-standard rounds =
 
-The file "rounds.txt" contains information about the rounds. If you need to add a new round then this file can be changed. Because its a JavaScript file, every line end in ")," except the last which is only ")". So if you add anything it's simplest to add it at the beginning. The information is used for scoresheets, running slips, handicaps etc.
+The file "rounds.txt" contains information about the rounds. If you need to add a new round then this file can be changed. Because its a !JavaScript file, every line end in ")," except the last which is only ")". So if you add anything it's simplest to add it at the beginning. The information is used for scoresheets, running slips, handicaps etc.
 {{{
 new Array("Windsor", 0,6, Imperial, 36, 60, 122, 36, 50, 122, 36, 40, 122, 0, 0, 0),
 new Array("Short Windsor", 0,6, Imperial, 36, 50, 122, 36, 40, 122, 36, 30, 122, 0, 0, 0),

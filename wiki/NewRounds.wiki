@@ -1,0 +1,28 @@
+#summary Non-standard rounds
+= Non-standard rounds =
+
+The file "rounds.txt" contains information about the rounds. If you need to add a new round then this file can be changed. Because its a JavaScript file, every line end in ")," except the last which is only ")". So if you add anything it's simplest to add it at the beginning. The information is used for scoresheets, running slips, handicaps etc.
+{{{
+new Array("Windsor", 0,6, Imperial, 36, 60, 122, 36, 50, 122, 36, 40, 122, 0, 0, 0),
+new Array("Short Windsor", 0,6, Imperial, 36, 50, 122, 36, 40, 122, 36, 30, 122, 0, 0, 0),
+new Array("Junior Windsor", 0,6, Imperial, 36, 40, 122, 36, 30, 122, 36, 20, 122, 0, 0, 0),
+new Array("Short Junior Windsor", 0,6, Imperial, 36, 30, 122, 36, 20, 122, 36, 10, 122, 0, 0, 0),
+new Array("new Western", 0,6, Imperial, 48, 100, 122, 48, 80, 122, 0, 0, 0, 0, 0, 0),
+}}}
+
+Each line has:
+ * The round name in "
+ * 0 for imperial distances or 1 for metric distances,
+ * the number of arrows shot in half a dozen, usually 6, but 5 for Worcester
+ * The scoring:
+  * Metric = 0, ten zones X or 10, 9, 8, 7, 6, 5, 4, 3, 2, 1
+  * Imperial = 1, five zones 9, 7, 5, 3, 1
+  * !CompoundMetric = 2, inner ten = 10, outer 10 = 9 ...
+  * Triple = 3, 5 zone triple target 10, 9, 8, 7 ,6
+  * !CompoundTriple = 4, 5 zone triple with inner ten
+  * Worcester = 5, 5 zone 5, 4, 3, 2, 1
+  * !SixZone = 7, 6 zone 10, 9, 8, 7, 6, 5
+ * then 4 groups of 3:
+  * the number of arrows
+  * distance in yards or meters
+  * the full 10 zone target size in cm, not the actual size

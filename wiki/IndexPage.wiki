@@ -7,3 +7,5 @@
 [http://cpbserver.googlecode.com/svn/trunk/images/index.jpg]
 
 The focus should be on the target entry box so just entering a target number on the keypad followed by enter should bring up the correct score sheet ready for entering the scores from the running slip.
+
+The Team button's are only there if the team competition box has been ticked. 

@@ -64,19 +64,19 @@
 		    var tb2 = 0;
 		    for (i = 0; i < arrowsperend; i++) {
 				if (arrowno == arrows.length)
-					txt += "<td align=\"center\" style=\"background-color:yellow;\">&nbsp;</td>";
+					txt += "<td style=\"background-color:yellow;\">&nbsp;</td>";
 				else if (arrowno > arrows.length)
-					txt += "<td align=\"center\" width=\"25\">&nbsp;</td>";
+					txt += "<td style=\"width:25px;\">&nbsp;</td>";
 				else if (arrows.charCodeAt(arrowno) - 65 == 0)
-					txt += "<td align=\"center\" width=\"25\">M</td>";
+					txt += "<td style=\"text-align:center;width:25px;\">M</td>";
 				else if (arrows.charCodeAt(arrowno) - 65 == 11) {
-					txt += "<td align=\"center\" width=\"25\">X</td>";
+					txt += "<td style=\"text-align:center;width:25px;\">X</td>";
 					et1 += 10;
 					tb1++;
 					tb2++;
 				}
 				else {
-					txt += "<td align=\"center\" width=\"25\">" + (arrows.charCodeAt(arrowno) - 65) + "</td>";
+					txt += "<td style=\"text-align:center;width:25px;\">" + (arrows.charCodeAt(arrowno) - 65) + "</td>";
 					et1 += arrows.charCodeAt(arrowno) - 65;
 					if (worldarchery==0)
 						tb1++;
@@ -94,24 +94,24 @@
 				arrowno++;
 				rndarrowno++;
 		    }
-		    txt += "</td><td align=\"center\">" + et1 + "</td>";
+		    txt += "<td style=\"text-align:center;width=30px;\">" + et1 + "</td>";
 		    et2 = 0;
 		    if (rndarrowno < rounds[rnd][subrnd * 3 + RNDARROWS1]) {
 				for (i = 0; i < arrowsperend; i++) {
 					if (arrowno == arrows.length)
-						txt += "<td align=\"center\" style=\"background-color:yellow;\">&nbsp;</td>";
+						txt += "<td style=\"background-color:yellow;\">&nbsp;</td>";
 					else if (arrowno >= arrows.length)
-						txt += "<td align=\"center\" width=\"25\">&nbsp;</td>";
+						txt += "<td style=\"width:25px;\">&nbsp;</td>";
 					else if (arrows.charCodeAt(arrowno) - 65 == 0)
-						txt += "<td align=\"center\" width=\"25\">M</td>";
+						txt += "<td style=\"text-align:center;width:25px;\">M</td>";
 					else if (arrows.charCodeAt(arrowno) - 65 == 11) {
-						txt += "<td align=\"center\" width=\"25\">X</td>";
+						txt += "<td style=\"text-align:center;width:25px;\">X</td>";
 						et2 += 10;
 						tb1++;
 						tb2++;
 					}
 					else {
-						txt += "<td align=\"center\" width=\"25\">" + (arrows.charCodeAt(arrowno) - 65) + "</td>";
+						txt += "<td style=\"text-align:center;width:25px;\">" + (arrows.charCodeAt(arrowno) - 65) + "</td>";
 						et2 += arrows.charCodeAt(arrowno) - 65;
 						if (worldarchery==0)
 							tb1++;
@@ -129,7 +129,7 @@
 					arrowno++;
 					rndarrowno++;
 				}
-				txt += "</td><td align=\"center\">" + et2 + "</td>"
+				txt += "<td  style=\"text-align:center;width=30px;\">" + et2 + "</td>";
 		    }
 		    else
 				txt += "<td colspan=\""+(arrowsperend+1)+"\" style=\"background-color:silver;\">";
@@ -139,8 +139,8 @@
 		    tb2st += tb2;
 		    rst += et1 + et2;
 		    rt += (et1 + et2);
-		    txt += "<td align=\"center\">" + (et1 + et2) + "</td><td align=\"center\">" + tb1;
-		    txt += "</td><td align=\"center\">" + tb2 + "</td><td align=\"center\">" + rt + "</td></tr>";
+		    txt += "<td style=\"text-align:center;\">" + (et1 + et2) + "</td><td style=\"text-align:center;\">" + tb1
+				+ "</td><td style=\"text-align:center;\">" + tb2 + "</td><td style=\"text-align:center;\">" + rt + "</td></tr>";
 
 		    if (rndarrowno >= rounds[rnd][subrnd * 3 + RNDARROWS1]) {
 				// sub totals
@@ -151,9 +151,9 @@
 				else
 					distance += " meters. ";
 				distance += targetsize + " cm face. ";
-				txt += "<tr><td colspan=\"" + (arrowsperend*2+2) + "\" align=\"right\">" + distance 
-					+ " Sub Totals</td><td align=\"center\">" + rst + "<td align=\"center\">" + tb1st 
-					+ "</td>"+ "</td><td align=\"center\">" + tb2st + "</td><td align=\"center\">" + rt + "</td>";
+				txt += "<tr><td colspan=\"" + (arrowsperend*2+2) + "\" style=\"text-align:right\">" + distance 
+					+ " Sub Totals</td><td style=\"text-align:center;\">" + rst + "<td style=\"text-align:center;\">" + tb1st 
+					+ "</td><td style=\"text-align:center;\">" + tb2st + "</td><td style=\"text-align:center;\">" + rt + "</td>";
 				tb1st = 0;
 				rst = 0;
 				tb2st = 0;
@@ -162,31 +162,29 @@
 		}
 	    }
 	    // Grand totals
-	    txt += "<tr><td colspan=\"" + (arrowsperend*2+2) 
-			+ "\"><textarea id=\"msg\" cols=\"40\" rows=\"1\" readonly=\"readonly\" tabindex=\"-1\" >"
-			+ "</textarea>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Grand Totals</td>";
-	    txt += "<td align=\"center\">" + rt + "<td align=\"center\">" + tb1t + "</td>" 
-			+ "</td><td align=\"center\">" + tb2t + "</td><td align=\"center\">" + rt + "</td></table>";
-
-	    txt += "<form name =\"data\" id=\"data\" action=\"/scoreentry.htm\" method=\"get\"><table>";
+	    txt += "<tr><td colspan=\"" + (arrowsperend*2+2) + "\" style=\"text-align:right\">Grand Totals</td>"
+	        + "<td style=\"text-align:center;\">" + rt + "<td style=\"text-align:center;\">" + tb1t
+			+ "</td><td style=\"text-align:center;\">" + tb2t + "</td><td style=\"text-align:center;\">" + rt + "</td></table>";
+		txt += "<div id=\"msg\">&nbsp;</div>";
+	    txt += "<form name =\"data\" id=\"data\" action=\"/scoreentry.htm\" method=\"get\">";
 	    txt += "<input name=\"target\" value=\"" + data[TARGET] + "\" type=\"hidden\" />";
 	    txt += "<input name=\"send\" id=\"send\" value=\"xxx\" type=\"hidden\" />";
 	    txt += "<input name=\"arrowsend\" id=\"arrowsend\" value=\"\" type=\"hidden\" />";
-	    txt += "<input name=\"thits\" id=\"thits\" type=\"hidden\" size=\"3\" value=\"" + tb1t + "\" />";
-	    txt += "<input name=\"tgolds\" id=\"tgolds\" type=\"hidden\" size=\"3\" value=\"" + tb2t + "\"  />";
-	    txt += "<input name=\"tscore\" id=\"tscore\" type=\"hidden\" size=\"3\" value=\"" + rt + "\"  /></tr>";
-	    txt += "<input name=\"state\" id=\"state\" type=\"hidden\" size=\"3\" value=\"Inuse\"  /></tr>";
-	    txt += "<td width=\"100\"><input type=\"button\" value=\"Enter\" onclick=\"checksend()\" tabindex=\"1\" /></td>";
-	    txt += "<td width=\"100\"><input type=\"button\" name=\"Back\" value=\"Back\" onclick=\"sendback()\" tabindex=\"2\" /></td>";
-	    txt += "<td width=\"100\"><input type=\"button\" name=\"Skip\" value=\"Skip\" onclick=\"sendnext()\" tabindex=\"3\" /></td>";
+	    txt += "<input name=\"thits\" id=\"thits\" type=\"hidden\" value=\"" + tb1t + "\" />";
+	    txt += "<input name=\"tgolds\" id=\"tgolds\" type=\"hidden\" value=\"" + tb2t + "\"  />";
+	    txt += "<input name=\"tscore\" id=\"tscore\" type=\"hidden\" value=\"" + rt + "\"  />";
+	    txt += "<input name=\"state\" id=\"state\" type=\"hidden\" value=\"Inuse\"  />";
+	    txt += "<table><tr><td width=\"90px\"><input type=\"button\" value=\"Enter\" onclick=\"checksend()\" tabindex=\"1\" /></td>";
+	    txt += "<td width=\"90px\"><input type=\"button\" name=\"Back\" value=\"Back\" onclick=\"sendback()\" tabindex=\"2\" /></td>";
+	    txt += "<td width=\"90px\"><input type=\"button\" name=\"Skip\" value=\"Skip\" onclick=\"sendnext()\" tabindex=\"3\" /></td>";
 		if (data[STATE]=="Inuse") {
-			txt += "<td width=\"100\"><input type=\"button\" name=\"DNS\" value=\"DNS\" onclick=\"senddns()\" tabindex=\"4\" /></td>";
-			txt += "<td width=\"100\"><input type=\"button\" name=\"Retired\" value=\"Retired\" onclick=\"sendretired()\" tabindex=\"5\" /></td>";
+			txt += "<td width=\"90px\"><input type=\"button\" name=\"DNS\" value=\"DNS\" onclick=\"senddns()\" tabindex=\"4\" /></td>";
+			txt += "<td width=\"90px\"><input type=\"button\" name=\"Retired\" value=\"Retired\" onclick=\"sendretired()\" tabindex=\"5\" /></td>";
 		}
 		else
-			txt += "<td width=\"100\"><input type=\"button\" name=\"Restore\" value=\"Restore\" onclick=\"restore()\" tabindex=\"4\" /></td>";
-	    txt += "<td width=\"100\"><input type=\"submit\" value=\"Cancel\" formaction=\"/index\" tabindex=\"6\" /></td>";
-	    txt += "<td width=\"100\"><input type=\"submit\" value=\"Edit\" formaction=\"/updateentry\" tabindex=\"7\" /></td>";
+			txt += "<td width=\"90px\"><input type=\"button\" name=\"Restore\" value=\"Restore\" onclick=\"restore()\" tabindex=\"4\" /></td>";
+	    txt += "<td width=\"90px\"><input type=\"submit\" value=\"Cancel\" formaction=\"/index\" tabindex=\"6\" /></td>";
+	    txt += "<td width=\"90px\"><input type=\"submit\" value=\"Edit\" formaction=\"/updateentry\" tabindex=\"7\" /></td>";
 	    txt += "</table></form>";
 
 		if (data[STATE]!="Inuse")
@@ -278,7 +276,7 @@
 	}
 	function checksend() {
 	    if (data[ARROWS].length % arrowsperend != 0) {
-		document.getElementById("msg").value = "Wrong number of arrows.";
+		document.getElementById("msg").innerHTML = "Wrong number of arrows.";
 		document.getElementById("msg").style.background = "pink";
 	    }
 	    else {
@@ -294,5 +292,10 @@
 	}
 
     </script>
+	<noscript>
+        <p>
+            This page needs Javascript enabled in the Internet browser.
+        </p>
+    </noscript>
 </body>
 </html>

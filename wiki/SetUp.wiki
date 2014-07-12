@@ -9,7 +9,7 @@ This will display the tournament set up screen.
 
 [http://cpbserver.googlecode.com/svn/trunk/images/setup.jpg]
 
-To get started enter the details in the boxes, and click submit. Most of the details should be obvious. It's probably best to set maximum targets to 1 or 2 more than needed. 
+To get started enter the details in the boxes, and click submit. Most of the details should be obvious. The date has to be in the format of 2 digits for day, month and year and is used to calculate the age groups for juniors from their date of birth. It's probably best to set maximum targets to 1 or 2 more than needed. 
 
 The medals checkbox allocates medals for a York/Hereford/Bristol tournament. Where medals are given for shooting the round for your age (or longer).  For Juniors as Gold, Silver and Bronze, Seniors only Gold for 1 to 3 archers completing the round (DNS or retired not counting), Gold and Silver for 4 to 6, Gold, Silver and Bronze for 7 or more. Juniors are in the same result list as seniors and have a J after their name, which means the medals may not be the top 3 places in the list.
 

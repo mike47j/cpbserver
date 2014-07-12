@@ -3,7 +3,7 @@
 
 [Contents Contents] [LeaderBoard Next]
 
-Download http://cpbserver.googlecode.com/svn/trunk/cpb.zip. This version dated 9th July 2014.
+Download http://cpbserver.googlecode.com/svn/trunk/cpb.zip. This version dated 12th July 2014.
 
 Save the file, click on the file to unpack all the files. Copy all the files to a directory and double click on "cpbserver.exe" to run it. If the directory is on a usb memory stick then it can be moved if the computer fails. Probably best if the server is run on a laptop with a good battery. Because it opens a couple of TCP/IP ports, Windows Firewall and some anti-virus software may block access, hopefully it will ask before it does this so you can allow access.
 

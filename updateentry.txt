@@ -38,8 +38,9 @@ function page() {
          + "<p><a href=\"/setup\">Set Up Page</a></p><h2>Target " + data[TARGET] + " - " + data[NAME] + "</h2>";
     txt += "<form id=\"data\" action=\"/updateentry.htm\" method=\"get\">";
     txt += "<input name=\"send\" id=\"send\" type=\"hidden\" value=\"send\" />";
+    txt += "<input name=\"gender\" id=\"gender\" type=\"hidden\" value=\""+data[GENDER]+"\" />";
     txt += "<table border=\"1\" style=\"border-collapse: collapse;\">";
-    txt += "<tr><td width=\"100\">Target:</td>";
+    txt += "<tr><td width=\"180\">Target:</td>";
     txt += "<td width=\"200\"><input name=\"target\" size=\"30\" readonly=\"readonly\" value=\""+data[TARGET]+"\" /></td></tr>";
     txt += "<tr><td>Archer:</td><td><input name=\"archer\" size=\"30\" value=\""+data[NAME]+"\" /></td></tr>";
     txt += "<tr><td>Club:</td><td><input name=\"club\" size=\"30\" value=\""+data[CLUB]+"\" /></td></tr>";
@@ -50,9 +51,9 @@ function page() {
     txt+="<option"+(data[BOW]=="Longbow"?" selected":"")+">Longbow</option>";
     txt+="<option"+(data[BOW]=="Bare Bow"?" selected":"")+">Bare Bow</option>";
     txt += "</select></td></tr>";
-    txt += "<tr><td>Gender:</td><td><select name=\"gender\" size=\"1\" style=\"width:200px\">";
-    txt+="<option"+(data[GENDER]=="M"?" selected":"")+">M</option>";
-    txt+="<option"+(data[GENDER]=="F"?" selected":"")+">F</option>";
+    txt += "<tr><td>Gender:</td><td><select id=\"xgender\" size=\"1\" style=\"width:200px\">";
+    txt+="<option"+(data[GENDER].substr(0,1)=="M"?" selected":"")+">M</option>";
+    txt+="<option"+(data[GENDER].substr(0,1)=="F"?" selected":"")+">F</option>";
     txt+="<option"+(data[GENDER]=="JGU18"?" selected":"")+">JGU18</option>";
     txt+="<option"+(data[GENDER]=="JGU16"?" selected":"")+">JGU16</option>";
     txt+="<option"+(data[GENDER]=="JGU14"?" selected":"")+">JGU14</option>";
@@ -62,6 +63,10 @@ function page() {
     txt+="<option"+(data[GENDER]=="JBU14"?" selected":"")+">JBU14</option>";
     txt+="<option"+(data[GENDER]=="JBU12"?" selected":"")+">JBU12</option>";
     txt += "</select></td></tr>";
+	var dob = "";
+	if (data[GENDER].length==9 && data[GENDER].substr(3,1)=="/")
+		dob = data[GENDER].substr(1,8);
+	txt += "<tr><td>Junior DOB dd/mm/yy:</td><td><input id=\"dob\" size=\"30\" value=\""+dob+"\" /></td></tr>";
     txt += "<tr><td>Round:</td><td><select name=\"round\" size=\"1\" style=\"width:200px\">"
     txt+="<option"+(data[ROUND]=="NotSet"?" selected":"")+">NotSet</option>";
 	    for (i=0; i<rounds.length; i++) {
@@ -105,32 +110,46 @@ function score() {
 }
 
 function check() {
-   var format = /^[0-9]+$/;
-   document.getElementById("thits").style.background = "white";
-   document.getElementById("tscore").style.background = "white";
-   document.getElementById("tgolds").style.background = "white";
-   var result = true;
-   var s = document.getElementById("tscore").value;
-   var score = parseInt(s);
-   if (!s.match(format) || score<0 || score>1440) {
-      document.getElementById("tscore").style.background = "pink";
-      result = false;
-   }
-   s = document.getElementById("thits").value;
-   var hits =  parseInt(s);
-   if (!s.match(format) || hits<0 || hits>144) {
-      document.getElementById("thits").style.background = "pink";
-      result = false;
-   }
-   s = document.getElementById("tgolds").value;
-   var golds =  parseInt(s);
-   if (!s.match(format) || golds<0 || golds>144) {
-      document.getElementById("tgolds").style.background = "pink";
-      result = false;
-   }
-   if (result)
-       document.getElementById("data").submit();
-   return result;
+	var result = true;
+	var format = /^[0-9]+$/;
+	var dateRegExp = /^\d{2}\/\d{2}\/\d{2}$/;
+
+	var dob = document.getElementById("dob").value;
+	var gender = document.getElementById("xgender").value
+	if (dob!="") {
+		if(!dateRegExp.test(dob)) {
+			document.getElementById("dob").style.background = "pink";
+			result = false;
+		}
+		else
+		    document.getElementById("gender").value = gender.substr(0,1) + dob;
+	}
+	else
+		document.getElementById("gender").value = gender;
+	document.getElementById("thits").style.background = "white";
+	document.getElementById("tscore").style.background = "white";
+	document.getElementById("tgolds").style.background = "white";
+	var s = document.getElementById("tscore").value;
+	var score = parseInt(s);
+	if (!s.match(format) || score<0 || score>1440) {
+		document.getElementById("tscore").style.background = "pink";
+		result = false;
+	}
+	s = document.getElementById("thits").value;
+	var hits =  parseInt(s);
+	if (!s.match(format) || hits<0 || hits>144) {
+		document.getElementById("thits").style.background = "pink";
+		result = false;
+	}
+	s = document.getElementById("tgolds").value;
+	var golds =  parseInt(s);
+	if (!s.match(format) || golds<0 || golds>144) {
+		document.getElementById("tgolds").style.background = "pink";
+		result = false;
+	}
+	if (result)
+		document.getElementById("data").submit();
+	return result;
 }
 
 </script>

@@ -21,16 +21,17 @@
 	    var i, j;
 	    var txt = "<h2>" + tournament + "</h2><h2>Free Targets</h2><table border=\"1\" style=\"border-collapse: collapse;\">";
 	    for (i = 0; i < free.length; i++) {
-		txt += "<tr><td valign=\"top\" width=\160\">" + free[i][0] + "<td width=\"600\">";
-		for (j = 1; j < free[i].length; j++) {
-		    txt += free[i][j] + ", ";
-		}
+			txt += "<tr><td valign=\"top\" width=\"170\">" + free[i][0] + "<td width=\"600\">";
+			for (j = 1; j < free[i].length; j++) {
+				txt += free[i][j] + ", ";
+			}
 	    }
 	    txt += "</table><h2>Add Archer</h2>";
 	    txt += "<form id=\"data\" action=\"/newarcher.htm\" method=\"get\">";
 	    txt += "<input name=\"send\" id=\"send\" type=\"hidden\" value=\"send\" />";
+	    txt += "<input name=\"gender\" id=\"gender\" type=\"hidden\" value=\"send\" />";
 	    txt += "<table border=\"1\" style=\"border-collapse: collapse;\">";
-	    txt += "<tr><td width=\"100\">Target:</td>";
+	    txt += "<tr><td width=\"170\">Target:</td>";
 	    txt += "<td width=\"250\"><input id=\"target\" name=\"target\" size=\"36\" value=\"" + data[TARGET] + "\" onchange=\"newtarget()\" /></td></tr>";
 	    txt += "<tr><td>Archer:</td><td><input id=\"archer\" name=\"archer\" size=\"36\" value=\"\" /></td></tr>";
 	    txt += "<tr><td>Club:</td><td><input name=\"club\" size=\"36\" value=\"" + data[CLUB] + "\" /></td></tr>";
@@ -43,9 +44,9 @@
 	    txt+="<option"+(data[BOW]=="Bare Bow"?" selected":"")+">Bare Bow</option>";
 	    txt+="<option"+(data[BOW]==""?" selected":"")+"></option>";
 	    txt += "</select></td></tr>";
-	    txt += "<tr><td>Gender:</td><td><select name=\"gender\" size=\"1\" style=\"width:250px\">";
-	    txt+="<option"+(data[GENDER]=="M"?" selected":"")+">M</option>";
-	    txt+="<option"+(data[GENDER]=="F"?" selected":"")+">F</option>";
+	    txt += "<tr><td>Gender:</td><td><select id=\"xgender\" size=\"1\" style=\"width:250px\">";
+	    txt+="<option"+(data[GENDER].substr(0,1)=="M"?" selected":"")+">M</option>";
+	    txt+="<option"+(data[GENDER].substr(0,1)=="F"?" selected":"")+">F</option>";
 	    txt+="<option"+(data[GENDER]=="JGU18"?" selected":"")+">JGU18</option>";
 	    txt+="<option"+(data[GENDER]=="JGU16"?" selected":"")+">JGU16</option>";
 	    txt+="<option"+(data[GENDER]=="JGU14"?" selected":"")+">JGU14</option>";
@@ -56,6 +57,7 @@
 	    txt+="<option"+(data[GENDER]=="JBU12"?" selected":"")+">JBU12</option>";
 	    txt+="<option"+(data[GENDER]==""?" selected":"")+"></option>";
 	    txt += "</select></td></tr>";
+		txt += "<tr><td>Junior DOB dd/mm/yy:</td><td><input id=\"dob\" size=\"36\" value=\"\" /></td></tr>";
 	    txt += "<tr><td>Round:</td><td><select name=\"round\" size=\"1\" style=\"width:250px\">"
 	    for (i=0; i<rounds.length; i++) {
 		txt += "<option" + (data[ROUND] == rounds[i][RNDNAME] ? " selected" : "") + ">" + rounds[i][RNDNAME] + "</option>";
@@ -63,7 +65,7 @@
 	    txt += "</select></td></tr>";
 	    if (handicapflag==1)
 	        txt += "<tr><td>Handicap:</td><td><input name=\"handicap\" size=\"36\" value=\"" + data[HANDICAP] + "\" /></td></tr>";
-	    txt += "</table><p></p>";
+	    txt += "</table><div id=\"msg\">&nbsp;</div>";
 
 	    txt += "<table><tr>";
 	    txt += "<td width=\"150\"><input type=\"button\" value=\"Add Archer\" onclick=\"checksend()\" /></td>";
@@ -114,6 +116,18 @@
 	    document.getElementById("data").submit();
 	}
 	function checksend() {
+		var objRegExp = /^\d{2}\/\d{2}\/\d{2}$/;
+	    var dob = document.getElementById("dob").value;
+		var gender = document.getElementById("xgender").value
+		if (dob!="") {
+			if(!objRegExp.test(dob)) {
+				document.getElementById("dob").style.background = "pink";
+				return;
+			}
+			document.getElementById("gender").value = gender.substr(0,1) + dob;
+		}
+		else
+			document.getElementById("gender").value = gender;
 	    document.getElementById("send").value = "data";
 	    document.getElementById("data").submit();
 	}

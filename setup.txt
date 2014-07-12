@@ -15,29 +15,47 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-        function page() {
-            var txt = "<h2>" + tournament + "</h2><h2>Competition Setup</h2>\r\n";
-            txt += "<form name=\"setupdata\" method=\"get\" action=\"/setupdata.htm\">";
-            txt += "<table><tr><td width=\"220\">Name of Event:</td><td><input name=\"name\" size=\"75\" value=\"" + tournament + "\" /></td></tr>";
-            txt += "<tr><td>Date of Event:</td><td><input name=\"date\" size=\"75\" value=\"" + tournamentdate + "\" /></td></tr>";
-	    txt += "<tr><td>Maximum Targets:</td><td><input name=\"maxtargets\" size=\"3\" value=\"" + maxtargets + "\" /><br/>";
-            txt += "<tr><td>Medals:</td><td><input type=\"checkbox\" name=\"medals\" " + (medalflag == 1 ? "checked=\"checked\"" : "") + " /></td></tr>";
-            txt += "<tr><td>Best Archer:</td><td><input type=\"checkbox\" name=\"best\" " + (bestflag == 1 ? "checked=\"checked\"" : "") + " /></td></tr>";
-            txt += "<tr><td>Junior Champion:</td><td><input type=\"checkbox\" name=\"junior\" " + (juniorflag == 1 ? "checked=\"checked\"" : "") + " /></td></tr>";
-            txt += "<tr><td>Handicap:</td><td><input type=\"checkbox\" name=\"handicap\" " + (handicapflag == 1 ? "checked=\"checked\"" : "") + " /></td></tr>";
-            txt += "<tr><td>Team:</td><td><input type=\"checkbox\" name=\"team\" " + (teamflag == 1 ? "checked=\"checked\"" : "") + " /></td></tr>";
-            txt += "<tr><td>World Archery Rules:</td><td><input type=\"checkbox\" name=\"worldarchery\" " + (worldarchery == 1 ? "checked=\"checked\"" : "") + " /></td></tr>";
-			txt += "<tr><td>Score Entry System:</td><td><select name=\"scoresystem\" size=\"1\" style=\"width:200px\">"
-				+ "<option " + (scoresystem==0?" selected":"")+">Score sheet arrow entry</option>"
-				+ "<option " + (scoresystem==1?" selected":"")+">Adding up each dozen</option>"
-				+ "<option " + (scoresystem==2?" selected":"")+">Entering totals</option>"
-				+ "</select>";
-            txt += "<tr><td>&nbsp;</td><td><input type=\"submit\" value=\"Submit\" /></td></tr>";
-            txt += "</table></form>";
-            document.getElementById("page").innerHTML = txt;
-        }
-        page();
-    </script>
+function page() {
+	var dow = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
+	var month = new Array("January", "Febuary","March","April","June","July","August","September","October","November","December");
+	var stndrdth = new Array("", "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th", "11th", "12th", "13th", "14th",
+		"15th","16th","17th","18th","19th","20th","21st","22nd","23rd","24th","25th","26th","27th","28th","29th","30th","31st" );
+	var datev = new Date(tournamentdate.substr(3,2)+"/"+tournamentdate.substr(0,2) +"/20"+tournamentdate.substr(6,2));
+	var datestr = dow[datev.getDay()] + " " + stndrdth[datev.getDate()] + " " + month[datev.getMonth()] + " " + datev.getFullYear();
+    var txt = "<h2>" + tournament + "</h2><h2>Competition Setup</h2>\r\n";
+    txt += "<form name=\"setupdata\" method=\"get\" action=\"/setupdata.htm\" onsubmit=\"return validateForm()\" >";
+    txt += "<table><tr><td width=\"220\">Name of Event:</td><td><input name=\"name\" size=\"75\" value=\"" + tournament + "\" /></td></tr>";
+    txt += "<tr><td>Date of Event dd/mm/yy:</td><td><input id=\"date\" name=\"date\" value=\"" + tournamentdate + "\" /> &nbsp;" + datestr + "</td></tr>";
+	txt += "<tr><td>Maximum Targets:</td><td><input name=\"maxtargets\" size=\"3\" value=\"" + maxtargets + "\" /><br/>";
+    txt += "<tr><td>Medals:</td><td><input type=\"checkbox\" name=\"medals\" " + (medalflag == 1 ? "checked=\"checked\"" : "") + " /></td></tr>";
+    txt += "<tr><td>Best Archer:</td><td><input type=\"checkbox\" name=\"best\" " + (bestflag == 1 ? "checked=\"checked\"" : "") + " /></td></tr>";
+    txt += "<tr><td>Junior Champion:</td><td><input type=\"checkbox\" name=\"junior\" " + (juniorflag == 1 ? "checked=\"checked\"" : "") + " /></td></tr>";
+    txt += "<tr><td>Handicap:</td><td><input type=\"checkbox\" name=\"handicap\" " + (handicapflag == 1 ? "checked=\"checked\"" : "") + " /></td></tr>";
+    txt += "<tr><td>Team:</td><td><input type=\"checkbox\" name=\"team\" " + (teamflag == 1 ? "checked=\"checked\"" : "") + " /></td></tr>";
+    txt += "<tr><td>World Archery Rules:</td><td><input type=\"checkbox\" name=\"worldarchery\" " + (worldarchery == 1 ? "checked=\"checked\"" : "") + " /></td></tr>";
+	txt += "<tr><td>Score Entry System:</td><td><select name=\"scoresystem\" size=\"1\" style=\"width:200px\">"
+		+ "<option " + (scoresystem==0?" selected":"")+">Score sheet arrow entry</option>"
+		+ "<option " + (scoresystem==1?" selected":"")+">Adding up each dozen</option>"
+		+ "<option " + (scoresystem==2?" selected":"")+">Entering totals</option>"
+		+ "</select>";
+    txt += "<tr><td>&nbsp;</td><td><input type=\"submit\" value=\"Submit\" /></td></tr>";
+    txt += "</table></form>";
+    document.getElementById("page").innerHTML = txt;
+}
+
+page();
+
+function validateForm() {
+	var objRegExp = /^\d{2}\/\d{2}\/\d{2}$/;
+	var date = document.getElementById("date").value;
+	if (date!="" && !objRegExp.test(date)) {
+		document.getElementById("date").style.background = "pink";
+		return false;
+	}
+	return true;
+}
+
+</script>
 
 <p></p>
 <table border="1" style="border-collapse:collapse;">

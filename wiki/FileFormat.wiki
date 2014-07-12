@@ -41,7 +41,10 @@ Third line onwards, data according to the column headings
  * Club
  * Team code
  * Bow type R = Recurve, C = Compound, L = Longbow, B = Bare Bow
- * Gender M = Senior Male, F = Senior Female, JBU18 = Junior Boy under 18, JGU14 = Junior Girl under 14
+ * Gender, 2 formats for juniors
+  * M = Senior Male, F = Senior Female,
+  * JBU18 = Junior Boy under 18, JGU14 = Junior Girl under 14, ...
+  * M01/01/01 or F01/01/01 for junior date of birth dd/mm/yy 
  * Round
  * Handicap
  * Running Total

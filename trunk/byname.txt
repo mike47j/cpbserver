@@ -54,7 +54,13 @@
 			+ tournament + "</h2>";
 
 		if (printing) {
-			txt += "<table><tr><td width=\"160\">Date:</td><td width=\"600\">" + tournamentdate + "</td></tr><tr></tr>";
+			var dow = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
+			var month = new Array("January", "Febuary","March","April","June","July","August","September","October","November","December");
+			var stndrdth = new Array("", "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th", "11th", "12th", "13th", "14th",
+				"15th","16th","17th","18th","19th","20th","21st","22nd","23rd","24th","25th","26th","27th","28th","29th","30th","31st" );
+			var datev = new Date(tournamentdate.substr(3,2)+"/"+tournamentdate.substr(0,2) +"/20"+tournamentdate.substr(6,2));
+			var datestr = dow[datev.getDay()] + " " + stndrdth[datev.getDate()] + " " + month[datev.getMonth()] + " " + datev.getFullYear();
+			txt += "<table><tr><td width=\"160\">Date:</td><td width=\"600\">" + datestr + "</td></tr><tr></tr>";
 			txt += "<tr><td width=\"160\">Venue:</td><td width=\"600\">" + venue + "</td></tr><tr></tr>";
 			txt += "<tr><td width=\"160\">Judges:</td><td width=\"600\">" + judges + "</td></tr><tr></tr>";
 			if (patron=="")
@@ -123,7 +129,7 @@
 					txt += "</td><td align=\"center\">" + data[highi][TEAM];
 				if (targetlist) {
 					txt += "</td><td align=\"center\">" + data[highi][BOW] + "</td><td align=\"center\">" 
-						+ data[highi][GENDER] + "</td><td align=\"center\">" + data[highi][ROUND];
+						+ agegroup(data[highi][GENDER], tournamentdate) + "</td><td align=\"center\">" + data[highi][ROUND];
 					if (handicapflag==1)
 						txt += "</td><td align=\"center\">" + data[highi][HANDICAP];
 				}
@@ -149,6 +155,36 @@
     }
     page();
 
+	function agegroup(d1, d2) {
+		if (d2=="" || d1.length==1 || d1.substr(3,1)!="/") // old format JGU18 etc
+			return d1;
+		// in date format
+	    var mf = d1.substr(0,1);
+		var day = d1.substr(1,2);
+		var month = d1.substr(4,2);
+		var year = d1.substr(7,2);
+		if (year.substr(0,1)=="7" || year.substr(0,1)=="8" || year.substr(0,1)=="9")
+		    year = "19"+year;
+		else
+			year = "20"+year;
+		var age = parseInt("20" + d2.substr(6,2)) - parseInt(year);
+		if (month>d2.substr(3,2) || (month==d2.substr(3,2) && day>d2.substr(0,2)))
+			age = age-1;
+		if (age>=18)
+			return mf;
+		if (mf=="M")
+			mf = "JB";
+		else
+			mf = "JG";
+		if (age>=16)
+			return mf+"U18"
+		if (age>=14)
+			return mf+"U16"
+		if (age>=12)
+			return mf+"U14"
+		return mf + "U12";
+	}
+	
     </script>
     <noscript>
         <p>

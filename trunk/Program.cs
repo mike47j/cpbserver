@@ -550,7 +550,7 @@ namespace CPBserver
                 string results = header + "<div id=\"page\"></div><script type=\"text/javascript\">\r\n";
                 results += AllArchers();
                 results += "var tournament = \"" + tournament + "\"; ";
-                results += "var date = \"" + tournamentdate + "\";";
+                results += "var tournamentdate = \"" + tournamentdate + "\";";
                 results += "var worldarchery = " + worldarchery + ";\r\n";
                 if (str.Contains("GET /printrun"))
                     return results + rounds + printrun;
@@ -1353,7 +1353,14 @@ namespace CPBserver
                     break;
                 case "GENDER":
                     str = str.ToUpper();
-                    if (!"M F JBU18 JBU16 JBU14 JBU12 JGU18 JGU16 JGU14 JGU12".Contains(str))
+                    if (str.StartsWith("M") || str.StartsWith("F"))
+                    {
+                        if (str.Length == 1)
+                            ;
+                        else if (str.Length == 9)
+                            ;
+                    }
+                    else if (!"JBU18 JBU16 JBU14 JBU12 JGU18 JGU16 JGU14 JGU12".Contains(str))
                         Console.WriteLine("Not a valid gender {0} {1}", str, Archers[MaxArchers].name);
                     Archers[MaxArchers].gender = str;
                     break;

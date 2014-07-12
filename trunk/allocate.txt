@@ -15,236 +15,266 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-        var textstr = "";
-        var index1 = new Array(); // archers
-        var index2 = new Array(); // new list
-        var targets = new Array();
-        var letter = new Array("A", "B", "C", "D", "E", "F");
-        var maxfrom;
-        init();
-        page();
+    var textstr = "";
+    var index1 = new Array(); // archers
+    var index2 = new Array(); // new list
+    var targets = new Array();
+    var letter = new Array("A", "B", "C", "D", "E", "F");
+    var maxfrom;
+    init();
+    page();
 
-        function init() {
-            var i, j = 0;
-            while (maxdata < maxtargets * 4) {
-                data[maxdata] = new Array("", "", "", "", "", "NotSet", 0, 0, 0, "Free", 0);
-                maxdata++;
-            }
-            for (i = 0; i < maxdata; i++) {
-                index1[i] = -1;
-                targets[i] = data[i][TARGET];
-                if (data[i][STATE] == "Free")
-                    index2[i] = 99999;
-                else
-                    index2[i] = i;
-            }
-            maxfrom = j;
+    function init() {
+        var i, j = 0;
+        while (maxdata < maxtargets * 4) {
+            data[maxdata] = new Array("", "", "", "", "", "NotSet", 0, 0, 0, "Free", 0);
+            maxdata++;
         }
-
-        function page() {
-            var i, j = 0;
-            sortfromcol();
-
-            textstr = "<h2>" + tournament + "</h2><h2>Allocate Archers to Targets</h2>";
-            textstr += "</table>";
-            textstr += "<form id=\"data\" name=\"data\" method=\"get\" action=\"/newalloc.htm\">";
-            textstr += "<input name=\"list\" id=\"list\" type=\"hidden\" />";
-            textstr += "<table><tr><td width=\"150\"><input type=\"button\" value=\"Submit\" onclick=\"send()\" />";
-            textstr += "<td width=\"150\"><input type=\"Submit\" value=\"Cancel\" formaction=\"setup\" />";
-            textstr += "<td width=\"150\"><input type=\"button\" value=\"Remove All\" onclick=\"remove()\" />";
-            textstr += "<td><input size=\"3\" id=\"tgt\">&nbsp;<input type=\"button\" value=\"Add E or F\" onclick=\"targeta()\" />";
-            textstr += "&nbsp;<input type=\"button\" value=\"Delete E or F\" onclick=\"targetd()\" />";
-            textstr += "</tr></table></form>";
-
-            textstr += "<table border=\"1\" style=\"border-collapse: collapse;\" >"
-            + "<tr><th>Target<th width=\"400\">Target List<th width=\"400\">Archer List</tr>";
-            for (i = 0; i < maxdata; i++) {
-                textstr += "<tr><td>" + targets[i];
-                textstr += "<td onclick=\"fromcol(" + i + ")\">";
-                if (index2[i] == 99999)
-                    textstr += " (Empty Target)";
-                else if (index2[i] >= 0) {
-                    textstr += " " + data[index2[i]][NAME] + ", " + data[index2[i]][ROUND]
-                        + ", " + data[index2[i]][BOW] + ", " + data[index2[i]][GENDER];
-                }
-                textstr += "</td>";
-                textstr += "<td onclick=\"tocol(" + i + ")\">";
-                while (j < maxdata && index1[j] < 0)
-                    j++;
-                if (j < maxdata) {
-                    textstr += data[index1[j]][NAME] + ", " + data[index1[j]][ROUND]
-                        + ", " + data[index1[j]][BOW] + ", " + data[index1[j]][GENDER];
-                    j++;
-                }
-                else
-                    textstr += "&nbsp;";
-                textstr += "</td></tr>";
-            }
-            document.getElementById("page").innerHTML = textstr;
-        }
-
-        function send() {
-            var i;
-            var s = "";
-            for (i = 0; i < maxdata; i++) {
-                if (targets[i].substr(2, 1) == "E" || targets[i].substr(2, 1) == "F")
-                    s += "*";
-                if (index2[i] == 99999)
-                    s += "-1 ";
-                else
-                    s += index2[i] + " ";
-            }
-            document.getElementById("list").value = s;
-            document.getElementById("data").submit();
-        }
-
-        function remove() {
-            var i, j = 0;
-            for (i = 0; i < maxdata; i++) {
-                index1[i] = -1;
-                index2[i] = -1;
-                if (i < 40)
-                    targets[i] = "0" + Math.floor(1 + i / 4) + letter[i % 4];
-                else
-                    targets[i] = "" + Math.floor(1 + i / 4) + letter[i % 4];
-            }
-            for (i = 0; i < maxdata; i++) {
-                if (data[i][STATE] != "Free") {
-                    index1[j] = i;
-                    j++;
-                }
-            }
-            maxfrom = j;
-            page();
-        }
-
-        function sortfromcol() {
-            var i, swap = true;
-            while (swap) {
-                swap = false;
-                for (i = 1; i < maxfrom; i++) {
-                    if (index1[i] != -1 && (index1[i - 1] == -1 || data[index1[i]][ROUND] < data[index1[i - 1]][ROUND]
-                        || (data[index1[i]][ROUND] == data[index1[i - 1]][ROUND] && data[index1[i]][BOW] < data[index1[i - 1]][BOW]))) {
-                        var t = index1[i];
-                        index1[i] = index1[i - 1];
-                        index1[i - 1] = t;
-                        swap = true;
-                    }
-                }
-            }
-        }
-
-        // remove from the new target list, or mark as empty
-        function fromcol(i) {
-            if (index2[i] == -1) { // mark as empty target
+        for (i = 0; i < maxdata; i++) {
+            index1[i] = -1;
+            targets[i] = data[i][TARGET];
+            if (data[i][STATE] == "Free")
                 index2[i] = 99999;
-            }
-            else if (index2[i] == 99999) { // empty - just mark free
-                index2[i] = -1;
-            }
-            else {
-                // find a place to return it
-                var j;
-                for (j = 0; j < maxdata; j++) {
-                    if (index1[j] < 0)
-                        break;
-                }
-                index1[j] = index2[i];
-                index2[i] = -1;
-            }
-            page();
+            else
+                index2[i] = i;
         }
+        maxfrom = j;
+    }
 
-        // move to next free space on the new target list
-        function tocol(f) {
-            // find the entry to insert
+    function page() {
+        var i, j = 0;
+        sortfromcol();
+
+        textstr = "<h2>" + tournament + "</h2><h2>Allocate Archers to Targets</h2>";
+        textstr += "</table>";
+        textstr += "<form id=\"data\" name=\"data\" method=\"get\" action=\"/newalloc.htm\">";
+        textstr += "<input name=\"list\" id=\"list\" type=\"hidden\" />";
+        textstr += "<table><tr><td width=\"150\"><input type=\"button\" value=\"Submit\" onclick=\"send()\" />";
+        textstr += "<td width=\"150\"><input type=\"Submit\" value=\"Cancel\" formaction=\"setup\" />";
+        textstr += "<td width=\"150\"><input type=\"button\" value=\"Remove All\" onclick=\"remove()\" />";
+        textstr += "<td><input size=\"3\" id=\"tgt\">&nbsp;<input type=\"button\" value=\"Add E or F\" onclick=\"targeta()\" />";
+        textstr += "&nbsp;<input type=\"button\" value=\"Delete E or F\" onclick=\"targetd()\" />";
+        textstr += "</tr></table></form>";
+
+        textstr += "<table border=\"1\" style=\"border-collapse: collapse;\" >"
+        + "<tr><th>Target<th width=\"400\">Target List<th width=\"400\">Archer List</tr>";
+        for (i = 0; i < maxdata; i++) {
+            textstr += "<tr><td>" + targets[i];
+            textstr += "<td onclick=\"fromcol(" + i + ")\">";
+            if (index2[i] == 99999)
+                textstr += " (Empty Target)";
+            else if (index2[i] >= 0) {
+                textstr += " " + data[index2[i]][NAME] + ", " + data[index2[i]][ROUND]
+                    + ", " + data[index2[i]][BOW] + ", " + agegroup(data[index2[i]][GENDER],tournamentdate);
+            }
+            textstr += "</td>";
+            textstr += "<td onclick=\"tocol(" + i + ")\">";
+            while (j < maxdata && index1[j] < 0)
+                j++;
+            if (j < maxdata) {
+                textstr += data[index1[j]][NAME] + ", " + data[index1[j]][ROUND]
+                    + ", " + data[index1[j]][BOW] + ", " + agegroup(data[index1[j]][GENDER],tournamentdate);
+                j++;
+            }
+            else
+                textstr += "&nbsp;";
+            textstr += "</td></tr>";
+        }
+        document.getElementById("page").innerHTML = textstr;
+    }
+
+	function agegroup(d1, d2) {
+	    if (d2=="" || d1.length==1 || d1.substr(3,1)!="/") // old format JGU18 etc
+			return d1;
+		// in date format
+	    var mf = d1.substr(0,1);
+		var day = d1.substr(1,2);
+		var month = d1.substr(4,2);
+		var year = d1.substr(7,2);
+		if (year.substr(0,1)=="7" || year.substr(0,1)=="8" || year.substr(0,1)=="9")
+		    year = "19"+year;
+		else
+			year = "20"+year;
+		var age = parseInt("20" + d2.substr(6,2)) - parseInt(year);
+		if (month>d2.substr(3,2) || (month==d2.substr(3,2) && day>d2.substr(0,2)))
+			age = age-1;
+		if (age>=18)
+			return mf;
+		if (mf=="M")
+			mf = "JB";
+		else
+			mf = "JG";
+		if (age>=16)
+			return mf+"U18"
+		if (age>=14)
+			return mf+"U16"
+		if (age>=12)
+			return mf+"U14"
+		return mf + "U12";
+	}
+
+    function send() {
+        var i;
+        var s = "";
+        for (i = 0; i < maxdata; i++) {
+            if (targets[i].substr(2, 1) == "E" || targets[i].substr(2, 1) == "F")
+                s += "*";
+            if (index2[i] == 99999)
+                s += "-1 ";
+            else
+                s += index2[i] + " ";
+        }
+        document.getElementById("list").value = s;
+        document.getElementById("data").submit();
+    }
+
+    function remove() {
+        var i, j = 0;
+        for (i = 0; i < maxdata; i++) {
+            index1[i] = -1;
+            index2[i] = -1;
+            if (i < 40)
+                targets[i] = "0" + Math.floor(1 + i / 4) + letter[i % 4];
+            else
+                targets[i] = "" + Math.floor(1 + i / 4) + letter[i % 4];
+        }
+        for (i = 0; i < maxdata; i++) {
+            if (data[i][STATE] != "Free") {
+                index1[j] = i;
+                j++;
+            }
+        }
+        maxfrom = j;
+        page();
+    }
+
+    function sortfromcol() {
+        var i, swap = true;
+        while (swap) {
+            swap = false;
+            for (i = 1; i < maxfrom; i++) {
+                if (index1[i] != -1 && (index1[i - 1] == -1 || data[index1[i]][ROUND] < data[index1[i - 1]][ROUND]
+                    || (data[index1[i]][ROUND] == data[index1[i - 1]][ROUND] && data[index1[i]][BOW] < data[index1[i - 1]][BOW]))) {
+                    var t = index1[i];
+                    index1[i] = index1[i - 1];
+                    index1[i - 1] = t;
+                    swap = true;
+                }
+            }
+        }
+    }
+
+    // remove from the new target list, or mark as empty
+    function fromcol(i) {
+        if (index2[i] == -1) { // mark as empty target
+            index2[i] = 99999;
+        }
+        else if (index2[i] == 99999) { // empty - just mark free
+            index2[i] = -1;
+        }
+        else {
+            // find a place to return it
             var j;
             for (j = 0; j < maxdata; j++) {
-                if (index1[j] >= 0) {
-                    if (f == 0)
-                        break;
-                    f--;
-                }
-            }
-            if (j >= maxdata)
-                return;
-            // the place to insert it
-            var i, k;
-            for (i = 0; i < maxdata; i++) {
-                if (index2[i] < 0) { // empty space
-                    var skip = false;
-                    for (k = i - 6; k < i + 6; k++) {
-                        if (k >= 0 && k < maxdata && targets[k].substr(0, 2) == targets[i].substr(0, 2)
-                                        && index2[k] >= 0 && index2[k] != 99999
-                            && data[index2[k]][ROUND] != data[index1[j]][ROUND])
-                            skip = true;
-                    }
-                    if (!skip) {
-                        index2[i] = index1[j];
-                        index1[j] = -1;
-                        break;
-                    }
-                }
-            }
-            page();
-        }
-
-        function targeta() {
-            var index;
-            var t = document.getElementById("tgt").value;
-            if (t.length == 1)
-                t = "0" + t;
-            for (index = maxdata - 1; index >= 0; index--) {
-                if (targets[index] != "" && targets[index].substr(0, 2) == t.substr(0, 2)) {
-                    if (targets[index].substr(2, 1) == "F")
-                        return;
-                    var i;
-                    for (i = maxdata; i > index + 1; i--) {
-                        targets[i] = targets[i - 1]; // make space
-                        index2[i] = index2[i - 1];
-                    }
-                    if (data[maxdata] == null)
-                        data[maxdata] = new Array("", "", "", "Recurve", "M", "NotSet", 0, 0, 0, "Free", 0);
-                    index1[maxdata] = -1;
-                    maxdata++;
-                    index2[index + 1] = -1;
-                    if (targets[index].substr(2, 1) == "D")
-                        targets[index + 1] = targets[index].substr(0, 2) + "E";
-                    else
-                        targets[index + 1] = targets[index].substr(0, 2) + "F";
-                    page();
+                if (index1[j] < 0)
                     break;
-                }
             }
-
+            index1[j] = index2[i];
+            index2[i] = -1;
         }
+        page();
+    }
 
-        function targetd() {
-            var index;
-            var t = document.getElementById("tgt").value;
-            if (t.length == 1)
-                t = "0" + t;
-            for (index = maxdata - 1; index >= 0; index--) {
-                if (targets[index] != "" && targets[index].substr(0, 2) == t.substr(0, 2)
-                   && (targets[index].substr(2, 1) == "E" || targets[index].substr(2, 1) == "F")
-                   && (index2[index] == 99999 || index2[index] == -1)) {
-                    var i;
-                    for (i = index; i < maxdata - 1; i++) {
-                        targets[i] = targets[i + 1]; // delete space
-                        index2[i] = index2[i + 1];
-                    }
-                    maxdata--;
-                    page();
+    // move to next free space on the new target list
+    function tocol(f) {
+        // find the entry to insert
+        var j;
+        for (j = 0; j < maxdata; j++) {
+            if (index1[j] >= 0) {
+                if (f == 0)
+                    break;
+                f--;
+            }
+        }
+        if (j >= maxdata)
+            return;
+        // the place to insert it
+        var i, k;
+        for (i = 0; i < maxdata; i++) {
+            if (index2[i] < 0) { // empty space
+                var skip = false;
+                for (k = i - 6; k < i + 6; k++) {
+                    if (k >= 0 && k < maxdata && targets[k].substr(0, 2) == targets[i].substr(0, 2)
+                                    && index2[k] >= 0 && index2[k] != 99999
+                        && data[index2[k]][ROUND] != data[index1[j]][ROUND])
+                        skip = true;
+                }
+                if (!skip) {
+                    index2[i] = index1[j];
+                    index1[j] = -1;
                     break;
                 }
             }
         }
+        page();
+    }
 
-    </script>
-    <noscript>
-        <p>
-            This page needs Javascript enabled in the Internet browser.
-        </p>
-    </noscript>
+    function targeta() {
+        var index;
+        var t = document.getElementById("tgt").value;
+        if (t.length == 1)
+            t = "0" + t;
+        for (index = maxdata - 1; index >= 0; index--) {
+            if (targets[index] != "" && targets[index].substr(0, 2) == t.substr(0, 2)) {
+                if (targets[index].substr(2, 1) == "F")
+                    return;
+                var i;
+                for (i = maxdata; i > index + 1; i--) {
+                    targets[i] = targets[i - 1]; // make space
+                    index2[i] = index2[i - 1];
+                }
+                if (data[maxdata] == null)
+                    data[maxdata] = new Array("", "", "", "Recurve", "M", "NotSet", 0, 0, 0, "Free", 0);
+                index1[maxdata] = -1;
+                maxdata++;
+                index2[index + 1] = -1;
+                if (targets[index].substr(2, 1) == "D")
+                    targets[index + 1] = targets[index].substr(0, 2) + "E";
+                else
+                    targets[index + 1] = targets[index].substr(0, 2) + "F";
+                page();
+                break;
+            }
+        }
+
+    }
+
+    function targetd() {
+        var index;
+        var t = document.getElementById("tgt").value;
+        if (t.length == 1)
+            t = "0" + t;
+        for (index = maxdata - 1; index >= 0; index--) {
+            if (targets[index] != "" && targets[index].substr(0, 2) == t.substr(0, 2)
+                && (targets[index].substr(2, 1) == "E" || targets[index].substr(2, 1) == "F")
+                && (index2[index] == 99999 || index2[index] == -1)) {
+                var i;
+                for (i = index; i < maxdata - 1; i++) {
+                    targets[i] = targets[i + 1]; // delete space
+                    index2[i] = index2[i + 1];
+                }
+                maxdata--;
+                page();
+                break;
+            }
+        }
+    }
+
+</script>
+<noscript>
+    <p>
+        This page needs Javascript enabled in the Internet browser.
+    </p>
+</noscript>
 </body>
 </html>

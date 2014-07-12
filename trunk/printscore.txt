@@ -60,12 +60,13 @@
 		    + "<td style=\"width:44mm;\"><table><tr style=\"height:3mm;\"><td style=\"font-size:small;\">Bow type<tr style=\"height:7mm;\">"
 		    + "<td style=\"padding-left:10mm;font-weight:bold;font-size:large;\">" + (data[index][NAME] != "" ? data[index][BOW] : "") + "</table>"
 		    + "<td><table><tr style=\"height:3mm;\"><td style=\"font-size:small;\">Gender and Age Group<tr style=\"height:7mm;\">"
-		    + "<td style=\"padding-left:10mm;font-weight:bold;font-size:large;\">" + (data[index][NAME] != "" ? data[index][GENDER] : "") + "</table>";
+		    + "<td style=\"padding-left:10mm;font-weight:bold;font-size:large;\">" 
+			+ (data[index][NAME] != "" ? agegroup(data[index][GENDER],tournamentdate) : "") + "</table>";
 		// round and date
 		txt += "<tr style=\"height:11mm;\"><td><table><tr style=\"height:3mm;\"><td style=\"font-size:small;\">Round<tr style=\"height:7mm;\">"
 		    + "<td style=\"padding-left:10mm;font-weight:bold;font-size:large;\">" + data[index][ROUND] + "</table>"
 		    + "<td colspan=\"2\"><table><tr style=\"height:3mm;\"><td style=\"font-size:small;\">Date<tr style=\"height:7mm;\">"
-		    + "<td style=\"padding-left:10mm;font-weight:bold;font-size:large;\">" + date + "</table>"
+		    + "<td style=\"padding-left:10mm;font-weight:bold;font-size:large;\">" + tournamentdate + "</table>"
 		    + "</table><p></p>";
 
 		txt += "<table border=\"1\" style=\"border-collapse: collapse;\" >"
@@ -139,6 +140,37 @@
 	    }
 	    document.getElementById("page").innerHTML = txt;
 	}
+
+	function agegroup(d1, d2) {
+	    if (d2=="" || d1.length==1 || d1.substr(3,1)!="/") // old format JGU18 etc
+			return d1;
+		// in date format
+	    var mf = d1.substr(0,1);
+		var day = d1.substr(1,2);
+		var month = d1.substr(4,2);
+		var year = d1.substr(7,2);
+		if (year.substr(0,1)=="7" || year.substr(0,1)=="8" || year.substr(0,1)=="9")
+		    year = "19"+year;
+		else
+			year = "20"+year;
+		var age = parseInt("20" + d2.substr(6,2)) - parseInt(year);
+		if (month>d2.substr(3,2) || (month==d2.substr(3,2) && day>d2.substr(0,2)))
+			age = age-1;
+		if (age>=18)
+			return mf;
+		if (mf=="M")
+			mf = "JB";
+		else
+			mf = "JG";
+		if (age>=16)
+			return mf+"U18"
+		if (age>=14)
+			return mf+"U16"
+		if (age>=12)
+			return mf+"U14"
+		return mf + "U12";
+	}
+
 	page();
 
     </script>

@@ -112,14 +112,14 @@
 			    else
 				distance += " meters. ";
 			    distance += targetsize + " cm face. ";
-			    txt += "<tr style=\"height:9mm;\"><td colspan=\"" + (arrowspwerend*2+3) + "\" align=\"right\">" + distance
+			    txt += "<tr style=\"height:9mm;\"><td colspan=\"" + (arrowspwerend*2+4) + "\" align=\"right\">" + distance
 				+ " Sub Totals</td><td align=\"center\">&nbsp;</td>"
 				+ "<td align=\"center\">&nbsp;</td><td align=\"center\">&nbsp;</td><td align=\"center\">&nbsp;</td>";
 			}
 		    }
 		}
 		// totals
-		txt += "<tr style=\"height:9mm;\"><td colspan=\"" + (arrowspwerend*2+3) + "\" align=\"right\">Overall Total</td>";
+		txt += "<tr style=\"height:9mm;\"><td colspan=\"" + (arrowspwerend*2+4) + "\" align=\"right\">Overall Total</td>";
 		txt += "<td align=\"center\">&nbsp;</td>";
 		txt += "<td align=\"center\">&nbsp;</td><td align=\"center\">&nbsp;</td><td align=\"center\">&nbsp;</td></table>";
 		txt += "<p></p>";

@@ -112,7 +112,7 @@ function score() {
 function check() {
 	var result = true;
 	var format = /^[0-9]+$/;
-	var dateRegExp = /^\d{2}\/\d{2}\/\d{2}$/;
+	var dateRegExp = /^(\d{1,2})\/(\d{1,2})\/(\d{1,2})$/;
 
 	var dob = document.getElementById("dob").value;
 	var gender = document.getElementById("xgender").value
@@ -121,8 +121,16 @@ function check() {
 			document.getElementById("dob").style.background = "pink";
 			result = false;
 		}
-		else
+		else if (gender.substr(0,1)=="J") {
+			document.getElementById("xgender").style.background = "pink";
+			document.getElementById("dob").style.background = "pink";
+			result = false;
+		}
+		else {
+			var d = dob.match(dateRegExp);
+			dob = ("00"+d[1]).substr(d[1].length,2) + "/" + ("00"+d[2]).substr(d[2].length,2) + "/" + ("00"+d[3]).substr(d[3].length,2);
 		    document.getElementById("gender").value = gender.substr(0,1) + dob;
+		}
 	}
 	else
 		document.getElementById("gender").value = gender;

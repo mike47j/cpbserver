@@ -73,7 +73,7 @@ namespace CPBserver
         static string updateentry;
 
         public const int MAXARCHERS = 99 * 4;
-        public const string header = "HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n"
+        public const string header = "HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=UTF-8\r\nConnection: close\r\n\r\n"
             + "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf-8\" /><title>CPB Server page</title></head><body>\r\n";
         public const string fieldnames = "var TARGET = 0, NAME = 1, CLUB = 2, TEAM=3, BOW = 4, GENDER = 5, ROUND = 6, HANDICAP = 7;\r\n"
                             + "var SCORE = 8, TIEBREAK1 = 9, TIEBREAK2 = 10, STATE = 11, ARROWCNT = 12, ARROWS = 13;\r\n";
@@ -420,11 +420,14 @@ namespace CPBserver
                     content = state.sb.ToString();
                     if (content.Contains("Content-Length:"))
                         handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(UpdateReadCallback), state);
+                    else if (!content.Contains("\r\n\r\n"))
+                        handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(UpdateReadCallback), state);
                     else
                     {
                         Console.WriteLine("Read {0} bytes from 4023. {1}", content.Length, content.Substring(0, content.IndexOf('\n')));
                         // Send data back to the client.
-                        UpdateSend(handler, inputhandler(content));
+                        string s = inputhandler(content);
+                        UpdateSend(handler, s);
                     }
                 }
             }
@@ -460,7 +463,10 @@ namespace CPBserver
                 if (p < 0)
                     break;
                 int n = Convert.ToInt32(s.Substring(p + 1, 2), 16);
-                s = s.Substring(0, p) + Convert.ToChar(n) + s.Substring(p + 3);
+                if (Convert.ToChar(n) == '\"')
+                    s = s.Substring(0, p) + s.Substring(p + 3);
+                else
+                    s = s.Substring(0, p) + Convert.ToChar(n) + s.Substring(p + 3);
             }
             return s;
         }
@@ -1355,10 +1361,8 @@ namespace CPBserver
                     str = str.ToUpper();
                     if (str.StartsWith("M") || str.StartsWith("F"))
                     {
-                        if (str.Length == 1)
-                            ;
-                        else if (str.Length == 9)
-                            ;
+                        if (!(str.Length == 1) && !(str.Length == 9 && str.Substring(3, 1) == "/" && str.Substring(6, 1) == "/"))
+                            Console.WriteLine("Not a valid gender {0} {1}", str, Archers[MaxArchers].name);
                     }
                     else if (!"JBU18 JBU16 JBU14 JBU12 JGU18 JGU16 JGU14 JGU12".Contains(str))
                         Console.WriteLine("Not a valid gender {0} {1}", str, Archers[MaxArchers].name);

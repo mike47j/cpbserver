@@ -46,11 +46,16 @@ function page() {
 page();
 
 function validateForm() {
-	var objRegExp = /^\d{2}\/\d{2}\/\d{2}$/;
+	var dateRE = /^(\d{1,2})\/(\d{1,2})\/(\d{1,2})$/;
 	var date = document.getElementById("date").value;
-	if (date!="" && !objRegExp.test(date)) {
+	if (date!="" && !dateRE.test(date)) {
 		document.getElementById("date").style.background = "pink";
 		return false;
+	}
+	else {
+		var d = date.match(dateRE);
+		document.getElementById("date").value = ("00"+d[1]).substr(d[1].length,2) 
+			+ "/" + ("00"+d[2]).substr(d[2].length,2) + "/" + ("00"+d[3]).substr(d[3].length,2);
 	}
 	return true;
 }

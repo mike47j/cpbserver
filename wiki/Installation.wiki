@@ -28,4 +28,4 @@ Timeout is the time delay with no data being entered, before a backup is done. U
 
 {{{?Path=E:\Archery\Server\CPBserver\&Result=83&Update=4023&Timeout=30 }}}
 
-I'm using Windows 7 and Visual Studio Express 2013 to develop this. I've just recompiled so it runs on Windows XP, however it does not work properly with IE8 because it uses some features of HTML 5. The latest version of Opera seems to run on XP, supports HTML 5 and display pages properly. The leader board I've also tried displaying on a Samsung Galaxy Ace.
+I'm using Windows 7 and Visual Studio Express 2013 to develop this. I've just recompiled so it runs on Windows XP, however it does not work properly with IE8 because it uses some features of HTML 5. The latest version of Opera seems to run on XP, supports HTML 5 and displays pages properly. The leader board I've also tried displaying on a Samsung Galaxy Ace.

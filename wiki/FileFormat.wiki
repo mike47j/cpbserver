@@ -52,6 +52,6 @@ Third line onwards, data according to the column headings
  * Tie Break 2 - Golds, 5s, X/10 or X
  * State - Inuse, Free, DNS, Retired
  * Number of Arrows shot
- * String of Arrows - A = Miss, B = 1, ... H = 9, I = 10, J = X
+ * String of Arrows - A = Miss, B = 1, ... J = 9, K = 10, L = X
 
  

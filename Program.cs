@@ -47,6 +47,7 @@ namespace CPBserver
         static string weather = "";
 
         // options
+        static int resultsbyroundflag = 0;
         static int medalflag = 0;
         static int juniorflag = 0;
         static int bestflag = 0;
@@ -60,6 +61,7 @@ namespace CPBserver
         static string allocate;
         static string byname;
         static string setuppage;
+        static string hc2dozen;
         static string indexpage;
         static string movearcher;
         static string newarcher;
@@ -89,7 +91,7 @@ namespace CPBserver
             public string bowtype;
             public string round;
             public string gender;
-            public int handicap;
+            public float handicap;
             public int tiebreak1;
             public int tiebreak2;
             public int runningtotal;
@@ -266,7 +268,8 @@ namespace CPBserver
         static string flagstring()
         {
             return "var medalflag=" + medalflag + ", juniorflag=" + juniorflag + ", teamflag=" + teamflag
-                    + ", handicapflag=" + handicapflag + ", bestflag=" + bestflag + ", worldarchery=" + worldarchery
+                    + ", handicapflag=" + handicapflag + ", resultsbyroundflag=" + resultsbyroundflag
+                    + ", bestflag=" + bestflag + ", worldarchery=" + worldarchery
                     + ", maxtargets=" + maxtargets + ", scoresystem=" + scoresystem + ";\r\n";
         }
 
@@ -328,7 +331,7 @@ namespace CPBserver
                         t = "&nbsp;";
                     page += "data[" + i + "]= new Array(\"" + t + "\",\"" + Archers[i].name + "\",\""
                         + Archers[i].club + "\",\"" + Archers[i].team + "\",\"" + Archers[i].bowtype + "\",\""
-                        + Archers[i].gender + "\",\"" + Archers[i].round + "\"," + Archers[i].handicap + ","
+                        + Archers[i].gender + "\",\"" + Archers[i].round + "\"," + Archers[i].handicap.ToString("0.0") + ","
                         + Archers[i].runningtotal + "," + Archers[i].tiebreak1 + ","
                         + Archers[i].tiebreak2 + ",\"" + Archers[i].state + "\"," + Archers[i].arrowcnt + ");\r\n";
                 }
@@ -474,6 +477,59 @@ namespace CPBserver
         private static string inputhandler(string str)
         {
             str = str.Substring(0, str.IndexOf('\n'));
+            if (str.Contains("GET /hc2dozen"))
+            {
+                string page = "var tournament = \"" + tournament + "\", tournamentdate = \"" + tournamentdate + "\";\r\n"
+                            + "var data = new Array();\r\n";
+                lock (dataLock)
+                {
+                    string t = Convert.ToString(maxtargets);
+                    if (t.Length == 1)
+                        t = "0" + t;
+                    for (MaxArchers = MAXARCHERS; MaxArchers > 0; MaxArchers--)
+                    {
+                        if (Archers[MaxArchers - 1].target.Substring(0, 2) == t)
+                            break;
+                        if (Archers[MaxArchers - 1].state != State.Free)
+                            break;
+                    }
+                    for (int i = 0; i < MaxArchers; i++)
+                    {
+                        page += "data[" + i + "]= new Array(\"" + Archers[i].target + "\",\"" + Archers[i].name + "\",\""
+                            + Archers[i].club + "\",\"" + Archers[i].team + "\",\"" + Archers[i].bowtype + "\",\""
+                            + Archers[i].gender + "\",\"" + Archers[i].round + "\"," + Archers[i].handicap.ToString("0.0") + ","
+                            + Archers[i].runningtotal + "," + Archers[i].tiebreak1 + ","
+                            + Archers[i].tiebreak2 + ",\"" + Archers[i].state + "\"," + Archers[i].arrowcnt
+                            + ",\"" + Archers[i].arrows + "\");\r\n";
+                    }
+                    page += "var maxdata =" + MaxArchers + ";\r\n";
+                }
+                return header + "<div id=\"page\"></div><script type=\"text/javascript\">\r\n" + rounds + fieldnames + page + hc2dozen;
+            }
+            if (str.Contains("GET /newhc2d"))
+            {
+                string list = getparam(str, "list");
+                if (list == "" || list == "NotFound")
+                    return setuppagestring();
+                lock (dataLock)
+                {
+                    int i = 0, startp = 0, p = 0;
+                    try
+                    {
+                        for (i = 0; i < MaxArchers; i++)
+                        {
+                            p = list.IndexOf(",", startp);
+                            if (p == -1)
+                                break;
+                            Archers[i].handicap = Convert.ToSingle(list.Substring(startp, p - startp));
+                            startp = p + 1;
+                        }
+                    }
+                    catch { Console.WriteLine("Handicap {0} not a valid number {1}.", i, list.Substring(startp, p - startp)); }
+                }
+                return setuppagestring();
+            }
+
             if (str.Contains("GET /clearscores"))
             {
                 lock (dataLock)
@@ -504,6 +560,7 @@ namespace CPBserver
                     juniorflag = getparam(str, "junior") == "on" ? 1 : 0;
                     teamflag = getparam(str, "team") == "on" ? 1 : 0;
                     handicapflag = getparam(str, "handicap") == "on" ? 1 : 0;
+                    resultsbyroundflag = getparam(str, "round") == "on" ? 1 : 0;
                     worldarchery = getparam(str, "worldarchery") == "on" ? 1 : 0;
                     try
                     {
@@ -848,7 +905,7 @@ namespace CPBserver
                 string round = "York";
                 string gender = "M";
                 string bow = "Recurve";
-                int handicap = 100;
+                Single handicap = 100;
                 string send = getparam(str, "send");
                 if (send == "data")
                 {
@@ -861,7 +918,7 @@ namespace CPBserver
                     gender = getparam(str, "gender");
                     try
                     {
-                        handicap = Convert.ToInt32(getparam(str, "handicap"));
+                        handicap = Convert.ToSingle(getparam(str, "handicap"));
                     }
                     catch
                     {
@@ -1054,7 +1111,7 @@ namespace CPBserver
                                 Archers[i].gender = getparam(str, "gender");
                                 try
                                 {
-                                    Archers[i].handicap = Convert.ToInt32(getparam(str, "handicap"));
+                                    Archers[i].handicap = Convert.ToSingle(getparam(str, "handicap"));
                                 }
                                 catch
                                 {
@@ -1120,7 +1177,7 @@ namespace CPBserver
                         }
                         results = "var " + dataname + " = new Array(\"" + Archers[i].target + "\",\"" + Archers[i].name + "\",\""
                             + Archers[i].club + "\",\"" + Archers[i].team + "\",\"" + Archers[i].bowtype + "\",\""
-                            + Archers[i].gender + "\",\"" + Archers[i].round + "\"," + Archers[i].handicap + ","
+                            + Archers[i].gender + "\",\"" + Archers[i].round + "\"," + Archers[i].handicap.ToString("0.0") + ","
                             + Archers[i].runningtotal + "," + Archers[i].tiebreak1 + ","
                             + Archers[i].tiebreak2 + ",\"" + Archers[i].state + "\"," + Archers[i].arrowcnt + ");\r\n";
                         break;
@@ -1173,7 +1230,7 @@ namespace CPBserver
                 {
                     results += "var data = new Array(\"" + Archers[i].target + "\",\"" + Archers[i].name + "\",\""
                         + Archers[i].club + "\",\"" + Archers[i].team + "\",\"" + Archers[i].bowtype + "\",\""
-                        + Archers[i].gender + "\",\"" + Archers[i].round + "\"," + Archers[i].handicap + ","
+                        + Archers[i].gender + "\",\"" + Archers[i].round + "\"," + Archers[i].handicap.ToString("0.0") + ","
                         + Archers[i].runningtotal + "," + Archers[i].tiebreak1 + ","
                         + Archers[i].tiebreak2 + ",\"" + Archers[i].state + "\"," + Archers[i].arrowcnt
                         + ",\"" + Archers[i].arrows + "\");\r\n";
@@ -1283,7 +1340,8 @@ namespace CPBserver
                 // save
                 file.WriteLine("\"" + tournament + "\"," + maxtargets + "," + (medalflag == 1 ? "Medals " : "")
                     + (juniorflag == 1 ? "Junior " : "") + (bestflag == 1 ? "Best " : "")
-                    + (handicapflag == 1 ? "Handicap " : "") + (teamflag == 1 ? "Team " : "")
+                    + (handicapflag == 1 ? "Handicap " : "")
+                    + (teamflag == 1 ? "Team " : "") + (resultsbyroundflag == 1 ? "Round " : "")
                     + (worldarchery == 1 ? "WorldArchery " : "")
                     + (scoresystem == 1 ? "Dozen " : (scoresystem == 2 ? "Total " : ""))
                     + ",\"" + tournamentdate + "\",\"" + venue + "\",\"" + judges + "\",\"" + paramount + "\",\"" + patron
@@ -1293,7 +1351,7 @@ namespace CPBserver
                 {
                     string s = Archers[i].target + "," + Archers[i].name + "," + Archers[i].club + ","
                         + Archers[i].team + "," + Archers[i].bowtype + "," + Archers[i].gender + ","
-                        + Archers[i].round + "," + Archers[i].handicap + ","
+                        + Archers[i].round + "," + Archers[i].handicap.ToString("0.0") + ","
                         + Archers[i].runningtotal + "," + Archers[i].tiebreak1 + "," + Archers[i].tiebreak2 + ","
                         + Archers[i].state + "," + Archers[i].arrowcnt + "," + Archers[i].arrows + ",";
                     file.WriteLine(s);
@@ -1326,6 +1384,7 @@ namespace CPBserver
         static void processcol(int col, string str)
         {
             int no = 0;
+            float fno = 0;
             switch (cols[col])
             {
                 case "TARGET":
@@ -1372,16 +1431,16 @@ namespace CPBserver
                     Archers[MaxArchers].round = str;
                     break;
                 case "HANDICAP":
-                    no = 100;
+                    fno = 100;
                     try
                     {
-                        no = Convert.ToInt32(str);
+                        fno = Convert.ToSingle(str);
                     }
                     catch
                     {
                         Console.WriteLine("Invalid number in {0} {1}.", str, Archers[MaxArchers].name);
                     }
-                    Archers[MaxArchers].handicap = no;
+                    Archers[MaxArchers].handicap = fno;
                     break;
                 case "TOTAL":
                     no = 0;
@@ -1507,6 +1566,7 @@ namespace CPBserver
             bestflag = s.Substring(startp, coma - startp).Contains("Best") ? 1 : 0;
             teamflag = s.Substring(startp, coma - startp).Contains("Team") ? 1 : 0;
             handicapflag = s.Substring(startp, coma - startp).Contains("Handicap") ? 1 : 0;
+            resultsbyroundflag = s.Substring(startp, coma - startp).Contains("Round") ? 1 : 0;
             worldarchery = s.Substring(startp, coma - startp).Contains("WorldArchery") ? 1 : 0;
             scoresystem = 0;
             if (s.Substring(startp, coma - startp).Contains("Dozen"))
@@ -1772,6 +1832,7 @@ namespace CPBserver
             printscore = ReadFile(FilePath + "printscore.txt");
             rounds = ReadFile(FilePath + "rounds.txt");
             printpage = ReadFile(FilePath + "print.txt");
+            hc2dozen = ReadFile(FilePath + "hc2dozen.txt");
             Thread resultsThread = new Thread(new ThreadStart(Results));
             resultsThread.Start();
             Thread updateThread = new Thread(new ThreadStart(Updates));

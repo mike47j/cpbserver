@@ -34,7 +34,7 @@ function page() {
 	else if (rounds[rnd][RNDSCORING]!=Imperial)
 		tb2str = "X or 10";
 
-    var txt = "<h2>" + tournament + "</h2><h3>Change Archer Data</h3>"
+    var txt = "<h2>Change Archer Data</h2>"
          + "<p><a href=\"/setup\">Set Up Page</a></p><h2>Target " + data[TARGET] + " - " + data[NAME] + "</h2>";
     txt += "<form id=\"data\" action=\"/updateentry.htm\" method=\"get\">";
     txt += "<input name=\"send\" id=\"send\" type=\"hidden\" value=\"send\" />";

@@ -215,19 +215,6 @@ function partagbscore(h, r, a) { // score after a arrows of a round
     return 0;
 }
 
-function agbhandicap(score, round, arrowcnt) {
-	var rtrange = 32, nextscore, result = 50;
-	while (rtrange > .01) {
-		nextscore = partagbscore(result, round, arrowcnt);
-		if (score < nextscore)
-			result += rtrange;
-		else if (score > nextscore)
-			result -= rtrange;
-		rtrange = rtrange / 2;
-	}
-	return result;
-}
-
 // results
 
 	function agegroup(d1, d2) {
@@ -293,54 +280,69 @@ function doresults() {
 
     // create link string
     var jumpstr = "";
-    if (handicapflag != 1) {
-	for (i = 0; i < rounds.length; i++) {
-	    exists[i] = false;
-	    for (j = 0; j < maxdata; j++) {
-		if (data[j][ROUND] == rounds[i][RNDNAME]) {
-		    if (!printing && scrollstate < 0) {
-			if (jumpstr != "")
-			    jumpstr += " | ";
-			jumpstr += "<a href=\"#" + data[j][ROUND] + "\">" + data[j][ROUND] + "</a>";
-		    }
-		    exists[i] = true;
-		    break;
+    if (resultsbyroundflag == 1) {
+		for (i = 0; i < rounds.length; i++) {
+			exists[i] = false;
+			for (j = 0; j < maxdata; j++) {
+				if (data[j][ROUND] == rounds[i][RNDNAME]) {
+					if (!printing && scrollstate < 0) {
+						if (jumpstr != "")
+							jumpstr += " | ";
+						jumpstr += "<a href=\"#" + data[j][ROUND] + "\">" + data[j][ROUND] + "</a>";
+					}
+					exists[i] = true;
+					break;
+				}
+			}
 		}
-	    }
 	}
+
 	if (!printing && scrollstate < 0) {
-	    jumpstr = "<p style=\"text-align:center;\">" + jumpstr;
-	    if (juniorflag == 1)
-		jumpstr += " | <a href=\"#Junior\">Junior Championship</a>";
-	    if (bestflag == 1)
-		jumpstr += " | <a href=\"#Best\">Best Archer</a>";
-	    jumpstr += "</p>";
+		if (juniorflag == 1) {
+			if (jumpstr != "")
+				jumpstr += " | ";
+			jumpstr += "<a href=\"#Junior\">Junior Championship</a>";
+		}
+		if (bestflag == 1) {
+			if (jumpstr != "")
+				jumpstr += " | ";
+			jumpstr += "<a href=\"#Best\">Best Archer</a>";
+		}
+		if (handicapflag == 1) {
+			if (jumpstr != "")
+				jumpstr += " | ";
+			jumpstr += "<a href=\"#hcap\">Handicap</a>";
+		}
+		jumpstr = "<p style=\"text-align:center;\">" + jumpstr + "</p>";
 	}
 
 	// rounds
 	for (i = 0; i < rounds.length; i++) {
-	    if (exists[i]) {
+		if (exists[i]) {
 		textstr += "<a name=\"" + rounds[i][RNDNAME] + "\"></a>" + jumpstr;
 		round(rounds[i][RNDNAME]);
 		if (teamflag==1)
-		    bestteam(rounds[i][RNDNAME]);
-	    }
+			bestteam(rounds[i][RNDNAME]);
+		}
 	}
 
+
 	if (juniorflag == 1) {
-	    textstr += "<a name=\"Junior\"></a>" + jumpstr;
-	    bestjunior("JG");
-	    bestjunior("JB");
+		textstr += "<a name=\"Junior\"></a>" + jumpstr;
+		bestjunior("JG");
+		bestjunior("JB");
 	}
 
 	if (bestflag == 1) {
-	    textstr += "<a name=\"Best\"></a>" + jumpstr;
-	    bestarcher();
+		textstr += "<a name=\"Best\"></a>" + jumpstr;
+		bestarcher();
+	}
+
+    if (handicapflag==1) {
+		textstr += "<a name=\"hcap\"></a>" + jumpstr;
+		handicapresults();
 	}
 	textstr += jumpstr;
-    }
-    else // handicap results
-	bowtype("","","");
     document.getElementById("page").innerHTML = textstr;
 }
 
@@ -402,26 +404,16 @@ function bowtype(rndstr, g, bow) {
 
 	roundmatch = (data[i][ROUND] == rndstr);
 	if (data[i][STATE] != "Free") {
-	    if (handicapflag==1) {
-		scores[i] = 1440 - partagbscore(data[i][HANDICAP], data[i][ROUND], data[i][ARROWCNT]) + data[i][SCORE];
-		count++;
-		if (data[i][STATE] == "Inuse") 
-		    countm++;
+	    if (data[i][BOW] == bow && gendermatch && roundmatch) {
+			scores[i] = data[i][SCORE] + data[i][TIEBREAK1] / 1000 + data[i][TIEBREAK2] / 1000000;
+			count++;
+			if (data[i][STATE] == "Inuse" && (medalalloc[medalline][1]=="" 
+			  || medalalloc[medalline][1].indexOf(data[i][GENDER]) >= 0))
+				countm++
 	        if (data[i][STATE] == "Retired") // retired at end of list
-		    scores[i] = scores[i] / 2000 - 0.8;
+				scores[i] = scores[i] / 2000 - 0.8;
 	        if (data[i][STATE] == "DNS") // dns last
-		    scores[i] = -0.9;
-	    }
-	    else if (data[i][BOW] == bow && gendermatch && roundmatch) {
-		scores[i] = data[i][SCORE] + data[i][TIEBREAK1] / 1000 + data[i][TIEBREAK2] / 1000000;
-		count++;
-		if (data[i][STATE] == "Inuse" && (medalalloc[medalline][1]=="" 
-		|| medalalloc[medalline][1].indexOf(data[i][GENDER]) >= 0))
-		    countm++
-	        if (data[i][STATE] == "Retired") // retired at end of list
-		    scores[i] = scores[i] / 2000 - 0.8;
-	        if (data[i][STATE] == "DNS") // dns last
-		    scores[i] = -0.9;
+				scores[i] = -0.9;
 	    }
 	}
     }
@@ -436,21 +428,13 @@ function bowtype(rndstr, g, bow) {
 	    medalposn = 1;
 	}
 	// results
-	if (handicapflag==1) {
-	    textstr += "<h2 style=\"text-align:center;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">Handicap Results</h2>"
-	    + "<table border=1 style=\"margin-left:auto; margin-right:auto; border-collapse:collapse;\" >"
-	    + "<tr><th width=\"25\">&nbsp;<th width=\"35\">Target<th width=\"180\">Name<th>Gender"
-	    + "<th width=\"180\">Club<th>Round<th>Bow"
-	    + "<th width=\"45\">Score<th width=\"45\">Arrows<th>Adjusted<th width=\"100\">&nbsp;</tr>";
-	}
-	else {
-	    textstr += "<h2 style=\"text-align:center;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">"
+    textstr += "<h2 style=\"text-align:center;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">"
 		+ rndstr + " - " + gs + bow + "</h2>" 
 		+ "<table border=1 style=\"margin-left:auto; margin-right:auto; border-collapse:collapse;\" >"
 		+ "<tr><th width=\"25\">&nbsp;<th width=\"35\">Target<th width=\"180\">Name"
 		+ "<th width=\"180\">Club<th width=\"45\">Score<th width=\"45\">" + tb1str + "<th width=\"45\">" + tb2str
 	    + "<th width=\"45\">Arrows<th width=\"100\">&nbsp;</tr>";
-	}
+
 	var posn = 1;
 	var prevhighv = -1;
 	var prevaward = awards;
@@ -478,16 +462,6 @@ function bowtype(rndstr, g, bow) {
 		if (note == "Inuse")
 			note = "&nbsp;";
 	    junior = (data[highi][GENDER].substr(0, 1) == "J");
-	    if (handicapflag==1) {
-		textstr += "</td><td align=\"center\">" + data[highi][TARGET] + "</td><td>" + data[highi][NAME]
-		    + "<td align=\"center\">" + data[highi][GENDER]
-		    + "</td><td>" + data[highi][CLUB] + "</td><td align=\"center\">" + data[highi][ROUND]
-		    + "</td><td align=\"center\">" + data[highi][BOW] + "</td><td align=\"center\">"
-		    + (data[highi][STATE] != "Inuse" ? "&nbsp;" : data[highi][SCORE]) + "</td><td align=\"center\">"
-		    + data[highi][ARROWCNT] + "</td><td align=\"center\">"
-		    + (data[highi][STATE] != "Inuse" ? "&nbsp;" : Math.round(scores[highi])) + "</td><td align=\"center\">";
-	    }
-	    else {
 		textstr += "</td><td align=\"center\">" + data[highi][TARGET] + "</td><td>" + data[highi][NAME]
 		    + (junior ? " J <font size=\"-2\">" + data[highi][GENDER].substr(2, 3) + "</font>" : "")
 		    + "</td><td>" + data[highi][CLUB] + "</td><td align=\"center\">"
@@ -495,8 +469,7 @@ function bowtype(rndstr, g, bow) {
 		    + (data[highi][STATE] == "DNS" ? "&nbsp;" : data[highi][TIEBREAK1]) + "</td><td align=\"center\">"
 		    + (data[highi][STATE] == "DNS" ? "&nbsp;" : data[highi][TIEBREAK2]) + "</td><td align=\"center\">"
 		    + data[highi][ARROWCNT] + "</td><td align=\"center\">";
-	    }
-	    if (handicapflag==1 || medalalloc[medalline][1].indexOf(data[highi][GENDER]) >= 0) {
+	    if (medalalloc[medalline][1].indexOf(data[highi][GENDER]) >= 0) {
 		if (highv == prevawardscore)
 		    textstr += prevaward;
 		else {
@@ -506,18 +479,73 @@ function bowtype(rndstr, g, bow) {
 		}
 		if (awards == "Gold Medal") {
 		    awards = "Silver Medal";
-		    if (handicapflag!=1 && data[highi][GENDER].substr(0, 1) != "J" && countm < 4)
+		    if (data[highi][GENDER].substr(0, 1) != "J" && countm < 4)
 			awards = "&nbsp;";
 		}
 		else if (awards == "Silver Medal") {
 		    awards = "Bronze Medal";
-		    if (handicapflag!=1 && data[highi][GENDER].substr(0, 1) != "J" && countm < 7)
+		    if (data[highi][GENDER].substr(0, 1) != "J" && countm < 7)
 			awards = "&nbsp;";
 		}
 		else
 		    awards = "&nbsp;";
 	    }
 	    textstr += note + "</td></tr>";
+	    prevhighv = highv;
+	    posn++;
+	    scores[highi] = -1;
+	}
+	textstr += "</table>";
+    }
+}
+
+function handicapresults() {
+    var scores = new Array();
+    var i, j, highi = 0, highv = 0, count = 0;
+
+    // score if include in this list
+    for (i = 0; i < maxdata; i++) {
+		scores[i] = -99999;
+		if (data[i][STATE] == "Inuse") {
+			scores[i] = 1440 - Math.round(partagbscore(data[i][HANDICAP], data[i][ROUND], data[i][ARROWCNT])) + data[i][SCORE];
+			count++;
+		}
+    }
+
+    var highi, highv;
+    if (count > 0) {
+	// results
+    textstr += "<h2 style=\"text-align:center;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">Handicap Results</h2>"
+	    + "<table border=1 style=\"margin-left:auto; margin-right:auto; border-collapse:collapse;\" >"
+	    + "<tr><th width=\"25\">&nbsp;<th width=\"35\">Target<th width=\"180\">Name<th>Gender"
+	    + "<th width=\"180\">Club<th>Round<th>Bow"
+	    + "<th width=\"45\">Score<th width=\"45\">Arrows<th>Adjusted</tr>";
+	var posn = 1;
+	var prevhighv = -1;
+	for (i = 0; i < maxdata; i++) {
+	    highi = -1;
+	    highv = -1;
+	    for (j = 0; j < maxdata; j++) {
+		if (scores[j] > highv) {
+		    highv = scores[j];
+		    highi = j;
+		}
+	    }
+	    if (highi == -1)
+			break;
+	    textstr += "<tr><td align=\"center\">";
+	    if (data[highi][STATE] == "Inuse")
+			textstr += (highv == prevhighv ? "=" : posn);
+	    else {
+			textstr += "&nbsp;";
+	    }
+		textstr += "</td><td align=\"center\">" + data[highi][TARGET] + "</td><td>" + data[highi][NAME]
+		    + "<td align=\"center\">" + data[highi][GENDER]
+		    + "</td><td>" + data[highi][CLUB] + "</td><td align=\"center\">" + data[highi][ROUND]
+		    + "</td><td align=\"center\">" + data[highi][BOW] + "</td><td align=\"center\">"
+		    + (data[highi][STATE] != "Inuse" ? "&nbsp;" : data[highi][SCORE]) + "</td><td align=\"center\">"
+		    + data[highi][ARROWCNT] + "</td><td align=\"center\">"
+		    + (data[highi][STATE] != "Inuse" ? "&nbsp;" : Math.round(scores[highi]*10)/10) + "</td></tr>";
 	    prevhighv = highv;
 	    posn++;
 	    scores[highi] = -1;

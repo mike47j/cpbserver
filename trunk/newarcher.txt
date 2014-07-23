@@ -19,7 +19,7 @@
 
 function page() {
 	var i, j;
-	var txt = "<h2>" + tournament + "</h2><h2>Free Targets</h2><table border=\"1\" style=\"border-collapse: collapse;\">";
+	var txt = "<h2>Free Targets</h2><table border=\"1\" style=\"border-collapse: collapse;\">";
 	for (i = 0; i < free.length; i++) {
 		txt += "<tr><td valign=\"top\" width=\"170\">" + free[i][0] + "<td width=\"600\">";
 		for (j = 1; j < free[i].length; j++) {

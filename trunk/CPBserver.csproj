@@ -52,10 +52,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -69,6 +65,7 @@
   <ItemGroup>
     <Content Include="allocate.txt" />
     <Content Include="byname.txt" />
+    <Content Include="hc2dozen.txt" />
     <Content Include="icon.ico" />
     <Content Include="index.txt" />
     <Content Include="movearcher.txt" />

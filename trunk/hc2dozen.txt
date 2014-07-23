@@ -1,0 +1,194 @@
+/*
+    CPBserver: calc handicap after 2 dozen arrows
+    Copyright (C) 2014  Mike Johnson
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+// rounds file
+
+function partscore(range, y, N, D, t, h) {
+    var score, sr, n;
+    if (N == 0)
+	return 0;
+    if (y == 0)
+	range *= 0.9144;
+    sr = 100 * range * Math.pow(1.036, h + 12.9) * 5e-4 * (1 + 1.429e-6 * Math.pow(1.07, h + 4.3) * range * range);
+    switch (t) {
+	case 0: // metric
+	    score = 10;
+	    for (n = 1; n <= 10; n++) {
+		score -= Math.exp(-Math.pow((n * D / 20 + 0.375) / sr, 2));
+	    }
+	    break;
+	case 1: // imperial
+	    score = 9;
+	    for (n = 1; n <= 4; n++) {
+		score -= 2 * Math.exp(-Math.pow((n * D / 10 + 0.375) / sr, 2));
+	    }
+	    score -= Math.exp(-Math.pow((D / 2 + 0.375) / sr, 2));
+	    break;
+	case 2: // inner ten
+	    score = 10;
+	    score -= Math.exp(-Math.pow((D / 40 + 0.375) / sr, 2));
+	    for (n = 2; n <= 10; n++) {
+		score -= Math.exp(-Math.pow((n * D / 20 + 0.375) / sr, 2));
+	    }
+	    break;
+	case 3: // triple
+	    score = 10;
+	    for (n = 1; n <= 4; n++) {
+		score -= Math.exp(-Math.pow((n * D / 20 + 0.375) / sr, 2));
+	    }
+	    score -= 6 * Math.exp(-Math.pow((5 * D / 20 + 0.375) / sr, 2));
+	    break;
+	case 4: // inner ten triple
+	    score = 10;
+	    score -= Math.exp(-Math.pow((D / 40 + 0.375) / sr, 2));
+	    for (n = 2; n <= 4; n++) {
+		score -= Math.exp(-Math.pow((n * D / 20 + 0.375) / sr, 2));
+	    }
+	    score -= 6 * Math.exp(-Math.pow((5 * D / 20 + 0.375) / sr, 2));
+	    break;
+	case 5: // worcester
+	    score = 5;
+	    for (n = 1; n <= 5; n++) {
+		score -= Math.exp(-Math.pow((n * D / 10 + 0.375) / sr, 2));
+	    }
+	    break;
+	case 6: // 5 spot worcester
+	    score = 5;
+	    score -= Math.exp(-Math.pow((D / 10 + 0.375) / sr, 2));
+	    score -= 4 * Math.exp(-Math.pow((3 * D / 10 + 0.375) / sr, 2));
+	    break;
+	case 7: // 6 zone metric
+	    score = 10;
+	    for (n = 1; n <= 5; n++) {
+		score -= Math.exp(-Math.pow((n * D / 20 + 0.375) / sr, 2));
+	    }
+	    score -= 5 * Math.exp(-Math.pow((6 * D / 20 + 0.375) / sr, 2));
+	    break;
+	case 8: // hit/miss
+	    score = 1;
+	    score -= Math.exp(-Math.pow((D / 2 + 0.375) / sr, 2));
+	    break;
+    }
+    return score * N;
+}
+
+function partagbscore(h, r, a) { // score after a arrows of a round
+    var i, s=0, t=0;
+    for (i = 0; i < rounds.length; i++) {
+		if (rounds[i][RNDNAME] == r) {
+			//	 distance      yards/meters  arrows	diameter      scoring
+			s += partscore(rounds[i][RNDDISTANCE1], rounds[i][RNDMETERS], (a>t+rounds[i][RNDARROWS1]?rounds[i][RNDARROWS1]:a-t), rounds[i][RNDTARGET1], rounds[i][RNDSCORING], h);
+			t += rounds[i][RNDARROWS1];
+			if (t>a)
+			return s;
+			s += partscore(rounds[i][RNDDISTANCE2], rounds[i][RNDMETERS], (a>t+rounds[i][RNDARROWS2]?rounds[i][RNDARROWS2]:a-t), rounds[i][RNDTARGET2], rounds[i][RNDSCORING], h)
+			t += rounds[i][RNDARROWS2];
+			if (t>a)
+			return s;
+			s += partscore(rounds[i][RNDDISTANCE3], rounds[i][RNDMETERS], (a>t+rounds[i][RNDARROWS3]?rounds[i][RNDARROWS3]:a-t), rounds[i][RNDTARGET3], rounds[i][RNDSCORING], h)
+			t += rounds[i][RNDARROWS3];
+			if (t>a)
+			return s;
+			s += partscore(rounds[i][RNDDISTANCE4], rounds[i][RNDMETERS], (a>t+rounds[i][RNDARROWS4]?rounds[i][RNDARROWS4]:a-t), rounds[i][RNDTARGET4], rounds[i][RNDSCORING], h);
+			return s;
+		}
+    }
+    return 0;
+}
+
+function agbhandicap(score, round, arrowcnt) {
+	var hscore1, hscore, result = 50;
+	var result1, result2;
+	hscore = partagbscore(result, round, arrowcnt);
+	result1 = result + (score<hscore? 32 : -32);
+	while (Math.abs(score-hscore)>0.1) {
+		hscore1 = partagbscore(result1, round, arrowcnt);
+		result2 = result - (result-result1) * (hscore-score)/(hscore-hscore1);
+		if (Math.abs(score-hscore)>Math.abs(score-hscore1)) {
+			hscore = hscore1;
+			result = result1;
+		}
+		result1 = result2;
+	}
+	// delete next line and uncomment block for closer values to the printed tables
+	result = Math.round(result*10)/10;
+	/*
+	result = Math.round(result) - 1;
+	while (Math.round(partagbscore(result, round, arrowcnt))>score)
+	   result +=1;
+	*/
+	return result;
+}
+
+page();
+
+function page() {
+    var i, j;
+	var txt = "<h2>24 Arrow Handicaps</h2>\r\n"
+	txt += "<form id=\"data\" name=\"data\" method=\"get\" action=\"/newhc2d.htm\">"
+        + "<input name=\"list\" id=\"list\" type=\"hidden\" />"
+        + "<table><tr><td width=\"150\"><input type=\"button\" value=\"Submit\" onclick=\"send()\" />"
+        + "<td width=\"150\"><input type=\"Submit\" value=\"Cancel\" formaction=\"setup\" />"
+        + "</tr></table></form>\r\n";
+
+	txt += "<table border=\"1\" style=\"border-collapse: collapse;\" ><tr><th>Target</th><th>Name</th><th>Round</th>"
+		+"<th>Arrows</th><th>Score</th><th>Handicap</th></tr>";
+	for (i=0; i<maxdata; i++)  {
+	    if (data[i][STATE]=="Inuse") {
+		    txt += "<tr><td align=\"center\">" + data[i][TARGET] + "</td><td>" + data[i][NAME];
+			txt += "</td><td>" + data[i][ROUND] + "</td><td align=\"center\">" + data[i][ARROWCNT] + "</td>";
+			if (data[i][ARROWCNT]>=24) {
+				var score = 0;
+				for (j=0; j<24; j++) {
+					if (data[i][ARROWS].charCodeAt(j) - 65 == 11)
+						score += 10;
+					else 
+						score += data[i][ARROWS].charCodeAt(j) - 65;
+				}
+				txt += "<td align=\"center\">" + score + "</td>";
+				data[i][HANDICAP] = agbhandicap(score, data[i][ROUND], 24);
+				txt += "<td align=\"center\">" + data[i][HANDICAP] + "</td></tr>";
+			}
+			else {
+				txt += "<td align=\"center\" colspan=\"2\">Not enough arrows.</td>";
+				data[i][HANDICAP] = 0;
+			}
+			txt += "</tr>";
+		}
+	}
+	txt += "</table>";
+	document.getElementById("page").innerHTML = txt;
+}
+
+function send() {
+    var i;
+    var s = "";
+    for (i = 0; i < maxdata; i++) {
+        s += data[i][HANDICAP] + ",";
+    }
+    document.getElementById("list").value = s;
+    document.getElementById("data").submit();
+}
+
+</script>
+<noscript>
+<p>
+    This page needs Javascript enabled in the Internet browser.
+</p>
+</noscript>
+</body>
+</html>

@@ -22,11 +22,12 @@ function page() {
 		"15th","16th","17th","18th","19th","20th","21st","22nd","23rd","24th","25th","26th","27th","28th","29th","30th","31st" );
 	var datev = new Date(tournamentdate.substr(3,2)+"/"+tournamentdate.substr(0,2) +"/20"+tournamentdate.substr(6,2));
 	var datestr = dow[datev.getDay()] + " " + stndrdth[datev.getDate()] + " " + month[datev.getMonth()] + " " + datev.getFullYear();
-    var txt = "<h2>" + tournament + "</h2><h2>Competition Setup</h2>\r\n";
+    var txt = "<h2>Competition Setup</h2>\r\n";
     txt += "<form name=\"setupdata\" method=\"get\" action=\"/setupdata.htm\" onsubmit=\"return validateForm()\" >";
     txt += "<table><tr><td width=\"220\">Name of Event:</td><td><input name=\"name\" size=\"75\" value=\"" + tournament + "\" /></td></tr>";
     txt += "<tr><td>Date of Event dd/mm/yy:</td><td><input id=\"date\" name=\"date\" value=\"" + tournamentdate + "\" /> &nbsp;" + datestr + "</td></tr>";
 	txt += "<tr><td>Maximum Targets:</td><td><input name=\"maxtargets\" size=\"3\" value=\"" + maxtargets + "\" /><br/>";
+    txt += "<tr><td>Results by round:</td><td><input type=\"checkbox\" name=\"round\" " + (resultsbyroundflag == 1 ? "checked=\"checked\"" : "") + " /></td></tr>";
     txt += "<tr><td>Medals:</td><td><input type=\"checkbox\" name=\"medals\" " + (medalflag == 1 ? "checked=\"checked\"" : "") + " /></td></tr>";
     txt += "<tr><td>Best Archer:</td><td><input type=\"checkbox\" name=\"best\" " + (bestflag == 1 ? "checked=\"checked\"" : "") + " /></td></tr>";
     txt += "<tr><td>Junior Champion:</td><td><input type=\"checkbox\" name=\"junior\" " + (juniorflag == 1 ? "checked=\"checked\"" : "") + " /></td></tr>";
@@ -71,9 +72,12 @@ function validateForm() {
     </form><br/>
     <form name="clearscores" method="get" action="/clearscores">
         <input type="submit" value="Clear all scores" />
-    </form>
+    </form><br/>
+	<form name="hc2dozen" nethod="get" action="/hc2dozen">
+		<input type="submit" value="24 Arrow Handicaps" />
+	</form>
 <td>
-    Be sure you want to do either of these before clicking as its not possible to undo afterwards.
+    Be sure you want to do any of these before clicking as its not possible to undo afterwards.
 </tr>
 
 <tr><td style="padding:10px;">

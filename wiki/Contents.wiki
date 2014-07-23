@@ -14,6 +14,8 @@
 
 [MoveSwap Move an Archer or Swap 2 Archers]
 
+[Handicap24 First 24 Arrows Handicaps]
+
 [Printing Printing]
 
 [Running Printing Running Slips and Score Sheets]

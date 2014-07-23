@@ -1,7 +1,7 @@
 #summary Move or Swap Archers between Targets
 = Move or Swap Archers =
 
-[Contents Contents] [Printing Next]
+[Contents Contents] [Handicap24 Next]
 
 Sometimes it's necessary to move an Archer, even during a competition.
 

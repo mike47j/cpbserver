@@ -1,0 +1,12 @@
+#summary First 24 Arrow Handicaps
+= First 24 Arrow Handicaps =
+
+[Contents Contents] [Printing Printing]
+
+For fun handicap shoots where the handicap is worked out on the first 24 arrows shot. So those that start badly have a good chance to win.
+
+[http://cpbserver.googlecode.com/svn/trunk/images/24arrow1.jpg]
+
+After the scores for 24 arrows have been entered, calculate the handicaps. The leader board then show all the archers level on 1440.
+
+[http://cpbserver.googlecode.com/svn/trunk/images/24arrow2.jpg]

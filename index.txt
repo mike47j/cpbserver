@@ -17,19 +17,19 @@
 */
 function page() {
     var txt = "<h2>" + tournament + "</h2>\r\n"
-		+ "<form><table><tr><td style=\"width:300px;vertical-align:top;\">"
-		+ "<input type=\"submit\" value=\"Leader Board\" formaction=\"/results\" /><br/><br/>"
-		+ "<input type=\"submit\" value=\"Target List by Target\" formaction=\"/bytarget\" /><br/><br/>"
-		+ "<input type=\"submit\" value=\"Target List by Name\" formaction=\"/byname\" /><br/><br/>";
+		+ "<table><tr><td style=\"width:300px;vertical-align:top;\">"
+		+ "<form action=\"/results\"><input type=\"submit\" value=\"Leader Board\" /></form><br/>"
+		+ "<form action=\"/bytarget\"><input type=\"submit\" value=\"Target List by Target\" /></form><br/>"
+		+ "<form action=\"/byname\"><input type=\"submit\" value=\"Target List by Name\" /></form><br/>";
 	if (teamflag==1)
-		txt	+= "<input type=\"submit\" value=\"Target List by Team\" formaction=\"/byteam\" /><br/><br/>";
-	txt	+= "<input type=\"submit\" value=\"Scores by Target\" formaction=\"/scorebytarget\" /><br/><br/>"
-		+ "<input type=\"submit\" value=\"Scores by Name\" formaction=\"/scorebyname\" /><br/><br/>";
+		txt	+= "<form action=\"/byteam\"><input type=\"submit\" value=\"Target List by Team\" /></form><br/>";
+	txt	+= "<form action=\"/scorebytarget\"><input type=\"submit\" value=\"Scores by Target\" /></form><br/>"
+		+ "<form action=\"/scorebyname\"><input type=\"submit\" value=\"Scores by Name\" /></form><br/>";
 	if (teamflag==1)
-		txt += "<input type=\"submit\" value=\"Scores by Team\" formaction=\"/scorebyteam\" /><br/><br/>";
+		txt += "<form action=\"/scorebyteam\"><input type=\"submit\" value=\"Scores by Team\" /></form><br/>";
 	txt	+= "</td><td style=\"width:300px;vertical-align:top;\">"
-		+ "<input type=\"submit\" value=\"Set Up Page\" formaction=\"/setup\" /><br/><br/></td></table></form>";
-	txt += "<form name=\"scoreentry\" method=\"get\" action=\"/scoreentry.htm\">"
+		+ "<form action=\"/setup\"><input type=\"submit\" value=\"Set Up Page\" /></form><br/></td></table>";
+	txt += "<form method=\"get\" action=\"/scoreentry.htm\">"
 		+ "<p>Target: <input id=\"target\" name=\"target\" size=\"3\"/> <input type=\"submit\" value=\"Score Entry\" /></p>"
 		+ "</form>";
     document.getElementById("page").innerHTML = txt;

@@ -610,16 +610,16 @@ function bestarcher() {
     var i, j;
     var highi, highv;
     for (i = 0; i < maxdata; i++) {
-	scores[i] = -1;
-	if (data[i][STATE] == "Inuse") {
-	    var gc = data[i][GENDER] + data[i][BOW].substr(0, 1);
-	    for (j = 0; j < handicaps.length; j++) {
-		if (handicaps[j][0] == gc)
-		    break;
-	    }
-	    if (j < handicaps.length)
-		scores[i] = data[i][SCORE] * 2000 / agbscore(handicaps[j][1], data[i][ROUND]);
-	}
+		scores[i] = -1;
+		if (data[i][STATE] == "Inuse") {
+			var gc = data[i][GENDER] + data[i][BOW].substr(0, 1);
+			for (j = 0; j < handicaps.length; j++) {
+			if (handicaps[j][0] == gc)
+				break;
+			}
+			if (j < handicaps.length)
+				scores[i] = data[i][SCORE] * 2000 / agbscore(handicaps[j][1], data[i][ROUND]);
+		}
     }
     textstr += "<h2 style=\"text-align:center;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">Best Archer</h2>";
     textstr += "</h3><table border=1 style=\"margin-left:auto;margin-right:auto; border-collapse:collapse;\" >"

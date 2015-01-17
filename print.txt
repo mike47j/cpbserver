@@ -60,7 +60,7 @@ function page() {
 	txt += "<td width=\"500\">Enter everything except the weather before printing.</tr>";
 	txt += "<tr><td width=\"200\" style=\"padding:10px;\">"
 		+ "<input type=\"submit\" value=\"Print Running Slips\" formaction=\"/printrun\" /><br/><br/>"
-		+ "<input type=\"submit\" value=\"Print Score Sheets\" formaction=\"/printscore\" />"
+		+ "<input type=\"submit\" value=\"Print Blank Score Sheets\" formaction=\"/printscore\" />"
 		+ "<td width=\"400\">These take some time to produce all the pages."
 		+ "Use print preview to check the margins, page boundaries and"
 		+ "delete any header and footer information before printing.</tr>";

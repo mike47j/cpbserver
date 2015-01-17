@@ -28,59 +28,59 @@ function partscore(range, y, N, D, t, h) {
 	case 0: // metric
 	    score = 10;
 	    for (n = 1; n <= 10; n++) {
-		score -= Math.exp(-Math.pow((n * D / 20 + 0.375) / sr, 2));
+		score -= Math.exp(-Math.pow((n * D / 20 + 0.357) / sr, 2));
 	    }
 	    break;
 	case 1: // imperial
 	    score = 9;
 	    for (n = 1; n <= 4; n++) {
-		score -= 2 * Math.exp(-Math.pow((n * D / 10 + 0.375) / sr, 2));
+		score -= 2 * Math.exp(-Math.pow((n * D / 10 + 0.357) / sr, 2));
 	    }
-	    score -= Math.exp(-Math.pow((D / 2 + 0.375) / sr, 2));
+	    score -= Math.exp(-Math.pow((D / 2 + 0.357) / sr, 2));
 	    break;
 	case 2: // inner ten
 	    score = 10;
-	    score -= Math.exp(-Math.pow((D / 40 + 0.375) / sr, 2));
+	    score -= Math.exp(-Math.pow((D / 40 + 0.357) / sr, 2));
 	    for (n = 2; n <= 10; n++) {
-		score -= Math.exp(-Math.pow((n * D / 20 + 0.375) / sr, 2));
+		score -= Math.exp(-Math.pow((n * D / 20 + 0.357) / sr, 2));
 	    }
 	    break;
 	case 3: // triple
 	    score = 10;
 	    for (n = 1; n <= 4; n++) {
-		score -= Math.exp(-Math.pow((n * D / 20 + 0.375) / sr, 2));
+		score -= Math.exp(-Math.pow((n * D / 20 + 0.357) / sr, 2));
 	    }
-	    score -= 6 * Math.exp(-Math.pow((5 * D / 20 + 0.375) / sr, 2));
+	    score -= 6 * Math.exp(-Math.pow((5 * D / 20 + 0.357) / sr, 2));
 	    break;
 	case 4: // inner ten triple
 	    score = 10;
-	    score -= Math.exp(-Math.pow((D / 40 + 0.375) / sr, 2));
+	    score -= Math.exp(-Math.pow((D / 40 + 0.357) / sr, 2));
 	    for (n = 2; n <= 4; n++) {
-		score -= Math.exp(-Math.pow((n * D / 20 + 0.375) / sr, 2));
+		score -= Math.exp(-Math.pow((n * D / 20 + 0.357) / sr, 2));
 	    }
-	    score -= 6 * Math.exp(-Math.pow((5 * D / 20 + 0.375) / sr, 2));
+	    score -= 6 * Math.exp(-Math.pow((5 * D / 20 + 0.357) / sr, 2));
 	    break;
 	case 5: // worcester
 	    score = 5;
 	    for (n = 1; n <= 5; n++) {
-		score -= Math.exp(-Math.pow((n * D / 10 + 0.375) / sr, 2));
+		score -= Math.exp(-Math.pow((n * D / 10 + 0.357) / sr, 2));
 	    }
 	    break;
 	case 6: // 5 spot worcester
 	    score = 5;
-	    score -= Math.exp(-Math.pow((D / 10 + 0.375) / sr, 2));
-	    score -= 4 * Math.exp(-Math.pow((3 * D / 10 + 0.375) / sr, 2));
+	    score -= Math.exp(-Math.pow((D / 10 + 0.357) / sr, 2));
+	    score -= 4 * Math.exp(-Math.pow((3 * D / 10 + 0.357) / sr, 2));
 	    break;
 	case 7: // 6 zone metric
 	    score = 10;
 	    for (n = 1; n <= 5; n++) {
-		score -= Math.exp(-Math.pow((n * D / 20 + 0.375) / sr, 2));
+		score -= Math.exp(-Math.pow((n * D / 20 + 0.357) / sr, 2));
 	    }
-	    score -= 5 * Math.exp(-Math.pow((6 * D / 20 + 0.375) / sr, 2));
+	    score -= 5 * Math.exp(-Math.pow((6 * D / 20 + 0.357) / sr, 2));
 	    break;
 	case 8: // hit/miss
 	    score = 1;
-	    score -= Math.exp(-Math.pow((D / 2 + 0.375) / sr, 2));
+	    score -= Math.exp(-Math.pow((D / 2 + 0.357) / sr, 2));
 	    break;
     }
     return score * N;

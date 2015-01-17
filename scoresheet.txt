@@ -275,7 +275,7 @@
 	    document.getElementById("data").submit();
 	}
 	function checksend() {
-	    if (data[ARROWS].length % arrowsperend != 0) {
+	    if (data[ARROWS].length % arrowsperend != 0 && data[ARROWS].length % (arrowsperend/2) != 0) {
 		document.getElementById("msg").innerHTML = "Wrong number of arrows.";
 		document.getElementById("msg").style.background = "pink";
 	    }

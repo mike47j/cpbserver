@@ -97,7 +97,7 @@
 		if (20 + (8 * linesperslip + 6 + 3) * dozens <= maxline)
 		    txt += "<div style=\"height:" + (maxline - (8 * linesperslip + 6 + 3) * dozens) + "mm\"></div>";
 		else {
-		    txt += "<div style=\"height:" + (maxline - (8 * linesperslip + 6 + 3) * Math.ceil(dozens / 2)) + "mm\"></div>";
+		    txt += "<div style=\"height:" + (maxline - (8 * linesperslip + 6 + 3) * Math.floor(dozens / 2)) + "mm\"></div>";
 		    split = true;
 		}
 
@@ -138,9 +138,9 @@
 			txt += "</table>";
 		    }
 		    txt += "</td></tr></table>";
-		    if (split && i - 1 == Math.floor(dozens / 2)) {
+		    if (split && i - 1 == Math.ceil(dozens / 2)) {
 			txt += "<div style=\"height:0mm; page-break-after:always;\"></div>";
-			txt += "<div style=\"height:" + (maxline - (8 * linesperslip + 6 + 3) * (dozens - Math.ceil(dozens / 2))) + "mm\"></div>";
+			txt += "<div style=\"height:" + (maxline - (8 * linesperslip + 6 + 3) * (dozens - Math.floor(dozens / 2))) + "mm\"></div>";
 		    }
 		}
 		txt += "<div style=\"height:0mm; page-break-after:always;\"></div>";

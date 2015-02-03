@@ -1136,6 +1136,8 @@ namespace CPBserver
                                 Archers[i].state = State.DNS;
                             else if (st == "Retired")
                                 Archers[i].state = State.Retired;
+                            else
+                                Archers[i].state = State.Inuse;
                             try
                             {
                                 Archers[i].runningtotal = Convert.ToInt32(getparam(str, "tscore"));

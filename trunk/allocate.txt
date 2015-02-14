@@ -20,7 +20,6 @@
     var index2 = new Array(); // new list
     var targets = new Array();
     var letter = new Array("A", "B", "C", "D", "E", "F");
-    var maxfrom;
     init();
     page();
 
@@ -34,11 +33,10 @@
             index1[i] = -1;
             targets[i] = data[i][TARGET];
             if (data[i][STATE] == "Free")
-                index2[i] = 99999;
+                index2[i] = -1;
             else
                 index2[i] = i;
         }
-        maxfrom = j;
     }
 
     function page() {
@@ -51,7 +49,7 @@
         textstr += "<input name=\"list\" id=\"list\" type=\"hidden\" />";
         textstr += "<table><tr><td width=\"150\"><input type=\"button\" value=\"Submit\" onclick=\"send()\" />";
         textstr += "<td width=\"150\"><input type=\"Submit\" value=\"Cancel\" formaction=\"setup\" />";
-        textstr += "<td width=\"150\"><input type=\"button\" value=\"Remove All\" onclick=\"remove()\" />";
+        textstr += "<td width=\"150\"><input type=\"button\" value=\"Remove All\" onclick=\"removeall()\" />";
         textstr += "<td><input size=\"3\" id=\"tgt\">&nbsp;<input type=\"button\" value=\"Add E or F\" onclick=\"targeta()\" />";
         textstr += "&nbsp;<input type=\"button\" value=\"Delete E or F\" onclick=\"targetd()\" />";
         textstr += "</tr></table></form>";
@@ -128,7 +126,7 @@
         document.getElementById("data").submit();
     }
 
-    function remove() {
+    function removeall() {
         var i, j = 0;
         for (i = 0; i < maxdata; i++) {
             index1[i] = -1;
@@ -144,7 +142,6 @@
                 j++;
             }
         }
-        maxfrom = j;
         page();
     }
 
@@ -152,7 +149,7 @@
         var i, swap = true;
         while (swap) {
             swap = false;
-            for (i = 1; i < maxfrom; i++) {
+            for (i = 1; i < maxdata; i++) {
                 if (index1[i] != -1 && (index1[i - 1] == -1 || data[index1[i]][ROUND] < data[index1[i - 1]][ROUND]
                     || (data[index1[i]][ROUND] == data[index1[i - 1]][ROUND] && data[index1[i]][BOW] < data[index1[i - 1]][BOW]))) {
                     var t = index1[i];

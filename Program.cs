@@ -31,8 +31,8 @@ namespace CPBserver
         public static int RESULTPORT = 80;
         public static int UPDATEPORT = 4023;
         public static int ARCHERSPERTARGET = 4;
-        public static string FilePath = "\\";
-
+        public static string FilePath = ""; // "\\";
+        public static IPAddress localipaddress;
         static Boolean shutdown = false;
 
         // print info
@@ -151,7 +151,7 @@ namespace CPBserver
             try
             {
                 listener.Bind(localEndPoint);
-                listener.Listen(20);
+                listener.Listen(50);
                 while (!shutdown)
                 {
                     resultsDone.Reset();
@@ -1255,6 +1255,7 @@ namespace CPBserver
             {
                 if (currrentIPAddress.AddressFamily.ToString() == System.Net.Sockets.AddressFamily.InterNetwork.ToString())
                 {
+                    localipaddress = currrentIPAddress;
                     ipv4Address = currrentIPAddress.ToString();
                     break;
                 }
@@ -1813,7 +1814,8 @@ namespace CPBserver
                 + "This is free software, and you are welcome to redistribute it.\r\n"
                 + "See gpl.txt or http://www.gnu.org/licenses/ for conditions.\r\n\n");
             Readcfg();
-            Console.WriteLine("Server address {0} ports {1}, {2}", GetLocalIP(), RESULTPORT, UPDATEPORT);
+            Console.WriteLine("Server address {0} ports {1}, {2}\r\nDirectory {3}, TIMEOUT {4}",
+                GetLocalIP(), RESULTPORT, UPDATEPORT, FilePath, TIMEOUT);
             ReadDataFile(FilePath + "data.csv");
             sortbytarget();
             insertfreetargets();
@@ -1848,6 +1850,7 @@ namespace CPBserver
                 if (s.Contains("shutdown"))
                     shutdown = true;
             }
+
             backupThread.Join();
             resultsDone.Set();
             updateDone.Set();

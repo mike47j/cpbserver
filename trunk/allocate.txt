@@ -47,11 +47,14 @@
         textstr += "</table>";
         textstr += "<form id=\"data\" name=\"data\" method=\"get\" action=\"/newalloc.htm\">";
         textstr += "<input name=\"list\" id=\"list\" type=\"hidden\" />";
-        textstr += "<table><tr><td width=\"150\"><input type=\"button\" value=\"Submit\" onclick=\"send()\" />";
-        textstr += "<td width=\"150\"><input type=\"Submit\" value=\"Cancel\" formaction=\"setup\" />";
-        textstr += "<td width=\"150\"><input type=\"button\" value=\"Remove All\" onclick=\"removeall()\" />";
+        textstr += "<table><tr><td width=\"100\"><input type=\"button\" value=\"Submit\" onclick=\"send()\" />";
+        textstr += "<td width=\"100\"><input type=\"Submit\" value=\"Cancel\" formaction=\"setup\" />";
+        textstr += "<td width=\"100\"><input type=\"button\" value=\"Remove All\" onclick=\"removeall()\" />";
+        textstr += "<td width=\"100\"><input type=\"button\" value=\"Add All\" onclick=\"addall()\" />";
         textstr += "<td><input size=\"3\" id=\"tgt\">&nbsp;<input type=\"button\" value=\"Add E or F\" onclick=\"targeta()\" />";
         textstr += "&nbsp;<input type=\"button\" value=\"Delete E or F\" onclick=\"targetd()\" />";
+        textstr += "&nbsp;<input type=\"button\" value=\"Insert\" onclick=\"insertt()\" />";
+        textstr += "&nbsp;<input type=\"button\" value=\"Remove\" onclick=\"removet()\" />";
         textstr += "</tr></table></form>";
 
         textstr += "<table border=\"1\" style=\"border-collapse: collapse;\" >"
@@ -145,6 +148,33 @@
         page();
     }
 
+	function addall() {
+		var j;
+		for (j=0; j<maxdata; j++) {
+		   if (index1[j]!=-1) {
+				// the place to insert it
+				var i, k;
+				for (i = 0; i < maxdata; i++) {
+					if (index2[i] < 0) { // empty space
+						var skip = false;
+						for (k = i - 6; k < i + 6; k++) {
+							if (k >= 0 && k < maxdata && targets[k].substr(0, 2) == targets[i].substr(0, 2)
+											&& index2[k] >= 0 && index2[k] != 99999
+								&& data[index2[k]][ROUND] != data[index1[j]][ROUND])
+								skip = true;
+						}
+						if (!skip) {
+							index2[i] = index1[j];
+							index1[j] = -1;
+							break;
+						}
+					}
+				}
+		   }
+		}	
+        page();
+	}
+
     function sortfromcol() {
         var i, swap = true;
         while (swap) {
@@ -170,17 +200,25 @@
             index2[i] = -1;
         }
         else {
-            // find a place to return it
-            var j;
-            for (j = 0; j < maxdata; j++) {
-                if (index1[j] < 0)
-                    break;
-            }
-            index1[j] = index2[i];
-            index2[i] = -1;
+            freeup(i);
         }
         page();
     }
+
+	// return an archer to the un-allocated list
+	function freeup(i)
+	{
+		if (index2[i] == 99999 || index2[i] == -1)
+			return;
+        // find a place to return it
+        var j;
+        for (j = 0; j < maxdata; j++) {
+            if (index1[j] < 0)
+                break;
+        }
+        index1[j] = index2[i];
+        index2[i] = -1;
+	}
 
     // move to next free space on the new target list
     function tocol(f) {
@@ -214,6 +252,73 @@
             }
         }
         page();
+    }
+
+    function insertt() {
+        var index;
+        var t = document.getElementById("tgt").value;
+        if (t.length == 1)
+            t = "0" + t;
+        for (index = 0; index < maxdata; index++) {
+            if (targets[index].substr(0, 2) == t.substr(0, 2)) {
+				freeup(maxdata-1);
+				freeup(maxdata-2);
+				freeup(maxdata-3);
+				freeup(maxdata-4);
+                var i; // make space
+                for (i = maxdata-1; i > index + 3; i--) {
+					// add 1 to target number
+					var j = String(parseInt(targets[i - 4].substr(0, 2)) + 1);
+					if (j.length==1)
+						j = "0" + j;
+                    targets[i] = j + targets[i - 4].substr(2, 1); 
+                    index2[i] = index2[i - 4];
+                }
+				index2[index] = -1;
+				index2[index+1] = -1;
+				index2[index+2] = -1;
+				index2[index+3] = -1;
+                page();
+                break;
+            }
+        }
+    }
+
+    function removet() {
+        var index;
+        var t = document.getElementById("tgt").value;
+        if (t.length == 1)
+            t = "0" + t;
+        for (index = 0; index < maxdata; index++) {
+            if (targets[index].substr(0, 2) == t.substr(0, 2)) {
+				freeup(index);
+				freeup(index+1);
+				freeup(index+2);
+				freeup(index+3);
+				var size = 4;
+				if (targets[index+4].substr(2, 1) == "E") {
+					freeup(index+4);
+					size = 5;
+					if (targets[index+5].substr(2, 1) == "F") {
+						freeup(index+5);
+						size = 6;
+					}
+				}
+                var i; // remove space
+                for (i = index; i < maxdata-size; i++) {
+					// sub 1 to target number
+					var j = String(parseInt(targets[i + size].substr(0, 2)) - 1);
+					if (j.length==1)
+						j = "0" + j;
+                    targets[i] = j + targets[i + size].substr(2, 1); 
+                    index2[i] = index2[i + size];
+                }
+				for (i = maxdata-1; i >= maxdata-size; i--)
+					index2[i] = -1;
+                page();
+                break;
+            }
+        }
     }
 
     function targeta() {

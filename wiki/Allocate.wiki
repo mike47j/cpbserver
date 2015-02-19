@@ -19,4 +19,6 @@ Next add the compound and recurve archers spreading the compounds around.
 
 If you need to add a 5th or 6th archer to a target, enter the target number in the box and click "Add E or F". If you find you don't need the extra place enter the target number in the box and click "Delete E or F".
 
-Add all the other archers in the same way and click "Submit" to save the result. Allocate will not put different rounds on the same target.
+If you need re-arrange a target list and add a blank target in the middle then enter the target number in the box and click "Insert", this will move all the following archers down one target. Some may fall of the end and appear in the archer list. "Remove" will delete a target, put the archers in the archers list and put a blank target at the end.
+
+Add all the other archers in the same way. "Add All" will copy all the remaining archers into the target list in the same order. When complete click "Submit" to save the result. Allocate will not put different rounds on the same target.

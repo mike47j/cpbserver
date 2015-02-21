@@ -1423,8 +1423,30 @@ namespace CPBserver
                     str = str.ToUpper();
                     if (str.StartsWith("M") || str.StartsWith("F"))
                     {
-                        if (!(str.Length == 1) && !(str.Length == 9 && str.Substring(3, 1) == "/" && str.Substring(6, 1) == "/"))
-                            Console.WriteLine("Not a valid gender {0} {1}", str, Archers[MaxArchers].name);
+                        if (str.Length != 1)
+                        {
+                            string s2 = str.Substring(0, 1);
+                            int s = str.IndexOf('/');
+                            if (s >= 2)
+                            {
+                                string s3 = "0" + str.Substring(1, s - 1); // day
+                                s2 = s2 + s3.Substring(s3.Length-2,2) + "/";
+                                int t = str.IndexOf('/',s+1);
+                                if (t >= 4)
+                                {
+                                    s3 = "0" + str.Substring(s + 1, t -s - 1); // month
+                                    s2 = s2 + s3.Substring(s3.Length - 2, 2) + "/";
+                                    s3 = "0" + str.Substring(t + 1); // year
+                                    str = s2 + s3.Substring(s3.Length - 2, 2);
+                                }
+                                else
+                                    Console.WriteLine("Not a valid date of birth {0} {1}", str, Archers[MaxArchers].name);
+                            }
+                            else
+                                Console.WriteLine("Not a valid date of birth {0} {1}", str, Archers[MaxArchers].name);
+                        }
+                        // if (!(str.Length == 1) && !(str.Length == 9 && str.Substring(3, 1) == "/" && str.Substring(6, 1) == "/"))
+                        //    Console.WriteLine("Not a valid date of birth {0} {1}", str, Archers[MaxArchers].name);
                     }
                     else if (!"JBU18 JBU16 JBU14 JBU12 JGU18 JGU16 JGU14 JGU12".Contains(str))
                         Console.WriteLine("Not a valid gender {0} {1}", str, Archers[MaxArchers].name);
@@ -1441,7 +1463,7 @@ namespace CPBserver
                     }
                     catch
                     {
-                        Console.WriteLine("Invalid number in {0} {1}.", str, Archers[MaxArchers].name);
+                        Console.WriteLine("Invalid HANDICAP in {0} {1}.", str, Archers[MaxArchers].name);
                     }
                     Archers[MaxArchers].handicap = fno;
                     break;
@@ -1453,7 +1475,7 @@ namespace CPBserver
                     }
                     catch
                     {
-                        Console.WriteLine("Invalid number in {0} {1}.", str, Archers[MaxArchers].name);
+                        Console.WriteLine("Invalid TOTAL in {0} {1}.", str, Archers[MaxArchers].name);
                     }
                     Archers[MaxArchers].runningtotal = no;
                     break;
@@ -1465,7 +1487,7 @@ namespace CPBserver
                     }
                     catch
                     {
-                        Console.WriteLine("Invalid number in {0} {1}.", str, Archers[MaxArchers].name);
+                        Console.WriteLine("Invalid TIEBREAK1 in {0} {1}.", str, Archers[MaxArchers].name);
                     }
                     Archers[MaxArchers].tiebreak1 = no;
                     break;
@@ -1477,7 +1499,7 @@ namespace CPBserver
                     }
                     catch
                     {
-                        Console.WriteLine("Invalid number in {0} {1}.", str, Archers[MaxArchers].name);
+                        Console.WriteLine("Invalid TIEBREAK2 in {0} {1}.", str, Archers[MaxArchers].name);
                     }
                     Archers[MaxArchers].tiebreak2 = no;
                     break;
@@ -1498,7 +1520,7 @@ namespace CPBserver
                     }
                     catch
                     {
-                        Console.WriteLine("Invalid number in {0} {1}.", str, Archers[MaxArchers].name);
+                        Console.WriteLine("Invalid ARROWCNT in {0} {1}.", str, Archers[MaxArchers].name);
                     }
                     Archers[MaxArchers].arrowcnt = no;
                     break;

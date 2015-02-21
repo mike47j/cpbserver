@@ -113,7 +113,7 @@ function page() {
 				if (teamflag==1)
 					txt += "<th width=\"50\">Team</th>";
 				if (targetlist) {
-					txt += "<th width=\"50\">Bow</th><th width=\"50\">Gender</th><th width=\"150\">Round</th>";
+					txt += "<th width=\"50\">Bow</th><th width=\"50\">Gender</th><th width=\"160\">Round</th>";
 					if (handicapflag==1)
 						txt += "<th width=\"50\">Handicap</th>";
 				}

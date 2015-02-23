@@ -63,8 +63,16 @@
 		    + "<td style=\"padding-left:10mm;font-weight:bold;font-size:large;\">" 
 			+ (data[index][NAME] != "" ? agegroup(data[index][GENDER],tournamentdate) : "") + "</table>";
 		// round and date
+		var roundstr = data[index][ROUND];
+		if (roundstr=="Hereford / Bristol 1") {
+			if (data[index][GENDER]=="F" || data[index][GENDER].substr(0,2)=="JG")
+				roundstr = "Hereford";
+			else
+				roundstr = "Bristol 1";
+		}
+
 		txt += "<tr style=\"height:11mm;\"><td><table><tr style=\"height:3mm;\"><td style=\"font-size:small;\">Round<tr style=\"height:7mm;\">"
-		    + "<td style=\"padding-left:10mm;font-weight:bold;font-size:large;\">" + data[index][ROUND] + "</table>"
+		    + "<td style=\"padding-left:10mm;font-weight:bold;font-size:large;\">" + roundstr + "</table>"
 		    + "<td colspan=\"2\"><table><tr style=\"height:3mm;\"><td style=\"font-size:small;\">Date<tr style=\"height:7mm;\">"
 		    + "<td style=\"padding-left:10mm;font-weight:bold;font-size:large;\">" + tournamentdate + "</table>"
 		    + "</table><p></p>";

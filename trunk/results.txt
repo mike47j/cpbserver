@@ -428,8 +428,15 @@ function bowtype(rndstr, g, bow) {
 	    medalposn = 1;
 	}
 	// results
+	var roundstr = rndstr;
+	if (rndstr=="Hereford / Bristol 1") {
+	if (g=="F")
+	    roundstr = "Hereford";
+	else
+		roundstr = "Bristol 1";
+	}
     textstr += "<h2 style=\"text-align:center;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">"
-		+ rndstr + " - " + gs + bow + "</h2>" 
+		+ roundstr + " - " + gs + bow + "</h2>" 
 		+ "<table border=1 style=\"margin-left:auto; margin-right:auto; border-collapse:collapse;\" >"
 		+ "<tr><th width=\"25\">&nbsp;<th width=\"35\">Target<th width=\"180\">Name"
 		+ "<th width=\"180\">Club<th width=\"45\">Score<th width=\"45\">" + tb1str + "<th width=\"45\">" + tb2str
@@ -533,6 +540,15 @@ function handicapresults() {
 	    }
 	    if (highi == -1)
 			break;
+
+		var roundstr = data[highi][ROUND];
+		if (roundstr=="Hereford / Bristol 1") {
+		if (data[highi][GENDER]=="F" || data[highi][GENDER].substr(0,2)=="JG")
+			roundstr = "Hereford";
+		else
+			roundstr = "Bristol 1";
+		}
+
 	    textstr += "<tr><td align=\"center\">";
 	    if (data[highi][STATE] == "Inuse")
 			textstr += (highv == prevhighv ? "=" : posn);
@@ -541,7 +557,7 @@ function handicapresults() {
 	    }
 		textstr += "</td><td align=\"center\">" + data[highi][TARGET] + "</td><td>" + data[highi][NAME]
 		    + "<td align=\"center\">" + data[highi][GENDER]
-		    + "</td><td>" + data[highi][CLUB] + "</td><td align=\"center\">" + data[highi][ROUND]
+		    + "</td><td>" + data[highi][CLUB] + "</td><td align=\"center\">" + roundstr
 		    + "</td><td align=\"center\">" + data[highi][BOW] + "</td><td align=\"center\">"
 		    + (data[highi][STATE] != "Inuse" ? "&nbsp;" : data[highi][SCORE]) + "</td><td align=\"center\">"
 		    + data[highi][ARROWCNT] + "</td><td align=\"center\">"
@@ -592,11 +608,19 @@ function bestjunior(g) {
 	if (highi == -1)
 	    break;
 
+	var roundstr = data[highi][ROUND];
+	if (roundstr=="Hereford / Bristol 1") {
+	if (g=="JG")
+	    roundstr = "Hereford";
+	else
+		roundstr = "Bristol 1";
+	}
+
 	textstr += "<tr><td align=\"center\">" + (highv == prevhighv ? "=" : posn)
 	    + "</td><td align=\"center\">" + data[highi][TARGET]
 	    + "</td><td>" + data[highi][NAME] + "</td><td>" + data[highi][CLUB] + "</td><td align=\"center\">"
 	    + data[highi][GENDER].substr(2, 3) + "</td><td align=\"center\">" + data[highi][BOW];
-	textstr += "</td><td align=\"center\">" + data[highi][ROUND] + "</td><td align=\"center\">" + data[highi][SCORE]
+	textstr += "</td><td align=\"center\">" + roundstr + "</td><td align=\"center\">" + data[highi][SCORE]
 	    + "</td><td align=\"center\">" + Math.round(scores[highi]) + "</td></tr>";
 	scores[highi] = -1;
 	prevhighv = highv;
@@ -640,11 +664,19 @@ function bestarcher() {
 	if (highi == -1)
 	    break;
 
+	var roundstr = data[highi][ROUND];
+	if (roundstr=="Hereford / Bristol 1") {
+	if (data[highi][GENDER]=="F" || data[highi][GENDER].substr(0,2)=="JG")
+	    roundstr = "Hereford";
+	else
+		roundstr = "Bristol 1";
+	}
+
 	textstr += "<tr><td align=\"center\">" + (highv == prevhighv ? "=" : posn)
 	    + "</td><td align=\"center\">" + data[highi][TARGET]
 	    + "</td><td>" + data[highi][NAME] + "</td><td>" + data[highi][CLUB] + "</td><td align=\"center\">"
 	    + data[highi][GENDER] + "</td><td align=\"center\">" + data[highi][BOW];
-	textstr += "</td><td align=\"center\">" + data[highi][ROUND] + "</td><td align=\"center\">" + data[highi][SCORE]
+	textstr += "</td><td align=\"center\">" + roundstr + "</td><td align=\"center\">" + data[highi][SCORE]
 	    + "</td><td align=\"center\">" + Math.round(scores[highi]) + "</td></tr>";
 	scores[highi] = -1;
 	prevhighv = highv;

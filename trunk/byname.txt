@@ -123,13 +123,21 @@ function page() {
 				}
 				txt += "</tr>";
 			}
+			var roundstr = data[highi][ROUND];
+			if (roundstr=="Hereford / Bristol 1") {
+			if (data[highi][GENDER].substr(0,1)=="F" || data[highi][GENDER].substr(0,2)=="JG")
+				roundstr = "Hereford";
+			else
+				roundstr = "Bristol 1";
+			}
+
             txt += "<tr><td align=\"center\">" +data[highi][TARGET] + "</td><td>"+ data[highi][NAME]
                 + "</td><td>"+ data[highi][CLUB];
 			if (teamflag==1)
 				txt += "</td><td align=\"center\">" + data[highi][TEAM];
 			if (targetlist) {
 				txt += "</td><td align=\"center\">" + data[highi][BOW] + "</td><td align=\"center\">" 
-					+ agegroup(data[highi][GENDER], tournamentdate) + "</td><td align=\"center\">" + data[highi][ROUND];
+					+ agegroup(data[highi][GENDER], tournamentdate) + "</td><td align=\"center\">" + roundstr;
 				if (handicapflag==1)
 					txt += "</td><td align=\"center\">" + data[highi][HANDICAP];
 			}

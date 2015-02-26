@@ -561,7 +561,13 @@ namespace CPBserver
                     teamflag = getparam(str, "team") == "on" ? 1 : 0;
                     handicapflag = getparam(str, "handicap") == "on" ? 1 : 0;
                     resultsbyroundflag = getparam(str, "round") == "on" ? 1 : 0;
-                    worldarchery = getparam(str, "worldarchery") == "on" ? 1 : 0;
+                    string s = getparam(str, "worldarchery");
+                    if (s.Contains("World Archery Indoor"))
+                        worldarchery = 2;
+                    else if (s.Contains("World Archery Outdoor"))
+                        worldarchery = 1;
+                    else
+                        worldarchery = 0;
                     try
                     {
                         maxtargets = Convert.ToInt32(getparam(str, "maxtargets"));
@@ -570,7 +576,7 @@ namespace CPBserver
                     {
                         maxtargets = 40;
                     };
-                    string s = getparam(str, "scoresystem");
+                    s = getparam(str, "scoresystem");
                     if (s.Contains("sheet"))
                         scoresystem = 0;
                     else if (s.Contains("dozen"))
@@ -1345,7 +1351,7 @@ namespace CPBserver
                     + (juniorflag == 1 ? "Junior " : "") + (bestflag == 1 ? "Best " : "")
                     + (handicapflag == 1 ? "Handicap " : "")
                     + (teamflag == 1 ? "Team " : "") + (resultsbyroundflag == 1 ? "Round " : "")
-                    + (worldarchery == 1 ? "WorldArchery " : "")
+                    + (worldarchery == 1 ? "WorldArchery " : (worldarchery == 2 ? "WorldArcheryIndoor " : ""))
                     + (scoresystem == 1 ? "Dozen " : (scoresystem == 2 ? "Total " : ""))
                     + ",\"" + tournamentdate + "\",\"" + venue + "\",\"" + judges + "\",\"" + paramount + "\",\"" + patron
                     + "\",\"" + tournamentorganiser + "\",\"" + timeofassembly + "\",\"" + weather + "\",");
@@ -1592,7 +1598,8 @@ namespace CPBserver
             teamflag = s.Substring(startp, coma - startp).Contains("Team") ? 1 : 0;
             handicapflag = s.Substring(startp, coma - startp).Contains("Handicap") ? 1 : 0;
             resultsbyroundflag = s.Substring(startp, coma - startp).Contains("Round") ? 1 : 0;
-            worldarchery = s.Substring(startp, coma - startp).Contains("WorldArchery") ? 1 : 0;
+            worldarchery = s.Substring(startp, coma - startp).Contains("WorldArcheryIndoor") ? 2 
+                : s.Substring(startp, coma - startp).Contains("WorldArchery") ? 1 : 0;
             scoresystem = 0;
             if (s.Substring(startp, coma - startp).Contains("Dozen"))
                 scoresystem = 1;

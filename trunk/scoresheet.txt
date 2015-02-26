@@ -33,6 +33,10 @@
 			tb1str = "X/10";
 			tb2str = "X";
 		}
+		else if (worldarchery==2) {
+			tb1str = "X/10";
+			tb2str = "9"
+		}
 		else if (scoring==Worcester) {
 			tb2str = "5";
 		}
@@ -73,7 +77,8 @@
 					txt += "<td style=\"text-align:center;width:25px;\">X</td>";
 					et1 += 10;
 					tb1++;
-					tb2++;
+					if (worldarchery==1)
+						tb2++;
 				}
 				else {
 					txt += "<td style=\"text-align:center;width:25px;\">" + (arrows.charCodeAt(arrowno) - 65) + "</td>";
@@ -81,15 +86,17 @@
 					if (worldarchery==0)
 						tb1++;
 					if (arrows.charCodeAt(arrowno) - 65 == 10) {
-						if (worldarchery==1)
+						if (worldarchery!=0)
 							tb1++;
 						else
 							tb2++;
 					}
 					if (scoring==Worcester && arrows.charCodeAt(arrowno) - 65 == 5)
 						tb2++;
-					if (scoring == Imperial && arrows.charCodeAt(arrowno) - 65 == 9)
-						tb2++;
+					if (arrows.charCodeAt(arrowno) - 65 == 9) {
+						if (scoring == Imperial || worldarchery==2)
+							tb2++;
+					}
 				}
 				arrowno++;
 				rndarrowno++;
@@ -108,7 +115,8 @@
 						txt += "<td style=\"text-align:center;width:25px;\">X</td>";
 						et2 += 10;
 						tb1++;
-						tb2++;
+						if (worldarchery==1)
+							tb2++;
 					}
 					else {
 						txt += "<td style=\"text-align:center;width:25px;\">" + (arrows.charCodeAt(arrowno) - 65) + "</td>";
@@ -116,15 +124,17 @@
 						if (worldarchery==0)
 							tb1++;
 						if (arrows.charCodeAt(arrowno) - 65 == 10) {
-							if (worldarchery==1)
+							if (worldarchery!=0)
 								tb1++;
 							else
 								tb2++;
 						}
 						if (scoring==Worcester && arrows.charCodeAt(arrowno) - 65 == 5)
 							tb2++;
-						if (scoring == Imperial && arrows.charCodeAt(arrowno) - 65 == 9)
-							tb2++;
+						if (arrows.charCodeAt(arrowno) - 65 == 9) {
+							if (scoring == Imperial || worldarchery==2)
+								tb2++;
+						}
 					}
 					arrowno++;
 					rndarrowno++;

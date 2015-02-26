@@ -32,6 +32,10 @@ function page() {
 		tb1str = "X/10";
 		tb2str = "X";
 	}
+	else if (worldarchery==2) {
+		tb1str = "X/10";
+		tb2str = "9"
+	}
 	else if (scoring==Worcester) {
 		tb2str = "5";
 	}

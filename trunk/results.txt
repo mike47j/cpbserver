@@ -372,6 +372,10 @@ function bowtype(rndstr, g, bow) {
 				tb1str = "X/10";
 				tb2str = "X";
 			}
+			else if (worldarchery==2) {
+				tb1str = "X/10";
+				tb2str = "9"
+			}
 			else if (rounds[i][RNDSCORING]==Worcester) {
 				tb2str = "5";
 			}
@@ -700,6 +704,10 @@ function bestteam(rnd) {
 			if (worldarchery==1) {
 				tb1str = "X/10";
 				tb2str = "X";
+			}
+			else if (worldarchery==2) {
+				tb1str = "X/10";
+				tb2str = "9"
 			}
 			else if (rounds[i][RNDSCORING]==Worcester) {
 				tb2str = "5";

@@ -38,6 +38,10 @@
 			tb1 = "X/10";
 			tb2 = "X"
 		}
+		else if (worldarchery==2) {
+			tb1 = "X/10";
+			tb2 = "9"
+		}
 		else if (scoring==Worcester)
 		    tb2 = "5";
 		else if (scoring==Metric)

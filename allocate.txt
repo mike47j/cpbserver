@@ -134,10 +134,8 @@
         for (i = 0; i < maxdata; i++) {
             index1[i] = -1;
             index2[i] = -1;
-            if (i < 40)
-                targets[i] = "0" + Math.floor(1 + i / 4) + letter[i % 4];
-            else
-                targets[i] = "" + Math.floor(1 + i / 4) + letter[i % 4];
+            targets[i] = ("0" + Math.floor(1 + i / 4) + letter[i % 4]);
+			targets[i] = targets[i].substr(targets[i].length-3,3);
         }
         for (i = 0; i < maxdata; i++) {
             if (data[i][STATE] != "Free") {

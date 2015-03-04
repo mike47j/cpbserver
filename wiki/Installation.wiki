@@ -3,7 +3,7 @@
 
 [Contents Contents] [LeaderBoard Next]
 
-Download http://cpbserver.googlecode.com/svn/trunk/cpb.zip. This version dated 26th Feb 2015.
+Download http://cpbserver.googlecode.com/svn/trunk/cpb.zip. This version dated 4th March 2015.
 
 Save the file, click on the file to unpack all the files. Copy all the files to a directory and double click on "cpbserver.exe" to run it. If the directory is on a usb memory stick then it can be moved if the computer fails. Probably best if the server is run on a laptop with a good battery. Because it opens a couple of TCP/IP ports, Windows Firewall and some anti-virus software may block access, hopefully it will ask before it does this so you can allow access.
 
@@ -30,9 +30,9 @@ Timeout is the time delay with no data being entered, before a backup is done. U
 
 I'm using Windows 7 and Visual Studio Express 2013 to develop this.
 
-No longer runs on XP as this needs .Net 2.0 and only allows 10 connections.
- 
-To get more than 20 connections needs a server. Linux Mono needs .Net 4.0 or 4.5.
+The server no longer runs on XP as this needs .Net 3.5 and only allows 10 connections. Windows 7 and 8 support up to 20 connections, to get more than 20 connections needs a server. Linux Mono needs .Net 4.0 or 4.5.
+
+The web browser needs HTML 5 to input data, so XP needs a recent version of Opera, or Firefox etc.
 
 The leader board I've also tried displaying on a Samsung Galaxy Ace.
 Scores can't be entered on a mobile or tablet without a keyboard.

@@ -203,7 +203,7 @@
 	    if (scoring != Imperial) txt += "<td><input type=\"button\" style=\"width:65px\" value=\"2\" onclick=\"enterkeycode(48+2)\" />";
 	    txt += "<td><input type=\"button\" style=\"width:65px\" value=\"1\" onclick=\"enterkeycode(48+1)\" />";
 	    txt += "<td><input type=\"button\" style=\"width:65px\" value=\"M\" onclick=\"enterkeycode(48+0)\" />";
-	    txt += "<td><input type=\"button\" style=\"width:65px\" value=\"Del\" onclick=\"enterkeycode(8)\" />";
+	    txt += "<td><input type=\"button\" style=\"width:65px\" value=\"Del\" onclick=\"enterkeycode(46)\" />";
 	    txt += "<tr><td><tr>"
 	    txt += "<td width=\"75px\"><input type=\"button\" style=\"width:65px\" value=\"Enter\" onclick=\"checksend()\" tabindex=\"1\" /></td>";
 	    txt += "<td width=\"75px\"><input type=\"button\" style=\"width:65px\" name=\"Back\" value=\"Back\" onclick=\"sendback()\" tabindex=\"2\" /></td>";
@@ -277,7 +277,7 @@
 		}
 	    if (keycode == 77 || keycode == 109) // M
 			data[ARROWS] += String.fromCharCode(65);
-	    else if (keycode == 8) { // backspace
+	    else if (keycode == 8 || keycode == 46 || keycode==110) { // backspace or del
 			event.preventDefault();
 			if (data[ARROWS].length > 0)
 				data[ARROWS] = data[ARROWS].substring(0, data[ARROWS].length - 1);

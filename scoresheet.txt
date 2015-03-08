@@ -184,17 +184,38 @@
 	    txt += "<input name=\"tgolds\" id=\"tgolds\" type=\"hidden\" value=\"" + tb2t + "\"  />";
 	    txt += "<input name=\"tscore\" id=\"tscore\" type=\"hidden\" value=\"" + rt + "\"  />";
 	    txt += "<input name=\"state\" id=\"state\" type=\"hidden\" value=\"Inuse\"  />";
-	    txt += "<table><tr><td width=\"90px\"><input type=\"button\" value=\"Enter\" onclick=\"checksend()\" tabindex=\"1\" /></td>";
-	    txt += "<td width=\"90px\"><input type=\"button\" name=\"Back\" value=\"Back\" onclick=\"sendback()\" tabindex=\"2\" /></td>";
-	    txt += "<td width=\"90px\"><input type=\"button\" name=\"Skip\" value=\"Skip\" onclick=\"sendnext()\" tabindex=\"3\" /></td>";
+
+		// buttons
+	    txt += "<table><tr>";
+	    if (scoring != Worcester) {
+	        if (scoring != Imperial && worldarchery == 1)
+	            txt += "<td><input type=\"button\" style=\"width:65px\" value=\"X\" onclick=\"enterkeycode(88)\" />";
+	        if (scoring != Imperial) txt += "<td><input type=\"button\" style=\"width:65px\" value=\"10\" onclick=\"enterkeycode(84)\" />";
+	        txt += "<td><input type=\"button\" style=\"width:65px\" value=\"9\" onclick=\"enterkeycode(48+9)\" />";
+	        if (scoring != Imperial) txt += "<td><input type=\"button\" style=\"width:65px\" value=\"8\" onclick=\"enterkeycode(48+8)\" />";
+	        txt += "<td><input type=\"button\" style=\"width:65px\" value=\"7\" onclick=\"enterkeycode(48+7)\" />";
+	        if (scoring != Imperial) txt += "<td><input type=\"button\" style=\"width:65px\" value=\"6\" onclick=\"enterkeycode(48+6)\" />";
+	    }
+	    txt += "<td><input type=\"button\" style=\"width:65px\" value=\"5\" onclick=\"enterkeycode(48+5)\" />";
+	    if (scoring != Worcester && scoring != Imperial) txt += "<tr><tr>"
+	    if (scoring != Imperial) txt += "<td><input type=\"button\" style=\"width:65px\" value=\"4\" onclick=\"enterkeycode(48+4)\" />";
+	    txt += "<td><input type=\"button\" style=\"width:65px\" value=\"3\" onclick=\"enterkeycode(48+3)\" />";
+	    if (scoring != Imperial) txt += "<td><input type=\"button\" style=\"width:65px\" value=\"2\" onclick=\"enterkeycode(48+2)\" />";
+	    txt += "<td><input type=\"button\" style=\"width:65px\" value=\"1\" onclick=\"enterkeycode(48+1)\" />";
+	    txt += "<td><input type=\"button\" style=\"width:65px\" value=\"M\" onclick=\"enterkeycode(48+0)\" />";
+	    txt += "<td><input type=\"button\" style=\"width:65px\" value=\"Del\" onclick=\"enterkeycode(8)\" />";
+	    txt += "<tr><td><tr>"
+	    txt += "<td width=\"75px\"><input type=\"button\" style=\"width:65px\" value=\"Enter\" onclick=\"checksend()\" tabindex=\"1\" /></td>";
+	    txt += "<td width=\"75px\"><input type=\"button\" style=\"width:65px\" name=\"Back\" value=\"Back\" onclick=\"sendback()\" tabindex=\"2\" /></td>";
+	    txt += "<td width=\"75px\"><input type=\"button\" style=\"width:65px\" name=\"Skip\" value=\"Skip\" onclick=\"sendnext()\" tabindex=\"3\" /></td>";
 		if (data[STATE]=="Inuse") {
-			txt += "<td width=\"90px\"><input type=\"button\" name=\"DNS\" value=\"DNS\" onclick=\"senddns()\" tabindex=\"4\" /></td>";
-			txt += "<td width=\"90px\"><input type=\"button\" name=\"Retired\" value=\"Retired\" onclick=\"sendretired()\" tabindex=\"5\" /></td>";
+		    txt += "<td width=\"75px\"><input type=\"button\" style=\"width:65px\" name=\"DNS\" value=\"DNS\" onclick=\"senddns()\" tabindex=\"4\" /></td>";
+		    txt += "<td width=\"75px\"><input type=\"button\" style=\"width:65px\" name=\"Retired\" value=\"Retired\" onclick=\"sendretired()\" tabindex=\"5\" /></td>";
 		}
 		else
-			txt += "<td width=\"90px\"><input type=\"button\" name=\"Restore\" value=\"Restore\" onclick=\"restore()\" tabindex=\"4\" /></td>";
-	    txt += "<td width=\"90px\"><input type=\"submit\" value=\"Cancel\" formaction=\"/index\" tabindex=\"6\" /></td>";
-	    txt += "<td width=\"90px\"><input type=\"submit\" value=\"Edit\" formaction=\"/updateentry\" tabindex=\"7\" /></td>";
+		    txt += "<td width=\"75px\"><input type=\"button\" style=\"width:65px\" name=\"Restore\" value=\"Restore\" onclick=\"restore()\" tabindex=\"4\" /></td>";
+		txt += "<td width=\"75px\"><input type=\"submit\" style=\"width:65px\" value=\"Cancel\" formaction=\"/index\" tabindex=\"6\" /></td>";
+		txt += "<td width=\"75px\"><input type=\"submit\" style=\"width:65px\" value=\"Edit\" formaction=\"/updateentry\" tabindex=\"7\" /></td>";
 	    txt += "</table></form>";
 
 		if (data[STATE]!="Inuse")
@@ -206,7 +227,7 @@
 			txt += "If all is OK, press enter or the space bar to enter the scores into the database.<br />";
 			txt += "If there is an error, check the arrows are entered correctly.<br />";
 			txt += "If the arrows are correct, mark the running slip and press enter.<br />"
-				+ "Then check the running slip with the scoresheet.<br />";
+				+ "    Then check the running slip with the scoresheet.<br />";
 			txt += "If the arrows are wrong use backspace and enter the correct arrows.<br />";
 		}
 	    document.getElementById("page").innerHTML = txt;
@@ -216,9 +237,13 @@
 	document.onkeydown = function (event) {
 	    var keycode;
 	    if (event.charCode)
-		keycode = event.charCode;
+			keycode = event.charCode;
 	    else
-		keycode = event.keyCode;
+			keycode = event.keyCode;
+	    enterkeycode(keycode);
+	}
+
+    function enterkeycode(keycode) {
 		if (data[STATE]!="Inuse") {
 			if (keycode == 13 || keycode == 32) { // enter or space
 				document.getElementById("send").value = "next";

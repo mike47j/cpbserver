@@ -24,7 +24,8 @@ function page() {
 	if (teamflag==1)
 		txt	+= "<form action=\"/byteam\"><input type=\"submit\" value=\"Target List by Team\" /></form><br/>";
 	txt	+= "<form action=\"/scorebytarget\"><input type=\"submit\" value=\"Scores by Target\" /></form><br/>"
-		+ "<form action=\"/scorebyname\"><input type=\"submit\" value=\"Scores by Name\" /></form><br/>";
+		+ "<form action=\"/scorebyname\"><input type=\"submit\" value=\"Scores by Name\" /></form><br/>"
+		+ "<form action=\"/byscore\"><input type=\"submit\" value=\"Scores by Score\" /></form><br/>";
 	if (teamflag==1)
 		txt += "<form action=\"/scorebyteam\"><input type=\"submit\" value=\"Scores by Team\" /></form><br/>";
 	txt	+= "</td><td style=\"width:300px;vertical-align:top;\">"

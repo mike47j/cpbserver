@@ -24,7 +24,11 @@ function page() {
     for (i=0; i<maxdata; i++) {
         sort[i] = "";
         if (data[i][STATE]!="Free") {
-			if (sortbyteam)
+			if (sortbyscore) {
+				if (data[i][STATE] == "Inuse")
+					sort[i] = data[i][SCORE];
+			}
+			else if (sortbyteam)
                 sort[i] = data[i][CLUB] + " " + data[i][TEAM];
             else if (sortbyname)
                 sort[i] = data[i][NAME].substr(data[i][NAME].indexOf(" ")+1) + " " 
@@ -85,7 +89,9 @@ function page() {
 			txt += "<h3 style=\"font-family:Helvetica,Arial,sans-serif;\">Target List by Target</h3>";
 	}
 	else {
-		if (sortbyteam)
+	    if (sortbyscore)
+			txt += "<h3 style=\"font-family:Helvetica,Arial,sans-serif;\">Scores by Score</h3>";
+		else if (sortbyteam)
 			txt += "<h3 style=\"font-family:Helvetica,Arial,sans-serif;\">Scores by Team</h3>";
 		else if (sortbyname)
 			txt += "<h3 style=\"font-family:Helvetica,Arial,sans-serif;\">Scores by Name</h3>";

@@ -627,13 +627,14 @@ namespace CPBserver
                     return results + rounds + printscore;
             }
             if (str.Contains("GET /byname") || str.Contains("GET /byteam") || str.Contains("GET /bytarget")
-                || str.Contains("GET /clearscores")
+                || str.Contains("GET /clearscores") || str.Contains("GET /byscore")
                 || str.Contains("GET /printbyname") || str.Contains("GET /printbyteam") || str.Contains("GET /printbytarget")
                 || str.Contains("GET /scorebyname") || str.Contains("GET /scorebyteam") || str.Contains("GET /scorebytarget"))
             {
                 bool printing = str.Contains("print");
                 bool sortbyname = str.Contains("byname");
                 bool sortbyteam = str.Contains("byteam");
+                bool sortbyscore = str.Contains("byscore");
                 bool targetlist = str.Contains("clearscores") || !str.Contains("score");
 
                 // Send results back to client
@@ -645,7 +646,7 @@ namespace CPBserver
                 page += "var paramount = \"" + paramount + "\", patron = \"" + patron + "\";\r\n";
                 page += "var tournamentorganiser = \"" + tournamentorganiser + "\", timeofassembly = \"" + timeofassembly + "\";\r\n";
                 page += "var weather = \"" + weather + "\";\r\n";
-
+                page += "var sortbyscore = " + (sortbyscore ? "true" : "false") + ";\r\n";
                 page += "var sortbyname = " + (sortbyname ? "true" : "false") + ", printing = " + (printing ? "true" : "false") + ";\r\n";
                 page += "var sortbyteam = " + (sortbyteam ? "true" : "false") + ", targetlist = " + (targetlist ? "true" : "false") + ";\r\n";
                 return page + rounds + byname;
@@ -1101,6 +1102,7 @@ namespace CPBserver
                                             Archers[i + j].round = "NotSet";
                                     }
                                 }
+                                break;
                             }
                             else
                             {

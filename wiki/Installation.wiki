@@ -35,4 +35,8 @@ The server no longer runs on XP as this needs .Net 3.5 and only allows 10 connec
 The web browser needs HTML 5 to input data, so XP needs a recent version of Opera, or Firefox etc.
 
 The leader board I've also tried displaying on a Samsung Galaxy Ace.
-Scores can't be entered on a mobile or tablet without a keyboard.
+
+To run the server on Linux, you need to install "mono" runtime.
+Then open a terminal and cd to the directory with the program.
+Then type "sudo mono CPBserver.exe"
+It needs sudo to run as it opens a port number below 1000.

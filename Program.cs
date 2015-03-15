@@ -74,6 +74,8 @@ namespace CPBserver
         static string scoresheet;
         static string updateentry;
 
+        static byte[] logo;
+
         public const int MAXARCHERS = 99 * 4;
         public const string header = "HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=UTF-8\r\nConnection: close\r\n\r\n"
             + "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf-8\" /><title>CPB Server page</title></head><body>\r\n";
@@ -429,8 +431,15 @@ namespace CPBserver
                     {
                         Console.WriteLine("Read {0} bytes from 4023. {1}", content.Length, content.Substring(0, content.IndexOf('\n')));
                         // Send data back to the client.
-                        string s = inputhandler(content);
-                        UpdateSend(handler, s);
+                        // string s = inputhandler(content);
+                        // str = content.Substring(0, content.IndexOf('\n'));
+                        if (content.Contains("GET /logo.gif"))
+                            UpdateSend(handler, logo);
+                        else
+                        {
+                            byte[] s = Encoding.UTF8.GetBytes(inputhandler(content));
+                            UpdateSend(handler, s);
+                        }
                     }
                 }
             }
@@ -612,7 +621,39 @@ namespace CPBserver
                 results += "var paramount = \"" + paramount + "\", patron = \"" + patron + "\";\r\n";
                 results += "var tournamentorganiser = \"" + tournamentorganiser + "\", timeofassembly = \"" + timeofassembly + "\";\r\n";
                 results += "var weather = \"" + weather + "\";\r\n";
-                return results + flagstring() + printpage;
+                return results + flagstring() + rounds + printpage;
+            }
+            if (str.Contains("GET /printduplicate"))
+            {
+                string target = getparam(str, "target").ToUpper();
+                if (target.Length == 2)
+                    target = "0" + target;
+                for (int i = 0; i < MAXARCHERS; i++)
+                {
+                    if (Archers[i].target == target && Archers[i].state != State.Free)
+                    {
+                        return header + "<div id=\"page\"></div><script type=\"text/javascript\">\r\n"
+                            + "var tournament = \"" + tournament + "\"; var tournamentdate = \"" + tournamentdate + "\";\r\n"
+                            + "var roundstr = \"\"; var printtype = 2;\r\n"
+                            + flagstring() + rounds
+                            + "var data = new Array(\"" + Archers[i].target + "\",\"" + Archers[i].name + "\",\""
+                            + Archers[i].club + "\",\"" + Archers[i].team + "\",\"" + Archers[i].bowtype + "\",\""
+                            + Archers[i].gender + "\",\"" + Archers[i].round + "\"," + Archers[i].handicap.ToString("0.0") + ","
+                            + Archers[i].runningtotal + "," + Archers[i].tiebreak1 + ","
+                            + Archers[i].tiebreak2 + ",\"" + Archers[i].state + "\"," + Archers[i].arrowcnt
+                            + ",\"" + Archers[i].arrows + "\");\r\n" + fieldnames + printscore;
+                    }
+                }
+            }
+ 
+            if (str.Contains("GET /printblankscore"))
+            {
+                string roundstr = getparam(str, "round");
+                return header + "<div id=\"page\"></div><script type=\"text/javascript\">\r\n"
+                    + "var tournament = \"" + tournament + "\"; var tournamentdate = \"" + tournamentdate + "\";\r\n"
+                    + "var roundstr = \"" + roundstr + "\"; var printtype = 1;\r\n"
+                    + flagstring() + rounds + printscore;
+
             }
             if (str.Contains("GET /printrun") || str.Contains("GET /printscore"))
             {
@@ -621,6 +662,7 @@ namespace CPBserver
                 results += "var tournament = \"" + tournament + "\"; ";
                 results += "var tournamentdate = \"" + tournamentdate + "\";";
                 results += "var worldarchery = " + worldarchery + ";\r\n";
+                results += "var roundstr; var printtype = 0;\r\n";
                 if (str.Contains("GET /printrun"))
                     return results + rounds + printrun;
                 else
@@ -829,6 +871,8 @@ namespace CPBserver
                 bool skip = false;
                 bool back = false;
                 string send = getparam(str, "send");
+                if (send == "cancel")
+                   return indexpagestring();
                 string target = getparam(str, "target").ToUpper();
                 if (!"ABCDEF".Contains(target.Substring(target.Length - 1)))
                     target += "A";
@@ -1271,12 +1315,12 @@ namespace CPBserver
             return ipv4Address;
         }
 
-        private static void UpdateSend(Socket handler, String data)
+        private static void UpdateSend(Socket handler, byte[] byteData)
         {
             try
             {
                 // Convert the string data to byte data using ASCII encoding.
-                byte[] byteData = Encoding.UTF8.GetBytes(data);
+                //byte[] byteData = Encoding.UTF8.GetBytes(data);
 
                 // Begin sending the data to the remote device.
                 handler.BeginSend(byteData, 0, byteData.Length, 0, new AsyncCallback(UpdateSendCallback), handler);
@@ -1387,6 +1431,20 @@ namespace CPBserver
             fs.Read(b, 0, filesize);
             fs.Close();
             return temp.GetString(b);
+        }
+
+        static byte[] ReadLogo(String filename)
+        {
+            // Open the stream and read it back. 
+            FileStream fs = File.Open(filename, FileMode.Open);
+            int filesize = (int)fs.Length;
+            byte[] s = Encoding.UTF8.GetBytes("HTTP/1.1 200 OK\r\nContent-Type: image/gif;\r\nContent-Length: " + filesize + "\r\nConnection: close\r\n\r\n");
+            byte[] b = new byte[s.Length + filesize];
+            UTF8Encoding temp = new UTF8Encoding(true);
+            fs.Read(b, s.Length, filesize);
+            fs.Close();
+            System.Buffer.BlockCopy(s, 0, b, 0, s.Length);
+            return b;
         }
 
         static string[] cols = new string[] { "TARGET", "NAME", "CLUB", "TEAM", "BOW", "GENDER", "ROUND",
@@ -1868,6 +1926,8 @@ namespace CPBserver
             rounds = ReadFile(FilePath + "rounds.txt");
             printpage = ReadFile(FilePath + "print.txt");
             hc2dozen = ReadFile(FilePath + "hc2dozen.txt");
+            logo = ReadLogo(FilePath + "logo.gif");
+
             Thread resultsThread = new Thread(new ThreadStart(Results));
             resultsThread.Start();
             Thread updateThread = new Thread(new ThreadStart(Updates));

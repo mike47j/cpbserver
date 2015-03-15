@@ -1,5 +1,5 @@
 /*
-    CPBserver: Target list by target or name
+    CPBserver: Target list by target, name or score
     Copyright (C) 2014  Mike Johnson
 
     This program is free software: you can redistribute it and/or modify
@@ -42,28 +42,28 @@ function page() {
 				}
 				tb1 = "H";
 				tb2 = "G";
-				if (worldarchery==1) {
+				if (rounds[rnd][RNDTIEBREAK]==TieBreakWAOutdoor) {
 					tb1 = "X/10";
 					tb2 = "X"
 				}
-				else if (worldarchery==2) {
+				else if (rounds[rnd][RNDTIEBREAK]==TieBreakWAIndoor) {
 					tb1 = "X/10";
 					tb2 = "9"
 				}
-				else if (rounds[rnd][RNDSCORING]==Worcester)
+				else if (rounds[rnd][RNDTIEBREAK]==TieBreakAGBWorcester)
 					tb2 = "5";
-				else if (rounds[rnd][RNDSCORING]==Metric)
+				else if (rounds[rnd][RNDTIEBREAK]==TieBreakAGBMetric)
 					tb2="10";
 			}
         }
-		else if (targetlist && !sortbyname)
+		else if (targetlist && !sortbyname) // include empty spaces on targets in target list by target no
             sort[i] = data[i][TARGET];
     }
 
-	txt += "<h2 style=\"text-align:center;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\" >"
-		+ tournament + "</h2>";
-
 	if (printing) {
+		txt += "<table><tr><td style=\"width=20mm\"><img src=\"/logo.gif\" style=\"height:20mm; width=20mm\" />"
+				+ "<td style=\"width:150mm; text-align:center; font-weight:bold;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">"
+				+ tournament + "<td style=\"width=20mm\"><img src=\"/logo.gif\" style=\"height:20mm; width=20mm\" /></table>";
 		var dow = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
 		var month = new Array("January", "Febuary","March","April","June","July","August","September","October","November","December");
 		var stndrdth = new Array("", "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th", "11th", "12th", "13th", "14th",
@@ -81,6 +81,9 @@ function page() {
 		txt += "<tr><td width=\"160\">Time of Assembly:</td><td width=\"600\">" + timeofassembly + "</td></tr><tr></tr>";
 		txt += "</table>";
 	}
+	else
+		txt += "<h2 style=\"text-align:center;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\" >"
+			+ tournament + "</h2>";
 
 	if (targetlist) {
 		if (sortbyteam)
@@ -125,7 +128,7 @@ function page() {
 				if (teamflag==1)
 					txt += "<th width=\"50\">Team</th>";
 				if (targetlist || sortbyscore) {
-					txt += "<th width=\"50\">Bow</th><th width=\"50\">Gender</th><th width=\"100\">Round</th>";
+					txt += "<th width=\"70\">Bow</th><th width=\"70\">Gender</th><th width=\"100\">Round</th>";
 					if (handicapflag==1)
 						txt += "<th width=\"50\">Handicap</th>";
 				}

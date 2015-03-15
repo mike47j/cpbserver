@@ -33,11 +33,6 @@ function page() {
     txt += "<tr><td>Junior Champion:</td><td><input type=\"checkbox\" name=\"junior\" " + (juniorflag == 1 ? "checked=\"checked\"" : "") + " /></td></tr>";
     txt += "<tr><td>Handicap:</td><td><input type=\"checkbox\" name=\"handicap\" " + (handicapflag == 1 ? "checked=\"checked\"" : "") + " /></td></tr>";
     txt += "<tr><td>Team:</td><td><input type=\"checkbox\" name=\"team\" " + (teamflag == 1 ? "checked=\"checked\"" : "") + " /></td></tr>";
-    txt += "<tr><td>Tie Break:</td><td><select name=\"worldarchery\" size=\"1\" style=\"width:200px\">"
-		+ "<option " + (worldarchery==0?" selected":"")+">ArcheryGB</option>"
-		+ "<option " + (worldarchery==1?" selected":"")+">World Archery Outdoor</option>"
-		+ "<option " + (worldarchery==2?" selected":"")+">World Archery Indoor</option>"
-		+ "</select></td></tr>";
 	txt += "<tr><td>Score Entry System:</td><td><select name=\"scoresystem\" size=\"1\" style=\"width:200px\">"
 		+ "<option " + (scoresystem==0?" selected":"")+">Score sheet arrow entry</option>"
 		+ "<option " + (scoresystem==1?" selected":"")+">Adding up each dozen</option>"

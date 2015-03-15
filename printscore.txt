@@ -17,173 +17,305 @@
 */
 // rounds file
 
-	var scoring = 0;
+        var scoring = 0;
+        var txt = "";
 
-	function page() {
-	    var rnd, i, index;
-	    var txt = "";
-	    for (index = 0; index < maxdata; index++) {
-		if (data[index][ROUND] == "NotSet")
-		    continue;
-		for (rnd = 0; rnd < rounds.length; rnd++) {
-		    if (data[index][ROUND] == rounds[rnd][RNDNAME])
-			break;
-		}
-		var imperialdistance = rounds[rnd][RNDMETERS];
-		scoring = rounds[rnd][RNDSCORING];
-		var arrowspwerend = rounds[rnd][RNDEND];
-		var tb1 = "H";
-		var tb2 = "G";
-		if (worldarchery==1) {
-			tb1 = "X/10";
-			tb2 = "X"
-		}
-		else if (worldarchery==2) {
-			tb1 = "X/10";
-			tb2 = "9"
-		}
-		else if (scoring==Worcester)
-		    tb2 = "5";
-		else if (scoring==Metric)
-		    tb2="10";
+        function page() {
+            if (printtype == 0) { // print everyone
+                var index;
+                for (index = 0; index < maxdata; index++) {
+                    if (data[index][ROUND] == "NotSet")
+                        continue;
 
-		txt += "<div style=\"height:5mm;\"></div>"
-			    + "<p align=\"center\" style=\"font-weight:bold;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">"
-			    + tournament + "</p><div style=\"height:10mm;\"></div>";
-		// name & target
-		txt += "<table border=\"1\" style=\"border-collapse: collapse;font-family:Helvetica,Arial,sans-serif;\" >"
-			    + "<tr style=\"height:14mm;\"><td style=\"width:110mm;\">"
-			    + "<table><tr style=\"height:3mm;\"><td style=\"font-size:small;\">Name<tr style=\"height:8mm;\">"
-			    + "<td style=\"padding-left:10mm;font-weight:bold;font-size:x-large;\">" + data[index][NAME] + "</table>"
-			    + "<td style=\"width:88mm;\" colspan=\"2\">"
-			    + "<table><tr style=\"height:3mm;\"><td style=\"font-size:small;\">Target<tr style=\"height:8mm;\">"
-			    + "<td style=\"padding-left:10mm;font-weight:bold;font-size:x-large;\" align=\"center\">" + data[index][TARGET] + "</table>";
-		// Club, bow, gender
-		txt += "<tr style=\"height:11mm;\"><td><table><tr style=\"height:3mm;\"><td style=\"font-size:small;\">Club<tr style=\"height:7mm;\">"
-		    + "<td style=\"padding-left:10mm;font-weight:bold;font-size:large;\">" + (data[index][NAME] != "" ? data[index][CLUB] : "") + "</table>"
-		    + "<td style=\"width:44mm;\"><table><tr style=\"height:3mm;\"><td style=\"font-size:small;\">Bow type<tr style=\"height:7mm;\">"
-		    + "<td style=\"padding-left:10mm;font-weight:bold;font-size:large;\">" + (data[index][NAME] != "" ? data[index][BOW] : "") + "</table>"
-		    + "<td><table><tr style=\"height:3mm;\"><td style=\"font-size:small;\">Gender and Age Group<tr style=\"height:7mm;\">"
-		    + "<td style=\"padding-left:10mm;font-weight:bold;font-size:large;\">" 
-			+ (data[index][NAME] != "" ? agegroup(data[index][GENDER],tournamentdate) : "") + "</table>";
-		// round and date
-		var roundstr = data[index][ROUND];
-		if (roundstr=="Hereford / Bristol 1") {
-			if (data[index][GENDER]=="F" || data[index][GENDER].substr(0,2)=="JG")
-				roundstr = "Hereford";
-			else
-				roundstr = "Bristol 1";
-		}
+                    roundstr = data[index][ROUND];
+                    if (roundstr == "Hereford / Bristol 1") {
+                        if (data[index][GENDER] == "F" || data[index][GENDER].substr(0, 2) == "JG")
+                            roundstr = "Hereford";
+                        else
+                            roundstr = "Bristol 1";
+                    }
+                    printheader(data[index][TARGET], data[index][NAME], (data[index][NAME] != "" ? data[index][CLUB] : ""),
+                        (data[index][NAME] != "" ? data[index][BOW] : ""),
+                        (data[index][NAME] != "" ? agegroup(data[index][GENDER], tournamentdate) : ""), roundstr);
 
-		txt += "<tr style=\"height:11mm;\"><td><table><tr style=\"height:3mm;\"><td style=\"font-size:small;\">Round<tr style=\"height:7mm;\">"
-		    + "<td style=\"padding-left:10mm;font-weight:bold;font-size:large;\">" + roundstr + "</table>"
-		    + "<td colspan=\"2\"><table><tr style=\"height:3mm;\"><td style=\"font-size:small;\">Date<tr style=\"height:7mm;\">"
-		    + "<td style=\"padding-left:10mm;font-weight:bold;font-size:large;\">" + tournamentdate + "</table>"
-		    + "</table><p></p>";
+                    printbody(data[index][ROUND]);
+                }
+            }
+            else if (printtype == 1) { // print a blank
+                printheader("", "", "", "", "", roundstr);
+                printbody(roundstr);
+            }
+			else if (printtype == 2) { // print duplicate with scores
+                roundstr = data[ROUND];
+                if (roundstr == "Hereford / Bristol 1") {
+                    if (data[GENDER] == "F" || data[GENDER].substr(0, 2) == "JG")
+                        roundstr = "Hereford";
+                    else
+                        roundstr = "Bristol 1";
+                }
+                printheader(data[TARGET], data[NAME], (data[NAME] != "" ? data[CLUB] : ""), (data[NAME] != "" ? data[BOW] : ""),
+				   (data[NAME] != "" ? agegroup(data[GENDER], tournamentdate) : ""), roundstr);
 
-		txt += "<table border=\"1\" style=\"border-collapse: collapse;\" >"
-		    + "<tr style=\"height:4mm;font-family:Helvetica,Arial,sans-serif;\">"
-		    + "<th colspan=\"2\"style=\"width:13mm;border-right:2px solid black;\">Judge</th><th colspan=\"" + arrowspwerend + "\">&nbsp;</th>"
-		    + "<th style=\"width:9.5mm;border-left:2px solid black;border-right:2px solid black;\">ET</th><th colspan=\""
-		    + arrowspwerend + "\">&nbsp;</th>"
-		    + "<th style=\"width:9.5mm;border-left:2px solid black;border-right:2px solid black;\">ET</th>"
-		    + "<th style=\"width:12mm;\">S</th><th style=\"width:9.5mm;\">" + tb1 + "</th>"
-		    + "<th style=\"width:9.5mm;\">" + tb2 + "</th><th style=\"width:12mm;\">RT</th></tr>";
-
-		var subrnd;
-		for (subrnd = 0; subrnd < 4; subrnd++) {
-		    var rndarrowno = 0;
-		    while (rndarrowno < rounds[rnd][subrnd * 3 + RNDARROWS1]) {
-			txt += "<tr style=\"height:9mm;\"><td>&nbsp;</td><td  style=\"border-right:2px solid black;\">&nbsp;</td>";
-			for (i = 0; i < arrowspwerend; i++) {
-			    txt += "<td align=\"center\" style=\"width:9mm;\">&nbsp;</td>";
-			    rndarrowno++;
+                printbody(data[ROUND]);
 			}
-			txt += "</td><td align=\"center\" style=\"border-left:2px solid black;border-right:2px solid black;\">&nbsp;</td>";
-			if (rndarrowno < rounds[rnd][subrnd * 3 + RNDARROWS1]) {
-			    for (i = 0; i < arrowspwerend; i++) {
-				txt += "<td align=\"center\" style=\"width:9mm;\">&nbsp;</td>";
-				rndarrowno++;
-			    }
-			    txt += "</td><td align=\"center\" style=\"border-left:2px solid black;border-right:2px solid black;\">&nbsp;</td>"
-			}
-			else {
-			    txt += "<td colspan=\"" + arrowspwerend + "\" align=\"center\" style=\"background-color:silver;\">&nbsp;</td>";
-			    txt += "</td><td align=\"center\" style=\"background-color:silver;border-left:2px solid black;border-right:2px solid black;\">&nbsp;</td>"
-			}
-			txt += "<td align=\"center\">&nbsp;</td><td align=\"center\">&nbsp;";
-			txt += "</td><td align=\"center\">&nbsp;</td>";
-			txt += "<td align=\"center\">&nbsp;</td></tr>";
+            document.getElementById("page").innerHTML = txt;
+        }
 
-			if (rndarrowno >= rounds[rnd][subrnd * 3 + RNDARROWS1]) {
-			    // sub totals
-			    var distance = rounds[rnd][subrnd * 3 + RNDDISTANCE1];
-			    var targetsize = rounds[rnd][subrnd * 3 + RNDTARGET1];
-			    if (imperialdistance == 0)
-				distance += " yards. ";
-			    else
-				distance += " meters. ";
-			    distance += targetsize + " cm face. ";
-			    txt += "<tr style=\"height:9mm;\"><td colspan=\"" + (arrowspwerend*2+4) + "\" align=\"right\">" + distance
-				+ " Sub Totals</td><td align=\"center\">&nbsp;</td>"
-				+ "<td align=\"center\">&nbsp;</td><td align=\"center\">&nbsp;</td><td align=\"center\">&nbsp;</td>";
-			}
-		    }
+        function printbody(roundstr) {
+            var rnd, i, arrowno;
+            for (rnd = 0; rnd < rounds.length; rnd++) {
+                if (roundstr == rounds[rnd][RNDNAME])
+                    break;
+            }
+            var imperialdistance = rounds[rnd][RNDMETERS];
+            scoring = rounds[rnd][RNDSCORING];
+            var arrowspwerend = rounds[rnd][RNDEND];
+            var tb1str = "H";
+            var tb2str = "G";
+            if (rounds[rnd][RNDTIEBREAK] == TieBreakWAOutdoor) {
+                tb1str = "X/10";
+                tb2str = "X"
+            }
+            else if (rounds[rnd][RNDTIEBREAK] == TieBreakWAIndoor) {
+                tb1str = "X/10";
+                tb2str = "9"
+            }
+            else if (rounds[rnd][RNDTIEBREAK] == TieBreakAGBWorcester)
+                tb2str = "5";
+            else if (rounds[rnd][RNDTIEBREAK] == TieBreakAGBMetric)
+                tb2str = "10";
+
+            txt += "<table border=\"1\" style=\"width:190mm;border-collapse: collapse;\" >"
+                + "<tr style=\"height:6mm;font-family:Helvetica,Arial,sans-serif;font-size:12pt;\">"
+                + "<td colspan=\"2\"style=\"text-align:center;width:13mm;border-right:2px solid black;\">Judge</td>"
+				+ "<td colspan=\"" + arrowspwerend + "\">&nbsp;</td>"
+                + "<td style=\"text-align:center;width:9.5mm;border-left:2px solid black;border-right:2px solid black;\">ET</td>"
+				+ "<td colspan=\"" + arrowspwerend + "\">&nbsp;</td>"
+                + "<td style=\"text-align:center;width:9.5mm;border-left:2px solid black;border-right:2px solid black;\">ET</td>"
+                + "<td style=\"text-align:center;width:12mm;\">S</td><td style=\"text-align:center;width:9.5mm;\">" + tb1str + "</td>"
+                + "<td style=\"text-align:center;width:9.5mm;\">" + tb2str + "</td><td style=\"text-align:center;width:12mm;\">RT</td></tr>";
+
+            var subrnd, et, t1, t2, s, ss, rt = 0, st1, st2, tt1 = 0, tt2 = 0;
+			var arrowno = 0;
+            for (subrnd = 0; subrnd < 4; subrnd++) {
+                var rndarrowno = 0;
+				ss = st1 = st2 = 0;
+                while (rndarrowno < rounds[rnd][subrnd * 3 + RNDARROWS1]) {
+                    // judge
+                    txt += "<tr style=\"height:9mm\"><td style=\"width:6.5mm\">&nbsp;</td>"
+                        + "<td  style=\"width:6.5mm;border-right:2px solid black;width:6.5mm\">&nbsp;</td>";
+                    // 6 arrows
+					t1 = t2 = s = et = 0;
+                    for (i = 0; i < arrowspwerend; i++) {
+					    if (printtype==2) {
+							txt += "<td style=\"text-align:center;width:9mm;\">" + arrow(arrowno, data[ARROWS]) + "</td>";
+							et += arrowv(arrowno, data[ARROWS]);
+							t1 += tiebreak1(arrowno, rounds[rnd][RNDTIEBREAK])
+							t2 += tiebreak2(arrowno, rounds[rnd][RNDTIEBREAK])
+							arrowno++;
+						}
+						else
+							txt += "<td style=\"text-align:center;width:9mm;\">&nbsp;</td>";
+						rndarrowno++;
+                    }
+					s += et;
+                    // et
+					if (printtype!=2 || arrowno>data[ARROWCNT])
+						et = "&nbsp;";
+                    txt += "</td><td style=\"text-align:center;border-left:2px solid black;border-right:2px solid black;\">" + et + "</td>";
+                    // 6 arrows
+					et = 0;
+                    if (rndarrowno < rounds[rnd][subrnd * 3 + RNDARROWS1]) {
+                        for (i = 0; i < arrowspwerend; i++) {
+							if (printtype==2) {
+								txt += "<td style=\"text-align:center;width:9mm;\">" + arrow(arrowno, data[ARROWS]) + "</td>";
+								et += arrowv(arrowno, data[ARROWS]);
+								t1 += tiebreak1(arrowno, rounds[rnd][RNDTIEBREAK])
+								t2 += tiebreak2(arrowno, rounds[rnd][RNDTIEBREAK])
+								arrowno++;
+							}
+							else
+								txt += "<td style=\"text-align:center;width:9mm;\">&nbsp;</td>";
+							rndarrowno++;
+                        }
+						s += et;
+						ss += s;
+						rt += s;
+						st1 += t1;
+						st2 += t2;
+						tt1 += t1;
+						tt2 += t2;
+						if (printtype!=2 || arrowno>data[ARROWCNT])
+							ss = st1 = st2 = t1 = t2 = rt = s = et = "&nbsp;";
+						txt += "</td><td style=\"text-align:center;border-left:2px solid black;border-right:2px solid black;\">" + et + "</td>";
+                    }
+                    else {
+                        txt += "<td colspan=\"" + arrowspwerend + "\" style=\"background-color:silver;\">&nbsp;</td>";
+                        txt += "</td><td style=\"background-color:silver;border-left:2px solid black;border-right:2px solid black;\">&nbsp;</td>"
+                    }
+                    txt += "<td style=\"text-align:center;\">" + s + "</td>" 
+						+ "<td style=\"text-align:center;\">" + t1 + "</td>"
+						+ "<td style=\"text-align:center;\">" + t2 + "</td>" 
+						+ "<td style=\"text-align:center;\">" + rt + "</td></tr>";
+
+                    if (rndarrowno >= rounds[rnd][subrnd * 3 + RNDARROWS1]) {
+                        // sub totals
+                        var distance = rounds[rnd][subrnd * 3 + RNDDISTANCE1];
+                        var targetsize = rounds[rnd][subrnd * 3 + RNDTARGET1];
+                        if (imperialdistance == 0)
+                            distance += " yards. ";
+                        else
+                            distance += " meters. ";
+                        distance += targetsize + " cm face. ";
+                        txt += "<tr style=\"height:9mm;\"><td colspan=\"" + (arrowspwerend * 2 + 4) + "\" align=\"right\">" + distance
+                            + " Sub Totals.&nbsp;</td><td style=\"text-align:center;border-left:2px solid black;border-top:2px solid black;border-bottom:2px solid black;\">"
+                            + ss + "</td><td style=\"text-align:center;border-top:2px solid black;border-bottom:2px solid black;\">"
+							+ st1 + "</td><td style=\"text-align:center;border-top:2px solid black;border-bottom:2px solid black;\">"
+							+ st2 + "</td><td style=\"text-align:center;border-right:2px solid black;border-top:2px solid black;border-bottom:2px solid black;\">"
+							+ rt + "</td>";
+                    }
+                }
+            }
+            // totals
+			if (printtype!=2 || arrowno>data[ARROWCNT])
+				tt1 = tt2 = rt = "&nbsp;";
+            txt += "<tr style=\"height:9mm;\"><td colspan=\"" + (arrowspwerend * 2 + 4) + "\" align=\"right\">Overall Total.&nbsp;</td>";
+            txt += "<td style=\"text-align:center\">" + rt + "</td><td style=\"text-align:center\">" + tt1 + "</td>"
+				+ "<td style=\"text-align:center\">" + tt2 + "</td><td style=\"text-align:center\">" + rt + "</td></table>";
+            txt += "<div style=\"height:3mm;\"></div>";
+
+            txt += "<table border=\"1\" style=\"border-collapse: collapse;\" >";
+            txt += "<tr style=\"height:9mm;\"><td style=\"width:35mm;\">Archer's signature:<td style=\"width:70mm;\">&nbsp";
+            txt += "<tr style=\"height:9mm;\"><td>Scorer's signature:<td>&nbsp";
+            txt += "</table>";
+
+            txt += "<div style=\"height:3mm;\"></div>";
+
+            txt += "<table border=\"1\" style=\"border-collapse: collapse;\" >";
+            txt += "<tr><td style=\"width:190mm;\">All changes to arrow values <b>must</b> be made by the Judge while all the arrows are still"
+                + " in the target or boss.<br/>Please score in Black or Blue ink.";
+            txt += "</table>";
+
+            txt += "<div style=\"height:0mm; page-break-after:always;\"></div>";
+        }
+
+        function printheader(target, name, club, bow, gender, roundstr) {
+            txt += "<div style=\"height:5mm;\"></div>"
+                + "<table><tr><td style=\"width=20mm\"><img src=\"/logo.gif\" style=\"height:20mm; width=20mm\" />"
+                + "<td style=\"width:150mm; text-align:center; font-size:20pt;font-family:Helvetica,Arial,sans-serif;\">"
+                + tournament + "<td style=\"width=20mm\"><img src=\"/logo.gif\" style=\"height:20mm; width=20mm\" /></table>"
+                + "<div style=\"height:3mm;\"></div>";
+
+            // name & target
+            txt += "<table border=\"1\" style=\"width:190mm;border-collapse: collapse;font-family:Helvetica,Arial,sans-serif;\" >"
+                + "<tr style=\"height:14mm;\"><td style=\"width:55%;\">"
+                + "<table><tr style=\"height:3mm;\"><td style=\"font-size:9pt;\">Name<tr style=\"height:8mm;\">"
+                + "<td style=\"padding-left:10mm;font-size:18pt;\">" + name + "</table>"
+                + "<td colspan=\"2\">"
+                + "<table><tr style=\"height:3mm;\"><td style=\"font-size:9pt;\">Target<tr style=\"height:8mm;\">"
+                + "<td style=\"padding-left:10mm;font-size:18pt;\" align=\"center\">" + target + "</table>";
+            // Club, bow, gender
+            txt += "<tr style=\"height:11mm;\"><td><table><tr style=\"height:3mm;\"><td style=\"font-size:9pt;\">Club<tr style=\"height:7mm;\">"
+                + "<td style=\"padding-left:10mm;font-size:14pt;\">" + club + "</table>"
+                + "<td style=\"width:23%;\"><table><tr style=\"height:3mm;\"><td style=\"font-size:9pt;\">Bow type<tr style=\"height:7mm;\">"
+                + "<td style=\"padding-left:10mm;font-size:14pt;\">" + bow + "</table>"
+                + "<td><table><tr style=\"height:3mm;\"><td style=\"font-size:9pt;\">Gender and Age Group<tr style=\"height:7mm;\">"
+                + "<td style=\"padding-left:10mm;font-size:14pt;\">" + gender + "</table>";
+            // round and date
+            txt += "<tr style=\"height:11mm;\"><td><table><tr style=\"height:3mm;\"><td style=\"font-size:9pt;\">Round<tr style=\"height:7mm;\">"
+                + "<td style=\"padding-left:10mm;font-size:14pt;\">" + roundstr + "</table>"
+                + "<td colspan=\"2\"><table><tr style=\"height:3mm;\"><td style=\"font-size:9pt;\">Date<tr style=\"height:7mm;\">"
+                + "<td style=\"padding-left:10mm;font-size:14pt;\">" + tournamentdate + "</table>"
+                + "</table><div style=\"height:5mm;\"></div>";
+        }
+
+		function arrow(arrowno, arrows) {
+			if (arrowno >= data[ARROWCNT])
+				return "&nbsp;";
+			else if (arrows.charCodeAt(arrowno) - 65 == 0)
+				return "M";
+			else if (arrows.charCodeAt(arrowno) - 65 == 11)
+				return "X";
+			return arrows.charCodeAt(arrowno) - 65;
 		}
-		// totals
-		txt += "<tr style=\"height:9mm;\"><td colspan=\"" + (arrowspwerend*2+4) + "\" align=\"right\">Overall Total</td>";
-		txt += "<td align=\"center\">&nbsp;</td>";
-		txt += "<td align=\"center\">&nbsp;</td><td align=\"center\">&nbsp;</td><td align=\"center\">&nbsp;</td></table>";
-		txt += "<p></p>";
 
-		txt += "<table border=\"1\" style=\"border-collapse: collapse;\" >";
-		txt += "<tr style=\"height:9mm;\"><td style=\"width:35mm;\">Archer's signature:<td style=\"width:70mm;\">&nbsp";
-		txt += "<tr style=\"height:9mm;\"><td>Scorer's signature:<td>&nbsp";
-		txt += "</table>";
+		function arrowv(arrowno, arrows) {
+			if (arrowno >= data[ARROWCNT])
+				return 0;
+			else if (arrows.charCodeAt(arrowno) - 65 == 0)
+				return 0;
+			else if (arrows.charCodeAt(arrowno) - 65 == 11)
+				return 10;
+			return arrows.charCodeAt(arrowno) - 65;
+		}
 
-		txt += "<div style=\"height:10mm;\"></div>";
+		function tiebreak1(arrowno, rndtb) {
+			if (arrowno >= data[ARROWCNT] || data[ARROWS].charCodeAt(arrowno) - 65 == 0)
+				return 0;
+			else if (data[ARROWS].charCodeAt(arrowno) - 65 == 11)
+				return 1;
+			else if (data[ARROWS].charCodeAt(arrowno) - 65 == 10)
+				return 1;
+			else if (rndtb!=TieBreakWAOutdoor && rndtb!=TieBreakWAIndoor)
+				return 1;
+			return 0;
+		}
 
-		txt += "<table border=\"1\" style=\"border-collapse: collapse;\" >";
-		txt += "<tr><td style=\"width:195mm;\">All changes to arrow values <b>must</b> be made by the Judge while all the arrows are still"
-		    + " in the target or boss.<br/>Please score in Black or Blue ink.";
-		txt += "</table>";
+		function tiebreak2(arrowno, rndtb) {
+			if (arrowno >= data[ARROWCNT] || data[ARROWS].charCodeAt(arrowno) - 65 == 0)
+				return 0;
+			else if (data[ARROWS].charCodeAt(arrowno) - 65 == 11) {
+				if (rndtb==TieBreakWAOutdoor)
+					return 1;
+			}
+			else if (data[ARROWS].charCodeAt(arrowno) - 65 == 10) {
+				if (rndtb==TieBreakWAOutdoor || rndtb==TieBreakWAIndoor)
+					return 0;
+				else
+					return 1;
+			}
+			else if (data[ARROWS].charCodeAt(arrowno) - 65 == 9) {
+				if (scoring == Imperial || rndtb==TieBreakWAIndoor)
+					return 1;
+			}
+			else if (data[ARROWS].charCodeAt(arrowno) - 65 == 5) {
+				if (rndtb==TieBreakAGBWorcester)
+					return 1;
+			}
+			return 0;
+		}
 
-		txt += "<div style=\"height:0mm; page-break-after:always;\"></div>";
-	    }
-	    document.getElementById("page").innerHTML = txt;
-	}
+        function agegroup(d1, d2) {
+            if (d2 == "" || d1.length == 1 || d1.substr(3, 1) != "/") // old format JGU18 etc
+                return d1;
+            // in date format
+            var mf = d1.substr(0, 1);
+            var day = d1.substr(1, 2);
+            var month = d1.substr(4, 2);
+            var year = d1.substr(7, 2);
+            if (year.substr(0, 1) == "7" || year.substr(0, 1) == "8" || year.substr(0, 1) == "9")
+                year = "19" + year;
+            else
+                year = "20" + year;
+            var age = parseInt("20" + d2.substr(6, 2)) - parseInt(year);
+            if (month > d2.substr(3, 2) || (month == d2.substr(3, 2) && day > d2.substr(0, 2)))
+                age = age - 1;
+            if (age >= 18)
+                return mf;
+            if (mf == "M")
+                mf = "JB";
+            else
+                mf = "JG";
+            if (age >= 16)
+                return mf + "U18"
+            if (age >= 14)
+                return mf + "U16"
+            if (age >= 12)
+                return mf + "U14"
+            return mf + "U12";
+        }
 
-	function agegroup(d1, d2) {
-	    if (d2=="" || d1.length==1 || d1.substr(3,1)!="/") // old format JGU18 etc
-			return d1;
-		// in date format
-	    var mf = d1.substr(0,1);
-		var day = d1.substr(1,2);
-		var month = d1.substr(4,2);
-		var year = d1.substr(7,2);
-		if (year.substr(0,1)=="7" || year.substr(0,1)=="8" || year.substr(0,1)=="9")
-		    year = "19"+year;
-		else
-			year = "20"+year;
-		var age = parseInt("20" + d2.substr(6,2)) - parseInt(year);
-		if (month>d2.substr(3,2) || (month==d2.substr(3,2) && day>d2.substr(0,2)))
-			age = age-1;
-		if (age>=18)
-			return mf;
-		if (mf=="M")
-			mf = "JB";
-		else
-			mf = "JG";
-		if (age>=16)
-			return mf+"U18"
-		if (age>=14)
-			return mf+"U16"
-		if (age>=12)
-			return mf+"U14"
-		return mf + "U12";
-	}
-
-	page();
+        page();
 
     </script>
 </body>

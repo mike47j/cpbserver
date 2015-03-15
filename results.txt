@@ -247,7 +247,13 @@ function partagbscore(h, r, a) { // score after a arrows of a round
 		return mf + "U12";
 	}
 
-var textstr = "<h2 style=\"text-align:center;font-weight:bold;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">"
+var textstr;
+if (printing)
+	textstr = "<table><tr><td style=\"width=20mm\"><img src=\"/logo.gif\" style=\"height:20mm; width=20mm\" />"
+			+ "<td style=\"width:150mm; text-align:center; font-weight:bold;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">"
+			+ tournament + "<td style=\"width=20mm\"><img src=\"/logo.gif\" style=\"height:20mm; width=20mm\" /></table>";
+else
+	textstr = "<h2 style=\"text-align:center;font-weight:bold;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">"
         + tournament + "</h2>";
 doresults();
 
@@ -368,19 +374,18 @@ function bowtype(rndstr, g, bow) {
 	var tb1str = "Hits", tb2str = "Golds";
     for (i = 0; i < rounds.length; i++) {
 		if (rndstr == rounds[i][RNDNAME]) {
-			if (worldarchery==1) {
+			if (rounds[i][RNDTIEBREAK]==TieBreakWAOutdoor) {
 				tb1str = "X/10";
-				tb2str = "X";
+				tb2str = "X"
 			}
-			else if (worldarchery==2) {
+			else if (rounds[i][RNDTIEBREAK]==TieBreakWAIndoor) {
 				tb1str = "X/10";
 				tb2str = "9"
 			}
-			else if (rounds[i][RNDSCORING]==Worcester) {
+			else if (rounds[i][RNDTIEBREAK]==TieBreakAGBWorcester)
 				tb2str = "5";
-			}
-			else if (rounds[i][RNDSCORING]!=Imperial)
-				tb2str = "X/10";
+			else if (rounds[i][RNDTIEBREAK]==TieBreakAGBMetric)
+				tb2str ="10";
 			break;
 		}
     }
@@ -439,11 +444,11 @@ function bowtype(rndstr, g, bow) {
 	else
 		roundstr = "Bristol 1";
 	}
-    textstr += "<h2 style=\"text-align:center;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">"
+    textstr += "<h2 style=\"text-align:center;font-size:x-large;font-family:Helvetica,Arial,sans-serif\">"
 		+ roundstr + " - " + gs + bow + "</h2>" 
 		+ "<table border=1 style=\"margin-left:auto; margin-right:auto; border-collapse:collapse;\" >"
-		+ "<tr><th width=\"25\">&nbsp;<th width=\"35\">Target<th width=\"180\">Name"
-		+ "<th width=\"180\">Club<th width=\"45\">Score<th width=\"45\">" + tb1str + "<th width=\"45\">" + tb2str
+		+ "<tr style=\"page-break-inside: avoid;\"><th width=\"25\">&nbsp;<th width=\"35\">Target<th width=\"180\">Name"
+		+ "<th width=\"170\">Club<th width=\"45\">Score<th width=\"45\">" + tb1str + "<th width=\"45\">" + tb2str
 	    + "<th width=\"45\">Arrows<th width=\"100\">&nbsp;</tr>";
 
 	var posn = 1;
@@ -462,7 +467,7 @@ function bowtype(rndstr, g, bow) {
 	    }
 	    if (highi == -1)
 		break;
-	    textstr += "<tr><td align=\"center\">";
+	    textstr += "<tr style=\"page-break-inside: avoid;\"><td align=\"center\">";
 	    if (data[highi][STATE] == "Inuse")
 		textstr += (highv == prevhighv ? "=" : posn);
 	    else {
@@ -528,8 +533,8 @@ function handicapresults() {
 	// results
     textstr += "<h2 style=\"text-align:center;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">Handicap Results</h2>"
 	    + "<table border=1 style=\"margin-left:auto; margin-right:auto; border-collapse:collapse;\" >"
-	    + "<tr><th width=\"25\">&nbsp;<th width=\"35\">Target<th width=\"180\">Name<th>Gender"
-	    + "<th width=\"180\">Club<th>Round<th>Bow"
+	    + "<tr style=\"page-break-inside: avoid;\"><th width=\"25\">&nbsp;<th width=\"35\">Target<th width=\"180\">Name<th>Gender"
+	    + "<th width=\"170\">Club<th>Round<th>Bow"
 	    + "<th width=\"45\">Score<th width=\"45\">Arrows<th>Adjusted</tr>";
 	var posn = 1;
 	var prevhighv = -1;
@@ -553,7 +558,7 @@ function handicapresults() {
 			roundstr = "Bristol 1";
 		}
 
-	    textstr += "<tr><td align=\"center\">";
+	    textstr += "<tr style=\"page-break-inside: avoid;\"><td align=\"center\">";
 	    if (data[highi][STATE] == "Inuse")
 			textstr += (highv == prevhighv ? "=" : posn);
 	    else {
@@ -594,10 +599,9 @@ function bestjunior(g) {
 	textstr += "<h2 style=\"text-align:center;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">Junior Girls Championship</h2>";
     else
 	textstr += "<h2 style=\"text-align:center;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">Junior Boys Championship</h2>";
-    textstr += "</h3><table border=1 style=\"margin-left:auto; margin-right:auto; border-collapse:collapse;\" >"
-    + "<tr><th width=\"20\">&nbsp;<th>Target<th width=\"180\">Name"
-    + "<th width=\"180\">Club<th>Age Group<th>Bow<th>Round<th width=\"50\">Score"
-    + "<th width=\"50\">Points</tr>";
+    textstr += "<table border=1 style=\"margin-left:auto; margin-right:auto; border-collapse:collapse;\" >"
+    + "<tr style=\"page-break-inside: avoid;\"><th width=\"20\">&nbsp;<th>Target<th width=\"150\">Name"
+    + "<th width=\"170\">Club<th>Age<br/>Group<th>Bow<th>Round<th>Score<th>Points</tr>";
     var posn = 1;
     var prevhighv = -1;
     for (i = 0; i < maxdata; i++) {
@@ -620,7 +624,7 @@ function bestjunior(g) {
 		roundstr = "Bristol 1";
 	}
 
-	textstr += "<tr><td align=\"center\">" + (highv == prevhighv ? "=" : posn)
+	textstr += "<tr style=\"page-break-inside: avoid;\"><td align=\"center\">" + (highv == prevhighv ? "=" : posn)
 	    + "</td><td align=\"center\">" + data[highi][TARGET]
 	    + "</td><td>" + data[highi][NAME] + "</td><td>" + data[highi][CLUB] + "</td><td align=\"center\">"
 	    + data[highi][GENDER].substr(2, 3) + "</td><td align=\"center\">" + data[highi][BOW];
@@ -650,10 +654,9 @@ function bestarcher() {
 		}
     }
     textstr += "<h2 style=\"text-align:center;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">Best Archer</h2>";
-    textstr += "</h3><table border=1 style=\"margin-left:auto;margin-right:auto; border-collapse:collapse;\" >"
-    + "<tr><th width=\"20\">&nbsp;<th>Target<th width=\"180\">Name"
-    + "<th width=\"180\">Club<th>Age Group<th>Bow<th>Round<th width=\"50\">Score"
-    + "<th width=\"50\">Points</tr>";
+    textstr += "<table border=1 style=\"margin-left:auto;margin-right:auto; border-collapse:collapse;\" >"
+    + "<tr style=\"page-break-inside: avoid;\"><th width=\"20\">&nbsp;<th>Target<th width=\"150\">Name"
+    + "<th width=\"170\">Club<th>Age<br/>Group<th>Bow<th>Round<th>Score<th>Points</tr>";
     var posn = 1;
     var prevhighv = -1;
     for (i = 0; i < maxdata; i++) {
@@ -676,7 +679,7 @@ function bestarcher() {
 		roundstr = "Bristol 1";
 	}
 
-	textstr += "<tr><td align=\"center\">" + (highv == prevhighv ? "=" : posn)
+	textstr += "<tr style=\"page-break-inside: avoid;\"><td align=\"center\">" + (highv == prevhighv ? "=" : posn)
 	    + "</td><td align=\"center\">" + data[highi][TARGET]
 	    + "</td><td>" + data[highi][NAME] + "</td><td>" + data[highi][CLUB] + "</td><td align=\"center\">"
 	    + data[highi][GENDER] + "</td><td align=\"center\">" + data[highi][BOW];
@@ -701,19 +704,18 @@ function bestteam(rnd) {
 	var tb1str = "Hits", tb2str = "Golds";
     for (i = 0; i < rounds.length; i++) {
 		if (rnd == rounds[i][RNDNAME]) {
-			if (worldarchery==1) {
+			if (rounds[i][RNDTIEBREAK]==TieBreakWAOutdoor) {
 				tb1str = "X/10";
-				tb2str = "X";
+				tb2str = "X"
 			}
-			else if (worldarchery==2) {
+			else if (rounds[i][RNDTIEBREAK]==TieBreakWAIndoor) {
 				tb1str = "X/10";
 				tb2str = "9"
 			}
-			else if (rounds[i][RNDSCORING]==Worcester) {
+			else if (rounds[i][RNDTIEBREAK]==TieBreakAGBWorcester)
 				tb2str = "5";
-			}
-			else if (rounds[i][RNDSCORING]!=Imperial)
-				tb2str = "X/10";
+			else if (rounds[i][RNDTIEBREAK]==TieBreakAGBMetric)
+				tb2str ="10";
 			break;
 		}
     }
@@ -744,8 +746,8 @@ function bestteam(rnd) {
     if (teamcnt==0)
 		return;
     textstr += "<h2 style=\"text-align:center;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">"+rnd+" - Team Results</h2>";
-    textstr += "</h3><table border=1 style=\"margin-left:auto;margin-right:auto; border-collapse:collapse;\" >"
-    + "<tr><th width=\"20\">&nbsp;<th width=\"180\">Team Name<th width=\"180\">Members<th width=\"50\">Score<th width=\"50\">"
+    textstr += "<table border=1 style=\"margin-left:auto;margin-right:auto; border-collapse:collapse;\" >"
+    + "<tr style=\"page-break-inside: avoid;\"><th width=\"20\">&nbsp;<th width=\"180\">Team Name<th width=\"180\">Members<th width=\"50\">Score<th width=\"50\">"
 	+ tb1str + "<th width=\"50\">" + tb2str + "</tr>";
     var posn = 1;
     var prevhighv = -1;
@@ -761,7 +763,7 @@ function bestteam(rnd) {
 	if (highi == -1)
 	    break;
 
-	textstr += "<tr><td align=\"center\">" + (highv == prevhighv ? "=" : posn)
+	textstr += "<tr style=\"page-break-inside: avoid;\"><td align=\"center\">" + (highv == prevhighv ? "=" : posn)
 	    + "</td><td>" + teamname[highi] + "</td><td>" + "<font size=\"-1\">" + archernames[highi] + "</font></td>";
 	textstr +=  "</td><td align=\"center\">" + Math.floor(scores[highi]) 
 	    + "</td><td align=\"center\">" + tiebreak1[highi] + "</td><td align=\"center\">" + tiebreak2[highi] + "</td></tr>";

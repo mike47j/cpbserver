@@ -28,19 +28,18 @@ function page() {
     scoring = rounds[rnd][RNDSCORING];
 	var arrowsperend = rounds[rnd][RNDEND];
 	var tb1str = "Hits", tb2str = "Golds";
-	if (worldarchery==1) {
+	if (rounds[rnd][RNDTIEBREAK]==TieBreakWAOutdoor) {
 		tb1str = "X/10";
-		tb2str = "X";
+		tb2str = "X"
 	}
-	else if (worldarchery==2) {
+	else if (rounds[rnd][RNDTIEBREAK]==TieBreakWAIndoor) {
 		tb1str = "X/10";
 		tb2str = "9"
 	}
-	else if (scoring==Worcester) {
+	else if (rounds[rnd][RNDTIEBREAK]==TieBreakAGBWorcester)
 		tb2str = "5";
-	}
-	else if (scoring!=Imperial)
-		tb2str = "X/10";
+	else if (rounds[rnd][RNDTIEBREAK]==TieBreakAGBMetric)
+		tb2str ="10";
 
     var txt = "<h2>Target " + data[TARGET] + " - " + data[NAME] + "</h2>";
 	txt += "<form id=\"data\" action=\"/scoreentry\" method=\"get\">";

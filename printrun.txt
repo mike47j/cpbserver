@@ -65,18 +65,18 @@
 		var scoring = rounds[rnd][RNDSCORING];
 		var tb1 = "H";
 		var tb2 = "G";
-		if (worldarchery==1) {
+		if (rounds[rnd][RNDTIEBREAK]==TieBreakWAOutdoor) {
 			tb1 = "X/10";
 			tb2 = "X"
 		}
-		else if (worldarchery==2) {
+		else if (rounds[rnd][RNDTIEBREAK]==TieBreakWAIndoor) {
 			tb1 = "X/10";
 			tb2 = "9"
 		}
-		else if (scoring==Worcester)
-		    tb2 = "5";
-		else if (scoring==Metric)
-		    tb2="10";
+		else if (rounds[rnd][RNDTIEBREAK]==TieBreakAGBWorcester)
+			tb2 = "5";
+		else if (rounds[rnd][RNDTIEBREAK]==TieBreakAGBMetric)
+			tb2="10";
 		var arrowsperend = rounds[rnd][RNDEND];
 
 		var dozenlen = new Array();

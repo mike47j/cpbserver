@@ -29,19 +29,18 @@
 	    var imperialdistance = rounds[rnd][RNDMETERS];
 	    scoring = rounds[rnd][RNDSCORING];
 	    arrowsperend = rounds[rnd][RNDEND];
-		if (worldarchery==1) {
+		if (rounds[rnd][RNDTIEBREAK]==TieBreakWAOutdoor) {
 			tb1str = "X/10";
-			tb2str = "X";
+			tb2str = "X"
 		}
-		else if (worldarchery==2) {
+		else if (rounds[rnd][RNDTIEBREAK]==TieBreakWAIndoor) {
 			tb1str = "X/10";
 			tb2str = "9"
 		}
-		else if (scoring==Worcester) {
+		else if (rounds[rnd][RNDTIEBREAK]==TieBreakAGBWorcester)
 			tb2str = "5";
-		}
-		else if (scoring!=Imperial)
-			tb2str = "X/10";
+		else if (rounds[rnd][RNDTIEBREAK]==TieBreakAGBMetric)
+			tb2str ="10";
 
 	    var txt = "<h2>" + data[TARGET] + " - " + data[NAME] + " (" + data[GENDER] + "), "
 			+ data[CLUB] + ", " + data[ROUND] + ", " + data[BOW] + "</h2>";
@@ -77,24 +76,24 @@
 					txt += "<td style=\"text-align:center;width:25px;\">X</td>";
 					et1 += 10;
 					tb1++;
-					if (worldarchery==1)
+					if (rounds[rnd][RNDTIEBREAK]==TieBreakWAOutdoor)
 						tb2++;
 				}
 				else {
 					txt += "<td style=\"text-align:center;width:25px;\">" + (arrows.charCodeAt(arrowno) - 65) + "</td>";
 					et1 += arrows.charCodeAt(arrowno) - 65;
-					if (worldarchery==0)
+					if (rounds[rnd][RNDTIEBREAK]!=TieBreakWAOutdoor && rounds[rnd][RNDTIEBREAK]!=TieBreakWAIndoor) // hits
 						tb1++;
 					if (arrows.charCodeAt(arrowno) - 65 == 10) {
-						if (worldarchery!=0)
-							tb1++;
+						if (rounds[rnd][RNDTIEBREAK]==TieBreakWAOutdoor || rounds[rnd][RNDTIEBREAK]==TieBreakWAIndoor)
+							tb1++; // WA
 						else
-							tb2++;
+							tb2++; // AGB Metric
 					}
 					if (scoring==Worcester && arrows.charCodeAt(arrowno) - 65 == 5)
 						tb2++;
 					if (arrows.charCodeAt(arrowno) - 65 == 9) {
-						if (scoring == Imperial || worldarchery==2)
+						if (scoring == Imperial || rounds[rnd][RNDTIEBREAK]==TieBreakWAIndoor)
 							tb2++;
 					}
 				}
@@ -115,16 +114,16 @@
 						txt += "<td style=\"text-align:center;width:25px;\">X</td>";
 						et2 += 10;
 						tb1++;
-						if (worldarchery==1)
+						if (rounds[rnd][RNDTIEBREAK]==TieBreakWAOutdoor)
 							tb2++;
 					}
 					else {
 						txt += "<td style=\"text-align:center;width:25px;\">" + (arrows.charCodeAt(arrowno) - 65) + "</td>";
 						et2 += arrows.charCodeAt(arrowno) - 65;
-						if (worldarchery==0)
+						if (rounds[rnd][RNDTIEBREAK]!=TieBreakWAOutdoor && rounds[rnd][RNDTIEBREAK]!=TieBreakWAIndoor)
 							tb1++;
 						if (arrows.charCodeAt(arrowno) - 65 == 10) {
-							if (worldarchery!=0)
+							if (rounds[rnd][RNDTIEBREAK]==TieBreakWAOutdoor || rounds[rnd][RNDTIEBREAK]==TieBreakWAIndoor)
 								tb1++;
 							else
 								tb2++;
@@ -132,7 +131,7 @@
 						if (scoring==Worcester && arrows.charCodeAt(arrowno) - 65 == 5)
 							tb2++;
 						if (arrows.charCodeAt(arrowno) - 65 == 9) {
-							if (scoring == Imperial || worldarchery==2)
+							if (scoring == Imperial || rounds[rnd][RNDTIEBREAK]==TieBreakWAIndoor)
 								tb2++;
 						}
 					}
@@ -188,7 +187,7 @@
 		// buttons
 	    txt += "<table><tr>";
 	    if (scoring != Worcester) {
-	        if (scoring != Imperial && worldarchery == 1)
+	        if (scoring != Imperial && rounds[rnd][RNDTIEBREAK]==TieBreakWAOutdoor)
 	            txt += "<td><input type=\"button\" style=\"width:65px\" value=\"X\" onclick=\"enterkeycode(88)\" />";
 	        if (scoring != Imperial) txt += "<td><input type=\"button\" style=\"width:65px\" value=\"10\" onclick=\"enterkeycode(84)\" />";
 	        txt += "<td><input type=\"button\" style=\"width:65px\" value=\"9\" onclick=\"enterkeycode(48+9)\" />";
@@ -221,14 +220,12 @@
 		if (data[STATE]!="Inuse")
 			txt += "<h1>" + data[STATE] + "</h1>";
 		else {
-			txt += "<p>Press the digit keys to enter the 12 arrows, 0 or m for miss,<br />";
-			txt += "t or + for 10, x or * for an X, Backspace deletes the last digit entered.<br />";
-			txt += "After 12 arrows, check the running total is correct.<br />";
+			txt += "<p>Press the digit keys to enter the arrow scores, 0 - or m for miss,<br />";
+			txt += "t or + for 10, x or * for an X, Backspace . or Del deletes the last digit entered.<br />";
+			txt += "After 6/12 arrows, check the totals are correct.<br />";
 			txt += "If all is OK, press enter or the space bar to enter the scores into the database.<br />";
-			txt += "If there is an error, check the arrows are entered correctly.<br />";
-			txt += "If the arrows are correct, mark the running slip and press enter.<br />"
-				+ "    Then check the running slip with the scoresheet.<br />";
 			txt += "If the arrows are wrong use backspace and enter the correct arrows.<br />";
+			txt += "The / key on the keypad cancels score entry and returns to the index page."
 		}
 	    document.getElementById("page").innerHTML = txt;
 	}
@@ -244,6 +241,11 @@
 	}
 
     function enterkeycode(keycode) {
+	    if (keycode == 111) { // / key is cancel
+			document.getElementById("send").value = "cancel";
+			document.getElementById("data").submit();
+			return;
+		}
 		if (data[STATE]!="Inuse") {
 			if (keycode == 13 || keycode == 32) { // enter or space
 				document.getElementById("send").value = "next";
@@ -275,8 +277,9 @@
 			  || keycode == 101 || keycode == 103 || keycode == 105) // 0, 1, 3, 5, 7, 9
 				data[ARROWS] += String.fromCharCode(keycode - 96 + 65);
 		}
-	    if (keycode == 77 || keycode == 109) // M
+	    if (keycode == 77 || keycode == 109) { // M
 			data[ARROWS] += String.fromCharCode(65);
+		}
 	    else if (keycode == 8 || keycode == 46 || keycode==110) { // backspace or del
 			event.preventDefault();
 			if (data[ARROWS].length > 0)
@@ -309,6 +312,7 @@
 	    document.getElementById("send").value = "data";
 	    document.getElementById("data").submit();
 	}
+
 	function checksend() {
 	    if (data[ARROWS].length % arrowsperend != 0 && data[ARROWS].length % (arrowsperend/2) != 0) {
 		document.getElementById("msg").innerHTML = "Wrong number of arrows.";

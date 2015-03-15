@@ -31,7 +31,9 @@ function validateForm() {
 }
 
 function page() {
-	var txt = "<h2>Print Setup and Functions</h2>";
+	var txt = "<table><tr><td style=\"width=20mm\"><img src=\"/logo.gif\" style=\"height:20mm; width=20mm\" />"
+			+ "<td style=\"width:150mm; text-align:center; font-weight:bold;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">"
+			+ "Print Setup and Functions<td style=\"width=20mm\"><img src=\"/logo.gif\" style=\"height:20mm; width=20mm\" /></table>";
 	var dow = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
 	var month = new Array("January", "Febuary","March","April","June","July","August","September","October","November","December");
 	var stndrdth = new Array("", "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th", "11th", "12th", "13th", "14th",
@@ -60,10 +62,20 @@ function page() {
 	txt += "<td width=\"500\">Enter everything except the weather before printing.</tr>";
 	txt += "<tr><td width=\"200\" style=\"padding:10px;\">"
 		+ "<input type=\"submit\" value=\"Print Running Slips\" formaction=\"/printrun\" /><br/><br/>"
-		+ "<input type=\"submit\" value=\"Print Blank Score Sheets\" formaction=\"/printscore\" />"
+		+ "<input type=\"submit\" value=\"Print Score Sheets\" formaction=\"/printscore\" />"
 		+ "<td width=\"400\">These take some time to produce all the pages."
 		+ "Use print preview to check the margins, page boundaries and"
 		+ "delete any header and footer information before printing.</tr>";
+	txt += "<tr><td width=\"200\" style=\"padding:10px;\">";
+	txt += "<select name=\"round\" size=\"1\" style=\"width:200px\">"
+	for (i=0; i<rounds.length; i++) {
+		txt += "<option>" + rounds[i][RNDNAME] + "</option>";
+	}
+    txt += "</select><br/><br/>";
+	txt	+= "<input type=\"submit\" value=\"Blank Score Sheet\" formaction=\"/printblankscore\" /><br/><br/>"
+		+ "Target: <input id=\"target\" name=\"target\" size=\"3\"/>&nbsp;&nbsp;&nbsp;"
+		+ "<input type=\"submit\" value=\"Duplicate\" formaction=\"/printduplicate\"/>"
+		+ "<td width=\"400\">Select the round or target before printing.</tr>"
 	txt += "<tr><td width=\"200\" style=\"padding:10px;\">"
 		+ "<input type=\"submit\" value=\"Print Results\" formaction=\"/printresults\" />"
 		+ "<td width=\"400\">Enter the weather before printing.</tr>"

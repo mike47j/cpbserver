@@ -24,19 +24,18 @@ function page() {
 		break;
 	}
 	var tb1str = "Hits", tb2str = "Golds";
-	if (worldarchery==1) {
-		tb1str = "X or 10";
-		tb2str = "X";
+	if (rounds[rnd][RNDTIEBREAK]==TieBreakWAOutdoor) {
+		tb1str = "X/10";
+		tb2str = "X"
 	}
-	else if (worldarchery==2) {
+	else if (rounds[rnd][RNDTIEBREAK]==TieBreakWAIndoor) {
 		tb1str = "X/10";
 		tb2str = "9"
 	}
-	else if (rounds[rnd][RNDSCORING]==Worcester) {
+	else if (rounds[rnd][RNDTIEBREAK]==TieBreakAGBWorcester)
 		tb2str = "5";
-	}
-	else if (rounds[rnd][RNDSCORING]!=Imperial)
-		tb2str = "X or 10";
+	else if (rounds[rnd][RNDTIEBREAK]==TieBreakAGBMetric)
+		tb2str ="10";
 
     var txt = "<h2>Change Archer Data</h2>"
          + "<p><a href=\"/setup\">Set Up Page</a></p><h2>Target " + data[TARGET] + " - " + data[NAME] + "</h2>";

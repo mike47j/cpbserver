@@ -114,43 +114,43 @@
 		for (i = dozens; i > 0; i--) {
 		    txt += "<div style=\"height:1mm\"></div>";
 		    // nested tables 
-		    txt += "<table><tr><td>";
-		    txt += "<table border=\"1\" style=\"border-collapse: collapse;\" >";
+		    txt += "<table style=\"width:195mm;\"><tr><td>";
+		    txt += "<table border=\"1\" style=\"width:180mm;border-collapse: collapse;\" >";
 		    txt += "<tr style=\"height:6mm;font-family:Helvetica,Arial,sans-serif;\"><th colspan=\"" + (arrowsperend+2)
-			+ "\" align=\"left\">Running Slip " + i + "</th><th style=\"width:9mm;\">ET</th>";
+				+ "\" align=\"left\">Running Slip " + i + "</th><th style=\"width:9mm;\">ET</th>";
 		    if (dozenlen[i] == (arrowsperend * 2))
-			txt += "<th colspan=\"" + arrowsperend + "\">&nbsp;</th><th style=\"width:9mm;\">ET</th>";
+				txt += "<th colspan=\"" + arrowsperend + "\">&nbsp;</th><th style=\"width:9mm;\">ET</th>";
 		    txt += "<th style=\"width:9mm;\">S</th><th style=\"width:9mm;\">" + tb1 + "</th><th style=\"width:9mm;\">"
-			+ tb2 + "</th><th style=\"width:11mm;\">R/T</th></tr>";
+				+ tb2 + "</th><th style=\"width:11mm;\">R/T</th></tr>";
 		    var j;
 		    for (j = 0; j < linesperslip; j++) {
-			txt += "<tr style=\"height:" + linesize + "mm;\"><td align=\"center\" style=\"width:8mm;\">" + t.substr(0, 2) + letter[j];
-			txt += "</td><td style=\"width:33mm;\">" + names[j] + "</td>";
-			for (k=0; k<arrowsperend; k++)
-			    txt += "<td style=\"width:6mm;\">&nbsp;</td>";
-			txt += "<td>&nbsp;</td>";
-			if (dozenlen[i] == (arrowsperend * 2)) {
-			    for (k=0; k<arrowsperend; k++)
-			        txt += "<td style=\"width:6mm;\">&nbsp;</td>";
-			    txt += "<td>&nbsp;</td>";
-			}
-			txt += "<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+				txt += "<tr style=\"height:" + linesize + "mm;\"><td align=\"center\" style=\"width:8mm;\">" + t.substr(0, 2) + letter[j];
+				txt += "</td><td style=\"width:33mm;\">" + names[j] + "</td>";
+				for (k=0; k<arrowsperend; k++)
+					txt += "<td style=\"width:6mm;\">&nbsp;</td>";
+				txt += "<td>&nbsp;</td>";
+				if (dozenlen[i] == (arrowsperend * 2)) {
+					for (k=0; k<arrowsperend; k++)
+						txt += "<td style=\"width:6mm;\">&nbsp;</td>";
+					txt += "<td>&nbsp;</td>";
+				}
+				txt += "<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
 		    }
 		    txt += "</table></td><td>";
 		    // space for previous running total
 		    if (i != 1) {
-			txt += "<table border=\"1\" style=\"border-collapse:collapse;\">";
-			txt += "<tr style=\"height:6mm;font-family:Helvetica,Arial,sans-serif;\"><th align=\"center\" style=\"width:11mm;\">"
-					+ (i - 1) + "</th></tr>";
-			for (a = 0; a < linesperslip; a++) {
-			    txt += "<tr style=\"height:" + linesize + "mm;\"><td>&nbsp;</td></tr>";
-			}
-			txt += "</table>";
+				txt += "<table border=\"1\" style=\"border-collapse:collapse;\">";
+				txt += "<tr style=\"height:6mm;font-family:Helvetica,Arial,sans-serif;\"><th align=\"center\" style=\"width:11mm;\">"
+						+ (i - 1) + "</th></tr>";
+				for (a = 0; a < linesperslip; a++) {
+					txt += "<tr style=\"height:" + linesize + "mm;\"><td>&nbsp;</td></tr>";
+				}
+				txt += "</table>";
 		    }
 		    txt += "</td></tr></table>";
 		    if (split && i - 1 == Math.ceil(dozens / 2)) {
-			txt += "<div style=\"height:0mm; page-break-after:always;\"></div>";
-			txt += "<div style=\"height:" + (maxline - (linesize * linesperslip + 6 + 3) * (dozens - Math.floor(dozens / 2))) + "mm\"></div>";
+				txt += "<div style=\"height:0mm; page-break-after:always;\"></div>";
+				txt += "<div style=\"height:" + (maxline - (linesize * linesperslip + 6 + 3) * (dozens - Math.floor(dozens / 2))) + "mm\"></div>";
 		    }
 		}
 		txt += "<div style=\"height:0mm; page-break-after:always;\"></div>";

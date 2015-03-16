@@ -1,6 +1,0 @@
-E:\Archery\Server\CPBserver\bin\Debug\CPBserver.exe.config
-E:\Archery\Server\CPBserver\bin\Debug\CPBserver.exe
-E:\Archery\Server\CPBserver\bin\Debug\CPBserver.pdb
-E:\Archery\Server\CPBserver\obj\Debug\CPBserver.exe
-E:\Archery\Server\CPBserver\obj\Debug\CPBserver.pdb
-E:\Archery\Server\CPBserver\obj\Debug\CPBserver.csprojResolveAssemblyReference.cache

@@ -139,20 +139,22 @@
 							rndarrowno++;
                         }
 						s += et;
-						ss += s;
-						rt += s;
-						st1 += t1;
-						st2 += t2;
-						tt1 += t1;
-						tt2 += t2;
 						if (printtype!=2 || arrowno>data[ARROWCNT])
-							ss = st1 = st2 = t1 = t2 = rt = s = et = "&nbsp;";
+							et = "&nbsp;";
 						txt += "</td><td style=\"text-align:center;border-left:2px solid black;border-right:2px solid black;\">" + et + "</td>";
                     }
                     else {
                         txt += "<td colspan=\"" + arrowspwerend + "\" style=\"background-color:silver;\">&nbsp;</td>";
                         txt += "</td><td style=\"background-color:silver;border-left:2px solid black;border-right:2px solid black;\">&nbsp;</td>"
                     }
+					ss += s;
+					rt += s;
+					st1 += t1;
+					st2 += t2;
+					tt1 += t1;
+					tt2 += t2;
+					if (printtype!=2 || arrowno>data[ARROWCNT])
+						ss = st1 = st2 = t1 = t2 = rt = s = et = "&nbsp;";
                     txt += "<td style=\"text-align:center;\">" + s + "</td>" 
 						+ "<td style=\"text-align:center;\">" + t1 + "</td>"
 						+ "<td style=\"text-align:center;\">" + t2 + "</td>" 

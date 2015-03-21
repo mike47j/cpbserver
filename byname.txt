@@ -146,10 +146,17 @@ function page() {
 				roundstr = "Bristol 1";
 			}
 
-            txt += "<tr><td align=\"center\">" +data[highi][TARGET] + "</td><td>"+ data[highi][NAME]
-                + "</td><td>"+ data[highi][CLUB];
-			if (teamflag==1)
-				txt += "</td><td align=\"center\">" + data[highi][TEAM];
+            txt += "<tr><td align=\"center\">" +data[highi][TARGET] + "</td>";
+			if (data[highi][STATE]=="Free") {
+				txt += "<td>&nbsp;</td><td>&nbsp;";
+				if (teamflag==1)
+					txt += "</td><td align=\"center\">&nbsp;";
+			}
+			else {
+				txt += "<td>"+ data[highi][NAME] + "</td><td>"+ data[highi][CLUB];
+				if (teamflag==1)
+					txt += "</td><td align=\"center\">" + data[highi][TEAM];
+			}
 			if (targetlist || sortbyscore) {
 			    if (data[highi][STATE]=="Free") {
 					txt += "</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;";

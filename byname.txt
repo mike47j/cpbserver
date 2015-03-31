@@ -25,15 +25,14 @@ function page() {
         sort[i] = "";
         if (data[i][STATE]!="Free") {
 			if (sortbyscore) {
-				if (data[i][STATE] == "Inuse")
-					sort[i] = data[i][SCORE] + data[i][TIEBREAK1] / 1000 + data[i][TIEBREAK2] / 1000000;
+				sort[i] = 1 + data[i][SCORE] + data[i][TIEBREAK1] / 1000 + data[i][TIEBREAK2] / 1000000;
 			}
 			else if (sortbyteam)
                 sort[i] = data[i][CLUB] + " " + data[i][TEAM];
             else if (sortbyname)
                 sort[i] = data[i][NAME].substr(data[i][NAME].indexOf(" ")+1) + " " 
                     + data[i][NAME].substr(0, data[i][NAME].indexOf(" "));
-            else
+            else // by target number
                 sort[i] = data[i][TARGET];
 			if (tb1=="") {
 				for (rnd = 0; rnd < rounds.length; rnd++) {

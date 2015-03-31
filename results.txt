@@ -49,9 +49,11 @@ new Array("Warwick", "JGU18 JGU16 JGU14 JGU12 JBU16 JBU14 JBU12"),
 new Array("Short Warwick", "JGU16 JGU14 JGU12 JBU14 JBU12"),
 new Array("Junior Warwick", "JGU14 JGU12 JBU12"),
 new Array("Short Junior Warwick", "JGU12"),
-new Array("WA 1440 Gentlemen", "F JGU18 JGU16 JGU14 JGU12 M JBU18 JBU16 JBU14 JBU12"),
-new Array("WA 1440 Ladies / Metric I", "F JGU18 JGU16 JGU14 JGU12 JBU18 JBU16 JBU14 JBU12"),
-new Array("WA 1440 Cadet Ladies / Metric II", "JGU18 JGU16 JGU14 JGU12 JBU16 JBU14 JBU12"),
+new Array("WA 1440 (Gentlemen)", "F JGU18 JGU16 JGU14 JGU12 M JBU18 JBU16 JBU14 JBU12"),
+new Array("WA 1440 (Ladies)", "F JGU18 JGU16 JGU14 JGU12 JBU18 JBU16 JBU14 JBU12"),
+new Array("WA 1440 (Cadet Ladies)", "JGU18 JGU16 JGU14 JGU12 JBU16 JBU14 JBU12"),
+new Array("Metric I", "F JGU18 JGU16 JGU14 JGU12 JBU18 JBU16 JBU14 JBU12"),
+new Array("Metric II", "JGU18 JGU16 JGU14 JGU12 JBU16 JBU14 JBU12"),
 new Array("Metric III", "JGU16 JGU14 JGU12 JBU14 JBU12"),
 new Array("Metric IV", "JGU14 JGU12 JBU12"),
 new Array("Metric V", "JGU12"),
@@ -371,9 +373,10 @@ function bowtype(rndstr, g, bow) {
     var gs;
     var gendermatch, roundmatch;
 
-	var tb1str = "Hits", tb2str = "Golds";
+	var tb1str = "Hits", tb2str = "Golds", roundno;
     for (i = 0; i < rounds.length; i++) {
 		if (rndstr == rounds[i][RNDNAME]) {
+			roundno = i;
 			if (rounds[i][RNDTIEBREAK]==TieBreakWAOutdoor) {
 				tb1str = "X/10";
 				tb2str = "X"
@@ -449,7 +452,15 @@ function bowtype(rndstr, g, bow) {
 		+ "<table border=1 style=\"margin-left:auto; margin-right:auto; border-collapse:collapse;\" >"
 		+ "<tr style=\"page-break-inside: avoid;\"><th width=\"25\">&nbsp;<th width=\"35\">Target<th width=\"180\">Name"
 		+ "<th width=\"170\">Club<th width=\"45\">Score<th width=\"45\">" + tb1str + "<th width=\"45\">" + tb2str
-	    + "<th width=\"45\">Arrows<th width=\"100\">&nbsp;</tr>";
+	    + "<th width=\"45\">Arrows";
+	if (roundstr.substr(0,6)=="Metric" || roundstr.substr(0,7)=="WA 1440") {
+		textstr += "<th>" + rounds[roundno][RNDDISTANCE1] + "m</td>";
+		textstr += "<th>" + rounds[roundno][RNDDISTANCE2] + "m</td>";
+		textstr += "<th>" + rounds[roundno][RNDDISTANCE3] + "m</td>";
+		textstr += "<th>" + rounds[roundno][RNDDISTANCE4] + "m</td>";
+	}
+
+	textstr += "<th width=\"100\">&nbsp;</tr>";
 
 	var posn = 1;
 	var prevhighv = -1;
@@ -484,7 +495,14 @@ function bowtype(rndstr, g, bow) {
 		    + (data[highi][STATE] == "DNS" ? "&nbsp;" : data[highi][SCORE]) + "</td><td align=\"center\">"
 		    + (data[highi][STATE] == "DNS" ? "&nbsp;" : data[highi][TIEBREAK1]) + "</td><td align=\"center\">"
 		    + (data[highi][STATE] == "DNS" ? "&nbsp;" : data[highi][TIEBREAK2]) + "</td><td align=\"center\">"
-		    + data[highi][ARROWCNT] + "</td><td align=\"center\">";
+		    + data[highi][ARROWCNT] + "</td>";
+		if (roundstr.substr(0,6)=="Metric" || roundstr.substr(0,7)=="WA 1440") {
+			textstr += "<td align=\"center\">" + distancescore(0, data[highi][ARROWS]) + "</td>";
+			textstr += "<td align=\"center\">" + distancescore(36, data[highi][ARROWS]) + "</td>";
+			textstr += "<td align=\"center\">" + distancescore(72, data[highi][ARROWS]) + "</td>";
+			textstr += "<td align=\"center\">" + distancescore(108, data[highi][ARROWS]) + "</td>";
+		}
+		textstr += "<td align=\"center\">";
 	    if (medalalloc[medalline][1].indexOf(data[highi][GENDER]) >= 0) {
 		if (highv == prevawardscore)
 		    textstr += prevaward;
@@ -513,6 +531,19 @@ function bowtype(rndstr, g, bow) {
 	}
 	textstr += "</table>";
     }
+}
+
+function distancescore(arrowno, arrows) {
+    var s = 0;
+    for (a=arrowno; a<arrowno+36 && a<arrows.length; a++) {
+	if (arrows.charCodeAt(arrowno) - 65 == 0)
+		s += 0;
+	else if (arrows.charCodeAt(arrowno) - 65 == 11)
+		s += 10;
+	else
+		s += arrows.charCodeAt(arrowno) - 65;
+    }
+    return s;
 }
 
 function handicapresults() {

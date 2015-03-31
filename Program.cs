@@ -34,6 +34,7 @@ namespace CPBserver
         public static string FilePath = ""; // "\\";
         public static IPAddress localipaddress;
         static Boolean shutdown = false;
+        static Boolean resultsclosed = false;
 
         // print info
         static string tournament = "CPB Open Tournament";
@@ -55,7 +56,7 @@ namespace CPBserver
         static int teamflag = 0;
         static int maxtargets = 40;
         static int scoresystem = 0;
-        static int worldarchery = 0;
+        // static int worldarchery = 0;
 
         // javascript pages
         static string allocate;
@@ -217,7 +218,12 @@ namespace CPBserver
                     state.sb.Append(Encoding.ASCII.GetString(state.buffer, 0, bytesRead));
                     content = state.sb.ToString();
                     Console.WriteLine("Read {0} bytes from socket 80. {1}", content.Length, content.Substring(0, content.IndexOf('\n')));
-                    if (content.Contains("GET / ") || content.Contains("GET /index") || content.Contains("GET /scroll"))
+                    if (resultsclosed)
+                    {
+                        string page = header + "<h2>Leaderboard Closed</h2>" + "</body></html>";
+                        ResultsSend(handler, page);
+                    }
+                    else if (content.Contains("GET / ") || content.Contains("GET /index") || content.Contains("GET /scroll"))
                     {
                         // Send results back to client
                         string page = header + "<div id=\"page\"></div>";
@@ -271,7 +277,8 @@ namespace CPBserver
         {
             return "var medalflag=" + medalflag + ", juniorflag=" + juniorflag + ", teamflag=" + teamflag
                     + ", handicapflag=" + handicapflag + ", resultsbyroundflag=" + resultsbyroundflag
-                    + ", bestflag=" + bestflag + ", worldarchery=" + worldarchery
+                    + ", bestflag=" + bestflag + ", resultsclosed=" + (resultsclosed ? 1 : 0)
+                    // + ", worldarchery=" + worldarchery
                     + ", maxtargets=" + maxtargets + ", scoresystem=" + scoresystem + ";\r\n";
         }
 
@@ -335,7 +342,8 @@ namespace CPBserver
                         + Archers[i].club + "\",\"" + Archers[i].team + "\",\"" + Archers[i].bowtype + "\",\""
                         + Archers[i].gender + "\",\"" + Archers[i].round + "\"," + Archers[i].handicap.ToString("0.0") + ","
                         + Archers[i].runningtotal + "," + Archers[i].tiebreak1 + ","
-                        + Archers[i].tiebreak2 + ",\"" + Archers[i].state + "\"," + Archers[i].arrowcnt + ");\r\n";
+                        + Archers[i].tiebreak2 + ",\"" + Archers[i].state + "\"," + Archers[i].arrowcnt 
+                        + ",\"" + Archers[i].arrows + "\");\r\n";
                 }
                 page += "var maxdata =" + MaxArchers + ";\r\n";
             }
@@ -570,6 +578,7 @@ namespace CPBserver
                     teamflag = getparam(str, "team") == "on" ? 1 : 0;
                     handicapflag = getparam(str, "handicap") == "on" ? 1 : 0;
                     resultsbyroundflag = getparam(str, "round") == "on" ? 1 : 0;
+                    /*
                     string s = getparam(str, "worldarchery");
                     if (s.Contains("World Archery Indoor"))
                         worldarchery = 2;
@@ -577,6 +586,7 @@ namespace CPBserver
                         worldarchery = 1;
                     else
                         worldarchery = 0;
+                    */
                     try
                     {
                         maxtargets = Convert.ToInt32(getparam(str, "maxtargets"));
@@ -585,7 +595,7 @@ namespace CPBserver
                     {
                         maxtargets = 40;
                     };
-                    s = getparam(str, "scoresystem");
+                    string s = getparam(str, "scoresystem");
                     if (s.Contains("sheet"))
                         scoresystem = 0;
                     else if (s.Contains("dozen"))
@@ -661,7 +671,7 @@ namespace CPBserver
                 results += AllArchers();
                 results += "var tournament = \"" + tournament + "\"; ";
                 results += "var tournamentdate = \"" + tournamentdate + "\";";
-                results += "var worldarchery = " + worldarchery + ";\r\n";
+                // results += "var worldarchery = " + worldarchery + ";\r\n";
                 results += "var roundstr; var printtype = 0;\r\n";
                 if (str.Contains("GET /printrun"))
                     return results + rounds + printrun;
@@ -1036,6 +1046,11 @@ namespace CPBserver
                     + "\", tournamentdate = \"" + tournamentdate + "\";\r\n";
                 return results + rounds + newarcher;
             }
+            if (str.Contains("GET /leaderboard"))
+            {
+                resultsclosed = !resultsclosed;
+                return indexpagestring();
+            }
             if (str.Contains("GET /index"))
                 return indexpagestring();
             if (str.Contains("GET /loadfile"))
@@ -1397,7 +1412,7 @@ namespace CPBserver
                     + (juniorflag == 1 ? "Junior " : "") + (bestflag == 1 ? "Best " : "")
                     + (handicapflag == 1 ? "Handicap " : "")
                     + (teamflag == 1 ? "Team " : "") + (resultsbyroundflag == 1 ? "Round " : "")
-                    + (worldarchery == 1 ? "WorldArchery " : (worldarchery == 2 ? "WorldArcheryIndoor " : ""))
+                    // + (worldarchery == 1 ? "WorldArchery " : (worldarchery == 2 ? "WorldArcheryIndoor " : ""))
                     + (scoresystem == 1 ? "Dozen " : (scoresystem == 2 ? "Total " : ""))
                     + ",\"" + tournamentdate + "\",\"" + venue + "\",\"" + judges + "\",\"" + paramount + "\",\"" + patron
                     + "\",\"" + tournamentorganiser + "\",\"" + timeofassembly + "\",\"" + weather + "\",");
@@ -1658,8 +1673,8 @@ namespace CPBserver
             teamflag = s.Substring(startp, coma - startp).Contains("Team") ? 1 : 0;
             handicapflag = s.Substring(startp, coma - startp).Contains("Handicap") ? 1 : 0;
             resultsbyroundflag = s.Substring(startp, coma - startp).Contains("Round") ? 1 : 0;
-            worldarchery = s.Substring(startp, coma - startp).Contains("WorldArcheryIndoor") ? 2 
-                : s.Substring(startp, coma - startp).Contains("WorldArchery") ? 1 : 0;
+            // worldarchery = s.Substring(startp, coma - startp).Contains("WorldArcheryIndoor") ? 2 
+            //    : s.Substring(startp, coma - startp).Contains("WorldArchery") ? 1 : 0;
             scoresystem = 0;
             if (s.Substring(startp, coma - startp).Contains("Dozen"))
                 scoresystem = 1;
@@ -1940,6 +1955,10 @@ namespace CPBserver
                 string s = Console.ReadLine();
                 if (s.Contains("shutdown"))
                     shutdown = true;
+                if (s.Contains("close"))
+                    resultsclosed = true;
+                if (s.Contains("open"))
+                    resultsclosed = false;
             }
 
             backupThread.Join();

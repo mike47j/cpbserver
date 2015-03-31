@@ -179,7 +179,7 @@ function page() {
 			sort[highi] = "";
 			found = true;
 			lines++;
-			if (printing && (firstpage && lines>32) || (!firstpage && lines>45)) {
+			if (printing && (firstpage && lines>29) || (!firstpage && lines>45)) {
 				txt += "</table><div style=\"height:0mm; page-break-after:always;\"></div>";
 				firstpage = false;
 				lines = 0;

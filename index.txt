@@ -29,7 +29,12 @@ function page() {
 	if (teamflag==1)
 		txt += "<form action=\"/scorebyteam\"><input type=\"submit\" value=\"Scores by Team\" /></form><br/>";
 	txt	+= "</td><td style=\"width:300px;vertical-align:top;\">"
-		+ "<form action=\"/setup\"><input type=\"submit\" value=\"Set Up Page\" /></form><br/></td></table>";
+		+ "<form action=\"/setup\"><input type=\"submit\" value=\"Set Up Page\" /></form><br/>";
+	if (resultsclosed==1)
+		txt += "<form action=\"/leaderboard\"><input type=\"submit\" value=\"Start Leaderboard\" /></form><br/>";
+	else
+		txt += "<form action=\"/leaderboard\"><input type=\"submit\" value=\"Stop Leaderboard\" /></form><br/>";
+	txt	+= "</td></table>";
 	txt += "<form method=\"get\" action=\"/scoreentry.htm\">"
 		+ "<p>Target: <input id=\"target\" name=\"target\" size=\"3\"/> <input type=\"submit\" value=\"Score Entry\" /></p>"
 		+ "</form>";

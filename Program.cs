@@ -81,7 +81,7 @@ namespace CPBserver
         public const string header = "HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=UTF-8\r\nConnection: close\r\n\r\n"
             + "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf-8\" /><title>CPB Server page</title></head><body>\r\n";
         public const string fieldnames = "var TARGET = 0, NAME = 1, CLUB = 2, TEAM=3, BOW = 4, GENDER = 5, ROUND = 6, HANDICAP = 7;\r\n"
-                            + "var SCORE = 8, TIEBREAK1 = 9, TIEBREAK2 = 10, STATE = 11, ARROWCNT = 12, ARROWS = 13;\r\n";
+                   + "var SCORE = 8, TIEBREAK1 = 9, TIEBREAK2 = 10, STATE = 11, ARROWCNT = 12, ARROWS = 13, CLASS = 14;\r\n";
 
         public enum State { Free, Inuse, DNS, Retired };
 
@@ -101,6 +101,7 @@ namespace CPBserver
             public int arrowcnt;
             public State state;
             public string arrows;
+            public string classification;
 
             public Archer()
             {
@@ -117,6 +118,7 @@ namespace CPBserver
                 arrowcnt = 0;
                 state = State.Free;
                 arrows = "";
+                classification = "";
             }
         }
 
@@ -338,12 +340,7 @@ namespace CPBserver
                     t = Archers[i].target;
                     if (t == "" || t == " " || t == "0")
                         t = "&nbsp;";
-                    page += "data[" + i + "]= new Array(\"" + t + "\",\"" + Archers[i].name + "\",\""
-                        + Archers[i].club + "\",\"" + Archers[i].team + "\",\"" + Archers[i].bowtype + "\",\""
-                        + Archers[i].gender + "\",\"" + Archers[i].round + "\"," + Archers[i].handicap.ToString("0.0") + ","
-                        + Archers[i].runningtotal + "," + Archers[i].tiebreak1 + ","
-                        + Archers[i].tiebreak2 + ",\"" + Archers[i].state + "\"," + Archers[i].arrowcnt 
-                        + ",\"" + Archers[i].arrows + "\");\r\n";
+                    page += ArcherData(i, "data[" + i + "]");
                 }
                 page += "var maxdata =" + MaxArchers + ";\r\n";
             }
@@ -512,12 +509,7 @@ namespace CPBserver
                     }
                     for (int i = 0; i < MaxArchers; i++)
                     {
-                        page += "data[" + i + "]= new Array(\"" + Archers[i].target + "\",\"" + Archers[i].name + "\",\""
-                            + Archers[i].club + "\",\"" + Archers[i].team + "\",\"" + Archers[i].bowtype + "\",\""
-                            + Archers[i].gender + "\",\"" + Archers[i].round + "\"," + Archers[i].handicap.ToString("0.0") + ","
-                            + Archers[i].runningtotal + "," + Archers[i].tiebreak1 + ","
-                            + Archers[i].tiebreak2 + ",\"" + Archers[i].state + "\"," + Archers[i].arrowcnt
-                            + ",\"" + Archers[i].arrows + "\");\r\n";
+                        page += ArcherData(i, "data[" + i + "]");
                     }
                     page += "var maxdata =" + MaxArchers + ";\r\n";
                 }
@@ -646,12 +638,8 @@ namespace CPBserver
                             + "var tournament = \"" + tournament + "\"; var tournamentdate = \"" + tournamentdate + "\";\r\n"
                             + "var roundstr = \"\"; var printtype = 2;\r\n"
                             + flagstring() + rounds
-                            + "var data = new Array(\"" + Archers[i].target + "\",\"" + Archers[i].name + "\",\""
-                            + Archers[i].club + "\",\"" + Archers[i].team + "\",\"" + Archers[i].bowtype + "\",\""
-                            + Archers[i].gender + "\",\"" + Archers[i].round + "\"," + Archers[i].handicap.ToString("0.0") + ","
-                            + Archers[i].runningtotal + "," + Archers[i].tiebreak1 + ","
-                            + Archers[i].tiebreak2 + ",\"" + Archers[i].state + "\"," + Archers[i].arrowcnt
-                            + ",\"" + Archers[i].arrows + "\");\r\n" + fieldnames + printscore;
+                            + ArcherData(i, "var data")
+                            + fieldnames + printscore;
                     }
                 }
             }
@@ -834,8 +822,8 @@ namespace CPBserver
                 }
 
                 string results = header + "<div id=\"page\"></div><script type=\"text/javascript\">";
-                string r1 = ArcherDataStr(fromtarget, false, "datafrom");
-                string r2 = ArcherDataStr(totarget, false, "datato");
+                string r1 = ArcherDataStr(fromtarget, false, "var datafrom");
+                string r2 = ArcherDataStr(totarget, false, "var datato");
                 if (r1 != "" || r2 != "")
                     return results + rounds + r1 + r2 + fieldnames + flagstring()
                         + "var tournament = \"" + tournament + "\", tournamentdate = \"" + tournamentdate + "\";\r\n"
@@ -865,7 +853,7 @@ namespace CPBserver
                     return SendScorePage(pagefile, target, false, false);
                 }
                 return header + "<div id=\"page\"></div><script type=\"text/javascript\">"
-                        + ArcherDataStr(target, getparam(str, "send") == "next", "data") + fieldnames + flagstring() + rounds
+                        + ArcherDataStr(target, getparam(str, "send") == "next", "var data") + fieldnames + flagstring() + rounds
                         + "var tournament = \"" + tournament + "\", tournamentdate = \"" + tournamentdate + "\";\r\n"
                         + updateentry;
             }
@@ -954,40 +942,28 @@ namespace CPBserver
                         Archers[i].tiebreak1 = 0;
                         Archers[i].runningtotal = 0;
                         Archers[i].state = State.Free;
+                        Archers[i].classification = "";
                     }
                     timeout = TIMEOUT;
                 }
             }
             if (str.Contains("GET /newarcher") || str.Contains("GET /clearall"))
             {
-                string target = "";
-                string club = "CPB";
-                string team = "";
-                string round = "York";
-                string gender = "M";
-                string bow = "Recurve";
-                Single handicap = 100;
                 string send = getparam(str, "send");
+                string target = getparam(str, "target").ToUpper();
+                if (!"ABCDEF".Contains(target.Substring(target.Length - 1)))
+                    target += "A";
+                if (target.Length == 2)
+                    target = "0" + target;
+                int targetindex;
+                for (targetindex = 0; targetindex < MAXARCHERS; targetindex++)
+                    if (Archers[targetindex].target == target)
+                        break;
                 if (send == "data")
-                {
                     UpdateArcher(str, UPDATE.Archer);
-                    target = getparam(str, "target");
-                    club = getparam(str, "club");
-                    team = getparam(str, "team");
-                    round = getparam(str, "round");
-                    bow = getparam(str, "bow");
-                    gender = getparam(str, "gender");
-                    try
-                    {
-                        handicap = Convert.ToSingle(getparam(str, "handicap"));
-                    }
-                    catch
-                    {
-                        handicap = 100;
-                    };
-                }
+
                 // Console.WriteLine("Sending new archer.");
-                string results = header + "<div id=\"page\"></div><script type=\"text/javascript\">";
+                string results = header + "<div id=\"page\"></div><script type=\"text/javascript\">\r\n";
                 results += "var free = new Array(";
                 string rnd = "qwerty";
                 lock (dataLock)
@@ -1028,23 +1004,18 @@ namespace CPBserver
                                 results += "new Array(\"" + rnd + "\"";
                             }
                             results += ", \"" + Archers[i].target + "\"";
-                            if (target == "")
+                            if (targetindex == MAXARCHERS)
                             {
                                 target = Archers[i].target;
-                                if (Archers[i].round != "NotSet")
-                                    round = Archers[i].round;
+                                targetindex = i;
                             }
                         }
-                        else if (target == Archers[i].target)
-                            target = "";
                     }
                     results += ") );\r\n";
                 }
-                results += "var data = new Array(\"" + target + "\", \"\", \"" + club + "\", \"" + team + "\", \"" + bow + "\", \""
-                    + gender + "\", \"" + round + "\"," + handicap + ");";
-                results += fieldnames + flagstring() + "var tournament = \"" + tournament
-                    + "\", tournamentdate = \"" + tournamentdate + "\";\r\n";
-                return results + rounds + newarcher;
+
+                results += ArcherData(targetindex, "var data");
+                return results + fieldnames + flagstring() + rounds + newarcher;
             }
             if (str.Contains("GET /leaderboard"))
             {
@@ -1137,6 +1108,7 @@ namespace CPBserver
                                 Archers[i].tiebreak2 = 0;
                                 Archers[i].arrowcnt = 0;
                                 Archers[i].arrows = "";
+                                Archers[i].classification = "";
                                 // make all space on that target the same round
                                 bool allfree = true;
                                 for (int j = -5; j < 6; j++)
@@ -1176,6 +1148,7 @@ namespace CPBserver
                                 Archers[i].team = getparam(str, "team");
                                 Archers[i].bowtype = getparam(str, "bow");
                                 Archers[i].gender = getparam(str, "gender");
+                                Archers[i].classification = getparam(str, "class");
                                 try
                                 {
                                     Archers[i].handicap = Convert.ToSingle(getparam(str, "handicap"));
@@ -1229,6 +1202,16 @@ namespace CPBserver
             }
         }
 
+        static string ArcherData(int i, string dataname)
+        {
+            return dataname + " = new Array(\"" + Archers[i].target + "\",\"" + Archers[i].name + "\",\""
+                + Archers[i].club + "\",\"" + Archers[i].team + "\",\"" + Archers[i].bowtype + "\",\""
+                + Archers[i].gender + "\",\"" + Archers[i].round + "\"," + Archers[i].handicap.ToString("0.0") + ","
+                + Archers[i].runningtotal + "," + Archers[i].tiebreak1 + ","
+                + Archers[i].tiebreak2 + ",\"" + Archers[i].state + "\"," + Archers[i].arrowcnt
+                + ",\"" + Archers[i].arrows + "\",\"" + Archers[i].classification + "\");\r\n";
+        }
+
         static string ArcherDataStr(string target, bool skip, string dataname)
         {
             string results = "";
@@ -1244,11 +1227,7 @@ namespace CPBserver
                             if (i == MAXARCHERS)
                                 i = 0;
                         }
-                        results = "var " + dataname + " = new Array(\"" + Archers[i].target + "\",\"" + Archers[i].name + "\",\""
-                            + Archers[i].club + "\",\"" + Archers[i].team + "\",\"" + Archers[i].bowtype + "\",\""
-                            + Archers[i].gender + "\",\"" + Archers[i].round + "\"," + Archers[i].handicap.ToString("0.0") + ","
-                            + Archers[i].runningtotal + "," + Archers[i].tiebreak1 + ","
-                            + Archers[i].tiebreak2 + ",\"" + Archers[i].state + "\"," + Archers[i].arrowcnt + ");\r\n";
+                        results = ArcherData(i, dataname);
                         break;
                     }
                 }
@@ -1297,13 +1276,7 @@ namespace CPBserver
                 }
                 if (ok)
                 {
-                    results += "var data = new Array(\"" + Archers[i].target + "\",\"" + Archers[i].name + "\",\""
-                        + Archers[i].club + "\",\"" + Archers[i].team + "\",\"" + Archers[i].bowtype + "\",\""
-                        + Archers[i].gender + "\",\"" + Archers[i].round + "\"," + Archers[i].handicap.ToString("0.0") + ","
-                        + Archers[i].runningtotal + "," + Archers[i].tiebreak1 + ","
-                        + Archers[i].tiebreak2 + ",\"" + Archers[i].state + "\"," + Archers[i].arrowcnt
-                        + ",\"" + Archers[i].arrows + "\");\r\n";
-                    results += fieldnames + flagstring();
+                    results += ArcherData(i, "var data") + fieldnames + flagstring();
                 }
             }
             if (ok)
@@ -1396,7 +1369,7 @@ namespace CPBserver
 
         static void SaveDataFile(string filename)
         {
-            string cols = "TARGET,NAME,CLUB,TEAM,BOW,GENDER,ROUND,HANDICAP,TOTAL,TIEBREAK1,TIEBREAK2,STATE,ARROWCNT,ARROWS";
+            string cols = "TARGET,NAME,CLUB,TEAM,BOW,GENDER,ROUND,HANDICAP,TOTAL,TIEBREAK1,TIEBREAK2,STATE,ARROWCNT,ARROWS,CLASS";
             StreamWriter file = File.CreateText(filename);
             lock (dataLock)
             {
@@ -1423,7 +1396,8 @@ namespace CPBserver
                         + Archers[i].team + "," + Archers[i].bowtype + "," + Archers[i].gender + ","
                         + Archers[i].round + "," + Archers[i].handicap.ToString("0.0") + ","
                         + Archers[i].runningtotal + "," + Archers[i].tiebreak1 + "," + Archers[i].tiebreak2 + ","
-                        + Archers[i].state + "," + Archers[i].arrowcnt + "," + Archers[i].arrows + ",";
+                        + Archers[i].state + "," + Archers[i].arrowcnt + "," + Archers[i].arrows + ","
+                        + Archers[i].classification + ",";
                     file.WriteLine(s);
                 }
                 file.Close();
@@ -1463,7 +1437,7 @@ namespace CPBserver
         }
 
         static string[] cols = new string[] { "TARGET", "NAME", "CLUB", "TEAM", "BOW", "GENDER", "ROUND",
-            "HANDICAP", "TOTAL", "TIEBREAK1", "TIEBREAK2", "STATE", "ARROWCNT", "ARROWS" };
+            "HANDICAP", "TOTAL", "TIEBREAK1", "TIEBREAK2", "STATE", "ARROWCNT", "ARROWS", "CLASS" };
 
         static void processcol(int col, string str)
         {
@@ -1607,6 +1581,9 @@ namespace CPBserver
                     break;
                 case "ARROWS":
                     Archers[MaxArchers].arrows = str;
+                    break;
+                case "CLASS":
+                    Archers[MaxArchers].classification = str;
                     break;
             }
         }

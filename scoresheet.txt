@@ -42,8 +42,8 @@
 		else if (rounds[rnd][RNDTIEBREAK]==TieBreakAGBMetric)
 			tb2str ="10";
 
-	    var txt = "<h2>" + data[TARGET] + " - " + data[NAME] + " (" + data[GENDER] + "), "
-			+ data[CLUB] + ", " + data[ROUND] + ", " + data[BOW] + "</h2>";
+	    var txt = "<h3>" + data[TARGET] + " - " + data[NAME] + " (" + data[GENDER] + "), "
+			+ data[CLUB] + "<br/>" + data[ROUND] + ", " + data[BOW] + "</h3>";
 	    var arrows = data[ARROWS];
 	    txt += "<table border=\"1\" style=\"border-collapse: collapse;\" ><tr><th colspan=\"" + arrowsperend + "\">Arrows</th>"
 			+ "<th width=\"30\">ET</th><th colspan=\"" + arrowsperend + "\">Arrows</th>"
@@ -218,14 +218,14 @@
 	    txt += "</table></form>";
 
 		if (data[STATE]!="Inuse")
-			txt += "<h1>" + data[STATE] + "</h1>";
+			txt += "<h2>" + data[STATE] + "</h2>";
 		else {
-			txt += "<p>Press the digit keys to enter the arrow scores, 0 - or m for miss,<br />";
-			txt += "t or + for 10, x or * for an X, Backspace . or Del deletes the last digit entered.<br />";
-			txt += "After 6/12 arrows, check the totals are correct.<br />";
-			txt += "If all is OK, press enter or the space bar to enter the scores into the database.<br />";
-			txt += "If the arrows are wrong use backspace and enter the correct arrows.<br />";
-			txt += "The / key on the keypad cancels score entry and returns to the index page."
+			// txt += "<p>Press the digit keys to enter the arrow scores, 0 - or m for miss,<br />";
+			// txt += "t or + for 10, x or * for an X, Backspace . or Del deletes the last digit entered.<br />";
+			// txt += "After 6/12 arrows, check the totals are correct.<br />";
+			// txt += "If all is OK, press enter or the space bar to enter the scores into the database.<br />";
+			// txt += "If the arrows are wrong use backspace and enter the correct arrows.<br />";
+			// txt += "The / key on the keypad cancels score entry and returns to the index page."
 		}
 	    document.getElementById("page").innerHTML = txt;
 	}

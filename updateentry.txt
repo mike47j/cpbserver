@@ -77,6 +77,17 @@ function page() {
 	    }
     txt += "</select></td></tr>";
     txt += "<tr><td>Handicap:</td><td><input name=\"handicap\" size=\"30\" value=\""+data[HANDICAP]+"\" /></td></tr>";
+	txt += "<tr><td>Classification: </td><td><select name=\"class\" size=\"1\" style=\"width:200px\"/>";
+	txt += "<option" + (data[CLASS]==""?" selected":"") + ">&nbsp;</option>";
+	txt += "<option" + (data[CLASS]=="GMB"?" selected":"") + ">GMB</option>";
+	txt += "<option" + (data[CLASS]=="MB"?" selected":"") + ">MB</option>";
+	txt += "<option" + (data[CLASS]=="B"?" selected":"") + ">B</option>";
+	txt += "<option" + (data[CLASS]=="JB"?" selected":"") + ">JB</option>";
+	txt += "<option" + (data[CLASS]=="1st"?" selected":"") + ">1st</option>";
+	txt += "<option" + (data[CLASS]=="2nd"?" selected":"") + ">2nd</option>";
+	txt += "<option" + (data[CLASS]=="3rd"?" selected":"") + ">3rd</option>";
+	txt += "<option" + (data[CLASS]=="KCB"?" selected":"") + ">KCB</option>";
+	txt += "</select></td></tr>";
     txt += "<tr><td>Score:</td><td><input name=\"tscore\" id=\"tscore\" size=\"30\" value=\""+data[SCORE]+"\" /></td></tr>";
     txt += "<tr><td>"+tb1str+":</td><td><input name=\"thits\" id=\"thits\" size=\"30\" value=\""+data[TIEBREAK1]+"\" /></td></tr>";
     txt += "<tr><td>"+tb2str+":</td><td><input name=\"tgolds\" id=\"tgolds\" size=\"30\" value=\""+data[TIEBREAK2]+"\" /></td></tr>";

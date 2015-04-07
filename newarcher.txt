@@ -33,7 +33,7 @@ function page() {
 	txt += "<table border=\"1\" style=\"border-collapse: collapse;\">";
 	txt += "<tr><td width=\"170\">Target:</td>";
 	txt += "<td width=\"250\"><input id=\"target\" name=\"target\" size=\"36\" value=\"" + data[TARGET] + "\" onchange=\"newtarget()\" /></td></tr>";
-	txt += "<tr><td>Archer:</td><td><input id=\"archer\" name=\"archer\" size=\"36\" value=\"\" /></td></tr>";
+	txt += "<tr><td>Archer:</td><td><input id=\"archer\" name=\"archer\" size=\"36\" value=\"" + data[NAME] + "\" /></td></tr>";
 	txt += "<tr><td>Club:</td><td><input name=\"club\" size=\"36\" value=\"" + data[CLUB] + "\" /></td></tr>";
 	if (teamflag==1)
 	    txt += "<tr><td>Team:</td><td><input name=\"team\" size=\"36\" value=\"" + data[TEAM] + "\" /></td></tr>";
@@ -63,6 +63,17 @@ function page() {
 	txt += "<option" + (data[ROUND] == rounds[i][RNDNAME] ? " selected" : "") + ">" + rounds[i][RNDNAME] + "</option>";
 	}
 	txt += "</select></td></tr>";
+	txt += "<tr><td>Classification: </td><td><select name=\"class\" size=\"1\" style=\"width:250px\"/>";
+	txt += "<option" + (data[CLASS]==""?" selected":"") + ">&nbsp;</option>";
+	txt += "<option" + (data[CLASS]=="GMB"?" selected":"") + ">GMB</option>";
+	txt += "<option" + (data[CLASS]=="MB"?" selected":"") + ">MB</option>";
+	txt += "<option" + (data[CLASS]=="B"?" selected":"") + ">B</option>";
+	txt += "<option" + (data[CLASS]=="JB"?" selected":"") + ">JB</option>";
+	txt += "<option" + (data[CLASS]=="1st"?" selected":"") + ">1st</option>";
+	txt += "<option" + (data[CLASS]=="2nd"?" selected":"") + ">2nd</option>";
+	txt += "<option" + (data[CLASS]=="3rd"?" selected":"") + ">3rd</option>";
+	txt += "<option" + (data[CLASS]=="KCB"?" selected":"") + ">KCB</option>";
+	txt += "</select></td></tr>";
 	if (handicapflag==1)
 	    txt += "<tr><td>Handicap:</td><td><input name=\"handicap\" size=\"36\" value=\"" + data[HANDICAP] + "\" /></td></tr>";
 	txt += "</table><div id=\"msg\">&nbsp;</div>";
@@ -75,7 +86,6 @@ function page() {
 	txt += "<p>Enter a target from the free target list then enter an archers details.<br />"
 	+ "If the target is already in use for a round that should be updated correctly.<br/>"
 	    + "Take care when changing the round as it needs to match others on the target.<br/>"
-	+ "When entering a list of archers the details will stay the same until you change them.<br/>"
 	+ "</p>";
 	document.getElementById("page").innerHTML = txt;
 	document.getElementById("archer").focus();

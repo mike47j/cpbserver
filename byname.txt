@@ -146,7 +146,7 @@ function page() {
 			}
 
             txt += "<tr><td align=\"center\">" +data[highi][TARGET] + "</td>";
-			if (data[highi][STATE]=="Free") {
+			if (data[highi][STATE]=="Free" || data[highi][STATE]=="NotSet") {
 				txt += "<td>&nbsp;</td><td>&nbsp;";
 				if (teamflag==1)
 					txt += "</td><td align=\"center\">&nbsp;";
@@ -157,7 +157,7 @@ function page() {
 					txt += "</td><td align=\"center\">" + data[highi][TEAM];
 			}
 			if (targetlist || sortbyscore) {
-			    if (data[highi][STATE]=="Free") {
+			    if (data[highi][STATE]=="Free" || data[highi][STATE]=="NotSet") {
 					txt += "</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;";
 					if (handicapflag==1)
 						txt += "</td><td>&nbsp;";

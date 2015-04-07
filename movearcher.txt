@@ -18,23 +18,24 @@
         function page() {
 			var rnd;
 			for (rnd = 0; rnd < rounds.length; rnd++) {
-			if (datafrom[ROUND] == rounds[rnd][RNDNAME])
+			if (datafrom[ROUND] == rounds[rnd][RNDNAME] || datato[ROUND] == rounds[rnd][RNDNAME])
 				break;
 			}
 			var tb1str = "Hits", tb2str = "Golds";
-			if (rounds[rnd][RNDTIEBREAK]==TieBreakWAOutdoor) {
-				tb1str = "X/10";
-				tb2str = "X"
+			if (rnd < rounds.length) {
+				if (rounds[rnd][RNDTIEBREAK]==TieBreakWAOutdoor) {
+					tb1str = "X/10";
+					tb2str = "X"
+				}
+				else if (rounds[rnd][RNDTIEBREAK]==TieBreakWAIndoor) {
+					tb1str = "X/10";
+					tb2str = "9"
+				}
+				else if (rounds[rnd][RNDTIEBREAK]==TieBreakAGBWorcester)
+					tb2str = "5";
+				else if (rounds[rnd][RNDTIEBREAK]==TieBreakAGBMetric)
+					tb2str ="10";
 			}
-			else if (rounds[rnd][RNDTIEBREAK]==TieBreakWAIndoor) {
-				tb1str = "X/10";
-				tb2str = "9"
-			}
-			else if (rounds[rnd][RNDTIEBREAK]==TieBreakAGBWorcester)
-				tb2str = "5";
-			else if (rounds[rnd][RNDTIEBREAK]==TieBreakAGBMetric)
-				tb2str ="10";
-
             var txt = "<h2>Move/Swap Archers</h2><p><a href=\"/index\">Home page</a></p><h2>Move " 
 				+ datafrom[TARGET] + " to " + datato[TARGET] + "</h2>";
             txt += "<form id=\"data\" action=\"/move.htm\" method=\"get\">";
@@ -53,6 +54,7 @@
             txt += "<tr><td>Round:</td><td>" + datafrom[ROUND] + "</td><td>" + datato[ROUND] + "</td></tr>";
 			if (handicapflag==1)
                 txt += "<tr><td>Handicap:</td><td>" + datafrom[HANDICAP] + "</td><td>" + datato[HANDICAP] + "</td></tr>";
+			txt += "<tr><td>Classification: </td><td>" + datafrom[CLASS] + "</td><td>" + datato[CLASS] + "</td></tr>";
             txt += "<tr><td>Score:</td><td>" + datafrom[SCORE] + "</td><td>" + datato[SCORE] + "</td></tr>";
             txt += "<tr><td>"+tb1str+":</td><td>" + datafrom[TIEBREAK1] + "</td><td>" + datato[TIEBREAK1] + "</td></tr>";
             txt += "<tr><td>"+tb2str+":</td><td>" + datafrom[TIEBREAK2] + "</td><td>" + datato[TIEBREAK2] + "</td></tr>";

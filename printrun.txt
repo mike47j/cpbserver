@@ -38,18 +38,20 @@
 		    if (t.substr(0, 2) != data[index][TARGET].substr(0, 2))
 			break;
 		    if (t.substr(0, 2) + letter[linesperslip] == data[index][TARGET]) {
-			if (data[index][ROUND] != "NotSet")
-			    rndn = data[index][ROUND];
-			names[linesperslip] = data[index][NAME];
-			if (names[linesperslip].length > 15) { // space is about 15 characters
-			    if (names[linesperslip].lastIndexOf(" ") < 13) // keep last initial
-				names[linesperslip] = names[linesperslip].substr(0, names[linesperslip].lastIndexOf(" ") + 2);
-			    else
-				names[linesperslip] = names[linesperslip].substr(0, 15);
-			}
-			index++;
-			if (index == maxdata)
-			    break;
+				if (data[index][ROUND] != "NotSet")
+					rndn = data[index][ROUND];
+				if (data[index][STATE]!="Free") {
+					names[linesperslip] = data[index][NAME];
+					if (names[linesperslip].length > 15) { // space is about 15 characters
+						if (names[linesperslip].lastIndexOf(" ") < 13) // keep last initial
+						names[linesperslip] = names[linesperslip].substr(0, names[linesperslip].lastIndexOf(" ") + 2);
+						else
+						names[linesperslip] = names[linesperslip].substr(0, 15);
+					}
+				}
+				index++;
+				if (index == maxdata)
+					break;
 		    }
 		    else
 			names[linesperslip] = "&nbsp;";

@@ -395,39 +395,39 @@ function bowtype(rndstr, g, bow) {
 
     var medalline = 0;
     for (i = 0; i < medalalloc.length; i++) {
-	if (rndstr == medalalloc[i][0]) {
-	    medalline = i;
-	    break;
-	}
+		if (rndstr == medalalloc[i][0]) {
+			medalline = i;
+			break;
+		}
     }
 
     // score if include in this list
     for (i = 0; i < maxdata; i++) {
-	scores[i] = -99999;
+		scores[i] = -99999;
 
-	if (g == "F") {
-	    gendermatch = (data[i][GENDER].substr(0, 2) == "JG" || data[i][GENDER] == "F");
-	    gs = "Ladies: ";
-	}
-	else { // (g == "M")
-	    gendermatch = (data[i][GENDER].substr(0, 2) == "JB" || data[i][GENDER] == "M");
-	    gs = "Gentlemen: ";
-	}
+		if (g == "F") {
+			gendermatch = (data[i][GENDER].substr(0, 2) == "JG" || data[i][GENDER] == "F");
+			gs = "Ladies: ";
+		}
+		else { // (g == "M")
+			gendermatch = (data[i][GENDER].substr(0, 2) == "JB" || data[i][GENDER] == "M");
+			gs = "Gentlemen: ";
+		}
 
-	roundmatch = (data[i][ROUND] == rndstr);
-	if (data[i][STATE] != "Free") {
-	    if (data[i][BOW] == bow && gendermatch && roundmatch) {
-			scores[i] = data[i][SCORE] + data[i][TIEBREAK1] / 1000 + data[i][TIEBREAK2] / 1000000;
-			count++;
-			if (data[i][STATE] == "Inuse" && (medalalloc[medalline][1]=="" 
-			  || medalalloc[medalline][1].indexOf(data[i][GENDER]) >= 0))
-				countm++
-	        if (data[i][STATE] == "Retired") // retired at end of list
-				scores[i] = scores[i] / 2000 - 0.8;
-	        if (data[i][STATE] == "DNS") // dns last
-				scores[i] = -0.9;
-	    }
-	}
+		roundmatch = (data[i][ROUND] == rndstr);
+		if (data[i][STATE] != "Free") {
+			if (data[i][BOW] == bow && gendermatch && roundmatch) {
+				scores[i] = data[i][SCORE] + data[i][TIEBREAK1] / 1000 + data[i][TIEBREAK2] / 1000000;
+				count++;
+				if (data[i][STATE] == "Inuse" && (medalalloc[medalline][1]=="" 
+				  || medalalloc[medalline][1].indexOf(data[i][GENDER]) >= 0))
+					countm++
+				if (data[i][STATE] == "Retired") // retired at end of list
+					scores[i] = scores[i] / 2000 - 0.8;
+				if (data[i][STATE] == "DNS") // dns last
+					scores[i] = -0.9;
+			}
+		}
     }
 
     var highi, highv;
@@ -536,12 +536,12 @@ function bowtype(rndstr, g, bow) {
 function distancescore(arrowno, arrows) {
     var s = 0;
     for (a=arrowno; a<arrowno+36 && a<arrows.length; a++) {
-	if (arrows.charCodeAt(arrowno) - 65 == 0)
-		s += 0;
-	else if (arrows.charCodeAt(arrowno) - 65 == 11)
-		s += 10;
-	else
-		s += arrows.charCodeAt(arrowno) - 65;
+		if (arrows.charCodeAt(arrowno) - 65 == 0)
+			s += 0;
+		else if (arrows.charCodeAt(arrowno) - 65 == 11)
+			s += 10;
+		else
+			s += arrows.charCodeAt(arrowno) - 65;
     }
     return s;
 }

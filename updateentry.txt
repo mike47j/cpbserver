@@ -88,6 +88,8 @@ function page() {
 	txt += "<option" + (data[CLASS]=="3rd"?" selected":"") + ">3rd</option>";
 	txt += "<option" + (data[CLASS]=="KCB"?" selected":"") + ">KCB</option>";
 	txt += "</select></td></tr>";
+    txt += "<tr><td>membership:</td><td><input name=\"membership\" size=\"30\" value=\""+data[AGB]+"\" /></td></tr>";
+    txt += "<tr><td>notes:</td><td><input name=\"notes\" size=\"30\" value=\""+data[NOTES]+"\" /></td></tr>";
     txt += "<tr><td>Score:</td><td><input name=\"tscore\" id=\"tscore\" size=\"30\" value=\""+data[SCORE]+"\" /></td></tr>";
     txt += "<tr><td>"+tb1str+":</td><td><input name=\"thits\" id=\"thits\" size=\"30\" value=\""+data[TIEBREAK1]+"\" /></td></tr>";
     txt += "<tr><td>"+tb2str+":</td><td><input name=\"tgolds\" id=\"tgolds\" size=\"30\" value=\""+data[TIEBREAK2]+"\" /></td></tr>";

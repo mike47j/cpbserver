@@ -18,15 +18,15 @@
 // rounds file
 
 	var scoring = 0;
+	var rnd, imperialdistance, arrowsperend;
+	var tb1str = "H", tb2str = "G";
 
-	function page() {
-	    var rnd, i;
+	function init() {
 	    for (rnd = 0; rnd < rounds.length; rnd++) {
 		if (data[ROUND] == rounds[rnd][RNDNAME])
 		    break;
 	    }
-		var tb1str = "H", tb2str = "G";
-	    var imperialdistance = rounds[rnd][RNDMETERS];
+	    imperialdistance = rounds[rnd][RNDMETERS];
 	    scoring = rounds[rnd][RNDSCORING];
 	    arrowsperend = rounds[rnd][RNDEND];
 		if (rounds[rnd][RNDTIEBREAK]==TieBreakWAOutdoor) {
@@ -41,9 +41,14 @@
 			tb2str = "5";
 		else if (rounds[rnd][RNDTIEBREAK]==TieBreakAGBMetric)
 			tb2str ="10";
+	}
+	
+	function page() {
+	    var i;
 
 	    var txt = "<h3>" + data[TARGET] + " - " + data[NAME] + " (" + data[GENDER] + "), "
-			+ data[CLUB] + "<br/>" + data[ROUND] + ", " + data[BOW] + "</h3>";
+			// + data[CLUB] + "<br/>" 
+			+ data[ROUND] + ", " + data[BOW] + "</h3>";
 	    var arrows = data[ARROWS];
 	    txt += "<table border=\"1\" style=\"border-collapse: collapse;\" ><tr><th colspan=\"" + arrowsperend + "\">Arrows</th>"
 			+ "<th width=\"30\">ET</th><th colspan=\"" + arrowsperend + "\">Arrows</th>"
@@ -229,6 +234,7 @@
 		}
 	    document.getElementById("page").innerHTML = txt;
 	}
+	init();
 	page();
 
 	document.onkeydown = function (event) {

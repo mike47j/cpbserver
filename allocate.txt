@@ -163,19 +163,15 @@
                 if (index2[i] == 99999)
                     textstr += " (Empty Target)";
                 else if (index2[i] >= 0) {
-                    textstr += " " + data[index2[i]][NAME] + ":" + data[index2[i]][CLUB].substr(0, 5) + ", " + data[index2[i]][ROUND]
-                        + ", " + data[index2[i]][BOW] + ", " + archerscores[index2[i]];
-                    // + ", " + agegroup(data[index2[i]][GENDER], tournamentdate);
+                    textstr += " " + ArcherString(index2[i]);
                 }
                 textstr += "</td>";
                 textstr += "<td onclick=\"tocol(" + i + ")\">";
                 while (j < maxdata && index1[j] < 0)
                     j++;
                 if (j < maxdata) {
-                    textstr += data[index1[j]][NAME] + ":" + data[index1[i]][CLUB].substr(0, 5) + ", " + data[index1[j]][ROUND]
-                        + ", " + data[index1[j]][BOW] + ", " + archerscores[index1[i]];
-                    // + ", " + agegroup(data[index1[j]][GENDER], tournamentdate);
-                    j++;
+                    textstr += ArcherString(index1[j]);
+					j++;
                 }
                 else
                     textstr += "&nbsp;";
@@ -184,8 +180,15 @@
             document.getElementById("page").innerHTML = textstr;
         }
 
+		function ArcherString(i) {
+		    return data[i][NAME] + ":" + data[i][CLUB].substr(0, 5) + ", " + data[i][ROUND]
+                        + ", " + data[i][BOW] + ", " + archerscores[i] 
+						+ ", " + agegroup(data[i][GENDER], tournamentdate)
+						+ ", " + data[i][NOTES];
+		}
+
         function findspace(a, start, end, club) {
-            var i, j, k, v;
+            var i, j, k, v, count = 0;
             bestt = -1;
             bests = 1000000;
             for (i = start; i < end; i += 4) {
@@ -198,11 +201,35 @@
                     if (index2[i + k] == -1) {
                         if (bests > targetscores[Math.floor(i / 4)] + v) {
                             bests = targetscores[Math.floor(i / 4)] + v;
+							count = 1;
                             bestt = i + k;
                         }
+                        else if (bests == targetscores[Math.floor(i / 4)] + v) {
+							count++;
+                        }
+						break;
                     }
                 }
             }
+			if (count>1) { // several possible spaces, choose at random
+			    var r = Math.floor(Math.random()*count);
+				for (i = start; i < end && r!=0; i += 4) {
+					v = 0;
+					for (k = 0; k < 4; k++) { // same club on this target
+						if (index2[i + k] != -1 && data[index2[i + k]][CLUB] == club)
+							v += 10000;
+					}
+					for (k = 0; k < 4; k++) {
+						if (index2[i + k] == -1) {
+							if (bests == targetscores[Math.floor(i / 4)] + v) {
+								r--;
+								bestt = i + k;
+							}
+							break;
+						}
+					}
+				}
+			}
             // allocate archer to space
             index2[bestt] = index1[a];
             index1[a] = -1;
@@ -284,24 +311,21 @@
             // longbows
             no = Math.floor((longbow[r] + 3) / 4) * 4;
             var space = no - longbow[r];
-            other[r] -= space;
             if (longbow[r] != 0) {
-                for (i = 0; i < maxdata; i++) {
+                while(true) {
                     var a = findarcherlongbow(r);
                     if (a < 0)
                         break;
                     findspace(a, start, start + no, data[index1[a]][CLUB]);
                 }
                 // fill longbow spaces with bare bow upwards
-                for (i = 0; i < maxdata; i++) {
-                    var a = findarcherlow(r);
-                    if (a < 0)
-                        break;
-                    findspace(a, start, start + no, data[index1[a]][CLUB]);
-                    space--;
-                    if (space == 0)
-                        break;
-                }
+				while(space!=0) {
+					var a = findarcherlow(r);
+					if (a < 0)
+						break;
+					findspace(a, start, start + no, data[index1[a]][CLUB]);
+					space--;
+				}
             }
 
             page();
@@ -335,27 +359,26 @@
             var space = no - longbow[r];
             other[r] -= space;
             if (longbow[r] != 0) {
-                for (i = 0; i < maxdata; i++) {
+                while(true) {
                     var a = findarcherlongbow(r);
                     if (a < 0)
                         break;
                     findspace(a, start, start + no, data[index1[a]][CLUB]);
                 }
                 // fill longbow spaces with bare bow upwards
-                for (i = 0; i < maxdata; i++) {
-                    var a = findarcherlow(r);
-                    if (a < 0)
-                        break;
-                    findspace(a, start, start + no, data[index1[a]][CLUB]);
-                    space--;
-                    if (space == 0)
-                        break;
-                }
+				while(space!=0) {
+					var a = findarcherlow(r);
+					if (a < 0)
+						break;
+					findspace(a, start, start + no, data[index1[a]][CLUB]);
+					space--;
+				}
             }
+
             // other, compound, large club, first
             start += no;
             no = Math.floor((other[r] + 3) / 4) * 4;
-            for (i = 0; i < maxdata; i++) {
+            while(true) {
                 var a = findarcher(r);
                 if (a < 0)
                     break;

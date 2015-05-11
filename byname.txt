@@ -121,6 +121,7 @@ function page() {
             }
         }
         if (highi != -1) {
+			found = true;
 			if (lines==0) {
 				txt += "<table border=\"1\" style=\"border-collapse: collapse;\">"
 					+ "<tr><th width=\"50\">Target</th><th width=\"150\">Name</th><th width=\"180\">Club</th>";
@@ -134,6 +135,9 @@ function page() {
 				if (!targetlist) {
 					txt += "<th width=\"50\">Total</th><th width=\"50\">" + tb1 + "</th><th width=\"50\">" + tb2 + "</th>"
 						+ "<th width=\"50\">Arrows</th><th width=\"50\">&nbsp;</th>";
+				}
+				else  if (!printing) {
+					txt += "<th>Membership</th><th width=\"100\">Notes</th>";
 				}
 				txt += "</tr>";
 			}
@@ -175,9 +179,11 @@ function page() {
 					+ "</td><td align=\"center\">" + data[highi][ARROWCNT] + "</td><td align=\"center\">" 
 					+ (data[highi][STATE]=="Inuse"?"&nbsp;":data[highi][STATE]);
 			}
+			else if (!printing) {
+				txt += "<td align=\"center\">" + data[highi][AGB] + "</td><td align=\"center\">" + data[highi][NOTES];
+			}
 			txt += "</td></tr>";
 			sort[highi] = "";
-			found = true;
 			lines++;
 			if (printing && (firstpage && lines>29) || (!firstpage && lines>45)) {
 				txt += "</table><div style=\"height:0mm; page-break-after:always;\"></div>";

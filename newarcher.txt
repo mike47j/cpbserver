@@ -76,6 +76,8 @@ function page() {
 	txt += "</select></td></tr>";
 	if (handicapflag==1)
 	    txt += "<tr><td>Handicap:</td><td><input name=\"handicap\" size=\"36\" value=\"" + data[HANDICAP] + "\" /></td></tr>";
+	txt += "<tr><td>Membership:</td><td><input name=\"membership\" size=\"36\" value=\"" + data[AGB] + "\" /></td></tr>";
+	txt += "<tr><td>Notes:</td><td><input name=\"notes\" size=\"36\" value=\"" + data[NOTES] + "\" /></td></tr>";
 	txt += "</table><div id=\"msg\">&nbsp;</div>";
 
 	txt += "<table><tr>";

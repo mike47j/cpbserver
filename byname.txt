@@ -30,8 +30,7 @@ function page() {
 			else if (sortbyteam)
                 sort[i] = data[i][CLUB] + " " + data[i][TEAM];
             else if (sortbyname)
-                sort[i] = data[i][NAME].substr(data[i][NAME].indexOf(" ")+1) + " " 
-                    + data[i][NAME].substr(0, data[i][NAME].indexOf(" "));
+                sort[i] = (data[i][SURNAME] + " " + data[i][FORENAME]).toUpperCase();
             else // by target number
                 sort[i] = data[i][TARGET];
 			if (tb1=="") {
@@ -64,10 +63,10 @@ function page() {
 				+ "<td style=\"width:150mm; text-align:center; font-weight:bold;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">"
 				+ tournament + "<td style=\"width=20mm\"><img src=\"/logo.gif\" style=\"height:20mm; width=20mm\" /></table>";
 		var dow = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
-		var month = new Array("January", "Febuary","March","April","June","July","August","September","October","November","December");
+		var month = new Array("January", "Febuary","March","April","May","June","July","August","September","October","November","December");
 		var stndrdth = new Array("", "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th", "11th", "12th", "13th", "14th",
 			"15th","16th","17th","18th","19th","20th","21st","22nd","23rd","24th","25th","26th","27th","28th","29th","30th","31st" );
-		var datev = new Date(tournamentdate.substr(3,2)+"/"+tournamentdate.substr(0,2) +"/20"+tournamentdate.substr(6,2));
+		var datev = new Date(parseInt(tournamentdate.substr(6,4)), parseInt(tournamentdate.substr(3,2))-1, parseInt(tournamentdate.substr(0,2)));
 		var datestr = dow[datev.getDay()] + " " + stndrdth[datev.getDate()] + " " + month[datev.getMonth()] + " " + datev.getFullYear();
 		txt += "<table><tr><td width=\"160\">Date:</td><td width=\"600\">" + datestr + "</td></tr><tr></tr>";
 		txt += "<tr><td width=\"160\">Venue:</td><td width=\"600\">" + venue + "</td></tr><tr></tr>";
@@ -126,24 +125,25 @@ function page() {
 				txt += "<table border=\"1\" style=\"border-collapse: collapse;\">"
 					+ "<tr><th width=\"50\">Target</th><th width=\"150\">Name</th><th width=\"180\">Club</th>";
 				if (teamflag==1)
-					txt += "<th width=\"50\">Team</th>";
+					txt += "<th>Team</th>";
 				if (targetlist || sortbyscore) {
-					txt += "<th width=\"70\">Bow</th><th width=\"70\">Gender</th><th width=\"100\">Round</th>";
+					txt += "<th width=\"80\">Bow</th><th>Gender</th><th width=\"50\">Age</th>"
+						+ "<th width=\"80\">Round</th><th width=\"50\">AGB&nbsp;No</th>";
 					if (handicapflag==1)
-						txt += "<th width=\"50\">Handicap</th>";
+						txt += "<th>Handicap</th>";
 				}
 				if (!targetlist) {
 					txt += "<th width=\"50\">Total</th><th width=\"50\">" + tb1 + "</th><th width=\"50\">" + tb2 + "</th>"
 						+ "<th width=\"50\">Arrows</th><th width=\"50\">&nbsp;</th>";
 				}
 				else  if (!printing) {
-					txt += "<th>Membership</th><th width=\"100\">Notes</th>";
+					txt += "<th width=\"100\">Notes</th>";
 				}
 				txt += "</tr>";
 			}
 			var roundstr = data[highi][ROUND];
 			if (roundstr=="Hereford / Bristol 1") {
-			if (data[highi][GENDER].substr(0,1)=="F" || data[highi][GENDER].substr(0,2)=="JG")
+			if (data[highi][GENDER].substr(0,1)=="W" || data[highi][GENDER].substr(0,2)=="JW")
 				roundstr = "Hereford";
 			else
 				roundstr = "Bristol 1";
@@ -162,13 +162,15 @@ function page() {
 			}
 			if (targetlist || sortbyscore) {
 			    if (data[highi][STATE]=="Free" || data[highi][STATE]=="NotSet") {
-					txt += "</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;";
+					txt += "</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>";
 					if (handicapflag==1)
 						txt += "</td><td>&nbsp;";
 				}
 				else {
 					txt += "</td><td align=\"center\">" + data[highi][BOW] + "</td><td align=\"center\">" 
-						+ agegroup(data[highi][GENDER], tournamentdate) + "</td><td align=\"center\">" + roundstr;
+					    + data[highi][GENDER][0] + "</td><td align=\"center\">" 
+						+ data[highi][AGEGROUP] + "</td><td align=\"center\">" + roundstr
+						+ "<td align=\"center\">" + data[highi][AGB];
 					if (handicapflag==1)
 						txt += "</td><td align=\"center\">" + data[highi][HANDICAP];
 				}
@@ -180,12 +182,12 @@ function page() {
 					+ (data[highi][STATE]=="Inuse"?"&nbsp;":data[highi][STATE]);
 			}
 			else if (!printing) {
-				txt += "<td align=\"center\">" + data[highi][AGB] + "</td><td align=\"center\">" + data[highi][NOTES];
+				txt += "</td><td align=\"center\">" + data[highi][NOTES];
 			}
 			txt += "</td></tr>";
 			sort[highi] = "";
 			lines++;
-			if (printing && (firstpage && lines>29) || (!firstpage && lines>45)) {
+			if (printing && (firstpage && lines>25) || (!firstpage && lines>38)) {
 				txt += "</table><div style=\"height:0mm; page-break-after:always;\"></div>";
 				firstpage = false;
 				lines = 0;
@@ -195,38 +197,9 @@ function page() {
     txt += "</table>";
     document.getElementById("page").innerHTML = txt;
 }
+
 page();
 
-function agegroup(d1, d2) {
-	if (d2=="" || d1.length==1 || d1.substr(3,1)!="/") // old format JGU18 etc
-		return d1;
-	// in date format
-	var mf = d1.substr(0,1);
-	var day = d1.substr(1,2);
-	var month = d1.substr(4,2);
-	var year = d1.substr(7,2);
-	if (year.substr(0,1)=="7" || year.substr(0,1)=="8" || year.substr(0,1)=="9")
-		year = "19"+year;
-	else
-		year = "20"+year;
-	var age = parseInt("20" + d2.substr(6,2)) - parseInt(year);
-	if (month>d2.substr(3,2) || (month==d2.substr(3,2) && day>d2.substr(0,2)))
-		age = age-1;
-	if (age>=18)
-		return mf;
-	if (mf=="M")
-		mf = "JB";
-	else
-		mf = "JG";
-	if (age>=16)
-		return mf+"U18"
-	if (age>=14)
-		return mf+"U16"
-	if (age>=12)
-		return mf+"U14"
-	return mf + "U12";
-}
-	
 </script>
 <noscript>
     <p>

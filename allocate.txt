@@ -181,10 +181,8 @@
         }
 
 		function ArcherString(i) {
-		    return data[i][NAME] + ":" + data[i][CLUB].substr(0, 5) + ", " + data[i][ROUND]
-                        + ", " + data[i][BOW] + ", " + archerscores[i] 
-						+ ", " + agegroup(data[i][GENDER], tournamentdate)
-						+ ", " + data[i][NOTES];
+		    return data[i][NAME] + ":" + data[i][CLUB].substr(0, 5) + ", " + data[i][ROUND] + ", " + data[i][BOW] 
+				+ ", " + archerscores[i] + ", " + data[i][GENDER] + data[i][AGEGROUP] + ", " + data[i][NOTES];
 		}
 
         function findspace(a, start, end, club) {
@@ -386,36 +384,6 @@
             }
 
             page();
-        }
-
-        function agegroup(d1, d2) {
-            if (d2 == "" || d1.length == 1 || d1.substr(3, 1) != "/") // old format JGU18 etc
-                return d1;
-            // in date format
-            var mf = d1.substr(0, 1);
-            var day = d1.substr(1, 2);
-            var month = d1.substr(4, 2);
-            var year = d1.substr(7, 2);
-            if (year.substr(0, 1) == "7" || year.substr(0, 1) == "8" || year.substr(0, 1) == "9")
-                year = "19" + year;
-            else
-                year = "20" + year;
-            var age = parseInt("20" + d2.substr(6, 2)) - parseInt(year);
-            if (month > d2.substr(3, 2) || (month == d2.substr(3, 2) && day > d2.substr(0, 2)))
-                age = age - 1;
-            if (age >= 18)
-                return mf;
-            if (mf == "M")
-                mf = "JB";
-            else
-                mf = "JG";
-            if (age >= 16)
-                return mf + "U18"
-            if (age >= 14)
-                return mf + "U16"
-            if (age >= 12)
-                return mf + "U14"
-            return mf + "U12";
         }
 
         function send() {

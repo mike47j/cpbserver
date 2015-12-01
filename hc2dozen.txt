@@ -69,7 +69,7 @@ function partscore(range, y, N, D, t, h) {
 	case 6: // 5 spot worcester
 	    score = 5;
 	    score -= Math.exp(-Math.pow((D / 10 + 0.357) / sr, 2));
-	    score -= 4 * Math.exp(-Math.pow((3 * D / 10 + 0.357) / sr, 2));
+	    score -= 4 * Math.exp(-Math.pow((2 * D / 10 + 0.357) / sr, 2));
 	    break;
 	case 7: // 6 zone metric
 	    score = 10;

@@ -33,7 +33,8 @@ function page() {
 	txt += "<table border=\"1\" style=\"border-collapse: collapse;\">";
 	txt += "<tr><td width=\"170\">Target:</td>";
 	txt += "<td width=\"250\"><input id=\"target\" name=\"target\" size=\"36\" value=\"" + data[TARGET] + "\" onchange=\"newtarget()\" /></td></tr>";
-	txt += "<tr><td>Archer:</td><td><input id=\"archer\" name=\"archer\" size=\"36\" value=\"" + data[NAME] + "\" /></td></tr>";
+	txt += "<tr><td>Forename:</td><td><input id=\"archer\" name=\"forename\" size=\"36\" value=\"" + data[FORENAME] + "\" /></td></tr>";
+	txt += "<tr><td>Surname:</td><td><input id=\"archer\" name=\"surname\" size=\"36\" value=\"" + data[SURNAME] + "\" /></td></tr>";
 	txt += "<tr><td>Club:</td><td><input name=\"club\" size=\"36\" value=\"" + data[CLUB] + "\" /></td></tr>";
 	if (teamflag==1)
 	    txt += "<tr><td>Team:</td><td><input name=\"team\" size=\"36\" value=\"" + data[TEAM] + "\" /></td></tr>";
@@ -44,20 +45,11 @@ function page() {
 	txt+="<option"+(data[BOW]=="Bare Bow"?" selected":"")+">Bare Bow</option>";
 	txt+="<option"+(data[BOW]==""?" selected":"")+"></option>";
 	txt += "</select></td></tr>";
-	txt += "<tr><td>Gender:</td><td><select id=\"xgender\" size=\"1\" style=\"width:250px\">";
-	txt+="<option"+(data[GENDER].substr(0,1)=="M"?" selected":"")+">M</option>";
-	txt+="<option"+(data[GENDER].substr(0,1)=="F"?" selected":"")+">F</option>";
-	txt+="<option"+(data[GENDER]=="JGU18"?" selected":"")+">JGU18</option>";
-	txt+="<option"+(data[GENDER]=="JGU16"?" selected":"")+">JGU16</option>";
-	txt+="<option"+(data[GENDER]=="JGU14"?" selected":"")+">JGU14</option>";
-	txt+="<option"+(data[GENDER]=="JGU12"?" selected":"")+">JGU12</option>";
-	txt+="<option"+(data[GENDER]=="JBU18"?" selected":"")+">JBU18</option>";
-	txt+="<option"+(data[GENDER]=="JBU16"?" selected":"")+">JBU16</option>";
-	txt+="<option"+(data[GENDER]=="JBU14"?" selected":"")+">JBU14</option>";
-	txt+="<option"+(data[GENDER]=="JBU12"?" selected":"")+">JBU12</option>";
-	txt+="<option"+(data[GENDER]==""?" selected":"")+"></option>";
-	txt += "</select></td></tr>";
-	txt += "<tr><td>Junior DOB dd/mm/yy:</td><td><input id=\"dob\" size=\"36\" value=\"\" /></td></tr>";
+    txt += "<tr><td>Gender:</td><td><select name=\"gender\" size=\"1\" style=\"width:200px\">";
+    txt+="<option"+(data[GENDER].substr(0,1)=="M"?" selected":"")+">M</option>";
+    txt+="<option"+(data[GENDER].substr(0,1)=="W"?" selected":"")+">W</option>";
+    txt += "</select></td></tr>";
+	txt += "<tr><td>Junior DOB dd/mm/yyyy:</td><td><input name=\"dateofbirth\" id=\"dateofbirth\" size=\"30\" value=\""+data[AGEGROUP]+"\" /></td></tr>";
 	txt += "<tr><td>Round:</td><td><select name=\"round\" size=\"1\" style=\"width:250px\">"
 	for (i=0; i<rounds.length; i++) {
 	txt += "<option" + (data[ROUND] == rounds[i][RNDNAME] ? " selected" : "") + ">" + rounds[i][RNDNAME] + "</option>";
@@ -124,33 +116,29 @@ function senddns() {
 	document.getElementById("send").value = "dns";
 	document.getElementById("data").submit();
 }
+function senddq() {
+	document.getElementById("send").value = "dq";
+	document.getElementById("data").submit();
+}
 function sendretired() {
 	document.getElementById("send").value = "retired";
 	document.getElementById("data").submit();
 }
 
 function checksend() {
-	var objRegExp = /^(\d{1,2})\/(\d{1,2})\/(\d{1,2})$/;
-	var dob = document.getElementById("dob").value;
-	var gender = document.getElementById("xgender").value
-	if (dob!="") {
-		if(!objRegExp.test(dob)) {
+	var objRegExp = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+	var dob = document.getElementById("dateofbirth").value;
+	if (dateofbirth!="") {
+		if (dob=="U12" || dob=="U14" || dob=="U16" || dob=="U18")
+			;
+		else if (!objRegExp.test(dob)) {
 			document.getElementById("dob").style.background = "pink";
-			return;
+			return false;
 		}
-		if (gender.substr(0,1)=="J") {
-			document.getElementById("xgender").style.background = "pink";
-			document.getElementById("dob").style.background = "pink";
-			return;
-		}
-		var d = dob.match(objRegExp);
-		dob = ("00"+d[1]).substr(d[1].length,2) + "/" + ("00"+d[2]).substr(d[2].length,2) + "/" + ("00"+d[3]).substr(d[3].length,2);
-		document.getElementById("gender").value = gender.substr(0,1) + dob;
 	}
-	else
-		document.getElementById("gender").value = gender;
 	document.getElementById("send").value = "data";
 	document.getElementById("data").submit();
+	return true;
 }
 
     </script>

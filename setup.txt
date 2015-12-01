@@ -17,15 +17,15 @@
 */
 function page() {
 	var dow = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
-	var month = new Array("January", "Febuary","March","April","June","July","August","September","October","November","December");
+	var month = new Array("January", "Febuary","March","April","May","June","July","August","September","October","November","December");
 	var stndrdth = new Array("", "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th", "11th", "12th", "13th", "14th",
 		"15th","16th","17th","18th","19th","20th","21st","22nd","23rd","24th","25th","26th","27th","28th","29th","30th","31st" );
-	var datev = new Date(tournamentdate.substr(3,2)+"/"+tournamentdate.substr(0,2) +"/20"+tournamentdate.substr(6,2));
+	var datev = new Date(parseInt(tournamentdate.substr(6,4)), parseInt(tournamentdate.substr(3,2))-1, parseInt(tournamentdate.substr(0,2)));
 	var datestr = dow[datev.getDay()] + " " + stndrdth[datev.getDate()] + " " + month[datev.getMonth()] + " " + datev.getFullYear();
     var txt = "<h2>Competition Setup</h2>\r\n";
     txt += "<form name=\"setupdata\" method=\"get\" action=\"/setupdata.htm\" onsubmit=\"return validateForm()\" >";
     txt += "<table><tr><td width=\"220\">Name of Event:</td><td><input name=\"name\" size=\"75\" value=\"" + tournament + "\" /></td></tr>";
-    txt += "<tr><td>Date of Event dd/mm/yy:</td><td><input id=\"date\" name=\"date\" value=\"" + tournamentdate + "\" /> &nbsp;" + datestr + "</td></tr>";
+    txt += "<tr><td>Date of Event dd/mm/yyyy:</td><td><input id=\"date\" name=\"date\" value=\"" + tournamentdate + "\" /> &nbsp;" + datestr + "</td></tr>";
 	txt += "<tr><td>Maximum Targets:</td><td><input name=\"maxtargets\" size=\"3\" value=\"" + maxtargets + "\" /><br/>";
     txt += "<tr><td>Results by round:</td><td><input type=\"checkbox\" name=\"round\" " + (resultsbyroundflag == 1 ? "checked=\"checked\"" : "") + " /></td></tr>";
     txt += "<tr><td>Medals:</td><td><input type=\"checkbox\" name=\"medals\" " + (medalflag == 1 ? "checked=\"checked\"" : "") + " /></td></tr>";
@@ -46,7 +46,7 @@ function page() {
 page();
 
 function validateForm() {
-	var dateRE = /^(\d{1,2})\/(\d{1,2})\/(\d{1,2})$/;
+	var dateRE = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
 	var date = document.getElementById("date").value;
 	if (date!="" && !dateRE.test(date)) {
 		document.getElementById("date").style.background = "pink";
@@ -55,7 +55,7 @@ function validateForm() {
 	else {
 		var d = date.match(dateRE);
 		document.getElementById("date").value = ("00"+d[1]).substr(d[1].length,2) 
-			+ "/" + ("00"+d[2]).substr(d[2].length,2) + "/" + ("00"+d[3]).substr(d[3].length,2);
+			+ "/" + ("00"+d[2]).substr(d[2].length,2) + "/" + d[3];
 	}
 	return true;
 }

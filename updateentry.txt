@@ -45,7 +45,8 @@ function page() {
     txt += "<table border=\"1\" style=\"border-collapse: collapse;\">";
     txt += "<tr><td width=\"180\">Target:</td>";
     txt += "<td width=\"200\"><input name=\"target\" size=\"30\" readonly=\"readonly\" value=\""+data[TARGET]+"\" /></td></tr>";
-    txt += "<tr><td>Archer:</td><td><input name=\"archer\" size=\"30\" value=\""+data[NAME]+"\" /></td></tr>";
+    txt += "<tr><td>Forename:</td><td><input name=\"forename\" size=\"30\" value=\""+data[FORENAME]+"\" /></td></tr>";
+    txt += "<tr><td>Surname:</td><td><input name=\"surname\" size=\"30\" value=\""+data[SURNAME]+"\" /></td></tr>";
     txt += "<tr><td>Club:</td><td><input name=\"club\" size=\"30\" value=\""+data[CLUB]+"\" /></td></tr>";
     txt += "<tr><td>Team:</td><td><input name=\"team\" size=\"30\" value=\""+data[TEAM]+"\" /></td></tr>";
     txt += "<tr><td>Bow:</td><td><select name=\"bow\" size=\"1\" style=\"width:200px\">";
@@ -54,22 +55,11 @@ function page() {
     txt+="<option"+(data[BOW]=="Longbow"?" selected":"")+">Longbow</option>";
     txt+="<option"+(data[BOW]=="Bare Bow"?" selected":"")+">Bare Bow</option>";
     txt += "</select></td></tr>";
-    txt += "<tr><td>Gender:</td><td><select id=\"xgender\" size=\"1\" style=\"width:200px\">";
+    txt += "<tr><td>Gender:</td><td><select name=\"gender\" size=\"1\" style=\"width:200px\">";
     txt+="<option"+(data[GENDER].substr(0,1)=="M"?" selected":"")+">M</option>";
-    txt+="<option"+(data[GENDER].substr(0,1)=="F"?" selected":"")+">F</option>";
-    txt+="<option"+(data[GENDER]=="JGU18"?" selected":"")+">JGU18</option>";
-    txt+="<option"+(data[GENDER]=="JGU16"?" selected":"")+">JGU16</option>";
-    txt+="<option"+(data[GENDER]=="JGU14"?" selected":"")+">JGU14</option>";
-    txt+="<option"+(data[GENDER]=="JGU12"?" selected":"")+">JGU12</option>";
-    txt+="<option"+(data[GENDER]=="JBU18"?" selected":"")+">JBU18</option>";
-    txt+="<option"+(data[GENDER]=="JBU16"?" selected":"")+">JBU16</option>";
-    txt+="<option"+(data[GENDER]=="JBU14"?" selected":"")+">JBU14</option>";
-    txt+="<option"+(data[GENDER]=="JBU12"?" selected":"")+">JBU12</option>";
+    txt+="<option"+(data[GENDER].substr(0,1)=="W"?" selected":"")+">W</option>";
     txt += "</select></td></tr>";
-	var dob = "";
-	if (data[GENDER].length==9 && data[GENDER].substr(3,1)=="/")
-		dob = data[GENDER].substr(1,8);
-	txt += "<tr><td>Junior DOB dd/mm/yy:</td><td><input id=\"dob\" size=\"30\" value=\""+dob+"\" /></td></tr>";
+	txt += "<tr><td>Junior DOB dd/mm/yyyy:</td><td><input name=\"dateofbirth\" id=\"dateofbirth\" size=\"30\" value=\""+data[AGEGROUP]+"\" /></td></tr>";
     txt += "<tr><td>Round:</td><td><select name=\"round\" size=\"1\" style=\"width:200px\">"
     txt+="<option"+(data[ROUND]=="NotSet"?" selected":"")+">NotSet</option>";
 	    for (i=0; i<rounds.length; i++) {
@@ -95,10 +85,11 @@ function page() {
     txt += "<tr><td>"+tb2str+":</td><td><input name=\"tgolds\" id=\"tgolds\" size=\"30\" value=\""+data[TIEBREAK2]+"\" /></td></tr>";
     txt += "<tr><td>State:</td><td><select name=\"state\" size=\"1\" style=\"width:200px\">";
     switch(data[STATE]) {
-    case "Free": txt += "<option>Inuse</option><option selected>Free</option><option>DNS</option><option>Retired</option>"; break;
-    case "DNS": txt += "<option>Inuse</option><option>Free</option><option selected>DNS</option><option>Retired</option>"; break;
-    case "Retired": txt += "<option>Inuse</option><option>Free</option><option>DNS</option><option selected>Retired</option>"; break;
-    default: txt += "<option selected>Inuse</option><option>Free</option><option>DNS</option><option>Retired</option>"; break;
+    case "Free": txt += "<option>Inuse</option><option selected>Free</option><option>DNS</option><option>DQ</option><option>Retired</option>"; break;
+    case "DNS": txt += "<option>Inuse</option><option>Free</option><option selected>DNS</option><option>DQ</option><option>Retired</option>"; break;
+    case "DQ": txt += "<option>Inuse</option><option>Free</option><option>DNS</option><option selected>DQ</option><option>Retired</option>"; break;
+    case "Retired": txt += "<option>Inuse</option><option>Free</option><option>DNS</option><option>DQ</option><option selected>Retired</option>"; break;
+    default: txt += "<option selected>Inuse</option><option>Free</option><option>DNS</option><option>DQ</option><option>Retired</option>"; break;
     }
     txt += "</select></td></tr>";
     txt += "</table><p></p><table><tr>"
@@ -128,28 +119,17 @@ function score() {
 function check() {
 	var result = true;
 	var format = /^[0-9]+$/;
-	var dateRegExp = /^(\d{1,2})\/(\d{1,2})\/(\d{1,2})$/;
+	var dateRegExp = /^(\d{2})\/(\d{2})\/(\d{4})$/;
 
-	var dob = document.getElementById("dob").value;
-	var gender = document.getElementById("xgender").value
+	var dob = document.getElementById("dateofbirth").value;
 	if (dob!="") {
-		if(!dateRegExp.test(dob)) {
-			document.getElementById("dob").style.background = "pink";
+	    if (dob=="U12" || dob=="U14" || dob=="U16" || dob=="U18")
+		    ;
+		else if(!dateRegExp.test(dob)) {
+			document.getElementById("dateofbirth").style.background = "pink";
 			result = false;
-		}
-		else if (gender.substr(0,1)=="J") {
-			document.getElementById("xgender").style.background = "pink";
-			document.getElementById("dob").style.background = "pink";
-			result = false;
-		}
-		else {
-			var d = dob.match(dateRegExp);
-			dob = ("00"+d[1]).substr(d[1].length,2) + "/" + ("00"+d[2]).substr(d[2].length,2) + "/" + ("00"+d[3]).substr(d[3].length,2);
-		    document.getElementById("gender").value = gender.substr(0,1) + dob;
 		}
 	}
-	else
-		document.getElementById("gender").value = gender;
 	document.getElementById("thits").style.background = "white";
 	document.getElementById("tscore").style.background = "white";
 	document.getElementById("tgolds").style.background = "white";

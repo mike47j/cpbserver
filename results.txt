@@ -21,6 +21,8 @@ var medalalloc = new Array(
 new Array("", ""),
 new Array("York", "W JWU18 JWU16 JWU14 JWU12 M JMU18 JMU16 JMU14 JMU12 "),
 new Array("Hereford / Bristol 1", "W JWU18 JWU16 JWU14 JWU12 JMU18 JMU16 JMU14 JMU12 "),
+new Array("Burntwood York", "W JWU18 JWU16 JWU14 JWU12 M JMU18 JMU16 JMU14 JMU12 "),
+new Array("Burntwood Hereford", "W JWU18 JWU16 JWU14 JWU12 JMU18 JMU16 JMU14 JMU12 "),
 new Array("Bristol 2", "JWU18 JWU16 JWU14 JWU12 JMU16 JMU14 JMU12 "),
 new Array("Bristol 3", "JWU16 JWU14 JWU12 JMU14 JMU12 "),
 new Array("Bristol 4", "JWU14 JWU12 JMU12 "),
@@ -463,7 +465,7 @@ function bowtype(rndstr, g, bow) {
 		if (note == "Inuse")
 			note = "&nbsp;";
 	    junior = data[highi][AGEGROUP].substr(0, 1) != "";
-		textstr += "</td><td align=\"center\">" + data[highi][TARGET] + "</td><td>" + data[highi][NAME]
+		textstr += "</td><td align=\"center\">" + data[highi][TARGET] + "</td><td>" + data[highi][FORENAME] + " " + data[highi][SURNAME]
 		    + (junior ? " J <font size=\"-2\">" + data[highi][AGEGROUP] + "</font>" : "")
 		    + "</td><td>" + data[highi][CLUB] + "</td><td align=\"center\">"
 		    + (data[highi][STATE] == "DNS" || data[highi][STATE] == "DQ" ? "&nbsp;" : data[highi][SCORE]) + "</td><td align=\"center\">"
@@ -574,8 +576,8 @@ function handicapresults() {
 	    else {
 			textstr += "&nbsp;";
 	    }
-		textstr += "</td><td align=\"center\">" + data[highi][TARGET] + "</td><td>" + data[highi][NAME]
-		    + "<td align=\"center\">" + gender+ "<td align=\"center\">" + agegroup
+		textstr += "</td><td align=\"center\">" + data[highi][TARGET] + "</td><td>" + data[highi][FORENAME] + " " 
+			+ data[highi][SURNAME] + "<td align=\"center\">" + gender+ "<td align=\"center\">" + agegroup
 		    + "</td><td>" + data[highi][CLUB] + "</td><td align=\"center\">" + roundstr
 		    + "</td><td align=\"center\">" + data[highi][BOW] + "</td><td align=\"center\">"
 		    + (data[highi][STATE] != "Inuse" ? "&nbsp;" : data[highi][SCORE]) + "</td><td align=\"center\">"
@@ -636,8 +638,8 @@ function bestjunior(g) {
 
 	textstr += "<tr style=\"page-break-inside: avoid;\"><td align=\"center\">" + (highv == prevhighv ? "=" : posn)
 	    + "</td><td align=\"center\">" + data[highi][TARGET]
-	    + "</td><td>" + data[highi][NAME] + "</td><td>" + data[highi][CLUB] + "</td><td align=\"center\">"
-	    + data[highi][GENDER].substr(2, 3) + "</td><td align=\"center\">" + data[highi][BOW];
+	    + "</td><td>" + data[highi][FORENAME] + " " + data[highi][SURNAME] + "</td><td>" + data[highi][CLUB] 
+		+ "</td><td align=\"center\">" + data[highi][GENDER].substr(2, 3) + "</td><td align=\"center\">" + data[highi][BOW];
 	textstr += "</td><td align=\"center\">" + roundstr + "</td><td align=\"center\">" + data[highi][SCORE]
 	    + "</td><td align=\"center\">" + Math.round(scores[highi]) + "</td></tr>";
 	scores[highi] = -1;
@@ -691,7 +693,7 @@ function bestarcher() {
 
 	textstr += "<tr style=\"page-break-inside: avoid;\"><td align=\"center\">" + (highv == prevhighv ? "=" : posn)
 	    + "</td><td align=\"center\">" + data[highi][TARGET]
-	    + "</td><td>" + data[highi][NAME] + "</td><td>" + data[highi][CLUB] + "</td><td align=\"center\">"
+	    + "</td><td>" + data[highi][FORENAME] + " " + data[highi][SURNAME] + "</td><td>" + data[highi][CLUB] + "</td><td align=\"center\">"
 	    + data[highi][GENDER] + "</td><td align=\"center\">" + data[highi][BOW];
 	textstr += "</td><td align=\"center\">" + roundstr + "</td><td align=\"center\">" + data[highi][SCORE]
 	    + "</td><td align=\"center\">" + Math.round(scores[highi]) + "</td></tr>";
@@ -748,9 +750,9 @@ function bestteam(rnd) {
 			tiebreak1[j] += data[i][TIEBREAK1];
 			tiebreak2[j] += data[i][TIEBREAK2];
 			if (archernames[j]=="")
-				archernames[j] += data[i][NAME];
+				archernames[j] += data[i][FORENAME] + " " + data[i][SURNAME];
 			else
-				archernames[j] += "<br/>" + data[i][NAME];
+				archernames[j] += "<br/>" + data[i][FORENAME] + " " + data[i][SURNAME];
 		}
     }
     if (teamcnt==0)

@@ -41,7 +41,7 @@ function page() {
 	else if (rounds[rnd][RNDTIEBREAK]==TieBreakAGBMetric)
 		tb2str ="10";
 
-    var txt = "<h2>Target " + data[TARGET] + " - " + data[NAME] + "</h2>";
+    var txt = "<h2>Target " + data[TARGET] + " - " + data[FORENAME] + " " + data[SURNAME] + "</h2>";
 	txt += "<form id=\"data\" action=\"/scoreentry\" method=\"get\">";
     txt += "<input name=\"target\" value=\"" + data[TARGET] + "\" type=\"hidden\" />";
     txt += "<input name=\"send\" id=\"send\" value=\"xxx\" type=\"hidden\" />";

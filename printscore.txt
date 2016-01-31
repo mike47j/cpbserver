@@ -34,10 +34,9 @@
                         else
                             roundstr = "Bristol 1";
                     }
-                    printheader(data[index][TARGET], data[index][NAME], (data[index][NAME] != "" ? data[index][CLUB] : ""),
-                        (data[index][NAME] != "" ? data[index][BOW] : ""),
-                        (data[index][NAME] != "" ? data[index][GENDER]+" "+data[index][AGEGROUP] : ""), roundstr);
-
+					var tmp = data[index][FORENAME] + " " + data[index][SURNAME];
+                    printheader(data[index][TARGET], tmp, (tmp != "" ? data[index][CLUB] : ""), (tmp != "" ? data[index][BOW] : ""),
+                        (tmp != "" ? data[index][GENDER]+" "+data[index][AGEGROUP] : ""), roundstr);
                     printbody(data[index][ROUND]);
                 }
             }
@@ -53,8 +52,9 @@
                     else
                         roundstr = "Bristol 1";
                 }
-                printheader(data[TARGET], data[NAME], (data[NAME] != "" ? data[CLUB] : ""), (data[NAME] != "" ? data[BOW] : ""),
-				   (data[NAME] != "" ? data[GENDER]+" "+data[AGEGROUP] : ""), roundstr);
+				var tmp = data[FORENAME] + " " + data[SURNAME];
+                printheader(data[TARGET], tmp, (tmp != "" ? data[CLUB] : ""), (tmp != "" ? data[BOW] : ""),
+				   (tmp != "" ? data[GENDER]+" "+data[AGEGROUP] : ""), roundstr);
 
                 printbody(data[ROUND]);
 			}

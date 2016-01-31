@@ -41,12 +41,11 @@
 				if (data[index][ROUND] != "NotSet")
 					rndn = data[index][ROUND];
 				if (data[index][STATE]!="Free") {
-					names[linesperslip] = data[index][NAME];
+					names[linesperslip] = data[index][FORENAME] + " " + data[index][SURNAME];
 					if (names[linesperslip].length > 15) { // space is about 15 characters
-						if (names[linesperslip].lastIndexOf(" ") < 13) // keep last initial
+						names[linesperslip] = data[index][FORENAME] + " " + data[index][SURNAME].substr(0,1);
+						if (names[linesperslip].length > 15) // keep last initial
 						names[linesperslip] = names[linesperslip].substr(0, names[linesperslip].lastIndexOf(" ") + 2);
-						else
-						names[linesperslip] = names[linesperslip].substr(0, 15);
 					}
 				}
 				index++;

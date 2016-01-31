@@ -128,7 +128,7 @@ function page() {
 					txt += "<th>Team</th>";
 				if (targetlist || sortbyscore) {
 					txt += "<th width=\"80\">Bow</th><th>Gender</th><th width=\"50\">Age</th>"
-						+ "<th width=\"80\">Round</th><th width=\"50\">AGB&nbsp;No</th>";
+						+ "<th width=\"80\">Round</th><th width=\"80\">AGB&nbsp;No</th>";
 					if (handicapflag==1)
 						txt += "<th>Handicap</th>";
 				}
@@ -156,7 +156,7 @@ function page() {
 					txt += "</td><td align=\"center\">&nbsp;";
 			}
 			else {
-				txt += "<td>"+ data[highi][NAME] + "</td><td>"+ data[highi][CLUB];
+				txt += "<td>"+ data[highi][FORENAME] + " " + data[highi][SURNAME] + "</td><td>"+ data[highi][CLUB];
 				if (teamflag==1)
 					txt += "</td><td align=\"center\">" + data[highi][TEAM];
 			}

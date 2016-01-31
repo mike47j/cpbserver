@@ -38,10 +38,9 @@ function page() {
 		tb2str ="10";
 
     var txt = "<h2>Change Archer Data</h2>"
-         + "<p><a href=\"/setup\">Set Up Page</a></p><h2>Target " + data[TARGET] + " - " + data[NAME] + "</h2>";
+         + "<p><a href=\"/setup\">Set Up Page</a></p><h2>Target " + data[TARGET] + " - " + data[FORENAME] + " " + data[SURNAME] + "</h2>";
     txt += "<form id=\"data\" action=\"/updateentry.htm\" method=\"get\">";
     txt += "<input name=\"send\" id=\"send\" type=\"hidden\" value=\"send\" />";
-    txt += "<input name=\"gender\" id=\"gender\" type=\"hidden\" value=\""+data[GENDER]+"\" />";
     txt += "<table border=\"1\" style=\"border-collapse: collapse;\">";
     txt += "<tr><td width=\"180\">Target:</td>";
     txt += "<td width=\"200\"><input name=\"target\" size=\"30\" readonly=\"readonly\" value=\""+data[TARGET]+"\" /></td></tr>";

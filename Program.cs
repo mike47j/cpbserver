@@ -81,9 +81,9 @@ namespace CPBserver
         public const int MAXARCHERS = 99 * 4;
         public const string header = "HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=UTF-8\r\nConnection: close\r\n\r\n"
             + "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf-8\" /><title>CPB Server page</title></head><body>\r\n";
-        public const string fieldnames = "var TARGET = 0, NAME = 1, SURNAME = 2, FORENAME = 3, CLUB = 4, TEAM = 5, BOW = 6;\r\n"
-            + "var GENDER = 7, AGEGROUP=8, ROUND = 9, HANDICAP = 10, SCORE = 11, TIEBREAK1 = 12, TIEBREAK2 = 13;\r\n"
-            + "var STATE = 14, ARROWCNT = 15, ARROWS = 16, CLASS = 17, AGB = 18, NOTES = 19;\r\n";
+        public const string fieldnames = "var TARGET = 0, SURNAME = 1, FORENAME = 2, CLUB = 3, TEAM = 4, BOW = 5;\r\n"
+            + "var GENDER = 6, AGEGROUP=7, ROUND = 8, HANDICAP = 9, SCORE = 10, TIEBREAK1 = 11, TIEBREAK2 = 12;\r\n"
+            + "var STATE = 13, ARROWCNT = 14, ARROWS = 15, CLASS = 16, AGB = 17, NOTES = 18;\r\n";
 
         public enum State { Free, Inuse, DNS, Retired, DQ };
 
@@ -1214,7 +1214,6 @@ namespace CPBserver
         static string ArcherData(int i, string dataname, bool input)
         {
             return dataname + " = new Array(\"" + Archers[i].target + "\",\""
-                + Archers[i].forename + " " + Archers[i].surname + "\",\""
                 + Archers[i].surname + "\",\"" + Archers[i].forename + "\",\""
                 + Archers[i].club + "\",\"" + Archers[i].team + "\",\"" + Archers[i].bowtype + "\",\""
                 + Archers[i].gender + "\",\"" 
@@ -2136,8 +2135,7 @@ namespace CPBserver
                 if (i > 0 && Archers[i].target == Archers[i - 1].target)
                     Console.WriteLine("Duplicate target numbers {0}", Archers[i].target);
                 else if (Archers[i].target == "")
-                    Console.WriteLine("No target number {0}",
-                        Archers[MaxArchers].forename + " " + Archers[MaxArchers].surname);
+                    Console.WriteLine("No target number {0}", Archers[MaxArchers].forename + " " + Archers[MaxArchers].surname);
                 else if (String.Compare(Archers[i].target, s) < 0)
                 {
                     Console.WriteLine("Extra Target {0}", Archers[i].target);

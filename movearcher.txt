@@ -45,7 +45,8 @@
             txt += "<table border=\"1\" style=\"border-collapse: collapse;\">";
             txt += "<tr><td width=\"100\">Target:</td><td width=\"200\">" + datafrom[TARGET] 
             txt += "</td><td width=\"200\">" + datato[TARGET] + "</td></tr>";
-            txt += "<tr><td>Archer:</td><td>" + datafrom[NAME] + "</td><td>" + datato[NAME] + "</td></tr>";
+            txt += "<tr><td>Archer:</td><td>" + datafrom[FORENAME] + " " + datafrom[SURNAME] + "</td><td>"
+				 + datato[FORENAME] + " " + datato[SURNAME] + "</td></tr>";
             txt += "<tr><td>Club:</td><td>" + datafrom[CLUB] + "</td><td>" + datato[CLUB] + "</td></tr>";
 			if (teamflag==1)
                 txt += "<tr><td>Team:</td><td>" + datafrom[TEAM] + "</td><td>" + datato[TEAM] + "</td></tr>";

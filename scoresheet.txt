@@ -46,7 +46,7 @@
 	function page() {
 	    var i;
 
-	    var txt = "<h3>" + data[TARGET] + " - " + data[NAME] + " (" + data[GENDER] + "), "
+	    var txt = "<h3>" + data[TARGET] + " - " + data[FORENAME] + " " + data[SURNAME] + " (" + data[GENDER] + "), "
 			// + data[CLUB] + "<br/>" 
 			+ data[ROUND] + ", " + data[BOW] + "</h3>";
 	    var arrows = data[ARROWS];

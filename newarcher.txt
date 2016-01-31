@@ -29,7 +29,6 @@ function page() {
 	txt += "</table><h2>Add Archer</h2>";
 	txt += "<form id=\"data\" action=\"/newarcher.htm\" method=\"get\">";
 	txt += "<input name=\"send\" id=\"send\" type=\"hidden\" value=\"send\" />";
-	txt += "<input name=\"gender\" id=\"gender\" type=\"hidden\" value=\"send\" />";
 	txt += "<table border=\"1\" style=\"border-collapse: collapse;\">";
 	txt += "<tr><td width=\"170\">Target:</td>";
 	txt += "<td width=\"250\"><input id=\"target\" name=\"target\" size=\"36\" value=\"" + data[TARGET] + "\" onchange=\"newtarget()\" /></td></tr>";
@@ -128,11 +127,11 @@ function sendretired() {
 function checksend() {
 	var objRegExp = /^(\d{2})\/(\d{2})\/(\d{4})$/;
 	var dob = document.getElementById("dateofbirth").value;
-	if (dateofbirth!="") {
+	if (dob!="") {
 		if (dob=="U12" || dob=="U14" || dob=="U16" || dob=="U18")
 			;
 		else if (!objRegExp.test(dob)) {
-			document.getElementById("dob").style.background = "pink";
+			document.getElementById("dateofbirth").style.background = "pink";
 			return false;
 		}
 	}

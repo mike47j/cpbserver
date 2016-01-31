@@ -149,7 +149,7 @@ function page() {
 		+"<th>Arrows</th><th>Score</th><th>Handicap</th></tr>";
 	for (i=0; i<maxdata; i++)  {
 	    if (data[i][STATE]=="Inuse") {
-		    txt += "<tr><td align=\"center\">" + data[i][TARGET] + "</td><td>" + data[i][NAME];
+		    txt += "<tr><td align=\"center\">" + data[i][TARGET] + "</td><td>" + data[i][FORENAME] + " " + data[i][SURNAME];
 			txt += "</td><td>" + data[i][ROUND] + "</td><td align=\"center\">" + data[i][ARROWCNT] + "</td>";
 			if (data[i][ARROWCNT]>=24) {
 				var score = 0;

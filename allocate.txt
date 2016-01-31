@@ -181,7 +181,7 @@
         }
 
 		function ArcherString(i) {
-		    return data[i][NAME] + ":" + data[i][CLUB].substr(0, 5) + ", " + data[i][ROUND] + ", " + data[i][BOW] 
+		    return data[i][FORENAME] + " " + data[i][SURNAME] + ":" + data[i][CLUB].substr(0, 5) + ", " + data[i][ROUND] + ", " + data[i][BOW] 
 				+ ", " + archerscores[i] + ", " + data[i][GENDER] + data[i][AGEGROUP] + ", " + data[i][NOTES];
 		}
 

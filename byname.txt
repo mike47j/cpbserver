@@ -123,12 +123,12 @@ function page() {
 			found = true;
 			if (lines==0) {
 				txt += "<table border=\"1\" style=\"border-collapse: collapse;\">"
-					+ "<tr><th width=\"50\">Target</th><th width=\"150\">Name</th><th width=\"180\">Club</th>";
+					+ "<tr><th width=\"40\">Target</th><th width=\"160\">Name</th><th width=\"160\">Club</th>";
 				if (teamflag==1)
 					txt += "<th>Team</th>";
 				if (targetlist || sortbyscore) {
-					txt += "<th width=\"80\">Bow</th><th>Gender</th><th width=\"50\">Age</th>"
-						+ "<th width=\"80\">Round</th><th width=\"80\">AGB&nbsp;No</th>";
+					txt += "<th width=\"70\">Bow</th><th width=\"40\">Gender</th><th width=\"40\">Age</th>"
+						+ "<th width=\"70\">Round</th><th width=\"70\">AGB&nbsp;No</th>";
 					if (handicapflag==1)
 						txt += "<th>Handicap</th>";
 				}
@@ -186,8 +186,10 @@ function page() {
 			}
 			txt += "</td></tr>";
 			sort[highi] = "";
+			if ((data[highi][FORENAME] + " " + data[highi][SURNAME]).length>18 || data[highi][CLUB].length>18)
+				lines++;
 			lines++;
-			if (printing && (firstpage && lines>25) || (!firstpage && lines>38)) {
+			if (printing && (firstpage && lines>26) || (!firstpage && lines>41)) {
 				txt += "</table><div style=\"height:0mm; page-break-after:always;\"></div>";
 				firstpage = false;
 				lines = 0;

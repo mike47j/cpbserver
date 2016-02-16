@@ -24,8 +24,14 @@
             if (printtype == 0) { // print everyone
                 var index;
                 for (index = 0; index < maxdata; index++) {
-                    if (data[index][ROUND] == "NotSet")
-                        continue;
+                    if (data[index][ROUND] == "NotSet") {
+						if (index>0 && data[index][TARGET].substr(0,2) == data[index-1][TARGET].substr(0,2) 
+						  && data[index-1][ROUND] != "NotSet") {
+						    data[index][ROUND] = data[index-1][ROUND];
+						}
+						else
+							continue;
+					}
 
                     roundstr = data[index][ROUND];
                     if (roundstr == "Hereford / Bristol 1") {
@@ -35,13 +41,13 @@
                             roundstr = "Bristol 1";
                     }
 					var tmp = data[index][FORENAME] + " " + data[index][SURNAME];
-                    printheader(data[index][TARGET], tmp, (tmp != "" ? data[index][CLUB] : ""), (tmp != "" ? data[index][BOW] : ""),
-                        (tmp != "" ? data[index][GENDER]+" "+data[index][AGEGROUP] : ""), roundstr);
+                    printheader(data[index][TARGET], tmp, (tmp != " " ? data[index][CLUB] : ""), (tmp != " " ? data[index][BOW] : ""),
+                        (tmp != " " ? data[index][GENDER]+" "+data[index][AGEGROUP] : ""), roundstr, (tmp != " " ? data[index][AGB] : ""));
                     printbody(data[index][ROUND]);
                 }
             }
             else if (printtype == 1) { // print a blank
-                printheader("", "", "", "", "", roundstr);
+                printheader("", "", "", "", "", roundstr, "");
                 printbody(roundstr);
             }
 			else if (printtype == 2) { // print duplicate with scores
@@ -53,8 +59,8 @@
                         roundstr = "Bristol 1";
                 }
 				var tmp = data[FORENAME] + " " + data[SURNAME];
-                printheader(data[TARGET], tmp, (tmp != "" ? data[CLUB] : ""), (tmp != "" ? data[BOW] : ""),
-				   (tmp != "" ? data[GENDER]+" "+data[AGEGROUP] : ""), roundstr);
+                printheader(data[TARGET], tmp, (tmp != " " ? data[CLUB] : ""), (tmp != " " ? data[BOW] : ""),
+				   (tmp != " " ? data[GENDER]+" "+data[AGEGROUP] : ""), roundstr, (tmp != " " ? data[index][AGB] : ""));
 
                 printbody(data[ROUND]);
 			}
@@ -201,7 +207,7 @@
             txt += "<div style=\"height:0mm; page-break-after:always;\"></div>";
         }
 
-        function printheader(target, name, club, bow, gender, roundstr) {
+        function printheader(target, name, club, bow, gender, roundstr, agb) {
             txt += "<div style=\"height:5mm;\"></div>"
                 + "<table><tr><td style=\"width=20mm\"><img src=\"/logo.gif\" style=\"height:20mm; width=20mm\" />"
                 + "<td style=\"width:150mm; text-align:center; font-size:20pt;font-family:Helvetica,Arial,sans-serif;\">"
@@ -210,23 +216,25 @@
 
             // name & target
             txt += "<table border=\"1\" style=\"width:190mm;border-collapse: collapse;font-family:Helvetica,Arial,sans-serif;\" >"
-                + "<tr style=\"height:14mm;\"><td style=\"width:55%;\">"
+                + "<tr style=\"height:14mm;\"><td colspan=\"2\">"
                 + "<table><tr style=\"height:3mm;\"><td style=\"font-size:9pt;\">Name<tr style=\"height:8mm;\">"
                 + "<td style=\"padding-left:10mm;font-size:18pt;\">" + name + "</table>"
-                + "<td colspan=\"2\">"
+                + "<td style=\"width:22%;\">"
                 + "<table><tr style=\"height:3mm;\"><td style=\"font-size:9pt;\">Target<tr style=\"height:8mm;\">"
                 + "<td style=\"padding-left:10mm;font-size:18pt;\" align=\"center\">" + target + "</table>";
             // Club, bow, gender
-            txt += "<tr style=\"height:11mm;\"><td><table><tr style=\"height:3mm;\"><td style=\"font-size:9pt;\">Club<tr style=\"height:7mm;\">"
+            txt += "<tr style=\"height:11mm;width:56%;\"><td><table><tr style=\"height:3mm;\"><td style=\"font-size:9pt;\">Club<tr style=\"height:7mm;\">"
                 + "<td style=\"padding-left:10mm;font-size:14pt;\">" + club + "</table>"
-                + "<td style=\"width:23%;\"><table><tr style=\"height:3mm;\"><td style=\"font-size:9pt;\">Bow type<tr style=\"height:7mm;\">"
+                + "<td style=\"width:22%;\"><table><tr style=\"height:3mm;\"><td style=\"font-size:9pt;\">Bow type<tr style=\"height:7mm;\">"
                 + "<td style=\"padding-left:10mm;font-size:14pt;\">" + bow + "</table>"
-                + "<td><table><tr style=\"height:3mm;\"><td style=\"font-size:9pt;\">Gender and Age Group<tr style=\"height:7mm;\">"
+                + "<td style=\"width:22%;\"><table><tr style=\"height:3mm;\"><td style=\"font-size:9pt;\">Gender and Age Group<tr style=\"height:7mm;\">"
                 + "<td style=\"padding-left:10mm;font-size:14pt;\">" + gender + "</table>";
             // round and date
             txt += "<tr style=\"height:11mm;\"><td><table><tr style=\"height:3mm;\"><td style=\"font-size:9pt;\">Round<tr style=\"height:7mm;\">"
                 + "<td style=\"padding-left:10mm;font-size:14pt;\">" + roundstr + "</table>"
-                + "<td colspan=\"2\"><table><tr style=\"height:3mm;\"><td style=\"font-size:9pt;\">Date<tr style=\"height:7mm;\">"
+                + "<td><table><tr style=\"height:3mm;\"><td style=\"font-size:9pt;\">AGB No<tr style=\"height:7mm;\">"
+                + "<td style=\"padding-left:10mm;font-size:14pt;\">" + agb + "</table>"
+                + "<td><table><tr style=\"height:3mm;\"><td style=\"font-size:9pt;\">Date<tr style=\"height:7mm;\">"
                 + "<td style=\"padding-left:10mm;font-size:14pt;\">" + tournamentdate + "</table>"
                 + "</table><div style=\"height:5mm;\"></div>";
         }

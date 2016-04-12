@@ -74,7 +74,7 @@ function page() {
 		if (patron=="")
 			txt += "<tr><td width=\"160\">Lady Paramount:</td><td width=\"600\">" + paramount + "</td></tr><tr></tr>";
 		else
-			txt += "<tr><td width=\"160\">Gentleman Patron:</td><td width=\"600\">" + patron + "</td></tr><tr></tr>";
+			txt += "<tr><td width=\"160\">Lord Paramount:</td><td width=\"600\">" + patron + "</td></tr><tr></tr>";
 		txt += "<tr><td width=\"160\">Tournament Organiser:</td><td width=\"600\">" + tournamentorganiser + "</td></tr><tr></tr>";
 		txt += "<tr><td width=\"160\">Time of Assembly:</td><td width=\"600\">" + timeofassembly + "</td></tr><tr></tr>";
 		txt += "</table>";

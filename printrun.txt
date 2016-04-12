@@ -121,7 +121,7 @@
 				+ "\" align=\"left\">" + (i==dozens?"Spare":"Running Slip " + i) + "</th><th style=\"width:9mm;\">ET</th>";
 		    if (dozenlen[i] == (arrowsperend * 2))
 				txt += "<th colspan=\"" + arrowsperend + "\">&nbsp;</th><th style=\"width:9mm;\">ET</th>";
-		    txt += "<th style=\"width:9mm;\">S</th><th style=\"width:11mm;\">R/T</th></tr>";
+		    txt += "<th style=\"width:9mm;\">S</th><th style=\"width:11mm;\">RT</th></tr>";
 		    var j;
 		    for (j = 0; j < linesperslip; j++) {
 				txt += "<tr style=\"height:" + linesize + "mm;\"><td align=\"center\" style=\"width:8mm;\">" + t.substr(0, 2) + letter[j];
@@ -138,10 +138,10 @@
 		    }
 		    txt += "</table></td><td>&nbsp;</td><td>";
 		    // space for previous running total
-		    if (i != 1) {
+		    if (i != 1 && i!=dozens) {
 				txt += "<table border=\"1\" style=\"border-collapse:collapse;\">";
 				txt += "<tr style=\"height:6mm;font-family:Helvetica,Arial,sans-serif;\"><th align=\"center\" style=\"width:11mm;\">"
-					+ (i==dozens?"&nbsp;": (i - 1)) + "</th></tr>";
+					+ "RT"+(i - 1) + "</th></tr>";
 				for (a = 0; a < linesperslip; a++) {
 					txt += "<tr style=\"height:" + linesize + "mm;\"><td>&nbsp;</td></tr>";
 				}

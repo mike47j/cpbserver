@@ -47,7 +47,7 @@ function page() {
         + "<tr><td>Venue:</td><td><input name=\"venue\" size=\"75\" value=\"" + venue + "\" /></td></tr>"
         + "<tr><td>Judges:</td><td><input name=\"judges\" size=\"75\" value=\"" + judges + "\" /></td></tr>"
         + "<tr><td>Lady Paramount:</td><td><input name=\"paramount\" size=\"75\" value=\"" + paramount + "\" /></td></tr>"
-        + "<tr><td>or Gentleman Patron:</td><td><input name=\"patron\" size=\"75\" value=\"" + patron + "\" /></td></tr>"
+        + "<tr><td>or Lord Paramount:</td><td><input name=\"patron\" size=\"75\" value=\"" + patron + "\" /></td></tr>"
         + "<tr><td>Tournament Organiser:</td><td><input name=\"tournamentorganiser\" size=\"75\" value=\"" + tournamentorganiser + "\" /></td></tr>"
         + "<tr><td>Time of Assembly:</td><td><input name=\"timeofassembly\" size=\"75\" value=\"" + timeofassembly + "\" /></td></tr>"
         + "<tr><td>Weather:</td><td><input name=\"weather\" size=\"75\" value=\"" + weather + "\" /></td></tr>"

@@ -254,7 +254,7 @@ function doresults() {
 		if (patron=="")
 			textstr += "<tr><td width=\"160\">Lady Paramount:</td><td width=\"600\">" + paramount + "</td><tr>";
 		else
-			textstr += "<tr><td width=\"160\">Gentleman Patron:</td><td width=\"600\">" + patron + "</td><tr>";
+			textstr += "<tr><td width=\"160\">Lord Paramount:</td><td width=\"600\">" + patron + "</td><tr>";
 		textstr += "<tr><td width=\"160\">Tournament Organiser:</td><td width=\"600\">" + tournamentorganiser + "</td><tr>";
 		textstr += "<tr><td width=\"160\">Weather:</td><td width=\"600\">" + weather + "</td><tr>";
 		textstr += "</table>";

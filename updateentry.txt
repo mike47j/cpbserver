@@ -18,25 +18,6 @@
 // rounds file
 
 function page() {
-	var rnd;
-	for (rnd = 0; rnd < rounds.length; rnd++) {
-	if (data[ROUND] == rounds[rnd][RNDNAME])
-		break;
-	}
-	var tb1str = "Hits", tb2str = "Golds";
-	if (rounds[rnd][RNDTIEBREAK]==TieBreakWAOutdoor) {
-		tb1str = "X/10";
-		tb2str = "X"
-	}
-	else if (rounds[rnd][RNDTIEBREAK]==TieBreakWAIndoor) {
-		tb1str = "X/10";
-		tb2str = "9"
-	}
-	else if (rounds[rnd][RNDTIEBREAK]==TieBreakAGBWorcester)
-		tb2str = "5";
-	else if (rounds[rnd][RNDTIEBREAK]==TieBreakAGBMetric)
-		tb2str ="10";
-
     var txt = "<h2>Change Archer Data</h2>"
          + "<p><a href=\"/setup\">Set Up Page</a></p><h2>Target " + data[TARGET] + " - " + data[FORENAME] + " " + data[SURNAME] + "</h2>";
     txt += "<form id=\"data\" action=\"/updateentry.htm\" method=\"get\">";
@@ -80,8 +61,8 @@ function page() {
     txt += "<tr><td>membership:</td><td><input name=\"membership\" size=\"30\" value=\""+data[AGB]+"\" /></td></tr>";
     txt += "<tr><td>notes:</td><td><input name=\"notes\" size=\"30\" value=\""+data[NOTES]+"\" /></td></tr>";
     txt += "<tr><td>Score:</td><td><input name=\"tscore\" id=\"tscore\" size=\"30\" value=\""+data[SCORE]+"\" /></td></tr>";
-    txt += "<tr><td>"+tb1str+":</td><td><input name=\"thits\" id=\"thits\" size=\"30\" value=\""+data[TIEBREAK1]+"\" /></td></tr>";
-    txt += "<tr><td>"+tb2str+":</td><td><input name=\"tgolds\" id=\"tgolds\" size=\"30\" value=\""+data[TIEBREAK2]+"\" /></td></tr>";
+    txt += "<tr><td>Tie break 1:</td><td><input name=\"thits\" id=\"thits\" size=\"30\" value=\""+data[TIEBREAK1]+"\" /></td></tr>";
+    txt += "<tr><td>Tie break 2:</td><td><input name=\"tgolds\" id=\"tgolds\" size=\"30\" value=\""+data[TIEBREAK2]+"\" /></td></tr>";
     txt += "<tr><td>State:</td><td><select name=\"state\" size=\"1\" style=\"width:200px\">";
     switch(data[STATE]) {
     case "Free": txt += "<option>Inuse</option><option selected>Free</option><option>DNS</option><option>DQ</option><option>Retired</option>"; break;

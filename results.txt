@@ -480,32 +480,32 @@ function bowtype(rndstr, g, bow) {
 		}
 		textstr += "<td align=\"center\">";
 	    if (medalalloc[medalline][1].indexOf(data[highi][GENDER]+" ") >= 0) {
-		if (highv == prevawardscore)
-		    textstr += prevaward;
-		else {
-		    textstr += awards;
-		    prevaward = awards;
-		    prevawardscore = highv;
+			if (data[highi][SCORE]!=0 && highv == prevawardscore)
+				textstr += prevaward;
+			else {
+				textstr += awards;
+				prevaward = awards;
+				prevawardscore = highv;
+			}
+			if (awards == "Gold Medal") {
+				awards = "Silver Medal";
+				if (data[highi][GENDER].substr(0, 1) != "J" && countm < 4)
+				awards = "&nbsp;";
+			}
+			else if (awards == "Silver Medal") {
+				awards = "Bronze Medal";
+				if (data[highi][GENDER].substr(0, 1) != "J" && countm < 7)
+				awards = "&nbsp;";
+			}
+			else
+				awards = "&nbsp;";
+			}
+			textstr += note + "</td></tr>";
+			prevhighv = highv;
+			posn++;
+			scores[highi] = -1;
 		}
-		if (awards == "Gold Medal") {
-		    awards = "Silver Medal";
-		    if (data[highi][GENDER].substr(0, 1) != "J" && countm < 4)
-			awards = "&nbsp;";
-		}
-		else if (awards == "Silver Medal") {
-		    awards = "Bronze Medal";
-		    if (data[highi][GENDER].substr(0, 1) != "J" && countm < 7)
-			awards = "&nbsp;";
-		}
-		else
-		    awards = "&nbsp;";
-	    }
-	    textstr += note + "</td></tr>";
-	    prevhighv = highv;
-	    posn++;
-	    scores[highi] = -1;
-	}
-	textstr += "</table>";
+		textstr += "</table>";
     }
 }
 

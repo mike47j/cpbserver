@@ -898,26 +898,26 @@ namespace CPBserver
                 bool skip = false;
                 bool back = false;
                 string send = getparam(str, "send");
-                if (send == "cancel")
-                    return indexpagestring();
                 string target = getparam(str, "target").ToUpper();
                 if (!"ABCDEF".Contains(target.Substring(target.Length - 1)))
                     target += "A";
                 if (target.Length == 2)
                     target = "0" + target;
-                if (send == "back")
+                string arrows = getparam(str, "arrowsend");
+                if (arrows != "NotFound")
+                {
+                    // update scores
+                    UpdateArcher(str, UPDATE.Score);
+                }
+                if (send == "cancel")
+                    return indexpagestring();
+                else if (send == "back")
                 {
                     skip = true;
                     back = true;
                 }
-                else if (send == "next")
+                else if (send == "next" || send == "data")
                     skip = true;
-                else if (send == "data")
-                {
-                    // update scores
-                    UpdateArcher(str, UPDATE.Score);
-                    skip = true;
-                }
                 return SendScorePage(pagefile, target, skip, back);
             }
             if (str.Contains("GET /rounds"))
@@ -1251,7 +1251,7 @@ namespace CPBserver
         static string SendScorePage(string scoreentry, string target, bool skip, bool back)
         {
             // Console.WriteLine("SendScorePage {0} {1}", target, skip);
-            string results = header + "<div id=\"page\"></div><script type=\"text/javascript\">";
+            string results = header + "<div id=\"page\"></div><script type=\"text/javascript\">\r\n";
             bool targetfound = false;
             bool ok = false;
             int i = 0;

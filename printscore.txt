@@ -60,7 +60,7 @@
                 }
 				var tmp = data[FORENAME] + " " + data[SURNAME];
                 printheader(data[TARGET], tmp, (tmp != " " ? data[CLUB] : ""), (tmp != " " ? data[BOW] : ""),
-				   (tmp != " " ? data[GENDER]+" "+data[AGEGROUP] : ""), roundstr, (tmp != " " ? data[index][AGB] : ""));
+				   (tmp != " " ? data[GENDER]+" "+data[AGEGROUP] : ""), roundstr, (tmp != " " ? data[AGB] : ""));
 
                 printbody(data[ROUND]);
 			}

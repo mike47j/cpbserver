@@ -80,15 +80,20 @@ namespace CPBserver
 
         public const int MAXARCHERS = 99 * 4;
         public const string header = "HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=UTF-8\r\nConnection: close\r\n\r\n"
-            + "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf-8\" /><title>CPB Server page</title></head><body>\r\n";
+            + "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf-8\" /><title>CPB Server page</title>"
+            + "<style type=\"text/css\">\r\n"
+            + "h1{font-family:Helvetica,Arial,sans-serif;font-size:19pt;font-weight:normal;}"
+            + "h2,h3{font-family:Helvetica,Arial,sans-serif;font-size:15pt;font-weight:normal;page-break-after:avoid;}"
+            + "</style></head><body>\r\n";
         public const string fieldnames = "var TARGET = 0, SURNAME = 1, FORENAME = 2, CLUB = 3, TEAM = 4, BOW = 5;\r\n"
             + "var GENDER = 6, AGEGROUP=7, ROUND = 8, HANDICAP = 9, SCORE = 10, TIEBREAK1 = 11, TIEBREAK2 = 12;\r\n"
-            + "var STATE = 13, ARROWCNT = 14, ARROWS = 15, CLASS = 16, AGB = 17, NOTES = 18;\r\n";
+            + "var STATE = 13, ARROWCNT = 14, ARROWS = 15, CLASS = 16, AGB = 17, NOTES = 18, ENTRYREF = 19, PAID = 20;\r\n";
 
         public enum State { Free, Inuse, DNS, Retired, DQ };
 
         public class Archer
         {
+            public string entryref;
             public string target;
             public string forename;
             public string surname;
@@ -109,9 +114,15 @@ namespace CPBserver
             public string classification;
             public string agbno;
             public string notes;
+            public string paid;
+            public float fee;
+            public string email;
+            public string address;
+            public string phone;
 
             public void Clear()
             {
+                entryref = "";
                 forename = "";
                 surname = "";
                 club = "";
@@ -128,9 +139,14 @@ namespace CPBserver
                 arrowcnt = 0;
                 state = State.Free;
                 arrows = "";
-                classification = "";
+                classification = " ";
                 agbno = "";
                 notes = "";
+                paid = "";
+                fee = 0;
+                email = "";
+                address = "";
+                phone = "";
             }
 
             public Archer()
@@ -252,7 +268,7 @@ namespace CPBserver
                         if (content.Contains("GET /scroll"))
                             page += "<form id=\"data\" action=\"/scroll\" method=\"get\"></form>";
                         page += "<script type=\"text/javascript\">";
-                        page += AllArchers() + flagstring() + infostring();
+                        page += AllArchers(false) + flagstring() + infostring();
                         page += "var printing = false;\r\n";
 
                         if (content.Contains("GET /scroll"))
@@ -304,7 +320,7 @@ namespace CPBserver
             return "var tournament = \"" + tournament + "\", tournamentdate = \"" + tournamentdate + "\";\r\n"
                 + "var venue = \"" + venue + "\", judges = \"" + judges + "\";\r\n"
                 + "var paramount = \"" + paramount + "\", patron = \"" + patron + "\";\r\n"
-                + "var tournamentorganiser = \"" + tournamentorganiser + "\", timeofassembly = \"" 
+                + "var tournamentorganiser = \"" + tournamentorganiser + "\", timeofassembly = \""
                 + timeofassembly + "\";\r\n" + "var weather = \"" + weather + "\";\r\n";
         }
 
@@ -344,7 +360,7 @@ namespace CPBserver
             }
         }
 
-        private static string AllArchers()
+        private static string AllArchers(bool paid)
         {
             string page = "var data = new Array();\r\n";
             lock (dataLock)
@@ -364,7 +380,7 @@ namespace CPBserver
                     t = Archers[i].target;
                     if (t == "" || t == " " || t == "0")
                         t = "&nbsp;";
-                    page += ArcherData(i, "data[" + i + "]", false);
+                    page += ArcherData(i, "data[" + i + "]", false, paid);
                 }
                 page += "var maxdata =" + MaxArchers + ";\r\n";
             }
@@ -532,11 +548,11 @@ namespace CPBserver
                     }
                     for (int i = 0; i < MaxArchers; i++)
                     {
-                        page += ArcherData(i, "data[" + i + "]", false);
+                        page += ArcherData(i, "data[" + i + "]", false, false);
                     }
                     page += "var maxdata =" + MaxArchers + ";\r\n";
                 }
-                return header + "<div id=\"page\"></div><script type=\"text/javascript\">\r\n" 
+                return header + "<div id=\"page\"></div><script type=\"text/javascript\">\r\n"
                     + rounds + fieldnames + page + hc2dozen;
             }
             if (str.Contains("GET /newhc2d"))
@@ -656,7 +672,7 @@ namespace CPBserver
                         return header + "<div id=\"page\"></div><script type=\"text/javascript\">\r\n" + infostring()
                             + "var roundstr = \"\"; var printtype = 2;\r\n"
                             + flagstring() + rounds
-                            + ArcherData(i, "var data", false)
+                            + ArcherData(i, "var data", false, false)
                             + fieldnames + printscore;
                     }
                 }
@@ -673,7 +689,7 @@ namespace CPBserver
             if (str.Contains("GET /printrun") || str.Contains("GET /printscore"))
             {
                 string results = header + "<div id=\"page\"></div><script type=\"text/javascript\">\r\n";
-                results += AllArchers() + infostring();
+                results += AllArchers(false) + infostring();
                 // results += "var worldarchery = " + worldarchery + ";\r\n";
                 results += "var roundstr; var printtype = 0;\r\n";
                 if (str.Contains("GET /printrun"))
@@ -684,22 +700,34 @@ namespace CPBserver
             if (str.Contains("GET /byname") || str.Contains("GET /byteam") || str.Contains("GET /bytarget")
                 || str.Contains("GET /clearscores") || str.Contains("GET /byscore")
                 || str.Contains("GET /printbyname") || str.Contains("GET /printbyteam") || str.Contains("GET /printbytarget")
-                || str.Contains("GET /scorebyname") || str.Contains("GET /scorebyteam") || str.Contains("GET /scorebytarget"))
+                || str.Contains("GET /scorebyname") || str.Contains("GET /scorebyteam") || str.Contains("GET /scorebytarget")
+                || str.Contains("GET /checkinbyname") || str.Contains("GET /entrybyname") || str.Contains("GET /entrybyclub")
+                || str.Contains("GET /fullbyname") || str.Contains("GET /fullbyref"))
             {
                 bool printing = str.Contains("print");
-                bool sortbyname = str.Contains("byname");
-                bool sortbyteam = str.Contains("byteam");
-                bool sortbyscore = str.Contains("byscore");
+                bool entrylist = str.Contains("entry");
+                bool checkin = str.Contains("checkin");
+                bool fulllist = str.Contains("full");
                 bool targetlist = str.Contains("clearscores") || !str.Contains("score");
+                bool scoreby = str.Contains("scoreby") || str.Contains("byscore");
+                bool sortbyname = str.Contains("byname");
+                bool sortbyteam = str.Contains("byteam") || str.Contains("byclub");
+                bool sortbyscore = str.Contains("byscore");
+                bool sortbyref = str.Contains("byref");
 
                 // Send results back to client
                 string page = header + "<div id=\"page\"></div><script type=\"text/javascript\">\r\n";
-                page += AllArchers() + flagstring() + infostring();
+                page += AllArchers(checkin) + flagstring() + infostring();
+                page += "var printing = " + (printing ? "true" : "false") + ";\r\n";
+                page += "var targetlist = " + (targetlist ? "true" : "false") + ";\r\n";
+                page += "var entrylist = " + (entrylist ? "true" : "false") + ";\r\n";
+                page += "var checkin = " + (checkin ? "true" : "false") + ";\r\n";
+                page += "var fulllist = " + (fulllist ? "true" : "false") + ";\r\n";
+                page += "var scoreby = " + (scoreby ? "true" : "false") + ";\r\n";
                 page += "var sortbyscore = " + (sortbyscore ? "true" : "false") + ";\r\n";
-                page += "var sortbyname = " + (sortbyname ? "true" : "false") 
-                     + ", printing = " + (printing ? "true" : "false") + ";\r\n";
-                page += "var sortbyteam = " + (sortbyteam ? "true" : "false") 
-                     + ", targetlist = " + (targetlist ? "true" : "false") + ";\r\n";
+                page += "var sortbyname = " + (sortbyname ? "true" : "false") + ";\r\n";
+                page += "var sortbyteam = " + (sortbyteam ? "true" : "false") + ";\r\n";
+                page += "var sortbyref = " + (sortbyref ? "true" : "false") + ";\r\n";
                 return page + rounds + byname;
             }
             if (str.Contains("GET /printresults") || str.Contains("GET /results"))
@@ -707,7 +735,7 @@ namespace CPBserver
                 bool printing = str.Contains("print");
                 // Send results back to client
                 string page = header + "<div id=\"page\"></div><script type=\"text/javascript\">\r\n";
-                page += AllArchers() + flagstring() + infostring();
+                page += AllArchers(false) + flagstring() + infostring();
                 page += "var printing = " + (printing ? "true" : "false") + ";\r\n";
                 page += "var scrollstate = -1;";
                 return page + rounds + results;
@@ -808,7 +836,7 @@ namespace CPBserver
             }
             if (str.Contains("GET /allocate"))
             {
-                return header + "<div id=\"page\"></div><script type=\"text/javascript\">" + AllArchers() + flagstring()
+                return header + "<div id=\"page\"></div><script type=\"text/javascript\">" + AllArchers(false) + flagstring()
                     + infostring() + allocate;
             }
             if (str.Contains("GET /move"))
@@ -1029,7 +1057,7 @@ namespace CPBserver
                     results += ") );\r\n";
                 }
 
-                results += ArcherData(targetindex, "var data", true);
+                results += ArcherData(targetindex, "var data", true, false);
                 return results + fieldnames + flagstring() + rounds + newarcher;
             }
             if (str.Contains("GET /leaderboard"))
@@ -1145,6 +1173,7 @@ namespace CPBserver
                                     Archers[i].state = State.Retired;
                                 else
                                     Archers[i].state = State.Inuse;
+                                Archers[i].entryref = getparam(str, "entryref");
                                 Archers[i].forename = getparam(str, "forename");
                                 Archers[i].surname = getparam(str, "surname");
                                 Archers[i].club = getparam(str, "club");
@@ -1211,18 +1240,20 @@ namespace CPBserver
             }
         }
 
-        static string ArcherData(int i, string dataname, bool input)
+        static string ArcherData(int i, string dataname, bool input, bool paid)
         {
             return dataname + " = new Array(\"" + Archers[i].target + "\",\""
                 + Archers[i].surname + "\",\"" + Archers[i].forename + "\",\""
                 + Archers[i].club + "\",\"" + Archers[i].team + "\",\"" + Archers[i].bowtype + "\",\""
-                + Archers[i].gender + "\",\"" 
+                + Archers[i].gender + "\",\""
                 + (input ? Archers[i].dateofbirth : Archers[i].agegroup) + "\",\""
                 + Archers[i].round + "\"," + Archers[i].handicap.ToString("0.0") + ","
                 + Archers[i].runningtotal + "," + Archers[i].tiebreak1 + ","
                 + Archers[i].tiebreak2 + ",\"" + Archers[i].state + "\"," + Archers[i].arrowcnt
                 + ",\"" + Archers[i].arrows + "\",\"" + Archers[i].classification + "\",\"" + Archers[i].agbno
-                + "\",\"" + Archers[i].notes + "\");\r\n";
+                + "\",\"" + Archers[i].notes + "\",\"" + Archers[i].entryref + "\""
+                + (paid ? ",\"" + Archers[i].paid + "\"" : "")
+                + ");\r\n";
         }
 
         static string ArcherDataStr(string target, bool skip, string dataname, bool input)
@@ -1240,7 +1271,7 @@ namespace CPBserver
                             if (i == MAXARCHERS)
                                 i = 0;
                         }
-                        results = ArcherData(i, dataname, input);
+                        results = ArcherData(i, dataname, input, false);
                         break;
                     }
                 }
@@ -1289,7 +1320,7 @@ namespace CPBserver
                 }
                 if (ok)
                 {
-                    results += ArcherData(i, "var data", false) + fieldnames + flagstring();
+                    results += ArcherData(i, "var data", false, false) + fieldnames + flagstring();
                 }
             }
             if (ok)
@@ -1383,9 +1414,9 @@ namespace CPBserver
 
         static void SaveDataFile(string filename)
         {
-            string[] cols = new string[] { "TARGET", "FORENAME", "SURNAME", "CLUB", "TEAM", "BOW", "GENDER",
+            string[] cols = new string[] { "ENTRYREF", "TARGET", "FORENAME", "SURNAME", "CLUB", "TEAM", "BOW", "GENDER",
                 "DATEOFBIRTH", "ROUND", "HANDICAP", "TOTAL", "TIEBREAK1", "TIEBREAK2", "STATE", "ARROWCNT",
-                "ARROWS", "CLASS", "AGB", "NOTES" };
+                "ARROWS", "CLASS", "AGB", "NOTES", "PAID", "FEE", "EMAIL", "ADDRESS", "PHONE" };
             string colstr = "", maxstr;
             int i;
             maxstr = maxtargets.ToString();
@@ -1424,27 +1455,20 @@ namespace CPBserver
                     // + (worldarchery == 1 ? "WorldArchery " : (worldarchery == 2 ? "WorldArcheryIndoor " : ""))
                     + (scoresystem == 1 ? "Dozen " : (scoresystem == 2 ? "Total " : "")));
                 file.WriteLine("ARCHERS:,");
-                /* // version 1 file header
-                file.WriteLine("\"" + tournament + "\"," + maxtargets + "," + (medalflag == 1 ? "Medals " : "")
-                    + (juniorflag == 1 ? "Junior " : "") + (bestflag == 1 ? "Best " : "")
-                    + (handicapflag == 1 ? "Handicap " : "")
-                    + (teamflag == 1 ? "Team " : "") + (resultsbyroundflag == 1 ? "Round " : "")
-                    // + (worldarchery == 1 ? "WorldArchery " : (worldarchery == 2 ? "WorldArcheryIndoor " : ""))
-                    + (scoresystem == 1 ? "Dozen " : (scoresystem == 2 ? "Total " : ""))
-                    + ",\"" + tournamentdate + "\",\"" + venue + "\",\"" + judges + "\",\"" + paramount + "\",\"" + patron
-                    + "\",\"" + tournamentorganiser + "\",\"" + timeofassembly + "\",\"" + weather + "\",");
-                */
                 file.WriteLine(colstr);
                 for (i = 0; i < max; i++)
                 {
-                    string s = Archers[i].target + "," + Archers[i].forename + "," + Archers[i].surname
+                    string s = "\"" + Archers[i].entryref + "\"," + Archers[i].target + ","
+                        + Archers[i].forename + "," + Archers[i].surname
                         + "," + Archers[i].club + ","
                         + Archers[i].team + "," + Archers[i].bowtype + ","
                         + Archers[i].gender + "," + Archers[i].dateofbirth + ","
                         + Archers[i].round + "," + Archers[i].handicap.ToString("0.0") + ","
                         + Archers[i].runningtotal + "," + Archers[i].tiebreak1 + "," + Archers[i].tiebreak2 + ","
                         + Archers[i].state + "," + Archers[i].arrowcnt + "," + Archers[i].arrows + ","
-                        + Archers[i].classification + "," + Archers[i].agbno + "," + Archers[i].notes + ",";
+                        + "\"" + Archers[i].classification + "\",\"" + Archers[i].agbno + "\",\"" + Archers[i].notes + "\","
+                        + "\"" + Archers[i].paid + "\"," + Archers[i].fee + "," + Archers[i].email + ","
+                        + Archers[i].address + ",\"" + Archers[i].phone + "\",";
                     file.WriteLine(s);
                 }
                 file.Close();
@@ -1457,7 +1481,7 @@ namespace CPBserver
             lock (dataLock)
             {
                 string round = Archers[0].round;
-                if (round.Length==0)
+                if (round.Length == 0)
                     round = Archers[1].round;
                 string[] tie = tiebreak(Archers[1].round);
                 file.WriteLine("\"" + tournament + "\",\"" + tournamentdate + "\",\"" + venue + "\",");
@@ -1482,12 +1506,12 @@ namespace CPBserver
         {
             if (worldarchery == 0)
             {
-                if (archerdate=="U12" || archerdate=="U14" || archerdate=="U16" || archerdate=="U18")
+                if (archerdate == "U10" || archerdate == "U12" || archerdate == "U14" || archerdate == "U16" || archerdate == "U18")
                     return archerdate;
-                if (archerdate == "CW" || archerdate=="CM")
+                if (archerdate == "CW" || archerdate == "CM")
                     return "U18";
-                if (archerdate == "JM" || archerdate=="JW" || archerdate=="MW" || archerdate=="MM")
-                        return "";
+                if (archerdate == "JM" || archerdate == "JW" || archerdate == "MW" || archerdate == "MM")
+                    return "";
                 if (tourdate.Length != 10)
                     return "";
                 if (archerdate.Length != 10)
@@ -1505,14 +1529,16 @@ namespace CPBserver
                     return "U16";
                 if (age >= 12)
                     return "U14";
-                return "U12";
+                if (age >= 10)
+                    return "U12";
+                return "U10";
             }
             else // world archery age groups based on 1st Jan
             {
-                if (archerdate == "CW" || archerdate=="CM" || archerdate == "JM" || archerdate == "JW" 
+                if (archerdate == "CW" || archerdate == "CM" || archerdate == "JM" || archerdate == "JW"
                     || archerdate == "MW" || archerdate == "MM")
                     return archerdate;
-                if (archerdate == "U12" || archerdate == "U14" || archerdate == "U16" || archerdate == "U18")
+                if (archerdate == "U10" || archerdate == "U12" || archerdate == "U14" || archerdate == "U16" || archerdate == "U18")
                     return "C" + gender;
                 if (tourdate.Length != 10)
                     return "";
@@ -1531,20 +1557,20 @@ namespace CPBserver
 
         static string[] tiebreak(string round)
         {
-            string[] result = { "HITs","GOLDs" };
+            string[] result = { "HITs", "GOLDs" };
             int startp = rounds.IndexOf(round, 0);
-            if (round.Length==0 || startp < 0)
+            if (round.Length == 0 || startp < 0)
                 return result;
             int eol = rounds.IndexOf("\n", startp);
             string line = rounds.Substring(startp, eol - startp);
             if (line.Contains("TieBreakAGBImperial"))
                 return result;
             if (line.Contains("TieBreakAGBMetric"))
-                return new string[]{ "HITs", "10s" };
+                return new string[] { "HITs", "10s" };
             if (line.Contains("TieBreakAGBWorcester"))
-                return new string[]{ "HITs", "5s" };
+                return new string[] { "HITs", "5s" };
             if (line.Contains("TieBreakWAOutdoor"))
-                return new string[]{ "X+10s", "Xs" };
+                return new string[] { "X+10s", "Xs" };
             if (line.Contains("TieBreakWAIndoor"))
                 return new string[] { "10s", "9s" };
             return result;
@@ -1573,7 +1599,7 @@ namespace CPBserver
             // Open the stream and read it back. 
             FileStream fs = File.Open(filename, FileMode.Open);
             int filesize = (int)fs.Length;
-            byte[] s = Encoding.UTF8.GetBytes("HTTP/1.1 200 OK\r\nContent-Type: image/gif;\r\nContent-Length: " 
+            byte[] s = Encoding.UTF8.GetBytes("HTTP/1.1 200 OK\r\nContent-Type: image/gif;\r\nContent-Length: "
                 + filesize + "\r\nConnection: close\r\n\r\n");
             byte[] b = new byte[s.Length + filesize];
             UTF8Encoding temp = new UTF8Encoding(true);
@@ -1592,6 +1618,9 @@ namespace CPBserver
                 return;
             switch (tag)
             {
+                case "ENTRYREF":
+                    Archers[MaxArchers].entryref = str;
+                    break;
                 case "TARGET":
                     if (str.Length == 2)
                         str = "0" + str;
@@ -1604,6 +1633,7 @@ namespace CPBserver
                     {
                         Archers[MaxArchers].forename = str.Substring(0, i);
                         Archers[MaxArchers].surname = str.Substring(i + 1);
+                        Archers[MaxArchers].state = State.Inuse;
                     }
                     break;
                 case "FORENAME":
@@ -1651,7 +1681,8 @@ namespace CPBserver
                             str = "JM" + str.Substring(2);
                         else if (str[1] == 'G')
                             str = "JW" + str.Substring(2);
-                        if (str[0]=='J') {
+                        if (str[0] == 'J')
+                        {
                             Archers[MaxArchers].gender = str.Substring(1, 1);
                             Archers[MaxArchers].agegroup = str.Substring(2);
                         }
@@ -1679,6 +1710,10 @@ namespace CPBserver
                     break;
                 case "ROUND":
                     Archers[MaxArchers].round = str;
+                    if (str == "")
+                        Archers[MaxArchers].state = State.Free;
+                    else
+                        Archers[MaxArchers].state = State.Inuse;
                     break;
                 case "HANDICAP":
                     fno = 100;
@@ -1760,13 +1795,41 @@ namespace CPBserver
                     Archers[MaxArchers].arrows = str;
                     break;
                 case "CLASS":
-                    Archers[MaxArchers].classification = str;
+                    if ("1st;2nd;3rd;JB;JMB;GMB;MB;B".Contains(str))
+                        Archers[MaxArchers].classification = str;
+                    else
+                        Archers[MaxArchers].classification = " ";
                     break;
                 case "AGB":
                     Archers[MaxArchers].agbno = str;
                     break;
                 case "NOTES":
                     Archers[MaxArchers].notes = str;
+                    break;
+                case "PAID":
+                    Archers[MaxArchers].paid = str;
+                    break;
+                case "FEE":
+                    float v = 0;
+                    try
+                    {
+                        v = Convert.ToSingle(str);
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Invalid FEE in {0} {1}.", str,
+                            Archers[MaxArchers].forename + " " + Archers[MaxArchers].surname);
+                    }
+                    Archers[MaxArchers].fee = v;
+                    break;
+                case "EMAIL":
+                    Archers[MaxArchers].email = str;
+                    break;
+                case "ADDRESS":
+                    Archers[MaxArchers].address = str;
+                    break;
+                case "PHONE":
+                    Archers[MaxArchers].phone = str;
                     break;
             }
         }
@@ -2018,7 +2081,7 @@ namespace CPBserver
                     swap = false;
                     for (int j = 0; j < MaxArchers - 1; j++)
                     {
-                        if (string.Compare(Archers[j].target, Archers[j + 1].target) > 0)
+                        if (Archers[j + 1].target != null && string.Compare(Archers[j].target, Archers[j + 1].target) > 0)
                         {
                             Archer t = Archers[j];
                             Archers[j] = Archers[j + 1];
@@ -2132,10 +2195,10 @@ namespace CPBserver
             for (int i = 0; i < MAXARCHERS; i++, t++)
             {
                 string s = (t / ARCHERSPERTARGET).ToString("0#") + letter[t % ARCHERSPERTARGET];
-                if (i > 0 && Archers[i].target == Archers[i - 1].target)
+                if (Archers[i].target == "")
+                    Console.WriteLine("No target number {0}", Archers[i].forename + " " + Archers[i].surname);
+                else if (i > 0 && Archers[i].target == Archers[i - 1].target)
                     Console.WriteLine("Duplicate target numbers {0}", Archers[i].target);
-                else if (Archers[i].target == "")
-                    Console.WriteLine("No target number {0}", Archers[MaxArchers].forename + " " + Archers[MaxArchers].surname);
                 else if (String.Compare(Archers[i].target, s) < 0)
                 {
                     Console.WriteLine("Extra Target {0}", Archers[i].target);
@@ -2181,21 +2244,8 @@ namespace CPBserver
             };
         }
 
-        public static int Main(String[] args)
+        public static void readtxts()
         {
-            Console.Write("CPBserver  Copyright (C) 2014 Mike Johnson\r\n"
-                + "This program comes with ABSOLUTELY NO WARRANTY.\r\n"
-                + "This is free software, and you are welcome to redistribute it.\r\n"
-                + "See gpl.txt or http://www.gnu.org/licenses/ for conditions.\r\n\n");
-            Readcfg();
-            Console.WriteLine("Server address {0} ports {1}, {2}\r\nDirectory {3}, TIMEOUT {4}",
-                GetLocalIP(), RESULTPORT, UPDATEPORT, FilePath, TIMEOUT);
-            ReadDataFile(FilePath + "data.csv");
-            sortbytarget();
-            insertfreetargets();
-            sortbytarget();
-            checktargetnumbers();
-            // SaveDataFile(FilePath + "data.csv");
             results = ReadFile(FilePath + "results.txt");
             updateentry = ReadFile(FilePath + "updateentry.txt");
             movearcher = ReadFile(FilePath + "movearcher.txt");
@@ -2212,6 +2262,24 @@ namespace CPBserver
             printpage = ReadFile(FilePath + "print.txt");
             hc2dozen = ReadFile(FilePath + "hc2dozen.txt");
             logo = ReadLogo(FilePath + "logo.gif");
+        }
+
+        public static int Main(String[] args)
+        {
+            Console.Write("CPBserver  Copyright (C) 2014 Mike Johnson\r\n"
+                + "This program comes with ABSOLUTELY NO WARRANTY.\r\n"
+                + "This is free software, and you are welcome to redistribute it.\r\n"
+                + "See gpl.txt or http://www.gnu.org/licenses/ for conditions.\r\n\n");
+            Readcfg();
+            Console.WriteLine("Server address {0} ports {1}, {2}\r\nDirectory {3}, TIMEOUT {4}",
+                GetLocalIP(), RESULTPORT, UPDATEPORT, FilePath, TIMEOUT);
+            ReadDataFile(FilePath + "data.csv");
+            sortbytarget();
+            insertfreetargets();
+            sortbytarget();
+            checktargetnumbers();
+            // SaveDataFile(FilePath + "data.csv");
+            readtxts();
 
             Thread resultsThread = new Thread(new ThreadStart(Results));
             resultsThread.Start();
@@ -2229,6 +2297,8 @@ namespace CPBserver
                     resultsclosed = true;
                 if (s.Contains("open"))
                     resultsclosed = false;
+                if (s.Contains("read"))
+                    readtxts();
             }
 
             backupThread.Join();

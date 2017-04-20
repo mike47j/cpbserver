@@ -24,6 +24,8 @@
             if (printtype == 0) { // print everyone
                 var index;
                 for (index = 0; index < maxdata; index++) {
+					if (data[index][STATE] == "Free")
+						continue;
                     if (data[index][ROUND] == "NotSet") {
 						if (index>0 && data[index][TARGET].substr(0,2) == data[index-1][TARGET].substr(0,2) 
 						  && data[index-1][ROUND] != "NotSet") {
@@ -41,14 +43,14 @@
                             roundstr = "Bristol 1";
                     }
 					var tmp = data[index][FORENAME] + " " + data[index][SURNAME];
-                    printheader(data[index][TARGET], tmp, (tmp != " " ? data[index][CLUB] : ""), (tmp != " " ? data[index][BOW] : ""),
+                    printheader(false, data[index][TARGET], tmp, (tmp != " " ? data[index][CLUB] : ""), (tmp != " " ? data[index][BOW] : ""),
                         (tmp != " " ? data[index][GENDER]+" "+data[index][AGEGROUP] : ""), roundstr, (tmp != " " ? data[index][AGB] : ""));
-                    printbody(data[index][ROUND]);
+                    printbody(false, data[index][ROUND]);
                 }
             }
             else if (printtype == 1) { // print a blank
-                printheader("", "", "", "", "", roundstr, "");
-                printbody(roundstr);
+                printheader(true, "", "", "", "", "", roundstr, "");
+                printbody(true, roundstr);
             }
 			else if (printtype == 2) { // print duplicate with scores
                 roundstr = data[ROUND];
@@ -59,31 +61,31 @@
                         roundstr = "Bristol 1";
                 }
 				var tmp = data[FORENAME] + " " + data[SURNAME];
-                printheader(data[TARGET], tmp, (tmp != " " ? data[CLUB] : ""), (tmp != " " ? data[BOW] : ""),
+                printheader(false, data[TARGET], tmp, (tmp != " " ? data[CLUB] : ""), (tmp != " " ? data[BOW] : ""),
 				   (tmp != " " ? data[GENDER]+" "+data[AGEGROUP] : ""), roundstr, (tmp != " " ? data[AGB] : ""));
 
-                printbody(data[ROUND]);
+                printbody(false, data[ROUND]);
 			}
             document.getElementById("page").innerHTML = txt;
         }
 
-        function printbody(roundstr) {
+        function printbody(blank, roundstr) {
             var rnd, i, arrowno;
             for (rnd = 0; rnd < rounds.length; rnd++) {
                 if (roundstr == rounds[rnd][RNDNAME])
                     break;
             }
-            var imperialdistance = rounds[rnd][RNDMETERS];
+            var imperialdistance = rounds[rnd][RNDMETRES];
             scoring = rounds[rnd][RNDSCORING];
             var arrowspwerend = rounds[rnd][RNDEND];
             var tb1str = "H";
             var tb2str = "G";
             if (rounds[rnd][RNDTIEBREAK] == TieBreakWAOutdoor) {
-                tb1str = "X/10";
+                tb1str = "X+10";
                 tb2str = "X"
             }
             else if (rounds[rnd][RNDTIEBREAK] == TieBreakWAIndoor) {
-                tb1str = "X/10";
+                tb1str = "10";
                 tb2str = "9"
             }
             else if (rounds[rnd][RNDTIEBREAK] == TieBreakAGBWorcester)
@@ -168,12 +170,16 @@
 
                     if (rndarrowno >= rounds[rnd][subrnd * 3 + RNDARROWS1]) {
                         // sub totals
-                        var distance = rounds[rnd][subrnd * 3 + RNDDISTANCE1];
-                        var targetsize = rounds[rnd][subrnd * 3 + RNDTARGET1];
+						var distance = "&nbsp;&nbsp;&nbsp;&nbsp;";
+						var targetsize = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+						if (!blank) {
+							distance = rounds[rnd][subrnd * 3 + RNDDISTANCE1];
+							targetsize = rounds[rnd][subrnd * 3 + RNDTARGET1];
+						}
                         if (imperialdistance == 0)
                             distance += " yards. ";
                         else
-                            distance += " meters. ";
+                            distance += " metres. ";
                         distance += targetsize + " cm face. ";
                         txt += "<tr style=\"height:9mm;\"><td colspan=\"" + (arrowspwerend * 2 + 4) + "\" align=\"right\">" + distance
                             + " Sub Totals.&nbsp;</td><td style=\"text-align:center;border-left:2px solid black;border-top:2px solid black;border-bottom:2px solid black;\">"
@@ -207,7 +213,7 @@
             txt += "<div style=\"height:0mm; page-break-after:always;\"></div>";
         }
 
-        function printheader(target, name, club, bow, gender, roundstr, agb) {
+        function printheader(blank, target, name, club, bow, gender, roundstr, agb) {
             txt += "<div style=\"height:5mm;\"></div>"
                 + "<table><tr><td style=\"width=20mm\"><img src=\"/logo.gif\" style=\"height:20mm; width=20mm\" />"
                 + "<td style=\"width:150mm; text-align:center; font-size:20pt;font-family:Helvetica,Arial,sans-serif;\">"
@@ -218,24 +224,24 @@
             txt += "<table border=\"1\" style=\"width:190mm;border-collapse: collapse;font-family:Helvetica,Arial,sans-serif;\" >"
                 + "<tr style=\"height:14mm;\"><td colspan=\"2\">"
                 + "<table><tr style=\"height:3mm;\"><td style=\"font-size:9pt;\">Name<tr style=\"height:8mm;\">"
-                + "<td style=\"padding-left:10mm;font-size:18pt;\">" + name + "</table>"
+                + "<td style=\"padding-left:10mm;font-size:18pt;\">" + (blank ? "" : name) + "</table>"
                 + "<td style=\"width:22%;\">"
                 + "<table><tr style=\"height:3mm;\"><td style=\"font-size:9pt;\">Target<tr style=\"height:8mm;\">"
-                + "<td style=\"padding-left:10mm;font-size:18pt;\" align=\"center\">" + target + "</table>";
+                + "<td style=\"padding-left:10mm;font-size:18pt;\" align=\"center\">" + (blank ? "" : target) + "</table>";
             // Club, bow, gender
             txt += "<tr style=\"height:11mm;width:56%;\"><td><table><tr style=\"height:3mm;\"><td style=\"font-size:9pt;\">Club<tr style=\"height:7mm;\">"
-                + "<td style=\"padding-left:10mm;font-size:14pt;\">" + club + "</table>"
+                + "<td style=\"padding-left:10mm;font-size:14pt;\">" + (blank ? "" : club) + "</table>"
                 + "<td style=\"width:22%;\"><table><tr style=\"height:3mm;\"><td style=\"font-size:9pt;\">Bow type<tr style=\"height:7mm;\">"
-                + "<td style=\"padding-left:10mm;font-size:14pt;\">" + bow + "</table>"
+                + "<td style=\"padding-left:10mm;font-size:14pt;\">" + (blank ? "" : bow) + "</table>"
                 + "<td style=\"width:22%;\"><table><tr style=\"height:3mm;\"><td style=\"font-size:9pt;\">Gender and Age Group<tr style=\"height:7mm;\">"
-                + "<td style=\"padding-left:10mm;font-size:14pt;\">" + gender + "</table>";
+                + "<td style=\"padding-left:10mm;font-size:14pt;\">" + (blank ? "" : gender) + "</table>";
             // round and date
             txt += "<tr style=\"height:11mm;\"><td><table><tr style=\"height:3mm;\"><td style=\"font-size:9pt;\">Round<tr style=\"height:7mm;\">"
-                + "<td style=\"padding-left:10mm;font-size:14pt;\">" + roundstr + "</table>"
+                + "<td style=\"padding-left:10mm;font-size:14pt;\">" + (blank ? "" : roundstr) + "</table>"
                 + "<td><table><tr style=\"height:3mm;\"><td style=\"font-size:9pt;\">AGB No<tr style=\"height:7mm;\">"
-                + "<td style=\"padding-left:10mm;font-size:14pt;\">" + agb + "</table>"
+                + "<td style=\"padding-left:10mm;font-size:14pt;\">" + (blank ? "" : agb) + "</table>"
                 + "<td><table><tr style=\"height:3mm;\"><td style=\"font-size:9pt;\">Date<tr style=\"height:7mm;\">"
-                + "<td style=\"padding-left:10mm;font-size:14pt;\">" + tournamentdate + "</table>"
+                + "<td style=\"padding-left:10mm;font-size:14pt;\">" + (blank ? "" : tournamentdate) + "</table>"
                 + "</table><div style=\"height:5mm;\"></div>";
         }
 

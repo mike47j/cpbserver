@@ -15,12 +15,27 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-        var entrylist = false;
         var sort = new Array();
+		var sortbybow = false;
+		var sortbyclass = false;
+		var sortbyage = false;
+		var sortbyround = false;
+
+		function allfalse() {
+			sortbybow = false;
+			sortbyclass = false;
+			sortbyage = false;
+			sortbyround = false;
+			sortbyname = false;
+			sortbyscore = false;
+			sortbyteam = false;
+			sortbyref = false;
+		}
 
         function page() {
             var i, highi, highv, txt = "";
             var rnd, tb1 = "", tb2 = "";
+			var today;
             if (entrylist) {
                 // make a table of rounds, count archers
                 var round = new Array();
@@ -55,13 +70,34 @@
                     if (sortbyscore) {
                         sort[i] = 1 + data[i][SCORE] + data[i][TIEBREAK1] / 1000 + data[i][TIEBREAK2] / 1000000;
                     }
-                    else if (sortbyteam)
-                        sort[i] = data[i][CLUB] + " " + data[i][TEAM];
-                    else if (sortbyname)
+                    else if (sortbyteam) {
+                        sort[i] = data[i][CLUB] + " " + data[i][TEAM] + " " + (data[i][SURNAME] + " " + data[i][FORENAME]).toUpperCase();
+					}
+                    else if (sortbyname) {
                         sort[i] = (data[i][SURNAME] + " " + data[i][FORENAME]).toUpperCase();
-                    else // by target number
+					}
+                    else if (sortbyref) { // by reference number, name
+                        sort[i] = "000" + data[i][ENTRYREF];
+						sort[i] = sort[i].substr(sort[i].length-4,sort[i].length) 
+							+ (data[i][SURNAME] + " " + data[i][FORENAME]).toUpperCase();
+				    }
+					else if (sortbyround) {
+						sort[i] = data[i][ROUND] +" "+data[i][BOW]+" "+data[i][SURNAME];
+					}
+					else if (sortbybow) {
+						sort[i] = data[i][BOW]+" "+data[i][ROUND]+" "+data[i][SURNAME];
+					}
+					else if (sortbyclass) {
+						sort[i] = data[i][CLASS]+" "+data[i][SURNAME];
+					}
+					else if (sortbyage) {
+						sort[i] = data[i][AGEGROUP]+" "+data[i][SURNAME];
+					}
+                    else { // by target number
                         sort[i] = data[i][TARGET];
-                    if (tb1 == "") {
+					}
+					// find tie break column headings from rounds
+                    if (tb1 == "" && data[i][ROUND]!="" && data[i][ROUND]!="NotSet") {
                         for (rnd = 0; rnd < rounds.length; rnd++) {
                             if (data[i][ROUND] == rounds[rnd][RNDNAME])
                                 break;
@@ -69,11 +105,11 @@
                         tb1 = "H";
                         tb2 = "G";
                         if (rounds[rnd][RNDTIEBREAK] == TieBreakWAOutdoor) {
-                            tb1 = "X/10";
+                            tb1 = "X+10";
                             tb2 = "X"
                         }
                         else if (rounds[rnd][RNDTIEBREAK] == TieBreakWAIndoor) {
-                            tb1 = "X/10";
+                            tb1 = "X+10";
                             tb2 = "9"
                         }
                         else if (rounds[rnd][RNDTIEBREAK] == TieBreakAGBWorcester)
@@ -82,74 +118,127 @@
                             tb2 = "10";
                     }
                 }
-                else if (targetlist && !sortbyname) // include empty spaces on targets in target list by target no
+                else if (targetlist && !sortbyname && !entrylist && !sortbyteam && !sortbyref && !sortbyscore 
+				  && !sortbyage && !sortbyround && !sortbybow && !sortbyclass) 
+				    // include empty spaces on targets in target list by target no
                     sort[i] = data[i][TARGET];
             }
+			
+			// main page heading
+            txt += "<table><tr><td style=\"width:20mm;height:20mm;padding:0;\">"
+				+ "<img src=\"/logo.gif\" style=\"height:20mm; width=20mm\" />"
+                + "<td style=\"width:145mm;text-align:center;vertical-align:middle;font-weight:normal;font-size:19pt;font-family:Helvetica,Arial,sans-serif;\">"
+                + tournament 
+				+ "<td style=\"width:20mm;padding:0;\">"
+				+ "<img src=\"/logo.gif\" style=\"height:20mm; width=20mm\" /></table>";
 
-            if (printing) {
-                txt += "<table><tr><td style=\"width=20mm\"><img src=\"/logo.gif\" style=\"height:20mm; width=20mm\" />"
-                        + "<td style=\"width:150mm; text-align:center; font-weight:bold;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">"
-                        + tournament + "<td style=\"width=20mm\"><img src=\"/logo.gif\" style=\"height:20mm; width=20mm\" /></table>";
+            var month = new Array("January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+            var stndrdth = new Array("", "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th", "11th", "12th", "13th", "14th",
+                "15th", "16th", "17th", "18th", "19th", "20th", "21st", "22nd", "23rd", "24th", "25th", "26th", "27th", "28th", "29th", "30th", "31st");
+			var d = new Date();
+			today = stndrdth[d.getDate()] + " " + month[d.getMonth()] + " " + d.getFullYear();
+            if (printing || entrylist) {
                 var dow = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
-                var month = new Array("January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
-                var stndrdth = new Array("", "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th", "11th", "12th", "13th", "14th",
-                    "15th", "16th", "17th", "18th", "19th", "20th", "21st", "22nd", "23rd", "24th", "25th", "26th", "27th", "28th", "29th", "30th", "31st");
                 var datev = new Date(parseInt(tournamentdate.substr(6, 4)), parseInt(tournamentdate.substr(3, 2)) - 1, parseInt(tournamentdate.substr(0, 2)));
                 var datestr = dow[datev.getDay()] + " " + stndrdth[datev.getDate()] + " " + month[datev.getMonth()] + " " + datev.getFullYear();
-                txt += "<table><tr><td width=\"160\">Date:</td><td width=\"600\">" + datestr + "</td></tr><tr></tr>";
-                txt += "<tr><td width=\"160\">Venue:</td><td width=\"600\">" + venue + "</td></tr><tr></tr>";
-                txt += "<tr><td width=\"160\">Judges:</td><td width=\"600\">" + judges + "</td></tr><tr></tr>";
+                txt += "<table style=\"font-size:12pt;font-family:Times;font-weight:normal\">"
+				    + "<tr><td style=\"width:42mm\">Date:</td><td style=\"width:138mm\">" + datestr + "</td></tr><tr></tr>";
+                txt += "<tr><td>Venue:</td><td>" + venue + "</td></tr><tr></tr>";
+                txt += "<tr><td>Judges:</td><td>" + judges + "</td></tr><tr></tr>";
                 if (patron == "")
-                    txt += "<tr><td width=\"160\">Lady Paramount:</td><td width=\"600\">" + paramount + "</td></tr><tr></tr>";
+                    txt += "<tr><td>Lady Paramount:</td><td>" + paramount + "</td></tr><tr></tr>";
                 else
-                    txt += "<tr><td width=\"160\">Lord Paramount:</td><td width=\"600\">" + patron + "</td></tr><tr></tr>";
-                txt += "<tr><td width=\"160\">Tournament Organiser:</td><td width=\"600\">" + tournamentorganiser + "</td></tr><tr></tr>";
-                txt += "<tr><td width=\"160\">Time of Assembly:</td><td width=\"600\">" + timeofassembly + "</td></tr><tr></tr>";
+                    txt += "<tr><td>Lord Paramount:</td><td>" + patron + "</td></tr><tr></tr>";
+                txt += "<tr><td>Tournament Organiser:</td><td>" + tournamentorganiser + "</td></tr><tr></tr>";
+                txt += "<tr><td>Time of Assembly:</td><td>" + timeofassembly + "</td></tr><tr></tr>";
                 txt += "</table>";
             }
-            else
-                txt += "<h2 style=\"text-align:center;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\" >"
-                    + tournament + "</h2>";
 
-            if (entrylist) {
-                txt += "<h3 style=\"font-family:Helvetica,Arial,sans-serif;\">Entry List</h3>";
-            }
-            else if (targetlist) {
-                if (sortbyteam)
-                    txt += "<h3 style=\"font-family:Helvetica,Arial,sans-serif;\">Target List by Team</h3>";
-                else if (sortbyname)
-                    txt += "<h3 style=\"font-family:Helvetica,Arial,sans-serif;\">Target List by Name</h3>";
-                else
-                    txt += "<h3 style=\"font-family:Helvetica,Arial,sans-serif;\">Target List by Target</h3>";
-            }
-            else {
-                if (sortbyscore)
-                    txt += "<h3 style=\"font-family:Helvetica,Arial,sans-serif;\">Scores by Score</h3>";
-                else if (sortbyteam)
-                    txt += "<h3 style=\"font-family:Helvetica,Arial,sans-serif;\">Scores by Team</h3>";
-                else if (sortbyname)
-                    txt += "<h3 style=\"font-family:Helvetica,Arial,sans-serif;\">Scores by Name</h3>";
-                else
-                    txt += "<h3 style=\"font-family:Helvetica,Arial,sans-serif;\">Scores by Target</h3>";
-            }
+			txt += "<h2>";
+			if (fulllist)
+				txt += "Full List";
+			else if (checkin) 
+				txt += "Check in List";
+            else if (entrylist) 
+				txt += "Entry List on " + today;
+            else if (targetlist)
+                txt += "Target List";
+            else if (scoreby)
+                txt += "Scores";
+			if (sortbybow)
+				txt += " by bow.";
+			else if (sortbyclass)
+				txt += " by class.";
+			else if (sortbyage)
+				txt += " by age.";
+			else if (sortbyround)
+				txt += " by round.";
+			else if (sortbyname)
+				txt += " by name.";
+			else if (sortbyscore)
+				txt += " by score.";
+			else if (sortbyteam)
+			    if (teamflag)
+					txt += " by team.";
+				else
+					txt += " by club.";
+			else if (sortbyref)
+				txt += " by ref.";
+			else
+				txt += " by target.";
+			txt += "</h2>";
 
             if (entrylist) {
                 var a = 0, t = 0;
-                txt += "<table border=\"1\" style=\"border-collapse: collapse;\" >";
-                txt += "<tr><th width=\"200\">Round<th width=\"100\">Archers<th width=\"100\">Targets</tr>";
+				txt += "<style type=\"text/css\">th,tr,td,thead,tbody{border:inherit;}</style>";
+                txt += "<table style=\"border-collapse:collapse;border:1pt solid black;\">"
+				    + "<thead><tr><th style=\"width:40mm\">Round<th style=\"width:20mm\">Archers<th style=\"width:20mm\">Targets</tr></thead><tbody>";
                 for (j = 0; j < round.length; j++) {
                     txt += "<tr><td>" + round[j] + "</td><td align=\"center\">" + roundcount[j]
                         + "</td><td align=\"center\">" + Math.floor((roundcount[j] + 3) / 4) + "</td></tr>";
                     a += roundcount[j];
                     t += Math.floor((roundcount[j] + 3) / 4);
                 }
-                txt += "<tr><td>Totals</td><td align=\"center\">" + a + "</td><td align=\"center\">" + t + "</td></tr></table><p></p>";
+                txt += "<tr><td>Totals</td><td align=\"center\">" + a + "</td><td align=\"center\">" + t + "</td></tr></tbody></table><p></p>";
             }
 
-            var firstpage = true, lines = 0;
-            var found = true;
-            while (found) {
-                found = false;
+			// column headings
+            txt += "<table border=\"1\" style=\"border-collapse: collapse;font-size:12pt;font-family:Times;font-weight:normal\"><thead><tr>";
+            if (fulllist) {
+                txt += "<th style=\"width:13mm;\" onclick=\"allfalse(); sortbyref=true; page()\">Ref</th>";
+				txt += "<th style=\"width:13mm;\" onclick=\"allfalse(); page()\">Target</th>";
+			}
+            else if (entrylist)
+                txt += "<th style=\"width:13mm;\" onclick=\"allfalse(); sortbyref=true; page()\">Ref</th>";
+            else
+                txt += "<th style=\"width:13mm;\" onclick=\"allfalse(); page()\">Target</th>";
+			txt += "<th style=\"width:42mm;\" onclick=\"allfalse(); sortbyname=true; page()\">Name</th>";
+			txt += "<th style=\"width:42mm;\" onclick=\"allfalse(); sortbyteam=true; page()\">Club</th>";
+            if (teamflag == 1)
+                txt += "<th onclick=\"allfalse(); sortbyteam=true; page()\">Team</th>";
+            if (!scoreby) {
+                txt += "<th style=\"width:20mm;\" onclick=\"allfalse(); sortbybow=true; page()\">Bow</th>"
+				   + "<th style=\"width:15mm;\">Gender</th>"
+				   + "<th style=\"width:10mm;\" onclick=\"allfalse(); sortbyage=true; page()\">Age</th>"
+                   + "<th style=\"width:19mm;\" onclick=\"allfalse(); sortbyround=true; page()\">Round</th>"
+				   + "<th style=\"width:19mm;\">AGB&nbsp;No</th>";
+			}
+            if (fulllist || entrylist)
+                txt += "<th onclick=\"allfalse(); sortbyclass=true; page()\">Class</th>";
+            if (handicapflag == 1)
+                txt += "<th>Handicap</th>";
+            if (scoreby) {
+                txt += "<th style=\"width:50pt\" onclick=\"allfalse(); sortbyscore=true; page()\">Total</th>" 
+				    + "<th style=\"width:50pt\">" + tb1 
+				    + "</th><th style=\"width:50pt\">" + tb2 + "</th>"
+                    + "<th style=\"width:50pt\">Arrows</th><th style=\"width:50pt\">&nbsp;</th>";
+            }
+            if (!printing && !entrylist && !scoreby) {
+                txt += "<th>Notes</th>";
+            }
+            txt += "</tr></thead><tbody>";
+
+            while (true) {
                 highi = -1;
                 for (i = 0; i < maxdata; i++) {
                     if (sort[i] != "") {
@@ -163,93 +252,78 @@
                         }
                     }
                 }
-                if (highi != -1) {
-                    found = true;
-                    if (lines == 0) {
-                        txt += "<table border=\"1\" style=\"border-collapse: collapse;\">";
-                        if (entrylist)
-                            txt += "<tr><th width=\"40\">Ref</th><th width=\"160\">Name</th><th width=\"160\">Club</th>";
-                        else
-                            txt += "<tr><th width=\"40\">Target</th><th width=\"160\">Name</th><th width=\"160\">Club</th>";
-                        if (teamflag == 1)
-                            txt += "<th>Team</th>";
-                        if (targetlist || sortbyscore) {
-                            txt += "<th width=\"70\">Bow</th><th width=\"40\">Gender</th><th width=\"40\">Age</th>"
-                                + "<th width=\"70\">Round</th><th width=\"70\">AGB&nbsp;No</th>";
-                            if (entrylist)
-                                txt += "<th>Class</th>";
-                            if (handicapflag == 1)
-                                txt += "<th>Handicap</th>";
-                        }
-                        if (!targetlist) {
-                            txt += "<th width=\"50\">Total</th><th width=\"50\">" + tb1 + "</th><th width=\"50\">" + tb2 + "</th>"
-                                + "<th width=\"50\">Arrows</th><th width=\"50\">&nbsp;</th>";
-                        }
-                        else if (!printing) {
-                            txt += "<th width=\"100\">Notes</th>";
-                        }
-                        txt += "</tr>";
-                    }
-                    var roundstr = data[highi][ROUND];
-                    if (roundstr == "Hereford / Bristol 1") {
-                        if (data[highi][GENDER].substr(0, 1) == "W" || data[highi][GENDER].substr(0, 2) == "JW")
-                            roundstr = "Hereford";
-                        else
-                            roundstr = "Bristol 1";
-                    }
 
-                    txt += "<tr><td align=\"center\">" + data[highi][TARGET] + "</td>";
-                    if (data[highi][STATE] == "Free" || data[highi][STATE] == "NotSet") {
-                        txt += "<td>&nbsp;</td><td>&nbsp;";
-                        if (teamflag == 1)
-                            txt += "</td><td align=\"center\">&nbsp;";
-                    }
+				if (highi == -1)
+					break;
+
+                var roundstr = data[highi][ROUND];
+                if (roundstr == "Hereford / Bristol 1") {
+                    if (data[highi][GENDER].substr(0, 1) == "W" || data[highi][GENDER].substr(0, 2) == "JW")
+                        roundstr = "Hereford";
+                    else
+                        roundstr = "Bristol 1";
+                }
+
+                txt += "<tr style=\"page-break-inside:avoid;\"><td align=\"center\">";
+				if (fulllist)
+					txt += data[highi][ENTRYREF] + "</td><td align=\"center\">" + data[highi][TARGET] + "</td>";
+				else if (entrylist)
+					txt += data[highi][ENTRYREF] + "</td>";
+				else
+					txt += data[highi][TARGET] + "</td>";
+
+                if (data[highi][STATE] == "Free" || data[highi][STATE] == "NotSet") {
+                    txt += "<td>&nbsp;</td><td>&nbsp;";
+                    if (teamflag == 1)
+                        txt += "</td><td align=\"center\">&nbsp;";
+                }
+                else {
+                    txt += "<td>" + data[highi][FORENAME] + " " + data[highi][SURNAME] + "</td><td>" + data[highi][CLUB];
+                    if (teamflag == 1)
+                        txt += "</td><td align=\"center\">" + data[highi][TEAM];
+                }
+
+                if (!scoreby) {
+                    if (data[highi][STATE] == "Free" || data[highi][STATE] == "NotSet")
+                        txt += "</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>";
                     else {
-                        txt += "<td>" + data[highi][FORENAME] + " " + data[highi][SURNAME] + "</td><td>" + data[highi][CLUB];
-                        if (teamflag == 1)
-                            txt += "</td><td align=\"center\">" + data[highi][TEAM];
-                    }
-                    if (targetlist || sortbyscore) {
-                        if (data[highi][STATE] == "Free" || data[highi][STATE] == "NotSet") {
-                            txt += "</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>";
-                            if (entrylist)
-                                txt += "</td><td>&nbsp;";
-                            if (handicapflag == 1)
-                                txt += "</td><td>&nbsp;";
-                        }
-                        else {
-                            txt += "</td><td align=\"center\">" + data[highi][BOW] + "</td><td align=\"center\">"
-                                + data[highi][GENDER][0] + "</td><td align=\"center\">"
-                                + data[highi][AGEGROUP] + "</td><td align=\"center\">" + roundstr
-                                + "<td align=\"center\">" + data[highi][AGB];
-                            if (entrylist)
-                                txt += "</td><td align=\"center\">" + (data[highi][CLASS]=="Â" ? "" : data[highi][CLASS]);
-                            if (handicapflag == 1)
-                                txt += "</td><td align=\"center\">" + data[highi][HANDICAP];
-                        }
-                    }
-                    if (!targetlist) {
-                        txt += "</td><td align=\"center\">" + data[highi][SCORE] + "</td><td align=\"center\">"
-                            + data[highi][TIEBREAK1] + "</td><td align=\"center\">" + data[highi][TIEBREAK2]
-                            + "</td><td align=\"center\">" + data[highi][ARROWCNT] + "</td><td align=\"center\">"
-                            + (data[highi][STATE] == "Inuse" ? "&nbsp;" : data[highi][STATE]);
-                    }
-                    else if (!printing) {
-                        txt += "</td><td align=\"center\">" + data[highi][NOTES];
-                    }
-                    txt += "</td></tr>";
-                    sort[highi] = "";
-                    if ((data[highi][FORENAME] + " " + data[highi][SURNAME]).length > 18 || data[highi][CLUB].length > 18)
-                        lines++;
-                    lines++;
-                    if (printing && (firstpage && lines > 26) || (!firstpage && lines > 41)) {
-                        txt += "</table><div style=\"height:0mm; page-break-after:always;\"></div>";
-                        firstpage = false;
-                        lines = 0;
+                        txt += "</td><td align=\"center\">" + data[highi][BOW] + "</td><td align=\"center\">"
+                            + data[highi][GENDER][0] + "</td><td align=\"center\">" + data[highi][AGEGROUP] 
+							+ "</td><td align=\"center\">" + roundstr + "<td align=\"center\">" + data[highi][AGB];
                     }
                 }
+                if (fulllist || entrylist) {
+                    if (data[highi][STATE] == "Free" || data[highi][STATE] == "NotSet")
+                        txt += "</td><td>&nbsp;";
+					else
+                        txt += "</td><td align=\"center\">" + data[highi][CLASS];
+				}					
+                if (handicapflag == 1) {
+                    if (data[highi][STATE] == "Free" || data[highi][STATE] == "NotSet")
+                        txt += "</td><td>&nbsp;";
+					else
+						txt += "</td><td align=\"center\">" + data[highi][HANDICAP];
+				}
+                if (scoreby) {
+                    txt += "</td><td align=\"center\">" + data[highi][SCORE] + "</td><td align=\"center\">"
+                        + data[highi][TIEBREAK1] + "</td><td align=\"center\">" + data[highi][TIEBREAK2]
+                        + "</td><td align=\"center\">" + data[highi][ARROWCNT] + "</td><td align=\"center\">"
+                        + (data[highi][STATE] == "Inuse" ? "&nbsp;" : data[highi][STATE]);
+                }
+                if (!printing && !entrylist && !scoreby) {
+				    var notes = data[highi][NOTES];
+					if (checkin) {
+						if (notes.indexOf("POD") != -1)
+							notes = "POD";
+						else
+							notes = "";
+					}
+                    txt += "</td><td align=\"center\">" + notes;
+                }
+                txt += "</td></tr>";
+                sort[highi] = "";
             }
-            txt += "</table>";
+            txt += "</tbody></table>";
             document.getElementById("page").innerHTML = txt;
         }
 

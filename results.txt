@@ -19,52 +19,50 @@
 
 var medalalloc = new Array(
 new Array("", ""),
-new Array("York", "W JWU18 JWU16 JWU14 JWU12 M JMU18 JMU16 JMU14 JMU12 "),
-new Array("Hereford / Bristol 1", "W JWU18 JWU16 JWU14 JWU12 JMU18 JMU16 JMU14 JMU12 "),
-new Array("Burntwood York", "W JWU18 JWU16 JWU14 JWU12 M JMU18 JMU16 JMU14 JMU12 "),
-new Array("Burntwood Hereford", "W JWU18 JWU16 JWU14 JWU12 JMU18 JMU16 JMU14 JMU12 "),
-new Array("Bristol 2", "JWU18 JWU16 JWU14 JWU12 JMU16 JMU14 JMU12 "),
-new Array("Bristol 3", "JWU16 JWU14 JWU12 JMU14 JMU12 "),
-new Array("Bristol 4", "JWU14 JWU12 JMU12 "),
-new Array("Bristol 5", "JWU12 "),
-new Array("St. George", "W JWU18 JWU16 JWU14 JWU12 M JMU18 JMU16 JMU14 JMU12 "),
-new Array("Albion", "W JWU18 JWU16 JWU14 JWU12 JMU18 JMU16 JMU14 JMU12 "),
-new Array("Windsor", "JWU18 JWU16 JWU14 JWU12 JMU16 JMU14 JMU12 "),
-new Array("Short Windsor", "JWU16 JWU14 JWU12 JMU14 JMU12 "),
-new Array("Junior Windsor", "JWU14 JWU12 JMU12 "),
-new Array("Short Junior Windsor", "JWU12 "),
-new Array("New Western", "W JWU18 JWU16 JWU14 JWU12 M JMU18 JMU16 JMU14 JMU12 "),
-new Array("Long Western", "W JWU18 JWU16 JWU14 JWU12 JMU18 JMU16 JMU14 JMU12 "),
-new Array("Western", "JWU18 JWU16 JWU14 JWU12 JMU16 JMU14 JMU12 "),
-new Array("Short Western", "JWU16 JWU14 JWU12 JMU14 JMU12 "),
-new Array("Junior Western", "JWU14 JWU12 JMU12 "),
-new Array("Short Junior Western", "JWU12 "),
-new Array("New National", "W JWU18 JWU16 JWU14 JWU12 M JMU18 JMU16 JMU14 JMU12 "),
-new Array("Long National", "W JWU18 JWU16 JWU14 JWU12 JMU18 JMU16 JMU14 JMU12 "),
-new Array("National", "JWU18 JWU16 JWU14 JWU12 JMU16 JMU14 JMU12 "),
-new Array("Short National", "JWU16 JWU14 JWU12 JMU14 JMU12 "),
-new Array("Junior National", "JWU14 JWU12 JMU12 "),
-new Array("Short Junior National", "JWU12 "),
-new Array("New Warwick", "W JWU18 JWU16 JWU14 JWU12 M JMU18 JMU16 JMU14 JMU12 "),
-new Array("Long Warwick", "W JWU18 JWU16 JWU14 JWU12 JMU18 JMU16 JMU14 JMU12 "),
-new Array("Warwick", "JWU18 JWU16 JWU14 JWU12 JMU16 JMU14 JMU12 "),
-new Array("Short Warwick", "JWU16 JWU14 JWU12 JMU14 JMU12 "),
-new Array("Junior Warwick", "JWU14 JWU12 JMU12 "),
-new Array("Short Junior Warwick", "JWU12 "),
-new Array("WA 1440 (Gentlemen)", "W JWU18 JWU16 JWU14 JWU12 M JMU18 JMU16 JMU14 JMU12 "),
-new Array("WA 1440 (Ladies)", "W JWU18 JWU16 JWU14 JWU12 JMU18 JMU16 JMU14 JMU12 "),
-new Array("WA 1440 (Cadet Ladies)", "JWU18 JWU16 JWU14 JWU12 JMU16 JMU14 JMU12 "),
-new Array("Metric I", "W JWU18 JWU16 JWU14 JWU12 JMU18 JMU16 JMU14 JMU12 "),
-new Array("Metric II", "JWU18 JWU16 JWU14 JWU12 JMU16 JMU14 JMU12 "),
-new Array("Metric III", "JWU16 JWU14 JWU12 JMU14 JMU12 "),
-new Array("Metric IV", "JWU14 JWU12 JMU12 "),
-new Array("Metric V", "JWU12 "),
-new Array("Long Metric", "W JWU18 JWU16 JWU14 JWU12 M JMU18 JMU16 JMU14 JMU12 "),
-new Array("Long Metric I", "W JWU18 JWU16 JWU14 JWU12 JMU18 JMU16 JMU14 JMU12 "),
-new Array("Long Metric II", "JWU18 JWU16 JWU14 JWU12 JMU16 JMU14 JMU12 "),
-new Array("Long Metric III", "JWU16 JWU14 JWU12 JMU14 JMU12 "),
-new Array("Long Metric IV", "JWU14 JWU12 JMU12 "),
-new Array("Long Metric V", "JWU12 ")
+new Array("York", "W JWU18 JWU16 JWU14 JWU12 JWU10  M JMU18 JMU16 JMU14 JMU12 JMU10 "),
+new Array("Hereford / Bristol 1", "W JWU18 JWU16 JWU14 JWU12 JWU10  JMU18 JMU16 JMU14 JMU12 JMU10 "),
+new Array("Burntwood York", "W JWU18 JWU16 JWU14 JWU12 JWU10  M JMU18 JMU16 JMU14 JMU12 JMU10 "),
+new Array("Burntwood Hereford", "W JWU18 JWU16 JWU14 JWU12 JWU10  JMU18 JMU16 JMU14 JMU12 JMU10 "),
+new Array("Bristol 2", "JWU18 JWU16 JWU14 JWU12 JWU10  JMU16 JMU14 JMU12 JMU10 "),
+new Array("Bristol 3", "JWU16 JWU14 JWU12 JWU10  JMU14 JMU12 JMU10 "),
+new Array("Bristol 4", "JWU14 JWU12 JWU10  JMU12 JMU10 "),
+new Array("Bristol 5", "JWU12 JWU10  JMU10 "),
+new Array("St. George", "W JWU18 JWU16 JWU14 JWU12 JWU10  M JMU18 JMU16 JMU14 JMU12 JMU10 "),
+new Array("Albion", "W JWU18 JWU16 JWU14 JWU12 JWU10  JMU18 JMU16 JMU14 JMU12 JMU10 "),
+new Array("Windsor", "JWU18 JWU16 JWU14 JWU12 JWU10  JMU16 JMU14 JMU12 JMU10 "),
+new Array("Short Windsor", "JWU16 JWU14 JWU12 JWU10  JMU14 JMU12 JMU10 "),
+new Array("Junior Windsor", "JWU14 JWU12 JWU10  JMU12 JMU10 "),
+new Array("Short Junior Windsor", "JWU12 JWU10  JMU10 "),
+new Array("New Western", "W JWU18 JWU16 JWU14 JWU12 JWU10  M JMU18 JMU16 JMU14 JMU12 JMU10 "),
+new Array("Long Western", "W JWU18 JWU16 JWU14 JWU12 JWU10  JMU18 JMU16 JMU14 JMU12 JMU10 "),
+new Array("Western", "JWU18 JWU16 JWU14 JWU12 JWU10  JMU16 JMU14 JMU12 JMU10 "),
+new Array("Short Western", "JWU16 JWU14 JWU12 JWU10  JMU14 JMU12 JMU10 "),
+new Array("Junior Western", "JWU14 JWU12 JWU10  JMU12 JMU10 "),
+new Array("Short Junior Western", "JWU12 JWU10  JMU10 "),
+new Array("New National", "W JWU18 JWU16 JWU14 JWU12 JWU10  M JMU18 JMU16 JMU14 JMU12 JMU10 "),
+new Array("Long National", "W JWU18 JWU16 JWU14 JWU12 JWU10  JMU18 JMU16 JMU14 JMU12 JMU10 "),
+new Array("National", "JWU18 JWU16 JWU14 JWU12 JWU10  JMU16 JMU14 JMU12 JMU10 "),
+new Array("Short National", "JWU16 JWU14 JWU12 JWU10  JMU14 JMU12 JMU10 "),
+new Array("Junior National", "JWU14 JWU12 JWU10  JMU12 JMU10 "),
+new Array("Short Junior National", "JWU12 JWU10  JMU10 "),
+new Array("New Warwick", "W JWU18 JWU16 JWU14 JWU12 JWU10  M JMU18 JMU16 JMU14 JMU12 JMU10 "),
+new Array("Long Warwick", "W JWU18 JWU16 JWU14 JWU12 JWU10  JMU18 JMU16 JMU14 JMU12 JMU10 "),
+new Array("Warwick", "JWU18 JWU16 JWU14 JWU12 JWU10  JMU16 JMU14 JMU12 JMU10 "),
+new Array("Short Warwick", "JWU16 JWU14 JWU12 JWU10  JMU14 JMU12 JMU10 "),
+new Array("Junior Warwick", "JWU14 JWU12 JWU10  JMU12 JMU10 "),
+new Array("Short Junior Warwick", "JWU12 JWU10  JMU10 "),
+new Array("WA 1440 (Gentlemen)", "W JWU18 JWU16 JWU14 JWU12 JWU10  M JMU18 JMU16 JMU14 JMU12 JMU10 "),
+new Array("Metric I / WA 1440 (Ladies)", "W JWU18 JWU16 JWU14 JWU12 JWU10  JMU18 JMU16 JMU14 JMU12 JMU10 "),
+new Array("Metric II", "JWU18 JWU16 JWU14 JWU12 JWU10  JMU16 JMU14 JMU12 JMU10 "),
+new Array("Metric III", "JWU16 JWU14 JWU12 JWU10  JMU14 JMU12 JMU10 "),
+new Array("Metric IV", "JWU14 JWU12 JWU10  JMU12 JMU10 "),
+new Array("Metric V", "JWU12 JWU10  JMU10 "),
+new Array("Long Metric", "W JWU18 JWU16 JWU14 JWU12 JWU10  M JMU18 JMU16 JMU14 JMU12 JMU10 "),
+new Array("Long Metric I", "W JWU18 JWU16 JWU14 JWU12 JWU10  JMU18 JMU16 JMU14 JMU12 JMU10 "),
+new Array("Long Metric II", "JWU18 JWU16 JWU14 JWU12 JWU10  JMU16 JMU14 JMU12 JMU10 "),
+new Array("Long Metric III", "JWU16 JWU14 JWU12 JWU10  JMU14 JMU12 JMU10 "),
+new Array("Long Metric IV", "JWU14 JWU12 JWU10  JMU12 JMU10 "),
+new Array("Long Metric V", "JWU12 JMU10 ")
 );
 
 // Handicap calculation for best junior or archer
@@ -75,41 +73,49 @@ var handicaps = new Array(
     new Array("JWU16R", 58),
     new Array("JWU14R", 64),
     new Array("JWU12R", 70),
+	new Array("JWU10R", 76),
     new Array("WC", 29),
     new Array("JWU18C", 38),
     new Array("JWU16C", 49),
     new Array("JWU14C", 55),
     new Array("JWU12C", 63),
+	new Array("JWU10C", 69),
     new Array("WL", 65),
     new Array("JWU18L", 64),
     new Array("JWU16L", 70),
     new Array("JWU14L", 77),
     new Array("JWU12L", 83),
+	new Array("JWU10L", 89),
     new Array("WB", 57),
     new Array("JWU18B", 59),
     new Array("JWU16B", 65),
     new Array("JWU14B", 72),
     new Array("JWU12B", 78),
+	new Array("JWU10B", 84),
     new Array("MR", 36),
     new Array("JMU18R", 39),
     new Array("JMU16R", 48),
     new Array("JMU14R", 58),
     new Array("JMU12R", 69),
+	new Array("JMU10R", 76),
     new Array("MC", 23),
     new Array("JMU18C", 32),
     new Array("JMU16C", 38),
     new Array("JMU14C", 48),
     new Array("JMU12C", 56),
+	new Array("JMU10C", 63),
     new Array("ML", 60),
     new Array("JMU18L", 62),
     new Array("JMU16L", 65),
     new Array("JMU14L", 72),
     new Array("JMU12L", 81),
+	new Array("JMU10L", 88),
     new Array("MB", 49),
     new Array("JMU18B", 57),
     new Array("JMU16B", 60),
     new Array("JMU14B", 67),
-    new Array("JMU12B", 75)
+    new Array("JMU12B", 75),
+	new Array("JMU10B", 82)
 );
 
 function partscore(range, y, N, D, t, h) {
@@ -184,13 +190,13 @@ function partscore(range, y, N, D, t, h) {
 function agbscore(h, r) {
     var i;
     for (i = 0; i < rounds.length; i++) {
-	if (rounds[i][RNDNAME] == r) {
-	    //	 distance      yards/meters  arrows	diameter      scoring
-	    return partscore(rounds[i][RNDDISTANCE1], rounds[i][RNDMETERS], rounds[i][RNDARROWS1], rounds[i][RNDTARGET1], rounds[i][RNDSCORING], h)
-		+ partscore(rounds[i][RNDDISTANCE2], rounds[i][RNDMETERS], rounds[i][RNDARROWS2], rounds[i][RNDTARGET2], rounds[i][RNDSCORING], h)
-		+ partscore(rounds[i][RNDDISTANCE3], rounds[i][RNDMETERS], rounds[i][RNDARROWS3], rounds[i][RNDTARGET3], rounds[i][RNDSCORING], h)
-		+ partscore(rounds[i][RNDDISTANCE4], rounds[i][RNDMETERS], rounds[i][RNDARROWS4], rounds[i][RNDTARGET4], rounds[i][RNDSCORING], h);
-	}
+		if (rounds[i][RNDNAME] == r) {
+			//	 distance      yards/metres  arrows	diameter      scoring
+			return partscore(rounds[i][RNDDISTANCE1], rounds[i][RNDMETRES], rounds[i][RNDARROWS1], rounds[i][RNDTARGET1], rounds[i][RNDSCORING], h)
+			+ partscore(rounds[i][RNDDISTANCE2], rounds[i][RNDMETRES], rounds[i][RNDARROWS2], rounds[i][RNDTARGET2], rounds[i][RNDSCORING], h)
+			+ partscore(rounds[i][RNDDISTANCE3], rounds[i][RNDMETRES], rounds[i][RNDARROWS3], rounds[i][RNDTARGET3], rounds[i][RNDSCORING], h)
+			+ partscore(rounds[i][RNDDISTANCE4], rounds[i][RNDMETRES], rounds[i][RNDARROWS4], rounds[i][RNDTARGET4], rounds[i][RNDSCORING], h);
+		}
     }
     return 0;
 }
@@ -199,20 +205,20 @@ function partagbscore(h, r, a) { // score after a arrows of a round
     var i, s=0, t=0;
     for (i = 0; i < rounds.length; i++) {
 	if (rounds[i][RNDNAME] == r) {
-	    //	 distance      yards/meters  arrows	diameter      scoring
-	    s += partscore(rounds[i][RNDDISTANCE1], rounds[i][RNDMETERS], (a>t+rounds[i][RNDARROWS1]?rounds[i][RNDARROWS1]:a-t), rounds[i][RNDTARGET1], rounds[i][RNDSCORING], h);
+	    //	 distance      yards/metres  arrows	diameter      scoring
+	    s += partscore(rounds[i][RNDDISTANCE1], rounds[i][RNDMETRES], (a>t+rounds[i][RNDARROWS1]?rounds[i][RNDARROWS1]:a-t), rounds[i][RNDTARGET1], rounds[i][RNDSCORING], h);
 	    t += rounds[i][RNDARROWS1];
 	    if (t>a)
 		return s;
-	    s += partscore(rounds[i][RNDDISTANCE2], rounds[i][RNDMETERS], (a>t+rounds[i][RNDARROWS2]?rounds[i][RNDARROWS2]:a-t), rounds[i][RNDTARGET2], rounds[i][RNDSCORING], h)
+	    s += partscore(rounds[i][RNDDISTANCE2], rounds[i][RNDMETRES], (a>t+rounds[i][RNDARROWS2]?rounds[i][RNDARROWS2]:a-t), rounds[i][RNDTARGET2], rounds[i][RNDSCORING], h)
 	    t += rounds[i][RNDARROWS2];
 	    if (t>a)
 		return s;
-	    s += partscore(rounds[i][RNDDISTANCE3], rounds[i][RNDMETERS], (a>t+rounds[i][RNDARROWS3]?rounds[i][RNDARROWS3]:a-t), rounds[i][RNDTARGET3], rounds[i][RNDSCORING], h)
+	    s += partscore(rounds[i][RNDDISTANCE3], rounds[i][RNDMETRES], (a>t+rounds[i][RNDARROWS3]?rounds[i][RNDARROWS3]:a-t), rounds[i][RNDTARGET3], rounds[i][RNDSCORING], h)
 	    t += rounds[i][RNDARROWS3];
 	    if (t>a)
 		return s;
-	    s += partscore(rounds[i][RNDDISTANCE4], rounds[i][RNDMETERS], (a>t+rounds[i][RNDARROWS4]?rounds[i][RNDARROWS4]:a-t), rounds[i][RNDTARGET4], rounds[i][RNDSCORING], h);
+	    s += partscore(rounds[i][RNDDISTANCE4], rounds[i][RNDMETRES], (a>t+rounds[i][RNDARROWS4]?rounds[i][RNDARROWS4]:a-t), rounds[i][RNDTARGET4], rounds[i][RNDSCORING], h);
 	    return s;
 	}
     }
@@ -222,14 +228,12 @@ function partagbscore(h, r, a) { // score after a arrows of a round
 // results
 
 var textstr;
-if (printing)
-	textstr = "<table><tr><td style=\"width=20mm\"><img src=\"/logo.gif\" style=\"height:20mm; width=20mm\" />"
-			+ "<td style=\"width:150mm; text-align:center; font-weight:bold;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">"
-			+ tournament + "<td style=\"width=20mm\"><img src=\"/logo.gif\" style=\"height:20mm; width=20mm\" /></table>";
-else
-	textstr = "<h2 style=\"text-align:center;font-weight:bold;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">"
-        + tournament + "</h2>";
-doresults();
+	textstr = "<table style=\"margin-left:auto;margin-right:auto;\"><tr>"
+		+ "<td style=\"height:20mm;width:20mm;\"><img src=\"/logo.gif\" style=\"height:20mm;width:20mm;\" />"
+		+ "<td style=\"width:145mm; text-align:center; font-weight:normal;font-size:19pt;font-family:Helvetica,Arial,sans-serif;\">"
+		+ tournament 
+		+ "<td style=\"height:20mm;width:20mm;\"><img src=\"/logo.gif\" style=\"height:20mm;width:20mm;\" /></table>";
+	doresults();
 
 function doresults() {
     var exists = new Array();
@@ -248,15 +252,16 @@ function doresults() {
 			"15th","16th","17th","18th","19th","20th","21st","22nd","23rd","24th","25th","26th","27th","28th","29th","30th","31st" );
 		var datev = new Date(parseInt(tournamentdate.substr(6,4)), parseInt(tournamentdate.substr(3,2))-1, parseInt(tournamentdate.substr(0,2)));
 		var datestr = dow[datev.getDay()] + " " + stndrdth[datev.getDate()] + " " + month[datev.getMonth()] + " " + datev.getFullYear();
-		textstr += "<table><tr><td width=\"160\">Date:</td><td width=\"600\">" + datestr + "</td><tr>";
-		textstr += "<tr><td width=\"160\">Venue:</td><td width=\"600\">" + venue + "</td><tr>";
-		textstr += "<tr><td width=\"160\">Judges:</td><td width=\"600\">" + judges + "</td><tr>";
+		textstr += "<table style=\"margin-left:auto;margin-right:auto;font-size:12pt;font-family:Times;font-weight:normal\">" 
+			+ "<tr><td style=\"width:42mm\">Date:</td><td style=\"width:138mm\">" + datestr + "</td><tr>";
+		textstr += "<tr><td>Venue:</td><td>" + venue + "</td><tr>";
+		textstr += "<tr><td>Judges:</td><td>" + judges + "</td><tr>";
 		if (patron=="")
-			textstr += "<tr><td width=\"160\">Lady Paramount:</td><td width=\"600\">" + paramount + "</td><tr>";
+			textstr += "<tr><td>Lady Paramount:</td><td>" + paramount + "</td><tr>";
 		else
-			textstr += "<tr><td width=\"160\">Lord Paramount:</td><td width=\"600\">" + patron + "</td><tr>";
-		textstr += "<tr><td width=\"160\">Tournament Organiser:</td><td width=\"600\">" + tournamentorganiser + "</td><tr>";
-		textstr += "<tr><td width=\"160\">Weather:</td><td width=\"600\">" + weather + "</td><tr>";
+			textstr += "<tr><td>Lord Paramount:</td><td>" + patron + "</td><tr>";
+		textstr += "<tr><td>Tournament Organiser:</td><td>" + tournamentorganiser + "</td><tr>";
+		textstr += "<tr><td>Weather:</td><td>" + weather + "</td><tr>";
 		textstr += "</table>";
 	}
 
@@ -295,7 +300,8 @@ function doresults() {
 				jumpstr += " | ";
 			jumpstr += "<a href=\"#hcap\">Handicap</a>";
 		}
-		jumpstr = "<p style=\"text-align:center;\">" + jumpstr + "</p>";
+		textstr += "<style type=\"text/css\" media=\"print\">#navigate{display:none;}</style>"
+		jumpstr = "<p id=\"navigate\" style=\"text-align:center;\">" + jumpstr + "</p>";
 	}
 
 	// rounds
@@ -317,7 +323,7 @@ function doresults() {
 
 	if (bestflag == 1) {
 		textstr += "<a name=\"Best\"></a>" + jumpstr;
-		bestarcher();
+		bestjunior("");
 	}
 
     if (handicapflag==1) {
@@ -352,11 +358,11 @@ function bowtype(rndstr, g, bow) {
 		if (rndstr == rounds[i][RNDNAME]) {
 			roundno = i;
 			if (rounds[i][RNDTIEBREAK]==TieBreakWAOutdoor) {
-				tb1str = "X/10";
+				tb1str = "X+10";
 				tb2str = "X"
 			}
 			else if (rounds[i][RNDTIEBREAK]==TieBreakWAIndoor) {
-				tb1str = "X/10";
+				tb1str = "X+10";
 				tb2str = "9"
 			}
 			else if (rounds[i][RNDTIEBREAK]==TieBreakAGBWorcester)
@@ -418,25 +424,31 @@ function bowtype(rndstr, g, bow) {
 	// results
 	var roundstr = rndstr;
 	if (rndstr=="Hereford / Bristol 1") {
-	if (g=="W")
-	    roundstr = "Hereford";
-	else
-		roundstr = "Bristol 1";
+		if (g=="W")
+			roundstr = "Hereford";
+		else
+			roundstr = "Bristol 1";
 	}
-    textstr += "<h2 style=\"text-align:center;font-size:x-large;font-family:Helvetica,Arial,sans-serif\">"
-		+ roundstr + " - " + gs + bow + "</h2>" 
+	if (rndstr=="Metric I / WA 1440 (Ladies)") {
+		if (g=="W")
+			roundstr = "WA 1440 (Ladies)";
+		else
+			roundstr = "Metric I";
+	}
+
+    textstr += "<h2 style=\"text-align:center;\">" + roundstr + " - " + gs + bow + "</h2>" 
 		+ "<table border=1 style=\"margin-left:auto; margin-right:auto; border-collapse:collapse;\" >"
-		+ "<tr style=\"page-break-inside: avoid;\"><th width=\"25\">&nbsp;<th width=\"35\">Target<th width=\"180\">Name"
+		+ "<thead><tr style=\"page-break-inside: avoid;\"><th width=\"25\">&nbsp;<th width=\"35\">Target<th width=\"180\">Name"
 		+ "<th width=\"170\">Club<th width=\"45\">Score<th width=\"45\">" + tb1str + "<th width=\"45\">" + tb2str
 	    + "<th width=\"45\">Arrows";
-	if (roundstr.substr(0,6)=="Metric" || roundstr.substr(0,7)=="WA 1440") {
+	    if (roundstr == "WA 1440 (Gentlemen)" || roundstr=="Metric I / WA 1440 (Ladies)" 
+	      || roundstr== "Metric II" || roundstr== "Metric III" || roundstr== "Metric IV" || roundstr== "Metric V") {
 		textstr += "<th>" + rounds[roundno][RNDDISTANCE1] + "m</td>";
 		textstr += "<th>" + rounds[roundno][RNDDISTANCE2] + "m</td>";
 		textstr += "<th>" + rounds[roundno][RNDDISTANCE3] + "m</td>";
 		textstr += "<th>" + rounds[roundno][RNDDISTANCE4] + "m</td>";
 	}
-
-	textstr += "<th width=\"100\">&nbsp;</tr>";
+	textstr += "<th width=\"100\">&nbsp;</tr></thead><tbody>";
 
 	var posn = 1;
 	var prevhighv = -1;
@@ -447,36 +459,43 @@ function bowtype(rndstr, g, bow) {
 	    highi = -1;
 	    highv = -1;
 	    for (j = 0; j < maxdata; j++) {
-		if (scores[j] > highv) {
-		    highv = scores[j];
-		    highi = j;
-		}
+			if (scores[j] > highv) {
+				highv = scores[j];
+				highi = j;
+			}
 	    }
 	    if (highi == -1)
 		break;
 	    textstr += "<tr style=\"page-break-inside: avoid;\"><td align=\"center\">";
 	    if (data[highi][STATE] == "Inuse")
-		textstr += (highv == prevhighv ? "=" : posn);
+			textstr += (highv == prevhighv ? "=" : posn);
 	    else {
-		textstr += "&nbsp;";
-		awards = "&nbsp;";
+			textstr += "&nbsp;";
+			awards = "&nbsp;";
 	    }
 	    var note = data[highi][STATE];
 		if (note == "Inuse")
 			note = "&nbsp;";
 	    junior = data[highi][AGEGROUP].substr(0, 1) != "";
 		textstr += "</td><td align=\"center\">" + data[highi][TARGET] + "</td><td>" + data[highi][FORENAME] + " " + data[highi][SURNAME]
-		    + (junior ? " J <font size=\"-2\">" + data[highi][AGEGROUP] + "</font>" : "")
-		    + "</td><td>" + data[highi][CLUB] + "</td><td align=\"center\">"
-		    + (data[highi][STATE] == "DNS" || data[highi][STATE] == "DQ" ? "&nbsp;" : data[highi][SCORE]) + "</td><td align=\"center\">"
-		    + (data[highi][STATE] == "DNS" || data[highi][STATE] == "DQ" ? "&nbsp;" : data[highi][TIEBREAK1]) + "</td><td align=\"center\">"
-		    + (data[highi][STATE] == "DNS" || data[highi][STATE] == "DQ" ? "&nbsp;" : data[highi][TIEBREAK2]) + "</td><td align=\"center\">"
-		    + data[highi][ARROWCNT] + "</td>";
-		if (roundstr.substr(0,6)=="Metric" || roundstr.substr(0,7)=="WA 1440") {
-			textstr += "<td align=\"center\">" + distancescore(0, data[highi][ARROWS]) + "</td>";
-			textstr += "<td align=\"center\">" + distancescore(36, data[highi][ARROWS]) + "</td>";
-			textstr += "<td align=\"center\">" + distancescore(72, data[highi][ARROWS]) + "</td>";
-			textstr += "<td align=\"center\">" + distancescore(108, data[highi][ARROWS]) + "</td>";
+		    + (junior ? " J<font size=\"-2\">" + data[highi][AGEGROUP] + "</font>" : "")
+		    + "</td><td>" + data[highi][CLUB];
+		if (data[highi][STATE] == "DNS" || data[highi][STATE] == "DQ")
+			textstr += "<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>";
+		else
+			textstr += "</td><td align=\"center\">" + data[highi][SCORE] + "</td><td align=\"center\">"
+				+ data[highi][TIEBREAK1] + "</td><td align=\"center\">"	+ data[highi][TIEBREAK2] + "</td><td align=\"center\">"
+				+ data[highi][ARROWCNT] + "</td>";
+		if (roundstr == "WA 1440 (Gentlemen)" || roundstr=="Metric I / WA 1440 (Ladies)" 
+			|| roundstr== "Metric II" || roundstr== "Metric III" || roundstr== "Metric IV" || roundstr== "Metric V") {
+			if (data[highi][STATE] == "DNS" || data[highi][STATE] == "DQ")
+				textstr += "<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>";
+			else {
+				textstr += "<td align=\"center\">" + distancescore(0, data[highi][ARROWS]) + "</td>";
+				textstr += "<td align=\"center\">" + distancescore(36, data[highi][ARROWS]) + "</td>";
+				textstr += "<td align=\"center\">" + distancescore(72, data[highi][ARROWS]) + "</td>";
+				textstr += "<td align=\"center\">" + distancescore(108, data[highi][ARROWS]) + "</td>";
+			}
 		}
 		textstr += "<td align=\"center\">";
 	    if (medalalloc[medalline][1].indexOf(data[highi][GENDER]+" ") >= 0) {
@@ -505,19 +524,19 @@ function bowtype(rndstr, g, bow) {
 			posn++;
 			scores[highi] = -1;
 		}
-		textstr += "</table>";
+		textstr += "</tbody></table>";
     }
 }
 
 function distancescore(arrowno, arrows) {
     var s = 0;
     for (a=arrowno; a<arrowno+36 && a<arrows.length; a++) {
-		if (arrows.charCodeAt(arrowno) - 65 == 0)
+		if (arrows.charCodeAt(a) - 65 == 0)
 			s += 0;
-		else if (arrows.charCodeAt(arrowno) - 65 == 11)
+		else if (arrows.charCodeAt(a) - 65 == 11)
 			s += 10;
 		else
-			s += arrows.charCodeAt(arrowno) - 65;
+			s += arrows.charCodeAt(a) - 65;
     }
     return s;
 }
@@ -538,11 +557,11 @@ function handicapresults() {
     var highi, highv;
     if (count > 0) {
 	// results
-    textstr += "<h2 style=\"text-align:center;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">Handicap Results</h2>"
+    textstr += "<h2 style=\"text-align:center;\">Handicap Results</h2>"
 	    + "<table border=1 style=\"margin-left:auto; margin-right:auto; border-collapse:collapse;\" >"
-	    + "<tr style=\"page-break-inside: avoid;\"><th width=\"25\">&nbsp;<th width=\"35\">Target<th width=\"180\">Name<th>Gender"
+	    + "<thead><tr style=\"page-break-inside: avoid;\"><th width=\"25\">&nbsp;<th width=\"35\">Target<th width=\"180\">Name<th>Gender"
 	    + "<th>Age Group<th width=\"170\">Club<th>Round<th>Bow"
-	    + "<th width=\"45\">Score<th width=\"45\">Arrows<th>Adjusted</tr>";
+	    + "<th width=\"45\">Score<th width=\"45\">Arrows<th>Adjusted</tr></thead><tbody>";
 	var posn = 1;
 	var prevhighv = -1;
 	for (i = 0; i < maxdata; i++) {
@@ -560,12 +579,20 @@ function handicapresults() {
 		var roundstr = data[highi][ROUND];
 		var gender = "M"
 		if (roundstr=="Hereford / Bristol 1") {
-		if (data[highi][GENDER]=="W" || data[highi][GENDER].substr(0,2)=="JW") {
-			roundstr = "Hereford";
-			gender = "W"
-	    }
-		else
-			roundstr = "Bristol 1";
+			if (data[highi][GENDER]=="W" || data[highi][GENDER].substr(0,2)=="JW") {
+				roundstr = "Hereford";
+				gender = "W"
+			}
+			else
+				roundstr = "Bristol 1";
+		}
+		if (roundstr=="Metric I / WA 1440 (Ladies)") {
+			if (data[highi][GENDER]=="W" || data[highi][GENDER].substr(0,2)=="JW") {
+				roundstr = "WA 1440 (Ladies)";
+				gender = "W"
+			}
+			else
+				roundstr = "Metric I";
 		}
 		var agegroup = "";
 		if (data[highi][GENDER].substr(0,1)=="J")
@@ -587,7 +614,7 @@ function handicapresults() {
 	    posn++;
 	    scores[highi] = -1;
 	}
-	textstr += "</table>";
+	textstr += "</tbody></table>";
     }
 }
 
@@ -596,112 +623,70 @@ function bestjunior(g) {
     var i, j;
     var highi, highv;
     for (i = 0; i < maxdata; i++) {
-	scores[i] = -1;
-	var gc = g + data[i][GENDER].substr(2, 3) + data[i][BOW].substr(0, 1);
-	if (data[i][GENDER].substr(0, 2) == g && data[i][STATE] == "Inuse") {
-	    for (j = 0; j < handicaps.length; j++) {
-		if (handicaps[j][0] == gc)
-		    break;
-	    }
-	    if (j < handicaps.length)
-		scores[i] = data[i][SCORE] * 2000 / agbscore(handicaps[j][1], data[i][ROUND]);
-	}
-    }
-    if (g == "JW")
-		textstr += "<h2 style=\"text-align:center;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">Junior Women's Championship</h2>";
-    else
-		textstr += "<h2 style=\"text-align:center;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">Junior Men's Championship</h2>";
-    textstr += "<table border=1 style=\"margin-left:auto; margin-right:auto; border-collapse:collapse;\" >"
-    + "<tr style=\"page-break-inside: avoid;\"><th width=\"20\">&nbsp;<th>Target<th width=\"150\">Name"
-    + "<th width=\"170\">Club<th>Age<br/>Group<th>Bow<th>Round<th>Score<th>Points</tr>";
-    var posn = 1;
-    var prevhighv = -1;
-    for (i = 0; i < maxdata; i++) {
-	highi = -1;
-	highv = -1;
-	for (j = 0; j < maxdata; j++) {
-	    if (data[j][GENDER].substr(0, 2) == g && scores[j] > highv) {
-		highv = scores[j];
-		highi = j;
-	    }
-	}
-	if (highi == -1)
-	    break;
-
-	var roundstr = data[highi][ROUND];
-	if (roundstr=="Hereford / Bristol 1") {
-	if (g=="JW")
-	    roundstr = "Hereford";
-	else
-		roundstr = "Bristol 1";
-	}
-
-	textstr += "<tr style=\"page-break-inside: avoid;\"><td align=\"center\">" + (highv == prevhighv ? "=" : posn)
-	    + "</td><td align=\"center\">" + data[highi][TARGET]
-	    + "</td><td>" + data[highi][FORENAME] + " " + data[highi][SURNAME] + "</td><td>" + data[highi][CLUB] 
-		+ "</td><td align=\"center\">" + data[highi][GENDER].substr(2, 3) + "</td><td align=\"center\">" + data[highi][BOW];
-	textstr += "</td><td align=\"center\">" + roundstr + "</td><td align=\"center\">" + data[highi][SCORE]
-	    + "</td><td align=\"center\">" + Math.round(scores[highi]) + "</td></tr>";
-	scores[highi] = -1;
-	prevhighv = highv;
-	posn++;
-    }
-    textstr += "</table>";
-}
-
-function bestarcher() {
-    var scores = new Array();
-    var i, j;
-    var highi, highv;
-    for (i = 0; i < maxdata; i++) {
 		scores[i] = -1;
-		if (data[i][STATE] == "Inuse") {
-			var gc = data[i][GENDER] + data[i][BOW].substr(0, 1);
+		var gc = data[i][GENDER] + data[i][BOW].substr(0, 1);
+		if ((g == "" || data[i][GENDER].substr(0, 2) == g) && data[i][STATE] == "Inuse") {
 			for (j = 0; j < handicaps.length; j++) {
-			if (handicaps[j][0] == gc)
-				break;
+				if (handicaps[j][0] == gc)
+					break;
 			}
 			if (j < handicaps.length)
 				scores[i] = data[i][SCORE] * 2000 / agbscore(handicaps[j][1], data[i][ROUND]);
 		}
     }
-    textstr += "<h2 style=\"text-align:center;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">Best Archer</h2>";
-    textstr += "<table border=1 style=\"margin-left:auto;margin-right:auto; border-collapse:collapse;\" >"
-    + "<tr style=\"page-break-inside: avoid;\"><th width=\"20\">&nbsp;<th>Target<th width=\"150\">Name"
-    + "<th width=\"170\">Club<th>Age<br/>Group<th>Bow<th>Round<th>Score<th>Points</tr>";
+
+    if (g == "JW")
+		textstr += "<h2 style=\"text-align:center;\">Junior Women's Championship</h2>";
+    else if (g == "JM")
+		textstr += "<h2 style=\"text-align:center;\">Junior Men's Championship</h2>";
+	else
+	    textstr += "<h2 style=\"text-align:center;\">Best Archer</h2>";
+
+    textstr += "<table border=1 style=\"margin-left:auto; margin-right:auto; border-collapse:collapse;\" >"
+		+ "<thead><tr style=\"page-break-inside: avoid;\"><th width=\"20\">&nbsp;<th>Target<th width=\"150\">Name"
+		+ "<th width=\"170\">Club<th>Age<br/>Group<th>Bow<th>Round<th>Score<th>Points</tr></thead><tbody>";
     var posn = 1;
     var prevhighv = -1;
     for (i = 0; i < maxdata; i++) {
-	highi = -1;
-	highv = -1;
-	for (j = 0; j < maxdata; j++) {
-	    if (scores[j] > highv) {
-		highv = scores[j];
-		highi = j;
-	    }
-	}
-	if (highi == -1)
-	    break;
+		highi = -1;
+		highv = -1;
+		for (j = 0; j < maxdata; j++) {
+			if ((g == "" | data[j][GENDER].substr(0, 2) == g) && scores[j] > highv) {
+				highv = scores[j];
+				highi = j;
+			}
+		}
+		if (highi == -1)
+			break;
 
-	var roundstr = data[highi][ROUND];
-	if (roundstr=="Hereford / Bristol 1") {
-	if (data[highi][GENDER]=="W" || data[highi][GENDER].substr(0,2)=="JW")
-	    roundstr = "Hereford";
-	else
-		roundstr = "Bristol 1";
-	}
+		var roundstr = data[highi][ROUND];
+		if (roundstr=="Hereford / Bristol 1") {
+			if (data[highi][GENDER]=="W" || data[highi][GENDER].substr(0,2)=="JW")
+				roundstr = "Hereford";
+			else
+				roundstr = "Bristol 1";
+		}
+		if (roundstr=="Metric I / WA 1440 (Ladies)") {
+			if (data[highi][GENDER]=="W" || data[highi][GENDER].substr(0,2)=="JW")
+				roundstr = "WA 1440 (Ladies)";
+			else
+				roundstr = "Metric I";
+		}
 
-	textstr += "<tr style=\"page-break-inside: avoid;\"><td align=\"center\">" + (highv == prevhighv ? "=" : posn)
-	    + "</td><td align=\"center\">" + data[highi][TARGET]
-	    + "</td><td>" + data[highi][FORENAME] + " " + data[highi][SURNAME] + "</td><td>" + data[highi][CLUB] + "</td><td align=\"center\">"
-	    + data[highi][GENDER] + "</td><td align=\"center\">" + data[highi][BOW];
-	textstr += "</td><td align=\"center\">" + roundstr + "</td><td align=\"center\">" + data[highi][SCORE]
-	    + "</td><td align=\"center\">" + Math.round(scores[highi]) + "</td></tr>";
-	scores[highi] = -1;
-	prevhighv = highv;
-	posn++;
+		var ga = data[highi][GENDER];
+		if (g=="JW" || g=="JM")
+			ga = data[highi][GENDER].substr(2, 3);
+		textstr += "<tr style=\"page-break-inside: avoid;\"><td align=\"center\">" + (highv == prevhighv ? "=" : posn)
+			+ "</td><td align=\"center\">" + data[highi][TARGET]
+			+ "</td><td>" + data[highi][FORENAME] + " " + data[highi][SURNAME] + "</td><td>" + data[highi][CLUB] 
+			+ "</td><td align=\"center\">" + ga + "</td><td align=\"center\">" + data[highi][BOW];
+		textstr += "</td><td align=\"center\">" + roundstr + "</td><td align=\"center\">" + data[highi][SCORE]
+			+ "</td><td align=\"center\">" + Math.round(scores[highi]) + "</td></tr>";
+		scores[highi] = -1;
+		prevhighv = highv;
+		posn++;
     }
-    textstr += "</table>";
+    textstr += "</tbody></table>";
 }
 
 function bestteam(rnd) {
@@ -717,11 +702,11 @@ function bestteam(rnd) {
     for (i = 0; i < rounds.length; i++) {
 		if (rnd == rounds[i][RNDNAME]) {
 			if (rounds[i][RNDTIEBREAK]==TieBreakWAOutdoor) {
-				tb1str = "X/10";
+				tb1str = "X+10";
 				tb2str = "X"
 			}
 			else if (rounds[i][RNDTIEBREAK]==TieBreakWAIndoor) {
-				tb1str = "X/10";
+				tb1str = "10";
 				tb2str = "9"
 			}
 			else if (rounds[i][RNDTIEBREAK]==TieBreakAGBWorcester)
@@ -757,10 +742,10 @@ function bestteam(rnd) {
     }
     if (teamcnt==0)
 		return;
-    textstr += "<h2 style=\"text-align:center;font-size:x-large;font-family:Helvetica,Arial,sans-serif;\">"+rnd+" - Team Results</h2>";
+    textstr += "<h2 style=\"text-align:center;\">"+rnd+" - Team Results</h2>";
     textstr += "<table border=1 style=\"margin-left:auto;margin-right:auto; border-collapse:collapse;\" >"
-    + "<tr style=\"page-break-inside: avoid;\"><th width=\"20\">&nbsp;<th width=\"180\">Team Name<th width=\"180\">Members<th width=\"50\">Score<th width=\"50\">"
-	+ tb1str + "<th width=\"50\">" + tb2str + "</tr>";
+    + "<thead><tr style=\"page-break-inside: avoid;\"><th width=\"20\">&nbsp;<th width=\"180\">Team Name<th width=\"180\">Members<th width=\"50\">Score<th width=\"50\">"
+	+ tb1str + "<th width=\"50\">" + tb2str + "</tr></thead><tbody>";
     var posn = 1;
     var prevhighv = -1;
     for (i = 0; i < maxdata; i++) {
@@ -783,7 +768,7 @@ function bestteam(rnd) {
 	prevhighv = highv;
 	posn++;
     }
-    textstr += "</table>";
+    textstr += "</tbody></table>";
 }
 
 </script>

@@ -32,11 +32,17 @@ function page() {
 	txt += "<table border=\"1\" style=\"border-collapse: collapse;\">";
 	txt += "<tr><td width=\"170\">Target:</td>";
 	txt += "<td width=\"250\"><input id=\"target\" name=\"target\" size=\"36\" value=\"" + data[TARGET] + "\" onchange=\"newtarget()\" /></td></tr>";
+	txt += "<tr><td>Entry Ref:</td><td><input id=\"entryref\" name=\"entryref\" size=\"36\" value=\"" + data[ENTRYREF] + "\" /></td></tr>";
 	txt += "<tr><td>Forename:</td><td><input id=\"archer\" name=\"forename\" size=\"36\" value=\"" + data[FORENAME] + "\" /></td></tr>";
 	txt += "<tr><td>Surname:</td><td><input id=\"archer\" name=\"surname\" size=\"36\" value=\"" + data[SURNAME] + "\" /></td></tr>";
 	txt += "<tr><td>Club:</td><td><input name=\"club\" size=\"36\" value=\"" + data[CLUB] + "\" /></td></tr>";
 	if (teamflag==1)
 	    txt += "<tr><td>Team:</td><td><input name=\"team\" size=\"36\" value=\"" + data[TEAM] + "\" /></td></tr>";
+    txt += "<tr><td>Gender:</td><td><select name=\"gender\" size=\"1\" style=\"width:200px\">";
+    txt+="<option"+(data[GENDER].substr(0,1)=="M"?" selected":"")+">M</option>";
+    txt+="<option"+(data[GENDER].substr(0,1)=="W"?" selected":"")+">W</option>";
+    txt += "</select></td></tr>";
+	txt += "<tr><td>Membership:</td><td><input name=\"membership\" size=\"36\" value=\"" + data[AGB] + "\" /></td></tr>";
 	txt += "<tr><td>Bow:</td><td><select name=\"bow\" size=\"1\" style=\"width:250px\">";
 	txt+="<option"+(data[BOW]=="Recurve"?" selected":"")+">Recurve</option>";
 	txt+="<option"+(data[BOW]=="Compound"?" selected":"")+">Compound</option>";
@@ -44,21 +50,18 @@ function page() {
 	txt+="<option"+(data[BOW]=="Bare Bow"?" selected":"")+">Bare Bow</option>";
 	txt+="<option"+(data[BOW]==""?" selected":"")+"></option>";
 	txt += "</select></td></tr>";
-    txt += "<tr><td>Gender:</td><td><select name=\"gender\" size=\"1\" style=\"width:200px\">";
-    txt+="<option"+(data[GENDER].substr(0,1)=="M"?" selected":"")+">M</option>";
-    txt+="<option"+(data[GENDER].substr(0,1)=="W"?" selected":"")+">W</option>";
-    txt += "</select></td></tr>";
-	txt += "<tr><td>Junior DOB dd/mm/yyyy:</td><td><input name=\"dateofbirth\" id=\"dateofbirth\" size=\"30\" value=\""+data[AGEGROUP]+"\" /></td></tr>";
 	txt += "<tr><td>Round:</td><td><select name=\"round\" size=\"1\" style=\"width:250px\">"
 	for (i=0; i<rounds.length; i++) {
 	txt += "<option" + (data[ROUND] == rounds[i][RNDNAME] ? " selected" : "") + ">" + rounds[i][RNDNAME] + "</option>";
 	}
+	txt += "<tr><td>Junior DOB dd/mm/yyyy:</td><td><input name=\"dateofbirth\" id=\"dateofbirth\" size=\"30\" value=\""+data[AGEGROUP]+"\" /></td></tr>";
 	txt += "</select></td></tr>";
 	txt += "<tr><td>Classification: </td><td><select name=\"class\" size=\"1\" style=\"width:250px\"/>";
-	txt += "<option" + (data[CLASS]==""?" selected":"") + ">&nbsp;</option>";
+	txt += "<option" + (data[CLASS]==" "?" selected":"") + "> </option>";
 	txt += "<option" + (data[CLASS]=="GMB"?" selected":"") + ">GMB</option>";
 	txt += "<option" + (data[CLASS]=="MB"?" selected":"") + ">MB</option>";
 	txt += "<option" + (data[CLASS]=="B"?" selected":"") + ">B</option>";
+	txt += "<option" + (data[CLASS]=="JMB"?" selected":"") + ">JMB</option>";
 	txt += "<option" + (data[CLASS]=="JB"?" selected":"") + ">JB</option>";
 	txt += "<option" + (data[CLASS]=="1st"?" selected":"") + ">1st</option>";
 	txt += "<option" + (data[CLASS]=="2nd"?" selected":"") + ">2nd</option>";
@@ -67,8 +70,8 @@ function page() {
 	txt += "</select></td></tr>";
 	if (handicapflag==1)
 	    txt += "<tr><td>Handicap:</td><td><input name=\"handicap\" size=\"36\" value=\"" + data[HANDICAP] + "\" /></td></tr>";
-	txt += "<tr><td>Membership:</td><td><input name=\"membership\" size=\"36\" value=\"" + data[AGB] + "\" /></td></tr>";
 	txt += "<tr><td>Notes:</td><td><input name=\"notes\" size=\"36\" value=\"" + data[NOTES] + "\" /></td></tr>";
+
 	txt += "</table><div id=\"msg\">&nbsp;</div>";
 
 	txt += "<table><tr>";
@@ -81,9 +84,10 @@ function page() {
 	    + "Take care when changing the round as it needs to match others on the target.<br/>"
 	+ "</p>";
 	document.getElementById("page").innerHTML = txt;
-	document.getElementById("archer").focus();
+	document.getElementById("entryref").focus();
 }
 
+data[TARGET] = free[0][1];
 page();
 
 function newtarget()
@@ -128,7 +132,7 @@ function checksend() {
 	var objRegExp = /^(\d{2})\/(\d{2})\/(\d{4})$/;
 	var dob = document.getElementById("dateofbirth").value;
 	if (dob!="") {
-		if (dob=="U12" || dob=="U14" || dob=="U16" || dob=="U18")
+		if (dob=="U10" || dob=="U12" || dob=="U14" || dob=="U16" || dob=="U18")
 			;
 		else if (!objRegExp.test(dob)) {
 			document.getElementById("dateofbirth").style.background = "pink";

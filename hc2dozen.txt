@@ -90,20 +90,20 @@ function partagbscore(h, r, a) { // score after a arrows of a round
     var i, s=0, t=0;
     for (i = 0; i < rounds.length; i++) {
 		if (rounds[i][RNDNAME] == r) {
-			//	 distance      yards/meters  arrows	diameter      scoring
-			s += partscore(rounds[i][RNDDISTANCE1], rounds[i][RNDMETERS], (a>t+rounds[i][RNDARROWS1]?rounds[i][RNDARROWS1]:a-t), rounds[i][RNDTARGET1], rounds[i][RNDSCORING], h);
+			//	 distance      yards/metres  arrows	diameter      scoring
+			s += partscore(rounds[i][RNDDISTANCE1], rounds[i][RNDMETRES], (a>t+rounds[i][RNDARROWS1]?rounds[i][RNDARROWS1]:a-t), rounds[i][RNDTARGET1], rounds[i][RNDSCORING], h);
 			t += rounds[i][RNDARROWS1];
 			if (t>a)
 			return s;
-			s += partscore(rounds[i][RNDDISTANCE2], rounds[i][RNDMETERS], (a>t+rounds[i][RNDARROWS2]?rounds[i][RNDARROWS2]:a-t), rounds[i][RNDTARGET2], rounds[i][RNDSCORING], h)
+			s += partscore(rounds[i][RNDDISTANCE2], rounds[i][RNDMETRES], (a>t+rounds[i][RNDARROWS2]?rounds[i][RNDARROWS2]:a-t), rounds[i][RNDTARGET2], rounds[i][RNDSCORING], h)
 			t += rounds[i][RNDARROWS2];
 			if (t>a)
 			return s;
-			s += partscore(rounds[i][RNDDISTANCE3], rounds[i][RNDMETERS], (a>t+rounds[i][RNDARROWS3]?rounds[i][RNDARROWS3]:a-t), rounds[i][RNDTARGET3], rounds[i][RNDSCORING], h)
+			s += partscore(rounds[i][RNDDISTANCE3], rounds[i][RNDMETRES], (a>t+rounds[i][RNDARROWS3]?rounds[i][RNDARROWS3]:a-t), rounds[i][RNDTARGET3], rounds[i][RNDSCORING], h)
 			t += rounds[i][RNDARROWS3];
 			if (t>a)
 			return s;
-			s += partscore(rounds[i][RNDDISTANCE4], rounds[i][RNDMETERS], (a>t+rounds[i][RNDARROWS4]?rounds[i][RNDARROWS4]:a-t), rounds[i][RNDTARGET4], rounds[i][RNDSCORING], h);
+			s += partscore(rounds[i][RNDDISTANCE4], rounds[i][RNDMETRES], (a>t+rounds[i][RNDARROWS4]?rounds[i][RNDARROWS4]:a-t), rounds[i][RNDTARGET4], rounds[i][RNDSCORING], h);
 			return s;
 		}
     }

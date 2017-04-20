@@ -66,11 +66,11 @@
 		var tb1 = "H";
 		var tb2 = "G";
 		if (rounds[rnd][RNDTIEBREAK]==TieBreakWAOutdoor) {
-			tb1 = "X/10";
+			tb1 = "X+10";
 			tb2 = "X"
 		}
 		else if (rounds[rnd][RNDTIEBREAK]==TieBreakWAIndoor) {
-			tb1 = "X/10";
+			tb1 = "X+10";
 			tb2 = "9"
 		}
 		else if (rounds[rnd][RNDTIEBREAK]==TieBreakAGBWorcester)

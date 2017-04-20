@@ -27,15 +27,15 @@
 		if (data[ROUND] == rounds[rnd][RNDNAME])
 		    break;
 	    }
-	    imperialdistance = rounds[rnd][RNDMETERS];
+	    imperialdistance = rounds[rnd][RNDMETRES];
 	    scoring = rounds[rnd][RNDSCORING];
 	    arrowsperend = rounds[rnd][RNDEND];
 		if (rounds[rnd][RNDTIEBREAK]==TieBreakWAOutdoor) {
-			tb1str = "X/10";
+			tb1str = "X+10";
 			tb2str = "X"
 		}
 		else if (rounds[rnd][RNDTIEBREAK]==TieBreakWAIndoor) {
-			tb1str = "X/10";
+			tb1str = "10";
 			tb2str = "9"
 		}
 		else if (rounds[rnd][RNDTIEBREAK]==TieBreakAGBWorcester)
@@ -171,7 +171,7 @@
 				if (imperialdistance == 0)
 					distance += " yards. ";
 				else
-					distance += " meters. ";
+					distance += " metres. ";
 				distance += targetsize + " cm face. ";
 				txt += "<tr><td colspan=\"" + (arrowsperend*2+2) + "\" style=\"text-align:right\">" + distance 
 					+ " Sub Totals</td><td style=\"text-align:center;\">" + rst + "<td style=\"text-align:center;\">" + tb1st 

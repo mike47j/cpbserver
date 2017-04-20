@@ -25,6 +25,7 @@ function page() {
     txt += "<table border=\"1\" style=\"border-collapse: collapse;\">";
     txt += "<tr><td width=\"180\">Target:</td>";
     txt += "<td width=\"200\"><input name=\"target\" size=\"30\" readonly=\"readonly\" value=\""+data[TARGET]+"\" /></td></tr>";
+    txt += "<tr><td>Ref:</td><td><input name=\"entryref\" size=\"30\" value=\""+data[ENTRYREF]+"\" /></td></tr>";
     txt += "<tr><td>Forename:</td><td><input name=\"forename\" size=\"30\" value=\""+data[FORENAME]+"\" /></td></tr>";
     txt += "<tr><td>Surname:</td><td><input name=\"surname\" size=\"30\" value=\""+data[SURNAME]+"\" /></td></tr>";
     txt += "<tr><td>Club:</td><td><input name=\"club\" size=\"30\" value=\""+data[CLUB]+"\" /></td></tr>";
@@ -48,10 +49,11 @@ function page() {
     txt += "</select></td></tr>";
     txt += "<tr><td>Handicap:</td><td><input name=\"handicap\" size=\"30\" value=\""+data[HANDICAP]+"\" /></td></tr>";
 	txt += "<tr><td>Classification: </td><td><select name=\"class\" size=\"1\" style=\"width:200px\"/>";
-	txt += "<option" + (data[CLASS]==""?" selected":"") + ">&nbsp;</option>";
+	txt += "<option" + (data[CLASS]==" "?" selected":"") + "> </option>";
 	txt += "<option" + (data[CLASS]=="GMB"?" selected":"") + ">GMB</option>";
 	txt += "<option" + (data[CLASS]=="MB"?" selected":"") + ">MB</option>";
 	txt += "<option" + (data[CLASS]=="B"?" selected":"") + ">B</option>";
+	txt += "<option" + (data[CLASS]=="JMB"?" selected":"") + ">JMB</option>";
 	txt += "<option" + (data[CLASS]=="JB"?" selected":"") + ">JB</option>";
 	txt += "<option" + (data[CLASS]=="1st"?" selected":"") + ">1st</option>";
 	txt += "<option" + (data[CLASS]=="2nd"?" selected":"") + ">2nd</option>";
@@ -103,7 +105,7 @@ function check() {
 
 	var dob = document.getElementById("dateofbirth").value;
 	if (dob!="") {
-	    if (dob=="U12" || dob=="U14" || dob=="U16" || dob=="U18")
+	    if (dob=="U10" || dob=="U12" || dob=="U14" || dob=="U16" || dob=="U18")
 		    ;
 		else if(!dateRegExp.test(dob)) {
 			document.getElementById("dateofbirth").style.background = "pink";

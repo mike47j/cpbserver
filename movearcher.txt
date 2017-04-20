@@ -24,11 +24,11 @@
 			var tb1str = "Hits", tb2str = "Golds";
 			if (rnd < rounds.length) {
 				if (rounds[rnd][RNDTIEBREAK]==TieBreakWAOutdoor) {
-					tb1str = "X/10";
+					tb1str = "X+10";
 					tb2str = "X"
 				}
 				else if (rounds[rnd][RNDTIEBREAK]==TieBreakWAIndoor) {
-					tb1str = "X/10";
+					tb1str = "10";
 					tb2str = "9"
 				}
 				else if (rounds[rnd][RNDTIEBREAK]==TieBreakAGBWorcester)

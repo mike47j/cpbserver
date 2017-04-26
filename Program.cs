@@ -1390,6 +1390,8 @@ namespace CPBserver
         //**********************************************************************************************************************
 
         static int timeout = -1;
+        static int filecount = 0;
+        static Int32 backuptime = Environment.TickCount + 30*60*1000;
 
         public static void Backup()
         {
@@ -1398,11 +1400,21 @@ namespace CPBserver
                 Thread.Sleep(1000);
                 lock (dataLock)
                 {
+                    if (backuptime < Environment.TickCount)
+                    {
+                        backuptime += 30 * 60 * 1000;
+                        do {
+                            filecount++;
+                        } while (System.IO.File.Exists("FileName" + "backup" + filecount.ToString("000") + ".csv"));
+                        SaveDataFile(FilePath + "backup" + filecount.ToString("000") + ".csv");
+                        Console.WriteLine("Half hour backup "+ filecount.ToString("000"));
+                    }
+
                     if (timeout >= 0)
                     {
                         if (timeout == 0)
                         {
-                            Console.WriteLine("Backup.");
+                            Console.WriteLine("Data backup.");
                             SaveDataFile(FilePath + "data.csv");
                             AGBDataFile(FilePath + "agbexport.csv");
                         }

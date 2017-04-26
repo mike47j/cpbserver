@@ -20,13 +20,15 @@
 	var scoring = 0;
 	var changed = 0;
 	var rnd, imperialdistance, arrowsperend;
+	var maxarrows = 144;
 	var tb1str = "H", tb2str = "G";
 
 	function init() {
 	    for (rnd = 0; rnd < rounds.length; rnd++) {
-		if (data[ROUND] == rounds[rnd][RNDNAME])
-		    break;
+		    if (data[ROUND] == rounds[rnd][RNDNAME])
+		        break;
 	    }
+		maxarrows = rounds[rnd][RNDARROWS1] + rounds[rnd][RNDARROWS2] + rounds[rnd][RNDARROWS3] + rounds[rnd][RNDARROWS4];
 	    imperialdistance = rounds[rnd][RNDMETRES];
 	    scoring = rounds[rnd][RNDSCORING];
 	    arrowsperend = rounds[rnd][RNDEND];
@@ -56,12 +58,12 @@
 		txt += "</h3>";
 
 	    var arrows = data[ARROWS];
-            var winh = window.innerHeight - 150;
-            txt += "<div style=\"overflow-y:scroll; height:" + winh + "px\" >";
+        var winh = window.innerHeight - 150;
+        txt += "<div style=\"overflow-y:scroll; height:" + winh + "px\" >";
 	    txt += "<table border=\"1\" style=\"border-collapse: collapse;\" ><tr><th colspan=\"" + arrowsperend + "\">Arrows</th>"
 			+ "<th width=\"30\">ET</th><th colspan=\"" + arrowsperend + "\">Arrows</th>"
-		+ "<th width=\"30\">ET</th></th><th width=\"40\">S</th><th width=\"30\">" + tb1str
-		+ "<th width=\"30\">" + tb2str + "</th><th width=\"50\">RT</th></tr>";
+		    + "<th width=\"30\">ET</th></th><th width=\"40\">S</th><th width=\"30\">" + tb1str
+		    + "<th width=\"30\">" + tb2str + "</th><th width=\"50\">RT</th></tr>";
 	    var tb1t = 0;
 	    var tb2t = 0;
 	    var rt = 0;
@@ -343,7 +345,8 @@
 	}
 
 	function checksend(code) {
-	    if (data[ARROWS].length % arrowsperend != 0 && data[ARROWS].length % (arrowsperend/2) != 0) {
+	    if ((data[ARROWS].length % arrowsperend != 0 && data[ARROWS].length % (arrowsperend/2) != 0) 
+		  || data[ARROWS].length > maxarrows) {
 			document.getElementById("msg").innerHTML = "Wrong number of arrows.";
 			document.getElementById("msg").style.background = "pink";
 	    }

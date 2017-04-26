@@ -64,21 +64,12 @@ function validateForm() {
 
 <p></p>
 <form><table border="1" style="border-collapse:collapse;">
-<tr>
-<td style="width:200px;padding:5px;">
-    <input type="submit" value="Clear Everything" formaction="/clearall"/><div style="height:1mm;"/></div>
-    <input type="submit" value="Clear all scores" formaction="/clearscores"/><div style="height:1mm;"/></div>
-	<input type="submit" value="24 Arrow Handicaps" formaction="/hc2dozen"/>
-<td>
-    Be sure you want to do any of these before clicking as its not possible to undo afterwards.
-</tr>
 
-<tr><td style="padding:5px;">
-    <input type="submit" value="Full list by Name" formaction="/fullbyname"/><div style="height:1mm;"/></div>
-    <input type="submit" value="Full list by Ref" formaction="/fullbyref"/><div style="height:1mm;"/></div>
-    <input type="submit" value="Add archers" formaction="/newarchers"/><div style="height:1mm;"/></div>
-    <input type="submit" value="Re-allocate Targets" formaction="/allocate"/><div style="height:1mm;"/></div>
-    <input type="submit" value="Targets by Round" formaction="/rounds"/><div style="height:1mm;"/></div>
+<tr><td style="width:200px;padding:5px;">
+    <input type="submit" style="width:140px" value="Full list" formaction="/fullbyref"/><div style="height:1mm;"/></div>
+    <input type="submit" style="width:140px" value="Add archers" formaction="/newarchers"/><div style="height:1mm;"/></div>
+    <input type="submit" style="width:140px" value="Re-allocate Targets" formaction="/allocate"/><div style="height:1mm;"/></div>
+    <input type="submit" style="width:140px" value="Targets by Round" formaction="/rounds"/><div style="height:1mm;"/></div>
     <input name="target" value="01A" size="3"/> <input type="submit" value="Change Details." formaction="/updateentry.htm"/>
 <td>
 	&nbsp;
@@ -92,15 +83,31 @@ function validateForm() {
 </tr>
 
 <tr><td style="padding:5px;">
-    <input type="submit" value="Load File" formaction="/loadfile"/><div style="height:1mm;"/></div>
-    <input type="submit" value="Save File" formaction="/savefile" />
+    <input type="submit" style="width:140px" value="Load File" formaction="/loadfile"/><div style="height:1mm;"/></div>
+    <input type="submit" style="width:140px" value="Save File" formaction="/savefile" />
 <td>
 	Load and save the "data.csv" file to or from another file.
 </tr>
 
+<tr>
+<td style="width:200px;padding:5px;">
+    <input type="submit" style="width:140px" value="Clear Everything" 
+		onclick="return confirm('Are you sure you want to clear everything ?')" 
+		formaction="/clearall"/>
+	<div style="height:1mm;"/></div>
+    <input type="submit" style="width:140px" value="Clear all scores"
+		onclick="return confirm('Are you sure you want to clear all scores ?')" 
+		formaction="/clearscores"/>
+	<div style="height:1mm;"/></div>
+	<input type="submit" style="width:140px" value="24 Arrow Handicaps" 
+	    onclick="return confirm('Do you want to calculate handicaps ?')" 
+		formaction="/hc2dozen"/>
+<td>
+    Be sure you want to do any of these before clicking as its not possible to undo afterwards.
+</tr>
 <tr><td style="padding:5px;">
-    <input type="submit" value="Score Entry Page" formaction="/index"/><div style="height:1mm;"/></div>
-    <input type="submit" value="Print Functions" formaction="/printpage" />
+    <input type="submit" style="width:140px" value="Score Entry Page" formaction="/index"/><div style="height:1mm;"/></div>
+    <input type="submit" style="width:140px" value="Print Functions" formaction="/printpage" />
 <td>
 	Other menu pages.
 </tr>

@@ -20,6 +20,7 @@
 		var sortbyclass = false;
 		var sortbyage = false;
 		var sortbyround = false;
+		var sortbyarrows = false;
 
 		function allfalse() {
 			sortbybow = false;
@@ -30,6 +31,7 @@
 			sortbyscore = false;
 			sortbyteam = false;
 			sortbyref = false;
+			sortbyarrows = false;
 		}
 
         function page() {
@@ -82,16 +84,19 @@
 							+ (data[i][SURNAME] + " " + data[i][FORENAME]).toUpperCase();
 				    }
 					else if (sortbyround) {
-						sort[i] = data[i][ROUND] +" "+data[i][BOW]+" "+data[i][SURNAME];
+						sort[i] = data[i][ROUND] +" "+data[i][BOW]+" "+ (data[i][SURNAME] + " " + data[i][FORENAME]).toUpperCase();
 					}
 					else if (sortbybow) {
-						sort[i] = data[i][BOW]+" "+data[i][ROUND]+" "+data[i][SURNAME];
+						sort[i] = data[i][BOW]+" "+ (data[i][SURNAME] + " " + data[i][FORENAME]).toUpperCase();
 					}
 					else if (sortbyclass) {
-						sort[i] = data[i][CLASS]+" "+data[i][SURNAME];
+						sort[i] = data[i][CLASS]+" "+ (data[i][SURNAME] + " " + data[i][FORENAME]).toUpperCase();
 					}
 					else if (sortbyage) {
-						sort[i] = data[i][AGEGROUP]+" "+data[i][SURNAME];
+						sort[i] = data[i][AGEGROUP]+" "+ (data[i][SURNAME] + " " + data[i][FORENAME]).toUpperCase();
+					}
+                    else if (sortbyarrows) { // by arrows
+                        sort[i] = data[i][ARROWCNT];
 					}
                     else { // by target number
                         sort[i] = data[i][TARGET];
@@ -184,6 +189,8 @@
 					txt += " by club.";
 			else if (sortbyref)
 				txt += " by ref.";
+			else if (sortbyarrows)
+				txt += " by arrows.";
 			else
 				txt += " by target.";
 			txt += "</h2>";
@@ -231,7 +238,8 @@
                 txt += "<th style=\"width:50pt\" onclick=\"allfalse(); sortbyscore=true; page()\">Total</th>" 
 				    + "<th style=\"width:50pt\">" + tb1 
 				    + "</th><th style=\"width:50pt\">" + tb2 + "</th>"
-                    + "<th style=\"width:50pt\">Arrows</th><th style=\"width:50pt\">&nbsp;</th>";
+                    + "<th style=\"width:50pt\" onclick=\"allfalse(); sortbyarrows=true; page()\">Arrows</th>"
+					+"<th style=\"width:50pt\">&nbsp;</th>";
             }
             if (!printing && !entrylist && !scoreby) {
                 txt += "<th>Notes</th>";

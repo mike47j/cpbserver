@@ -57,9 +57,7 @@ function page() {
 		+ "<tr><td width=\"200\" style=\"padding:5px;\">"
 		+ "<input type=\"submit\" value=\"Print Check in by name\" formaction=\"/checkinbyname\" /><div style=\"height:1mm;\"/></div>"
 		+ "<input type=\"submit\" value=\"Print Entry List by Name\" formaction=\"/entrybyname\" /><div style=\"height:1mm;\"/></div>"
-		+ "<input type=\"submit\" value=\"Print Entry List by Club\" formaction=\"/entrybyclub\" /><div style=\"height:1mm;\"/></div>"
-		+ "<input type=\"submit\" value=\"Print Target List by Target\" formaction=\"/printbytarget\" /><div style=\"height:1mm;\"/></div>"
-		+ "<input type=\"submit\" value=\"Print Target List by Name\" formaction=\"/printbyname\" />";
+		+ "<input type=\"submit\" value=\"Print Target List by Target\" formaction=\"/printbytarget\" />";
 	if (teamflag==1)
 		txt += "<br/><br/><input type=\"submit\" value=\"Print Target List by Team\" formaction=\"/printbyteam\" />";
 	txt += "<td width=\"500\">Enter everything except the weather before printing.</tr>";
